@@ -1,0 +1,58 @@
+application {
+  config {
+    applicationType microservice
+    authenticationType jwt
+    baseName normas
+    buildTool maven
+    cacheProvider no
+    databaseType sql
+    devDatabaseType h2Disk
+    enableHibernateCache false
+    enableSwaggerCodegen false
+    enableTranslation false
+    languages [en]
+    nativeLanguage en
+    packageName com.acme.normas
+    prodDatabaseType mariadb
+    serverPort 8082
+    serviceDiscoveryType no
+    skipClient true
+  }
+  //entities ...
+}
+
+application {
+  config {
+    applicationType microservice
+    authenticationType jwt
+    baseName consultoria
+    buildTool maven
+    cacheProvider no
+    databaseType sql
+    devDatabaseType h2Disk
+    enableHibernateCache false
+    enableSwaggerCodegen false
+    enableTranslation false
+    languages [en]
+    nativeLanguage en
+    packageName com.acme.xpto
+    prodDatabaseType mariadb
+    serverPort 8083
+    serviceDiscoveryType no
+    skipClient true
+  }
+  //entities ...
+}
+
+filter *
+
+paginate * with pagination
+
+//microservice * with normas // except A, B, C
+
+deployment {
+  deploymentType docker-compose
+  dockerRepositoryName "jmicro"
+  appsFolders [normas, consultoria]
+  serviceDiscoveryType no
+}

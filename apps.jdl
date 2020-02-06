@@ -47,6 +47,10 @@ application {
   entities *
 }
 
+/**
+* Essa aplicação redireciona as requições vindas do client
+* para os respectivos mocks (serviços externos)
+*/
 application {
  config {
    applicationType microservice
@@ -379,16 +383,11 @@ relationship ManyToMany {
 // >>>>>>>>>> relatorios
 // <<<<<<<<<< relatorios
 
-paginate * with pagination
-//paginate A with infinite-scroll
-
-//service A,B with serviceClass
-
-//dto A, B with mapstruct
-
 filter *
 
-//search * with elasticsearch
+paginate * with pagination
+
+service compliance with serviceClass
 
 microservice * with sgq // except A, B, C
 
