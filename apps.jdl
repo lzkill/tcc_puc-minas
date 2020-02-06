@@ -1,0 +1,401 @@
+application {
+  config {
+    applicationType gateway
+    authenticationType jwt
+    baseName gateway
+    buildTool maven
+    cacheProvider ehcache
+    clientFramework angularX
+    //clientTheme darkly
+    //clientThemeVariant primary
+    databaseType sql
+    devDatabaseType h2Disk
+    enableHibernateCache true
+    enableSwaggerCodegen true
+    enableTranslation true
+    languages [pt-br]
+    nativeLanguage pt-br
+    packageName com.lzkill.gateway
+    prodDatabaseType mariadb
+    serverPort 8080
+    serviceDiscoveryType eureka
+    useSass true
+  }
+  entities *
+}
+
+application {
+  config {
+    applicationType microservice
+    authenticationType jwt
+    baseName sgq
+    buildTool maven
+    cacheProvider hazelcast
+    databaseType sql
+    devDatabaseType h2Disk
+    enableHibernateCache true
+    enableSwaggerCodegen true
+    enableTranslation false
+    languages [en]
+    nativeLanguage en
+    packageName com.lzkill.sgq
+    prodDatabaseType mariadb
+    serverPort 8081
+    serviceDiscoveryType eureka
+    skipClient true
+  }
+  entities *
+}
+
+application {
+ config {
+   applicationType microservice
+   authenticationType jwt
+   baseName compliance
+   buildTool maven
+   cacheProvider hazelcast
+   databaseType no
+   devDatabaseType no
+   enableHibernateCache false
+   enableSwaggerCodegen true
+   enableTranslation false
+   languages [en]
+   nativeLanguage en
+   packageName com.lzkill.compliance
+   prodDatabaseType no
+   serverPort 8082
+   serviceDiscoveryType eureka
+   skipClient true
+ }
+}
+
+// TODO
+//	Modelar integrações
+
+// >>>>>>>>>> cadastros_basicos
+entity Empresa {
+  nome String required minlength(1) maxlength(100)
+}
+
+entity Setor {
+  nome String required minlength(1) maxlength(100)
+}
+
+entity Processo {
+  titulo String required minlength(1) maxlength(100)
+  descricao TextBlob
+}
+
+entity Produto {
+  nome String required minlength(1) maxlength(100)
+  descricao TextBlob
+}
+
+entity Anexo {
+  nomeArquivo String required
+  conteudo AnyBlob required maxbytes(10485760) // 10 MB
+}
+// <<<<<<<<<< cadastros_basicos
+
+// >>>>>>>>>> incidentes_problemas
+entity AcaoSGQ {
+  idUsuarioRegistro Integer required
+  idUsuarioResponsavel Integer required
+  tipo TipoAcaoSGQ required
+  titulo String required minlength(1) maxlength(100)
+  descricao TextBlob required
+  prazoConclusao Instant required
+  novoPrazoConclusao Instant
+  dataRegistro Instant required
+  dataConclusao Instant
+  resultado TextBlob
+  status StatusSGQ required
+}
+
+/**
+* Ações corretivas aplicam-se a NCs, enquanto
+* correções pontuais aplicam-se a PNCs
+*/
+enum TipoAcaoSGQ {
+  ACAO_CORRETIVA,
+  ACAO_PREVENTIVA,
+  CORRECAO_PONTUAL
+}
+
+enum StatusSGQ {
+  REGISTRADO,
+  PENDENTE,
+  CONCLUIDO,
+  SUSPENSO,
+  CANCELADO
+}
+
+/**
+* Representa a violação de algum requisito regulamentar (normas,
+* procedimentos internos, definições de processos, etc)
+*/
+entity NaoConformidade {
+  idUsuarioRegistro Integer required
+  idUsuarioResponsavel Integer required
+  titulo String required minlength(1) maxlength(100)
+  fato TextBlob required
+  /** O fechamento da NC só é possível se houver identificação de causa */
+  causa TextBlob
+  prazoConclusao Instant required
+  novoPrazoConclusao Instant
+  dataRegistro Instant required
+  dataConclusao Instant
+  /** Análise de eficácia */
+  analiseFinal TextBlob
+  status StatusSGQ required
+}
+
+/**
+* Representa os produtos produzidos fora dos parâmetros de qualidade estabelecidos
+*/
+entity ProdutoNaoConforme {
+  idUsuarioRegistro Integer required
+  idUsuarioResponsavel Integer required
+  titulo String required minlength(1) maxlength(100)
+  descricao TextBlob required
+  dataRegistro Instant required
+  /** Análise de eficácia */
+  analiseFinal TextBlob
+  status StatusSGQ required
+}
+
+entity Auditoria {
+  tipo TipoAuditoria required
+  titulo String required minlength(1) maxlength(100)
+  descricao TextBlob
+}
+
+enum TipoAuditoria {
+  INTERNA,
+  EXTERNA
+}
+
+entity PlanoAuditoria {
+  titulo String required minlength(1) maxlength(100)
+  descricao TextBlob
+  dataInicio Instant
+  dataFim Instant
+}
+
+entity ItemPlanoAuditoria {
+  idUsuarioResponsavel Integer required
+	dataAuditoria Instant required
+}
+// <<<<<<<<<< incidentes_problemas
+
+// >>>>>>>>>> controle_processos_automotivos
+entity Checklist {
+  titulo String required minlength(1) maxlength(100)
+  periodicidade Periodicidade
+}
+
+enum Periodicidade {
+  DIARIO,
+  SEMANAL,
+  QUINZENAL,
+  MENSAL,
+  BIMESTRAL,
+  TRIMESTRAL,
+  SEMESTRAL,
+  ANUAL
+}
+
+entity ItemChecklist {
+  ordem Integer required min(1)
+  titulo String required minlength(1) maxlength(100)
+  descricao TextBlob
+}
+
+entity ResultadoChecklist {
+  idUsuarioRegistro Integer required
+  titulo String required minlength(1) maxlength(100)
+  dataVerificacao Instant required
+}
+
+entity ResultadoItemChecklist {
+  conforme Boolean required
+  descricao TextBlob
+}
+
+entity EventoOperacional {
+  idUsuarioRegistro Integer required
+  tipo TipoEventoOperacional required
+  titulo String required minlength(1) maxlength(100)
+  descricao TextBlob required
+  dataEvento Instant required
+  duracao Duration
+  houveParadaProducao Boolean required
+}
+
+enum TipoEventoOperacional {
+  PROGRAMADO,
+  NAO_PROGRAMADO
+}
+// <<<<<<<<<< controle_processos_automotivos
+
+// >>>>>>>>>> divulgacao_transparencia
+entity CampanhaRecall {
+  idUsuarioRegistro Integer required
+  titulo String required minlength(1) maxlength(100)
+  descricao TextBlob
+  dataRegistro Instant required
+  dataInicio Instant
+  dataFim Instant
+  resultado TextBlob
+}
+
+entity BoletimInformativo {
+  idUsuarioRegistro Integer required
+  titulo String required minlength(1) maxlength(100)
+  descricao TextBlob
+  dataRegistro Instant required
+  dataPublicacao Instant
+  status StatusPublicacao required
+}
+
+entity PublicoAlvo {
+  nome String required minlength(1) maxlength(100)
+  descricao TextBlob
+}
+
+entity Feed {
+  idUsuarioRegistro Integer required
+  tipo TipoFeed required
+  titulo String required minlength(1) maxlength(100)
+  descricao String required minlength(1) maxlength(250)
+  uri String required unique minlength(1) maxlength(150)
+  link String minlength(1) maxlength(150)
+  urlImagem String minlength(1) maxlength(150)
+  tituloImagem String minlength(1) maxlength(150)
+  alturaImagem Integer min(32) max(1024)
+  larguraImagem Integer min(32) max(1024)
+  dataRegistro Instant required
+  status StatusFeed required
+}
+
+enum TipoFeed {
+  RSS,
+  ATOM
+}
+
+enum StatusFeed {
+  ATIVO,
+  INATIVO
+}
+
+entity PublicacaoFeed {
+  idUsuarioRegistro Integer required
+  titulo String required minlength(1) maxlength(100)
+  autor String required minlength(1) maxlength(100)
+  uri String required unique minlength(1) maxlength(150)
+  link String minlength(1) maxlength(150)
+  conteudo TextBlob required
+  dataRegistro Instant required
+  dataPublicacao Instant required
+  status StatusPublicacao required
+}
+
+enum StatusPublicacao {
+	RASCUNHO, PUBLICADO
+}
+
+entity CategoriaPublicacao {
+  titulo String required minlength(1) maxlength(100)
+  descricao TextBlob
+}
+// <<<<<<<<<< divulgacao_transparencia
+
+relationship OneToMany {
+  CampanhaRecall{setorResponsavel(nome)} to Setor{campanhaRecall(titulo)}
+  Checklist{item(titulo)} to ItemChecklist{checklist(titulo) required}
+  Empresa{produto(nome)} to Produto{empresa(nome) required}
+  Empresa{setor(nome)} to Setor{empresa(nome) required}
+  NaoConformidade{acao(titulo)} to AcaoSGQ{naoConformidade(titulo) required}
+  PlanoAuditoria{item} to ItemPlanoAuditoria{plano(titulo)}
+  ResultadoChecklist{resultadoItem} to ResultadoItemChecklist{resultado(titulo) required}
+  Setor{checklist(titulo)} to Checklist{setor(nome) required}
+  Setor{processo(titulo)} to Processo{setor(nome) required}
+}
+
+relationship ManyToOne {
+  AcaoSGQ{anexo(nomeArquivo)} to Anexo
+  Auditoria{processo(titulo)} to Processo
+  BoletimInformativo{anexo(nomeArquivo)} to Anexo
+  BoletimInformativo{publicoAlvo(nome) required} to PublicoAlvo
+  CampanhaRecall{anexo(nomeArquivo)} to Anexo
+  CampanhaRecall{produto(nome)} to Produto
+  Checklist{anexo(nomeArquivo)} to Anexo
+  EventoOperacional{anexo(nomeArquivo)} to Anexo
+  EventoOperacional{processo(titulo)} to Processo
+  ItemChecklist{anexo(nomeArquivo)} to Anexo
+  ItemPlanoAuditoria{anexo(nomeArquivo) required} to Anexo
+  ItemPlanoAuditoria{auditoria(titulo) required} to Auditoria
+  NaoConformidade{anexo(nomeArquivo)} to Anexo
+  PlanoAuditoria{anexo(nomeArquivo)} to Anexo
+  /** PNCs são tratados com ações únicas e pontuais */
+  ProdutoNaoConforme{acao(titulo)} to AcaoSGQ
+  ProdutoNaoConforme{anexo(nomeArquivo)} to Anexo
+  /** Quando o problema identificado é sistêmico deve-se abrir uma NC */
+  ProdutoNaoConforme{naoConformidade(titulo)} to NaoConformidade
+  ProdutoNaoConforme{produto(nome) required} to Produto
+  PublicacaoFeed{anexo(nomeArquivo)} to Anexo
+  PublicacaoFeed{feed(titulo) required} to Feed
+  ResultadoChecklist{anexo(nomeArquivo)} to Anexo
+  ResultadoChecklist{checklist(titulo) required} to Checklist
+  ResultadoItemChecklist{anexo(nomeArquivo)} to Anexo
+  ResultadoItemChecklist{item(titulo) required} to ItemChecklist
+
+  //AcaoSGQ{usuarioRegistro(login) required} to User
+  //AcaoSGQ{usuarioResponsavel(login) required} to User
+  //BoletimInformativo{usuarioRegistro(login) required} to User
+  //CampanhaRecall{usuarioRegistro(login) required} to User
+  //EventoOperacional{usuarioRegistro(login) required} to User
+  //Feed{usuarioRegistro(login) required} to User
+  //ItemPlanoAuditoria{usuarioResponsavel(login) required} to User
+  //NaoConformidade{usuarioRegistro(login) required} to User
+  //NaoConformidade{usuarioResponsavel(login) required} to User
+  //ProdutoNaoConforme{usuarioRegistro(login) required} to User
+  //ProdutoNaoConforme{usuarioResponsavel(login) required} to User
+  //PublicacaoFeed{usuarioRegistro(login) required} to User
+  //ResultadoChecklist{usuarioRegistro(login) required} to User
+}
+
+relationship ManyToMany {
+  BoletimInformativo{categoria(titulo) required} to CategoriaPublicacao{boletim(titulo)}
+  PublicacaoFeed{categoria(titulo) required} to CategoriaPublicacao{publicacao(titulo)}
+}
+
+// >>>>>>>>>> inteligencia_negocio
+// <<<<<<<<<< inteligencia_negocio
+
+// >>>>>>>>>> compliance
+// <<<<<<<<<< compliance
+
+// >>>>>>>>>> relatorios
+// <<<<<<<<<< relatorios
+
+paginate * with pagination
+//paginate A with infinite-scroll
+
+//service A,B with serviceClass
+
+//dto A, B with mapstruct
+
+filter *
+
+//search * with elasticsearch
+
+microservice * with sgq // except A, B, C
+
+deployment {
+  deploymentType docker-compose
+  dockerRepositoryName "jmicro"
+  appsFolders [gateway, sgq, compliance]
+  monitoring elk
+  serviceDiscoveryType eureka
+}
