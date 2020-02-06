@@ -2,7 +2,10 @@
 
 Este repositório contém os artefatos do TCC apresentado para conclusão do curso [**Pós-graduação em Arquitetura de Software Distribuído (2018)**](https://www.pucminas.br/PucVirtual/Pos-Graduacao/Paginas/Arquitetura-de-Software-Distribuido.aspx?moda=1&polo=1&area=11&curso=2096&situ=1). Mais especificamente, trata-se de um protótipo de aplicação para apoio ao *Sistema de Gestão da Qualidade* de uma empresa do setor automotivo. O objetivo do trabalho foi avaliar a viabilidade da arquitetura proposta (microserviços).
 
-<img alt="Diagrama de arquitetura" src="doc/arquitetura.png" style="height:75%; width:75%;">
+<!--<img alt="Diagrama de arquitetura" src="doc/arquitetura.png" style="height:75%; width:75%;">-->
+
+**Vídeo de apresentação:**
+[![Vídeo de apresentação](https://raw.githubusercontent.com/lzkill/tcc_puc-minas/develop/doc/dev_monkey.jpg)](https://www.youtube.com/watch?v=_LmJVLnPJeo)
 
 ## Por onde começar
 
