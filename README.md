@@ -24,7 +24,7 @@ As seguintes ferramentas são necessárias:
 
 ### Execução
 
-- `./build-images.sh`
+- `./mvnw package -Pprod verify jib:dockerBuild`
 - `docker-compose up -d`
 
 ### Desenvolvimento
@@ -58,4 +58,4 @@ Este trabalho é licenciado sob a licença MIT - veja o arquivo [LICENSE.md](LIC
   - O arquivo `docker-compose/docker_compose.yml` repete a porta pública 3306 quando vários MariaDBs estão presentes
   - Relacionamentos *ManyToMany* com `CategoriaPublicacao` geram testes quebrados (`PublicacaoFeedResourceIT` / `BoletimInformativoResourceIT`)
   - Relacionamentos com `User` contendo *injected fields* geram arquivos quebrados quando a autenticação é oauth2 (`getUser()`)
-  - Hazelcast não é incluído no arquivo `docker-compose/docker_compose.yml` 
+  - Hazelcast não é incluído no arquivo `docker-compose/docker_compose.yml`
