@@ -4,7 +4,7 @@ Este repositório contém os artefatos do TCC apresentado para conclusão do cur
 
 <!--<img alt="Diagrama de arquitetura" src="doc/arquitetura.png" style="height:75%; width:75%;">-->
 
-**Vídeo de apresentação:**
+**Vídeo de apresentação:**\
 [![Vídeo de apresentação](https://raw.githubusercontent.com/lzkill/tcc_puc-minas/develop/doc/dev_monkey.jpg)](https://www.youtube.com/watch?v=_LmJVLnPJeo)
 
 ## Por onde começar
