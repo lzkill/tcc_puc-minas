@@ -363,6 +363,7 @@ relationship OneToMany {
 }
 
 relationship ManyToOne {
+  AnaliseConsultoria{empresa(nome) required} to EmpresaConsultoria
   Auditoria{processo(titulo)} to Processo
   BoletimInformativo{publicoAlvo(nome) required} to PublicoAlvo
   CampanhaRecall{produto(nome)} to Produto
@@ -376,9 +377,9 @@ relationship ManyToOne {
   PublicacaoFeed{feed(titulo) required} to Feed
   ResultadoChecklist{checklist(titulo) required} to Checklist
   ResultadoItemChecklist{item(titulo) required} to ItemChecklist
-  AnaliseConsultoria{empresa(nome) required} to EmpresaConsultoria
 
   AcaoSGQ{anexo(nomeArquivo)} to Anexo
+  AnaliseConsultoria{anexo(nomeArquivo)} to Anexo
   Checklist{anexo(nomeArquivo)} to Anexo
   BoletimInformativo{anexo(nomeArquivo)} to Anexo
   CampanhaRecall{anexo(nomeArquivo)} to Anexo
@@ -392,7 +393,6 @@ relationship ManyToOne {
   PublicacaoFeed{anexo(nomeArquivo)} to Anexo
   ResultadoChecklist{anexo(nomeArquivo)} to Anexo
   ResultadoItemChecklist{anexo(nomeArquivo)} to Anexo
-  AnaliseConsultoria{anexo(nomeArquivo)} to Anexo
 
   //AcaoSGQ{usuarioRegistro(login) required} to User
   //AcaoSGQ{usuarioResponsavel(login) required} to User
