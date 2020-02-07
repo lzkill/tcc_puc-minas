@@ -47,35 +47,6 @@ application {
   entities *
 }
 
-/**
-* Essa aplicação redireciona as requições vindas do client
-* para os respectivos mocks (serviços externos)
-*/
-application {
- config {
-   applicationType microservice
-   authenticationType jwt
-   baseName compliance
-   buildTool maven
-   cacheProvider hazelcast
-   databaseType no
-   devDatabaseType no
-   enableHibernateCache false
-   enableSwaggerCodegen true
-   enableTranslation false
-   languages [en]
-   nativeLanguage en
-   packageName com.lzkill.compliance
-   prodDatabaseType no
-   serverPort 8082
-   serviceDiscoveryType eureka
-   skipClient true
- }
-}
-
-// TODO
-//	Modelar integrações
-
 // >>>>>>>>>> cadastros_basicos
 entity Empresa {
   nome String required minlength(1) maxlength(100)
@@ -113,7 +84,7 @@ entity AcaoSGQ {
   dataRegistro Instant required
   dataConclusao Instant
   resultado TextBlob
-  status StatusSGQ required
+  statusSGQ StatusSGQ required
 }
 
 /**
@@ -151,7 +122,7 @@ entity NaoConformidade {
   dataConclusao Instant
   /** Análise de eficácia */
   analiseFinal TextBlob
-  status StatusSGQ required
+  statusSGQ StatusSGQ required
 }
 
 /**
@@ -165,7 +136,7 @@ entity ProdutoNaoConforme {
   dataRegistro Instant required
   /** Análise de eficácia */
   analiseFinal TextBlob
-  status StatusSGQ required
+  statusSGQ StatusSGQ required
 }
 
 entity Auditoria {
@@ -305,7 +276,7 @@ entity PublicacaoFeed {
 }
 
 enum StatusPublicacao {
-	RASCUNHO, PUBLICADO
+  RASCUNHO, PUBLICADO
 }
 
 entity CategoriaPublicacao {
@@ -313,6 +284,71 @@ entity CategoriaPublicacao {
   descricao TextBlob
 }
 // <<<<<<<<<< divulgacao_transparencia
+
+// >>>>>>>>>> compliance
+
+/**
+* Do trecho
+*
+*<i>"Os serviços prestados por esses órgãos devem gerar insumos para o planejamento e controle das atividades da empresa, devendo ser compatibilizado com o SGQ por meio de integrações providas por APIs de serviços."</i>
+*
+* entende-se que a prestadora de serviço deve disponibilizar alguns serviços através de API cuja interface é definida pela empresa dona do SGQ.
+*/
+entity EmpresaConsultoria {
+  nome String required minlength(1) maxlength(100)
+  urlIntegracao String required minlength(1) maxlength(150)
+  /** Toekn JWT */
+  tokenAcesso String required minlength(1)
+}
+
+/**
+* Do trecho
+*
+* <i>"O repositório de normas está disponível em nuvem como um serviço (SaaS)..."</i>
+*
+* entende-se que a aplicação deve consumir uma API cuja interface é definida pela empresa fornecedora de SaaS. 
+*/
+@service(serviceClass)
+@readOnly
+entity Norma {
+  orgao String
+  titulo String
+  descricao TextBlob
+  versao String
+  numeroEdicao Integer
+  dataEdicao Instant
+  dataInicioValidade Instant
+}
+
+@service(serviceClass)
+@readOnly
+entity CategoriaNorma {
+  titulo String
+  descricao TextBlob
+}
+
+/**
+* Os itens do plano de ação podem ser analisados pela consultoria antes da
+* implementação na prática
+*/
+entity StatusAnaliseExterna {
+  dataSolicitacaoAnalise Instant required
+  dataAnalise Instant
+  descricao TextBlob required
+  responsavelAnalise String required minlength(1) maxlength(100)
+  status StatusAnaliseExterna required
+}
+
+enum StatusAnaliseExterna {
+  PENDENTE,
+  APROVADO,
+  REPROVADO
+}
+// <<<<<<<<<< compliance
+
+relationship OneToOne {
+  AcaoSGQ{statusAnalise(status)} to StatusAnaliseExterna{acao(titulo) required}
+}
 
 relationship OneToMany {
   CampanhaRecall{setorResponsavel(nome)} to Setor{campanhaRecall(titulo)}
@@ -327,32 +363,36 @@ relationship OneToMany {
 }
 
 relationship ManyToOne {
-  AcaoSGQ{anexo(nomeArquivo)} to Anexo
   Auditoria{processo(titulo)} to Processo
-  BoletimInformativo{anexo(nomeArquivo)} to Anexo
   BoletimInformativo{publicoAlvo(nome) required} to PublicoAlvo
-  CampanhaRecall{anexo(nomeArquivo)} to Anexo
   CampanhaRecall{produto(nome)} to Produto
-  Checklist{anexo(nomeArquivo)} to Anexo
-  EventoOperacional{anexo(nomeArquivo)} to Anexo
   EventoOperacional{processo(titulo)} to Processo
-  ItemChecklist{anexo(nomeArquivo)} to Anexo
-  ItemPlanoAuditoria{anexo(nomeArquivo) required} to Anexo
   ItemPlanoAuditoria{auditoria(titulo) required} to Auditoria
-  NaoConformidade{anexo(nomeArquivo)} to Anexo
-  PlanoAuditoria{anexo(nomeArquivo)} to Anexo
   /** PNCs são tratados com ações únicas e pontuais */
   ProdutoNaoConforme{acao(titulo)} to AcaoSGQ
-  ProdutoNaoConforme{anexo(nomeArquivo)} to Anexo
   /** Quando o problema identificado é sistêmico deve-se abrir uma NC */
   ProdutoNaoConforme{naoConformidade(titulo)} to NaoConformidade
   ProdutoNaoConforme{produto(nome) required} to Produto
-  PublicacaoFeed{anexo(nomeArquivo)} to Anexo
   PublicacaoFeed{feed(titulo) required} to Feed
-  ResultadoChecklist{anexo(nomeArquivo)} to Anexo
   ResultadoChecklist{checklist(titulo) required} to Checklist
-  ResultadoItemChecklist{anexo(nomeArquivo)} to Anexo
   ResultadoItemChecklist{item(titulo) required} to ItemChecklist
+  StatusAnaliseExterna{empresa(nome) required} to EmpresaConsultoria
+
+  AcaoSGQ{anexo(nomeArquivo)} to Anexo
+  Checklist{anexo(nomeArquivo)} to Anexo
+  BoletimInformativo{anexo(nomeArquivo)} to Anexo
+  CampanhaRecall{anexo(nomeArquivo)} to Anexo
+  EventoOperacional{anexo(nomeArquivo)} to Anexo
+  ItemChecklist{anexo(nomeArquivo)} to Anexo
+  ItemPlanoAuditoria{anexo(nomeArquivo)} to Anexo
+  NaoConformidade{anexo(nomeArquivo)} to Anexo
+  Norma{anexo(nomeArquivo)} to Anexo
+  PlanoAuditoria{anexo(nomeArquivo)} to Anexo
+  ProdutoNaoConforme{anexo(nomeArquivo)} to Anexo
+  PublicacaoFeed{anexo(nomeArquivo)} to Anexo
+  ResultadoChecklist{anexo(nomeArquivo)} to Anexo
+  ResultadoItemChecklist{anexo(nomeArquivo)} to Anexo
+  StatusAnaliseExterna{anexo(nomeArquivo)} to Anexo
 
   //AcaoSGQ{usuarioRegistro(login) required} to User
   //AcaoSGQ{usuarioResponsavel(login) required} to User
@@ -371,30 +411,20 @@ relationship ManyToOne {
 
 relationship ManyToMany {
   BoletimInformativo{categoria(titulo) required} to CategoriaPublicacao{boletim(titulo)}
+  Norma{categoria(titulo) required} to CategoriaNorma{norma(titulo)}
   PublicacaoFeed{categoria(titulo) required} to CategoriaPublicacao{publicacao(titulo)}
 }
-
-// >>>>>>>>>> inteligencia_negocio
-// <<<<<<<<<< inteligencia_negocio
-
-// >>>>>>>>>> compliance
-// <<<<<<<<<< compliance
-
-// >>>>>>>>>> relatorios
-// <<<<<<<<<< relatorios
 
 filter *
 
 paginate * with pagination
 
-service compliance with serviceClass
-
-microservice * with sgq // except A, B, C
+microservice * with sgq
 
 deployment {
   deploymentType docker-compose
   dockerRepositoryName "jmicro"
-  appsFolders [gateway, sgq, compliance]
+  appsFolders [gateway, sgq]
   monitoring elk
   serviceDiscoveryType eureka
 }

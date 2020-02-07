@@ -8,7 +8,7 @@ application {
     databaseType sql
     devDatabaseType h2Disk
     enableHibernateCache false
-    enableSwaggerCodegen false
+    enableSwaggerCodegen true
     enableTranslation false
     languages [en]
     nativeLanguage en
@@ -18,7 +18,6 @@ application {
     serviceDiscoveryType no
     skipClient true
   }
-  //entities ...
 }
 
 application {
@@ -31,24 +30,17 @@ application {
     databaseType sql
     devDatabaseType h2Disk
     enableHibernateCache false
-    enableSwaggerCodegen false
+    enableSwaggerCodegen true
     enableTranslation false
     languages [en]
     nativeLanguage en
-    packageName com.acme.xpto
+    packageName com.xpto.consultoria
     prodDatabaseType mariadb
     serverPort 8083
     serviceDiscoveryType no
     skipClient true
   }
-  //entities ...
 }
-
-filter *
-
-paginate * with pagination
-
-//microservice * with normas // except A, B, C
 
 deployment {
   deploymentType docker-compose

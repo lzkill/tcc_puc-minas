@@ -10,6 +10,5 @@
     <modules>
         <module>gateway</module>
         <module>sgq</module>
-        <module>compliance</module>
     </modules>
 </project>
