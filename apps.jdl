@@ -309,7 +309,7 @@ entity EmpresaConsultoria {
 * entende-se que a aplicação deve consumir uma API cuja interface é definida pela empresa fornecedora de SaaS. 
 */
 @service(serviceClass)
-@readOnly
+//@readOnly
 entity Norma {
   orgao String
   titulo String
@@ -321,7 +321,7 @@ entity Norma {
 }
 
 @service(serviceClass)
-@readOnly
+//@readOnly
 entity CategoriaNorma {
   titulo String
   descricao TextBlob
@@ -331,7 +331,7 @@ entity CategoriaNorma {
 * Os itens do plano de ação podem ser analisados pela consultoria antes da
 * implementação na prática
 */
-entity StatusAnaliseExterna {
+entity AnaliseConsultoria {
   dataSolicitacaoAnalise Instant required
   dataAnalise Instant
   descricao TextBlob required
@@ -347,7 +347,7 @@ enum StatusAnaliseExterna {
 // <<<<<<<<<< compliance
 
 relationship OneToOne {
-  AcaoSGQ{statusAnalise(status)} to StatusAnaliseExterna{acao(titulo) required}
+  AcaoSGQ{analiseConsultoria(status)} to AnaliseConsultoria{acao(titulo) required}
 }
 
 relationship OneToMany {
@@ -376,7 +376,7 @@ relationship ManyToOne {
   PublicacaoFeed{feed(titulo) required} to Feed
   ResultadoChecklist{checklist(titulo) required} to Checklist
   ResultadoItemChecklist{item(titulo) required} to ItemChecklist
-  StatusAnaliseExterna{empresa(nome) required} to EmpresaConsultoria
+  AnaliseConsultoria{empresa(nome) required} to EmpresaConsultoria
 
   AcaoSGQ{anexo(nomeArquivo)} to Anexo
   Checklist{anexo(nomeArquivo)} to Anexo
@@ -392,7 +392,7 @@ relationship ManyToOne {
   PublicacaoFeed{anexo(nomeArquivo)} to Anexo
   ResultadoChecklist{anexo(nomeArquivo)} to Anexo
   ResultadoItemChecklist{anexo(nomeArquivo)} to Anexo
-  StatusAnaliseExterna{anexo(nomeArquivo)} to Anexo
+  AnaliseConsultoria{anexo(nomeArquivo)} to Anexo
 
   //AcaoSGQ{usuarioRegistro(login) required} to User
   //AcaoSGQ{usuarioResponsavel(login) required} to User
