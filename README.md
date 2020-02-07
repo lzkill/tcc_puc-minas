@@ -44,15 +44,12 @@ Este trabalho é licenciado sob a licença MIT - veja o arquivo [LICENSE.md](LIC
 
 ## To do
 
-- Configuração declarativa do Kong
-- SSL nas chamadas aos serviços externos
-- Diferenciar papéis do SGQ
-- Reorganizar menus da aplicação Angular
-- [Configurar pesquisa com Elasticsearch](https://www.jhipster.tech/using-elasticsearch/#using-in-development)
-- Valores explícitos nas enums
-- Obter usuários nos forms (veja [Missing User class - creating entity relationship to User entity in Microservice](https://stackoverflow.com/a/43405851))
+- Configurar volumes dos containers
+- Reorganizar menus do frontend
+- Obter usuários nos forms (veja [Missing User class...](https://stackoverflow.com/a/43405851))
 - Exibir o plano de auditoria do ano corrente na página inicial (pública)
-- Modelar múltiplos anexos
+- Implementar integrações
+- Diferenciar papéis do SGQ
 
 ## Issues
 
