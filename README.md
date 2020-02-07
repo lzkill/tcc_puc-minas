@@ -24,15 +24,14 @@ As seguintes ferramentas são necessárias:
 
 ### Execução
 
-- `./mvnw package -Pprod verify jib:dockerBuild`
-- `docker-compose up -d`
+- `docker-compose -f docker-compose/docker-compose.yml up -d`
 
 ### Desenvolvimento
 
 A codificação em cada um dos projetos da solução pode se apoiar no mecanismo de *hot reload* para uma maior produtividade. Para tanto, execute os seguintes comandos na raiz do projeto em desenvolvimento:
 
-- `./mvnw`
-- `npm start`
+- `./mvnw -P-webpack`
+- `npm start` (apenas para aplicações do tipo *gateway*)
 
 ## Tecnologias
 
@@ -50,6 +49,7 @@ Este trabalho é licenciado sob a licença MIT - veja o arquivo [LICENSE.md](LIC
 - Exibir o plano de auditoria do ano corrente na página inicial (pública)
 - Implementar integrações
 - Diferenciar papéis do SGQ
+- Criar perfil webpack para desenvolvimento através do ngrok
 
 ## Issues
 

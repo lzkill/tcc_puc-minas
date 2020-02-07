@@ -6,7 +6,7 @@ application {
     buildTool maven
     cacheProvider no
     databaseType sql
-    devDatabaseType h2Disk
+    devDatabaseType mariadb
     enableHibernateCache false
     enableSwaggerCodegen true
     enableTranslation false
@@ -28,7 +28,7 @@ application {
     buildTool maven
     cacheProvider no
     databaseType sql
-    devDatabaseType h2Disk
+    devDatabaseType mariadb
     enableHibernateCache false
     enableSwaggerCodegen true
     enableTranslation false

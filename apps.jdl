@@ -9,7 +9,7 @@ application {
     //clientTheme darkly
     //clientThemeVariant primary
     databaseType sql
-    devDatabaseType h2Disk
+    devDatabaseType mariadb
     enableHibernateCache true
     enableSwaggerCodegen true
     enableTranslation true
@@ -32,7 +32,7 @@ application {
     buildTool maven
     cacheProvider hazelcast
     databaseType sql
-    devDatabaseType h2Disk
+    devDatabaseType mariadb
     enableHibernateCache true
     enableSwaggerCodegen true
     enableTranslation false
