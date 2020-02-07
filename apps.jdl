@@ -286,18 +286,20 @@ entity CategoriaPublicacao {
 // <<<<<<<<<< divulgacao_transparencia
 
 // >>>>>>>>>> compliance
-
 /**
 * Do trecho
 *
-*<i>"Os serviços prestados por esses órgãos devem gerar insumos para o planejamento e controle das atividades da empresa, devendo ser compatibilizado com o SGQ por meio de integrações providas por APIs de serviços."</i>
+* <i>"Os serviços prestados por esses órgãos devem gerar insumos para o
+* planejamento e controle das atividades da empresa, devendo ser compatibilizado
+* com o SGQ por meio de integrações providas por APIs de serviços."</i>
 *
-* entende-se que a prestadora de serviço deve disponibilizar alguns serviços através de API cuja interface é definida pela empresa dona do SGQ.
+* entende-se que a prestadora de serviço deve disponibilizar alguns serviços
+* através de API cuja interface é definida pela empresa dona do SGQ.
 */
 entity EmpresaConsultoria {
   nome String required minlength(1) maxlength(100)
   urlIntegracao String required minlength(1) maxlength(150)
-  /** Toekn JWT */
+  /** Token JWT */
   tokenAcesso String required minlength(1)
 }
 
@@ -306,7 +308,8 @@ entity EmpresaConsultoria {
 *
 * <i>"O repositório de normas está disponível em nuvem como um serviço (SaaS)..."</i>
 *
-* entende-se que a aplicação deve consumir uma API cuja interface é definida pela empresa fornecedora de SaaS. 
+* entende-se que a aplicação deve consumir uma API cuja interface é definida
+* pela empresa fornecedora de SaaS. 
 */
 @service(serviceClass)
 //@readOnly
@@ -377,7 +380,7 @@ relationship ManyToOne {
   PublicacaoFeed{feed(titulo) required} to Feed
   ResultadoChecklist{checklist(titulo) required} to Checklist
   ResultadoItemChecklist{item(titulo) required} to ItemChecklist
-
+  
   AcaoSGQ{anexo(nomeArquivo)} to Anexo
   AnaliseConsultoria{anexo(nomeArquivo)} to Anexo
   Checklist{anexo(nomeArquivo)} to Anexo
