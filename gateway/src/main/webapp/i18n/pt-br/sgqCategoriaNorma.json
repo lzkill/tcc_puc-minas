@@ -1,0 +1,28 @@
+{
+  "gatewayApp": {
+    "sgqCategoriaNorma": {
+      "home": {
+        "title": "Categoria Normas",
+        "createLabel": "Criar novo Categoria Norma",
+        "createOrEditLabel": "Criar ou editar Categoria Norma",
+        "notFound": "Nenhum Categoria Norma encontrado"
+      },
+      "delete": {
+        "question": "Tem certeza de que deseja excluir Categoria Norma {{ id }}?"
+      },
+      "detail": {
+        "title": "Categoria Norma"
+      },
+      "titulo": "Titulo",
+      "descricao": "Descricao",
+      "norma": "Norma"
+    }
+  },
+  "sgqApp": {
+    "sgqCategoriaNorma": {
+      "created": "Um novo Categoria Norma foi criado com o identificador {{ param }}",
+      "updated": "Um Categoria Norma foi atualizado com o identificador {{ param }}",
+      "deleted": "Um Categoria Norma foi excluído com o identificador {{ param }}"
+    }
+  }
+}

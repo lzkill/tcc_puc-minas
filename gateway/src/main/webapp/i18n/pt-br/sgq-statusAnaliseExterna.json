@@ -1,0 +1,10 @@
+{
+  "gatewayApp": {
+    "StatusAnaliseExterna": {
+      "null": "",
+      "PENDENTE": "PENDENTE",
+      "APROVADO": "APROVADO",
+      "REPROVADO": "REPROVADO"
+    }
+  }
+}

@@ -1,0 +1,37 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="processo">
+            <h2><span jhiTranslate="gatewayApp.sgqProcesso.detail.title">Processo</span> {{processo.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="gatewayApp.sgqProcesso.titulo">Titulo</span></dt>
+                <dd>
+                    <span>{{processo.titulo}}</span>
+                </dd>
+                <dt><span jhiTranslate="gatewayApp.sgqProcesso.descricao">Descricao</span></dt>
+                <dd>
+                    <span>{{processo.descricao}}</span>
+                </dd>
+                <dt><span jhiTranslate="gatewayApp.sgqProcesso.setor">Setor</span></dt>
+                <dd>
+                    <div *ngIf="processo.setor">
+                        <a [routerLink]="['/setor', processo.setor?.id, 'view']">{{processo.setor?.nome}}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/processo', processo.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

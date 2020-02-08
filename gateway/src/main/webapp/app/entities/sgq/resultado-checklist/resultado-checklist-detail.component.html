@@ -1,0 +1,47 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="resultadoChecklist">
+            <h2><span jhiTranslate="gatewayApp.sgqResultadoChecklist.detail.title">Resultado Checklist</span> {{resultadoChecklist.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="gatewayApp.sgqResultadoChecklist.idUsuarioRegistro">Id Usuario Registro</span></dt>
+                <dd>
+                    <span>{{resultadoChecklist.idUsuarioRegistro}}</span>
+                </dd>
+                <dt><span jhiTranslate="gatewayApp.sgqResultadoChecklist.titulo">Titulo</span></dt>
+                <dd>
+                    <span>{{resultadoChecklist.titulo}}</span>
+                </dd>
+                <dt><span jhiTranslate="gatewayApp.sgqResultadoChecklist.dataVerificacao">Data Verificacao</span></dt>
+                <dd>
+                    <span>{{resultadoChecklist.dataVerificacao}}</span>
+                </dd>
+                <dt><span jhiTranslate="gatewayApp.sgqResultadoChecklist.anexo">Anexo</span></dt>
+                <dd>
+                    <div *ngIf="resultadoChecklist.anexo">
+                        <a [routerLink]="['/anexo', resultadoChecklist.anexo?.id, 'view']">{{resultadoChecklist.anexo?.nomeArquivo}}</a>
+                    </div>
+                </dd>
+                <dt><span jhiTranslate="gatewayApp.sgqResultadoChecklist.checklist">Checklist</span></dt>
+                <dd>
+                    <div *ngIf="resultadoChecklist.checklist">
+                        <a [routerLink]="['/checklist', resultadoChecklist.checklist?.id, 'view']">{{resultadoChecklist.checklist?.titulo}}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/resultado-checklist', resultadoChecklist.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

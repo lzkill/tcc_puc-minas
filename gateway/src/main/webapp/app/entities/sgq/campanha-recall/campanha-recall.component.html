@@ -1,0 +1,93 @@
+<div>
+    <h2 id="page-heading">
+        <span jhiTranslate="gatewayApp.sgqCampanhaRecall.home.title">Campanha Recalls</span>
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-campanha-recall" [routerLink]="['/campanha-recall/new']">
+            <fa-icon [icon]="'plus'"></fa-icon>
+            <span  jhiTranslate="gatewayApp.sgqCampanhaRecall.home.createLabel">
+            Create a new Campanha Recall
+            </span>
+        </button>
+    </h2>
+    <jhi-alert-error></jhi-alert-error>
+    <jhi-alert></jhi-alert>
+    <br/>
+    <div class="alert alert-warning" *ngIf="campanhaRecalls?.length === 0">
+        <span jhiTranslate="gatewayApp.sgqCampanhaRecall.home.notFound">No campanhaRecalls found</span>
+    </div>
+    <div class="table-responsive" *ngIf="campanhaRecalls?.length > 0">
+        <table class="table table-striped" aria-describedby="page-heading">
+            <thead>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
+            <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="idUsuarioRegistro"><span jhiTranslate="gatewayApp.sgqCampanhaRecall.idUsuarioRegistro">Id Usuario Registro</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="titulo"><span jhiTranslate="gatewayApp.sgqCampanhaRecall.titulo">Titulo</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="descricao"><span jhiTranslate="gatewayApp.sgqCampanhaRecall.descricao">Descricao</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="dataRegistro"><span jhiTranslate="gatewayApp.sgqCampanhaRecall.dataRegistro">Data Registro</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="dataInicio"><span jhiTranslate="gatewayApp.sgqCampanhaRecall.dataInicio">Data Inicio</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="dataFim"><span jhiTranslate="gatewayApp.sgqCampanhaRecall.dataFim">Data Fim</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="resultado"><span jhiTranslate="gatewayApp.sgqCampanhaRecall.resultado">Resultado</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="anexo.nomeArquivo"><span jhiTranslate="gatewayApp.sgqCampanhaRecall.anexo">Anexo</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="produto.nome"><span jhiTranslate="gatewayApp.sgqCampanhaRecall.produto">Produto</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="setorResponsavel.nome"><span jhiTranslate="gatewayApp.sgqCampanhaRecall.setorResponsavel">Setor Responsavel</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let campanhaRecall of campanhaRecalls ;trackBy: trackId">
+                <td><a [routerLink]="['/campanha-recall', campanhaRecall.id, 'view' ]">{{campanhaRecall.id}}</a></td>
+                <td>{{campanhaRecall.idUsuarioRegistro}}</td>
+                <td>{{campanhaRecall.titulo}}</td>
+                <td>{{campanhaRecall.descricao}}</td>
+                <td>{{campanhaRecall.dataRegistro | date:'medium'}}</td>
+                <td>{{campanhaRecall.dataInicio | date:'medium'}}</td>
+                <td>{{campanhaRecall.dataFim | date:'medium'}}</td>
+                <td>{{campanhaRecall.resultado}}</td>
+                <td>
+                    <div *ngIf="campanhaRecall.anexo">
+                        <a [routerLink]="['/anexo', campanhaRecall.anexo?.id, 'view' ]" >{{campanhaRecall.anexo?.nomeArquivo}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="campanhaRecall.produto">
+                        <a [routerLink]="['/produto', campanhaRecall.produto?.id, 'view' ]" >{{campanhaRecall.produto?.nome}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="campanhaRecall.setorResponsavel">
+                        <a [routerLink]="['/setor', campanhaRecall.setorResponsavel?.id, 'view' ]" >{{campanhaRecall.setorResponsavel?.nome}}</a>
+                    </div>
+                </td>
+                <td class="text-right">
+                    <div class="btn-group">
+                        <button type="submit"
+                                [routerLink]="['/campanha-recall', campanhaRecall.id, 'view' ]"
+                                class="btn btn-info btn-sm">
+                            <fa-icon [icon]="'eye'"></fa-icon>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/campanha-recall', campanhaRecall.id, 'edit']"
+                                class="btn btn-primary btn-sm">
+                            <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                        </button>
+                        <button type="submit" (click)="delete(campanhaRecall)"
+                                class="btn btn-danger btn-sm">
+                            <fa-icon [icon]="'times'"></fa-icon>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div *ngIf="campanhaRecalls?.length > 0">
+        <div class="row justify-content-center">
+            <jhi-item-count [page]="page" [total]="totalItems" [itemsPerPage]="itemsPerPage"></jhi-item-count>
+        </div>
+        <div class="row justify-content-center">
+            <ngb-pagination [collectionSize]="totalItems" [(page)]="ngbPaginationPage" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage($event)"></ngb-pagination>
+        </div>
+    </div>
+</div>

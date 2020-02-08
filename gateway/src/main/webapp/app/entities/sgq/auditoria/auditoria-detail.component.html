@@ -1,0 +1,41 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="auditoria">
+            <h2><span jhiTranslate="gatewayApp.sgqAuditoria.detail.title">Auditoria</span> {{auditoria.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="gatewayApp.sgqAuditoria.tipo">Tipo</span></dt>
+                <dd>
+                    <span jhiTranslate="{{'gatewayApp.TipoAuditoria.' + auditoria.tipo}}">{{auditoria.tipo}}</span>
+                </dd>
+                <dt><span jhiTranslate="gatewayApp.sgqAuditoria.titulo">Titulo</span></dt>
+                <dd>
+                    <span>{{auditoria.titulo}}</span>
+                </dd>
+                <dt><span jhiTranslate="gatewayApp.sgqAuditoria.descricao">Descricao</span></dt>
+                <dd>
+                    <span>{{auditoria.descricao}}</span>
+                </dd>
+                <dt><span jhiTranslate="gatewayApp.sgqAuditoria.processo">Processo</span></dt>
+                <dd>
+                    <div *ngIf="auditoria.processo">
+                        <a [routerLink]="['/processo', auditoria.processo?.id, 'view']">{{auditoria.processo?.titulo}}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/auditoria', auditoria.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

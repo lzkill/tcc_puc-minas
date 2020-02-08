@@ -1,0 +1,11 @@
+id;id_usuario_registro;id_usuario_responsavel;titulo;fato;causa;prazo_conclusao;novo_prazo_conclusao;data_registro;data_conclusao;analise_final;status_sgq
+1;35164;733;mobile holistic;../fake-data/blob/hipster.txt;../fake-data/blob/hipster.txt;2020-02-08T09:23:24;2020-02-08T07:39:12;2020-02-08T15:22:13;2020-02-08T11:59:17;../fake-data/blob/hipster.txt;CONCLUIDO
+2;29347;8604;bypassing Movies;../fake-data/blob/hipster.txt;../fake-data/blob/hipster.txt;2020-02-08T14:42:40;2020-02-07T22:45:30;2020-02-08T13:54:35;2020-02-07T19:32:51;../fake-data/blob/hipster.txt;PENDENTE
+3;57719;43257;Intelligent methodology;../fake-data/blob/hipster.txt;../fake-data/blob/hipster.txt;2020-02-08T03:52:41;2020-02-07T20:26:32;2020-02-08T09:49:10;2020-02-07T22:49:52;../fake-data/blob/hipster.txt;SUSPENSO
+4;25968;58279;analyzer Wooden;../fake-data/blob/hipster.txt;../fake-data/blob/hipster.txt;2020-02-08T09:27:27;2020-02-07T17:20:32;2020-02-08T00:27:17;2020-02-08T10:00:08;../fake-data/blob/hipster.txt;SUSPENSO
+5;78881;31363;gold optical Handmade;../fake-data/blob/hipster.txt;../fake-data/blob/hipster.txt;2020-02-08T02:52:24;2020-02-07T21:14:49;2020-02-08T13:30:10;2020-02-08T14:13:01;../fake-data/blob/hipster.txt;CONCLUIDO
+6;1460;45472;Mobility integrate Checking Account;../fake-data/blob/hipster.txt;../fake-data/blob/hipster.txt;2020-02-08T00:48:18;2020-02-08T06:42:50;2020-02-08T15:47:05;2020-02-08T06:21:50;../fake-data/blob/hipster.txt;CONCLUIDO
+7;66726;75563;ROI;../fake-data/blob/hipster.txt;../fake-data/blob/hipster.txt;2020-02-07T17:50:22;2020-02-08T02:58:32;2020-02-08T08:10:00;2020-02-08T15:45:10;../fake-data/blob/hipster.txt;CONCLUIDO
+8;47402;830;value-added Credit Card Account back up;../fake-data/blob/hipster.txt;../fake-data/blob/hipster.txt;2020-02-08T15:29:19;2020-02-08T10:51:01;2020-02-08T01:01:27;2020-02-08T04:57:05;../fake-data/blob/hipster.txt;REGISTRADO
+9;55299;41655;Operations online;../fake-data/blob/hipster.txt;../fake-data/blob/hipster.txt;2020-02-07T20:16:10;2020-02-08T06:09:36;2020-02-07T21:08:34;2020-02-07T18:57:58;../fake-data/blob/hipster.txt;CONCLUIDO
+10;74528;69672;Kids;../fake-data/blob/hipster.txt;../fake-data/blob/hipster.txt;2020-02-08T05:25:26;2020-02-07T23:33:42;2020-02-07T22:08:09;2020-02-08T05:20:25;../fake-data/blob/hipster.txt;CONCLUIDO

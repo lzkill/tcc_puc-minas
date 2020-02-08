@@ -1,0 +1,71 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="feed">
+            <h2><span jhiTranslate="gatewayApp.sgqFeed.detail.title">Feed</span> {{feed.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="gatewayApp.sgqFeed.idUsuarioRegistro">Id Usuario Registro</span></dt>
+                <dd>
+                    <span>{{feed.idUsuarioRegistro}}</span>
+                </dd>
+                <dt><span jhiTranslate="gatewayApp.sgqFeed.tipo">Tipo</span></dt>
+                <dd>
+                    <span jhiTranslate="{{'gatewayApp.TipoFeed.' + feed.tipo}}">{{feed.tipo}}</span>
+                </dd>
+                <dt><span jhiTranslate="gatewayApp.sgqFeed.titulo">Titulo</span></dt>
+                <dd>
+                    <span>{{feed.titulo}}</span>
+                </dd>
+                <dt><span jhiTranslate="gatewayApp.sgqFeed.descricao">Descricao</span></dt>
+                <dd>
+                    <span>{{feed.descricao}}</span>
+                </dd>
+                <dt><span jhiTranslate="gatewayApp.sgqFeed.uri">Uri</span></dt>
+                <dd>
+                    <span>{{feed.uri}}</span>
+                </dd>
+                <dt><span jhiTranslate="gatewayApp.sgqFeed.link">Link</span></dt>
+                <dd>
+                    <span>{{feed.link}}</span>
+                </dd>
+                <dt><span jhiTranslate="gatewayApp.sgqFeed.urlImagem">Url Imagem</span></dt>
+                <dd>
+                    <span>{{feed.urlImagem}}</span>
+                </dd>
+                <dt><span jhiTranslate="gatewayApp.sgqFeed.tituloImagem">Titulo Imagem</span></dt>
+                <dd>
+                    <span>{{feed.tituloImagem}}</span>
+                </dd>
+                <dt><span jhiTranslate="gatewayApp.sgqFeed.alturaImagem">Altura Imagem</span></dt>
+                <dd>
+                    <span>{{feed.alturaImagem}}</span>
+                </dd>
+                <dt><span jhiTranslate="gatewayApp.sgqFeed.larguraImagem">Largura Imagem</span></dt>
+                <dd>
+                    <span>{{feed.larguraImagem}}</span>
+                </dd>
+                <dt><span jhiTranslate="gatewayApp.sgqFeed.dataRegistro">Data Registro</span></dt>
+                <dd>
+                    <span>{{feed.dataRegistro}}</span>
+                </dd>
+                <dt><span jhiTranslate="gatewayApp.sgqFeed.status">Status</span></dt>
+                <dd>
+                    <span jhiTranslate="{{'gatewayApp.StatusFeed.' + feed.status}}">{{feed.status}}</span>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/feed', feed.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

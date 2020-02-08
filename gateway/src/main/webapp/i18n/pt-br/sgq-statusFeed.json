@@ -1,0 +1,9 @@
+{
+  "gatewayApp": {
+    "StatusFeed": {
+      "null": "",
+      "ATIVO": "ATIVO",
+      "INATIVO": "INATIVO"
+    }
+  }
+}

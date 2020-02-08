@@ -1,0 +1,11 @@
+id;id_usuario_registro;id_usuario_responsavel;tipo;titulo;descricao;prazo_conclusao;novo_prazo_conclusao;data_registro;data_conclusao;resultado;status_sgq
+1;38400;97313;ACAO_PREVENTIVA;Investment Account;../fake-data/blob/hipster.txt;2020-02-08T07:33:25;2020-02-07T22:44:05;2020-02-08T15:12:08;2020-02-08T01:26:52;../fake-data/blob/hipster.txt;CONCLUIDO
+2;2888;81837;ACAO_PREVENTIVA;cross-platform Chair Gorgeous;../fake-data/blob/hipster.txt;2020-02-08T08:09:38;2020-02-07T19:53:19;2020-02-07T19:15:25;2020-02-08T10:21:21;../fake-data/blob/hipster.txt;CONCLUIDO
+3;52494;85733;ACAO_PREVENTIVA;client-driven;../fake-data/blob/hipster.txt;2020-02-07T22:27:45;2020-02-08T10:49:05;2020-02-07T19:15:24;2020-02-08T08:50:48;../fake-data/blob/hipster.txt;CONCLUIDO
+4;3852;56547;ACAO_PREVENTIVA;mint green Georgia Intelligent;../fake-data/blob/hipster.txt;2020-02-08T01:10:33;2020-02-08T03:21:17;2020-02-08T15:05:18;2020-02-08T02:06:36;../fake-data/blob/hipster.txt;CANCELADO
+5;32507;56338;ACAO_PREVENTIVA;functionalities;../fake-data/blob/hipster.txt;2020-02-07T18:15:51;2020-02-07T22:01:07;2020-02-08T00:27:35;2020-02-08T03:19:17;../fake-data/blob/hipster.txt;CANCELADO
+6;46942;13077;CORRECAO_PONTUAL;Virgin Islands, U.S.;../fake-data/blob/hipster.txt;2020-02-08T04:48:56;2020-02-08T08:07:36;2020-02-07T18:08:18;2020-02-07T22:00:26;../fake-data/blob/hipster.txt;PENDENTE
+7;18665;73427;ACAO_CORRETIVA;Small maximize Savings Account;../fake-data/blob/hipster.txt;2020-02-07T19:30:34;2020-02-08T15:36:40;2020-02-08T00:43:11;2020-02-08T02:23:26;../fake-data/blob/hipster.txt;SUSPENSO
+8;43556;72199;ACAO_PREVENTIVA;Personal Loan Account PCI;../fake-data/blob/hipster.txt;2020-02-08T10:13:15;2020-02-07T18:50:15;2020-02-07T23:29:52;2020-02-08T12:43:27;../fake-data/blob/hipster.txt;REGISTRADO
+9;16353;10262;CORRECAO_PONTUAL;Uruguay Home application;../fake-data/blob/hipster.txt;2020-02-07T20:41:08;2020-02-08T03:02:45;2020-02-08T10:50:16;2020-02-08T15:12:54;../fake-data/blob/hipster.txt;SUSPENSO
+10;49566;21031;ACAO_PREVENTIVA;Saint Lucia bypassing;../fake-data/blob/hipster.txt;2020-02-08T01:42:21;2020-02-08T01:48:06;2020-02-08T07:59:11;2020-02-08T03:56:01;../fake-data/blob/hipster.txt;CONCLUIDO

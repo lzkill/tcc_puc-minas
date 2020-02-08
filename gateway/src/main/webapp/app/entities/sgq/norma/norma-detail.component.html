@@ -1,0 +1,58 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="norma">
+            <h2><span jhiTranslate="gatewayApp.sgqNorma.detail.title">Norma</span> {{norma.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="gatewayApp.sgqNorma.orgao">Orgao</span></dt>
+                <dd>
+                    <span>{{norma.orgao}}</span>
+                </dd>
+                <dt><span jhiTranslate="gatewayApp.sgqNorma.titulo">Titulo</span></dt>
+                <dd>
+                    <span>{{norma.titulo}}</span>
+                </dd>
+                <dt><span jhiTranslate="gatewayApp.sgqNorma.descricao">Descricao</span></dt>
+                <dd>
+                    <span>{{norma.descricao}}</span>
+                </dd>
+                <dt><span jhiTranslate="gatewayApp.sgqNorma.versao">Versao</span></dt>
+                <dd>
+                    <span>{{norma.versao}}</span>
+                </dd>
+                <dt><span jhiTranslate="gatewayApp.sgqNorma.numeroEdicao">Numero Edicao</span></dt>
+                <dd>
+                    <span>{{norma.numeroEdicao}}</span>
+                </dd>
+                <dt><span jhiTranslate="gatewayApp.sgqNorma.dataEdicao">Data Edicao</span></dt>
+                <dd>
+                    <span>{{norma.dataEdicao}}</span>
+                </dd>
+                <dt><span jhiTranslate="gatewayApp.sgqNorma.dataInicioValidade">Data Inicio Validade</span></dt>
+                <dd>
+                    <span>{{norma.dataInicioValidade}}</span>
+                </dd>
+                <dt><span jhiTranslate="gatewayApp.sgqNorma.anexo">Anexo</span></dt>
+                <dd>
+                    <div *ngIf="norma.anexo">
+                        <a [routerLink]="['/anexo', norma.anexo?.id, 'view']">{{norma.anexo?.nomeArquivo}}</a>
+                    </div>
+                </dd>
+                <dt><span jhiTranslate="gatewayApp.sgqNorma.categoria">Categoria</span></dt>
+                <dd>
+                    <span *ngFor="let categoria of norma.categorias; let last = last">
+                        <a [routerLink]="['/categoria-norma', categoria?.id, 'view' ]">{{categoria.titulo}}</a>{{last ? '' : ', '}}
+                    </span>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+            </button>
+
+        </div>
+    </div>
+</div>

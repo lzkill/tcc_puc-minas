@@ -1,0 +1,11 @@
+id;id_usuario_registro;titulo;descricao;data_registro;data_inicio;data_fim;resultado;produto_id;setor_responsavel_id
+1;653;Representative connect;../fake-data/blob/hipster.txt;2020-02-07T23:57:35;2020-02-08T04:48:15;2020-02-08T15:50:12;../fake-data/blob/hipster.txt;1;1
+2;29618;Cambridgeshire Manager;../fake-data/blob/hipster.txt;2020-02-07T17:22:36;2020-02-08T15:00:01;2020-02-07T21:29:41;../fake-data/blob/hipster.txt;2;2
+3;85646;viral;../fake-data/blob/hipster.txt;2020-02-07T18:36:01;2020-02-08T11:43:33;2020-02-08T08:47:56;../fake-data/blob/hipster.txt;3;3
+4;80150;cross-platform primary;../fake-data/blob/hipster.txt;2020-02-07T19:08:20;2020-02-08T03:41:00;2020-02-07T22:44:09;../fake-data/blob/hipster.txt;4;4
+5;16164;Engineer bypass Borders;../fake-data/blob/hipster.txt;2020-02-08T08:34:57;2020-02-08T15:20:45;2020-02-07T23:25:18;../fake-data/blob/hipster.txt;5;5
+6;58671;Bedfordshire Berkshire;../fake-data/blob/hipster.txt;2020-02-07T18:47:18;2020-02-08T11:02:13;2020-02-08T10:13:18;../fake-data/blob/hipster.txt;6;6
+7;39544;Refined index;../fake-data/blob/hipster.txt;2020-02-08T02:32:30;2020-02-08T01:43:33;2020-02-07T19:21:13;../fake-data/blob/hipster.txt;7;7
+8;28601;Money Market Account open-source;../fake-data/blob/hipster.txt;2020-02-08T04:31:19;2020-02-08T08:17:20;2020-02-08T12:01:10;../fake-data/blob/hipster.txt;8;8
+9;56812;viral Handcrafted;../fake-data/blob/hipster.txt;2020-02-07T21:07:57;2020-02-08T11:19:54;2020-02-08T03:41:53;../fake-data/blob/hipster.txt;9;9
+10;52873;Unbranded utilisation Orchestrator;../fake-data/blob/hipster.txt;2020-02-07T21:29:07;2020-02-07T16:35:45;2020-02-08T08:42:29;../fake-data/blob/hipster.txt;10;10

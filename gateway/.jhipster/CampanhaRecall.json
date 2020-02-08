@@ -1,0 +1,88 @@
+{
+    "name": "CampanhaRecall",
+    "fields": [
+        {
+            "fieldName": "idUsuarioRegistro",
+            "fieldType": "Integer",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "titulo",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required",
+                "minlength",
+                "maxlength"
+            ],
+            "fieldValidateRulesMinlength": 1,
+            "fieldValidateRulesMaxlength": 100
+        },
+        {
+            "fieldName": "descricao",
+            "fieldType": "byte[]",
+            "fieldTypeBlobContent": "text"
+        },
+        {
+            "fieldName": "dataRegistro",
+            "fieldType": "Instant",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "dataInicio",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "dataFim",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "resultado",
+            "fieldType": "byte[]",
+            "fieldTypeBlobContent": "text"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "one-to-one",
+            "otherEntityName": "anexo",
+            "otherEntityRelationshipName": "campanhaRecall",
+            "relationshipName": "anexo",
+            "otherEntityField": "nomeArquivo",
+            "ownerSide": true
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "produto",
+            "otherEntityRelationshipName": "campanhaRecall",
+            "relationshipValidateRules": "required",
+            "relationshipName": "produto",
+            "otherEntityField": "nome"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "setor",
+            "otherEntityRelationshipName": "campanhaRecall",
+            "relationshipValidateRules": "required",
+            "relationshipName": "setorResponsavel",
+            "otherEntityField": "nome"
+        }
+    ],
+    "changelogDate": "20200208160400",
+    "entityTableName": "campanha_recall",
+    "dto": "no",
+    "pagination": "pagination",
+    "service": "serviceClass",
+    "jpaMetamodelFiltering": true,
+    "fluentMethods": true,
+    "readOnly": false,
+    "clientRootFolder": "",
+    "applications": [
+        "gateway",
+        "sgq"
+    ],
+    "microserviceName": "sgq"
+}

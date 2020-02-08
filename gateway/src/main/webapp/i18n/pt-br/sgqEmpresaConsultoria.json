@@ -1,0 +1,31 @@
+{
+  "gatewayApp": {
+    "sgqEmpresaConsultoria": {
+      "home": {
+        "title": "Empresa Consultorias",
+        "createLabel": "Criar novo Empresa Consultoria",
+        "createOrEditLabel": "Criar ou editar Empresa Consultoria",
+        "notFound": "Nenhum Empresa Consultoria encontrado"
+      },
+      "delete": {
+        "question": "Tem certeza de que deseja excluir Empresa Consultoria {{ id }}?"
+      },
+      "detail": {
+        "title": "Empresa Consultoria"
+      },
+      "nome": "Nome",
+      "urlIntegracao": "Url Integracao",
+      "tokenAcesso": "Token Acesso",
+      "help": {
+        "tokenAcesso": "Token JWT"
+      }
+    }
+  },
+  "sgqApp": {
+    "sgqEmpresaConsultoria": {
+      "created": "Um novo Empresa Consultoria foi criado com o identificador {{ param }}",
+      "updated": "Um Empresa Consultoria foi atualizado com o identificador {{ param }}",
+      "deleted": "Um Empresa Consultoria foi excluído com o identificador {{ param }}"
+    }
+  }
+}

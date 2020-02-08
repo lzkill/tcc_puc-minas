@@ -1,0 +1,11 @@
+id;data_solicitacao_analise;data_analise;descricao;responsavel_analise;status;acao_id;empresa_id
+1;2020-02-08T05:20:33;2020-02-07T16:41:20;../fake-data/blob/hipster.txt;protocol;PENDENTE;1;1
+2;2020-02-07T19:55:52;2020-02-08T00:41:38;../fake-data/blob/hipster.txt;Borders;APROVADO;2;2
+3;2020-02-08T03:14:59;2020-02-08T07:24:59;../fake-data/blob/hipster.txt;bandwidth;APROVADO;3;3
+4;2020-02-07T18:22:33;2020-02-08T06:27:55;../fake-data/blob/hipster.txt;dot-com ROI;REPROVADO;4;4
+5;2020-02-08T07:51:11;2020-02-08T07:14:38;../fake-data/blob/hipster.txt;Small Pants Creative;PENDENTE;5;5
+6;2020-02-07T16:20:56;2020-02-08T15:02:42;../fake-data/blob/hipster.txt;Beauty;PENDENTE;6;6
+7;2020-02-07T19:37:52;2020-02-08T04:13:56;../fake-data/blob/hipster.txt;Stravenue Eritrea;APROVADO;7;7
+8;2020-02-07T23:06:22;2020-02-08T03:03:23;../fake-data/blob/hipster.txt;Bedfordshire;PENDENTE;8;8
+9;2020-02-07T23:31:08;2020-02-07T22:46:53;../fake-data/blob/hipster.txt;transmit Belarussian Ruble port;APROVADO;9;9
+10;2020-02-08T07:21:26;2020-02-08T04:38:42;../fake-data/blob/hipster.txt;Tokelau Awesome Concrete Computer foreground;APROVADO;10;10

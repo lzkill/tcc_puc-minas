@@ -43,7 +43,7 @@ Este trabalho é licenciado sob a licença MIT - veja o arquivo [LICENSE.md](LIC
 
 ## To do
 
-- Configurar volumes dos containers
+- ~~Configurar volumes dos containers~~
 - Reorganizar menus do frontend
 - Obter usuários nos forms (veja [Missing User class...](https://stackoverflow.com/a/43405851))
 - Exibir o plano de auditoria do ano corrente na página inicial (pública)
@@ -58,3 +58,7 @@ Este trabalho é licenciado sob a licença MIT - veja o arquivo [LICENSE.md](LIC
   - Relacionamentos *ManyToMany* com `CategoriaPublicacao` geram testes quebrados (`PublicacaoFeedResourceIT` / `BoletimInformativoResourceIT`)
   - Relacionamentos com `User` contendo *injected fields* geram arquivos quebrados quando a autenticação é oauth2 (`getUser()`)
   - Hazelcast não é incluído no arquivo `docker-compose/docker_compose.yml`
+  - Não é possível inserir javadocs em enums
+* `jhipster-studio`
+  - A anotação `@readOnly` gera erro de sintaxe
+  - As configurações de `clientTheme` e `clientThemeVariant` geram erro de sintaxe

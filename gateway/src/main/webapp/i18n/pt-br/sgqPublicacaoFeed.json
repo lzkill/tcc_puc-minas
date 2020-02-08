@@ -1,0 +1,37 @@
+{
+  "gatewayApp": {
+    "sgqPublicacaoFeed": {
+      "home": {
+        "title": "Publicacao Feeds",
+        "createLabel": "Criar novo Publicacao Feed",
+        "createOrEditLabel": "Criar ou editar Publicacao Feed",
+        "notFound": "Nenhum Publicacao Feed encontrado"
+      },
+      "delete": {
+        "question": "Tem certeza de que deseja excluir Publicacao Feed {{ id }}?"
+      },
+      "detail": {
+        "title": "Publicacao Feed"
+      },
+      "idUsuarioRegistro": "Id Usuario Registro",
+      "titulo": "Titulo",
+      "autor": "Autor",
+      "uri": "Uri",
+      "link": "Link",
+      "conteudo": "Conteudo",
+      "dataRegistro": "Data Registro",
+      "dataPublicacao": "Data Publicacao",
+      "status": "Status",
+      "anexo": "Anexo",
+      "feed": "Feed",
+      "categoria": "Categoria"
+    }
+  },
+  "sgqApp": {
+    "sgqPublicacaoFeed": {
+      "created": "Um novo Publicacao Feed foi criado com o identificador {{ param }}",
+      "updated": "Um Publicacao Feed foi atualizado com o identificador {{ param }}",
+      "deleted": "Um Publicacao Feed foi excluído com o identificador {{ param }}"
+    }
+  }
+}

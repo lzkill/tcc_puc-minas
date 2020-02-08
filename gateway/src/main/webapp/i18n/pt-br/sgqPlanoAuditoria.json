@@ -1,0 +1,31 @@
+{
+  "gatewayApp": {
+    "sgqPlanoAuditoria": {
+      "home": {
+        "title": "Plano Auditorias",
+        "createLabel": "Criar novo Plano Auditoria",
+        "createOrEditLabel": "Criar ou editar Plano Auditoria",
+        "notFound": "Nenhum Plano Auditoria encontrado"
+      },
+      "delete": {
+        "question": "Tem certeza de que deseja excluir Plano Auditoria {{ id }}?"
+      },
+      "detail": {
+        "title": "Plano Auditoria"
+      },
+      "titulo": "Titulo",
+      "descricao": "Descricao",
+      "dataInicio": "Data Inicio",
+      "dataFim": "Data Fim",
+      "anexo": "Anexo",
+      "item": "Item"
+    }
+  },
+  "sgqApp": {
+    "sgqPlanoAuditoria": {
+      "created": "Um novo Plano Auditoria foi criado com o identificador {{ param }}",
+      "updated": "Um Plano Auditoria foi atualizado com o identificador {{ param }}",
+      "deleted": "Um Plano Auditoria foi excluído com o identificador {{ param }}"
+    }
+  }
+}

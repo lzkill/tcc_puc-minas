@@ -1,0 +1,89 @@
+<div>
+    <h2 id="page-heading">
+        <span jhiTranslate="gatewayApp.sgqAnaliseConsultoria.home.title">Analise Consultorias</span>
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-analise-consultoria" [routerLink]="['/analise-consultoria/new']">
+            <fa-icon [icon]="'plus'"></fa-icon>
+            <span  jhiTranslate="gatewayApp.sgqAnaliseConsultoria.home.createLabel">
+            Create a new Analise Consultoria
+            </span>
+        </button>
+    </h2>
+    <jhi-alert-error></jhi-alert-error>
+    <jhi-alert></jhi-alert>
+    <br/>
+    <div class="alert alert-warning" *ngIf="analiseConsultorias?.length === 0">
+        <span jhiTranslate="gatewayApp.sgqAnaliseConsultoria.home.notFound">No analiseConsultorias found</span>
+    </div>
+    <div class="table-responsive" *ngIf="analiseConsultorias?.length > 0">
+        <table class="table table-striped" aria-describedby="page-heading">
+            <thead>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
+            <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="dataSolicitacaoAnalise"><span jhiTranslate="gatewayApp.sgqAnaliseConsultoria.dataSolicitacaoAnalise">Data Solicitacao Analise</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="dataAnalise"><span jhiTranslate="gatewayApp.sgqAnaliseConsultoria.dataAnalise">Data Analise</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="descricao"><span jhiTranslate="gatewayApp.sgqAnaliseConsultoria.descricao">Descricao</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="responsavelAnalise"><span jhiTranslate="gatewayApp.sgqAnaliseConsultoria.responsavelAnalise">Responsavel Analise</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="status"><span jhiTranslate="gatewayApp.sgqAnaliseConsultoria.status">Status</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="acao.titulo"><span jhiTranslate="gatewayApp.sgqAnaliseConsultoria.acao">Acao</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="anexo.nomeArquivo"><span jhiTranslate="gatewayApp.sgqAnaliseConsultoria.anexo">Anexo</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="empresa.nome"><span jhiTranslate="gatewayApp.sgqAnaliseConsultoria.empresa">Empresa</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let analiseConsultoria of analiseConsultorias ;trackBy: trackId">
+                <td><a [routerLink]="['/analise-consultoria', analiseConsultoria.id, 'view' ]">{{analiseConsultoria.id}}</a></td>
+                <td>{{analiseConsultoria.dataSolicitacaoAnalise | date:'medium'}}</td>
+                <td>{{analiseConsultoria.dataAnalise | date:'medium'}}</td>
+                <td>{{analiseConsultoria.descricao}}</td>
+                <td>{{analiseConsultoria.responsavelAnalise}}</td>
+                <td jhiTranslate="{{'gatewayApp.StatusAnaliseExterna.' + analiseConsultoria.status}}">{{analiseConsultoria.status}}</td>
+                <td>
+                    <div *ngIf="analiseConsultoria.acao">
+                        <a [routerLink]="['/acao-sgq', analiseConsultoria.acao?.id, 'view' ]" >{{analiseConsultoria.acao?.titulo}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="analiseConsultoria.anexo">
+                        <a [routerLink]="['/anexo', analiseConsultoria.anexo?.id, 'view' ]" >{{analiseConsultoria.anexo?.nomeArquivo}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="analiseConsultoria.empresa">
+                        <a [routerLink]="['/empresa-consultoria', analiseConsultoria.empresa?.id, 'view' ]" >{{analiseConsultoria.empresa?.nome}}</a>
+                    </div>
+                </td>
+                <td class="text-right">
+                    <div class="btn-group">
+                        <button type="submit"
+                                [routerLink]="['/analise-consultoria', analiseConsultoria.id, 'view' ]"
+                                class="btn btn-info btn-sm">
+                            <fa-icon [icon]="'eye'"></fa-icon>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/analise-consultoria', analiseConsultoria.id, 'edit']"
+                                class="btn btn-primary btn-sm">
+                            <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                        </button>
+                        <button type="submit" (click)="delete(analiseConsultoria)"
+                                class="btn btn-danger btn-sm">
+                            <fa-icon [icon]="'times'"></fa-icon>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div *ngIf="analiseConsultorias?.length > 0">
+        <div class="row justify-content-center">
+            <jhi-item-count [page]="page" [total]="totalItems" [itemsPerPage]="itemsPerPage"></jhi-item-count>
+        </div>
+        <div class="row justify-content-center">
+            <ngb-pagination [collectionSize]="totalItems" [(page)]="ngbPaginationPage" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage($event)"></ngb-pagination>
+        </div>
+    </div>
+</div>

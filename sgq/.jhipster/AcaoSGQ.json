@@ -1,0 +1,112 @@
+{
+    "name": "AcaoSGQ",
+    "fields": [
+        {
+            "fieldName": "idUsuarioRegistro",
+            "fieldType": "Integer",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "idUsuarioResponsavel",
+            "fieldType": "Integer",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "tipo",
+            "fieldType": "TipoAcaoSGQ",
+            "fieldValues": "ACAO_CORRETIVA,ACAO_PREVENTIVA,CORRECAO_PONTUAL",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "titulo",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required",
+                "minlength",
+                "maxlength"
+            ],
+            "fieldValidateRulesMinlength": 1,
+            "fieldValidateRulesMaxlength": 100
+        },
+        {
+            "fieldName": "descricao",
+            "fieldType": "byte[]",
+            "fieldTypeBlobContent": "text",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "prazoConclusao",
+            "fieldType": "Instant",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "novoPrazoConclusao",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "dataRegistro",
+            "fieldType": "Instant",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "dataConclusao",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "resultado",
+            "fieldType": "byte[]",
+            "fieldTypeBlobContent": "text"
+        },
+        {
+            "fieldName": "statusSGQ",
+            "fieldType": "StatusSGQ",
+            "fieldValues": "REGISTRADO,PENDENTE,CONCLUIDO,SUSPENSO,CANCELADO",
+            "fieldValidateRules": [
+                "required"
+            ]
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "one-to-one",
+            "otherEntityName": "anexo",
+            "otherEntityRelationshipName": "acaoSGQ",
+            "relationshipName": "anexo",
+            "otherEntityField": "nomeArquivo",
+            "ownerSide": true
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "naoConformidade",
+            "otherEntityRelationshipName": "acao",
+            "relationshipName": "naoConformidade",
+            "otherEntityField": "titulo"
+        }
+    ],
+    "changelogDate": "20200208160349",
+    "entityTableName": "acao_sgq",
+    "dto": "no",
+    "pagination": "pagination",
+    "service": "serviceClass",
+    "jpaMetamodelFiltering": true,
+    "fluentMethods": true,
+    "readOnly": false,
+    "clientRootFolder": "",
+    "applications": [
+        "gateway",
+        "sgq"
+    ],
+    "microserviceName": "sgq"
+}

@@ -1,0 +1,11 @@
+id;id_usuario_registro;id_usuario_responsavel;titulo;descricao;data_registro;analise_final;status_sgq;acao_id;produto_id
+1;9286;13611;tan;../fake-data/blob/hipster.txt;2020-02-08T05:58:09;../fake-data/blob/hipster.txt;REGISTRADO;1;1
+2;35484;41213;Falkland Islands Pound content;../fake-data/blob/hipster.txt;2020-02-08T04:37:56;../fake-data/blob/hipster.txt;REGISTRADO;2;2
+3;37133;55862;Kip;../fake-data/blob/hipster.txt;2020-02-07T17:16:42;../fake-data/blob/hipster.txt;REGISTRADO;3;3
+4;37900;94231;withdrawal;../fake-data/blob/hipster.txt;2020-02-08T11:00:48;../fake-data/blob/hipster.txt;CONCLUIDO;4;4
+5;14009;40035;Horizontal Ohio;../fake-data/blob/hipster.txt;2020-02-08T04:35:56;../fake-data/blob/hipster.txt;CANCELADO;5;5
+6;32063;39789;backing up magenta UIC-Franc;../fake-data/blob/hipster.txt;2020-02-08T12:00:33;../fake-data/blob/hipster.txt;SUSPENSO;6;6
+7;53435;75161;Montana Borders hard drive;../fake-data/blob/hipster.txt;2020-02-08T09:57:10;../fake-data/blob/hipster.txt;REGISTRADO;7;7
+8;74746;21420;Turnpike connecting deposit;../fake-data/blob/hipster.txt;2020-02-08T04:02:52;../fake-data/blob/hipster.txt;CONCLUIDO;8;8
+9;42863;17790;toolset Object-based virtual;../fake-data/blob/hipster.txt;2020-02-08T01:27:25;../fake-data/blob/hipster.txt;CANCELADO;9;9
+10;47874;41260;Consultant Officer SMS;../fake-data/blob/hipster.txt;2020-02-08T11:43:22;../fake-data/blob/hipster.txt;PENDENTE;10;10

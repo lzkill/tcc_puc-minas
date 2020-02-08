@@ -1,0 +1,61 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="analiseConsultoria">
+            <h2><span jhiTranslate="gatewayApp.sgqAnaliseConsultoria.detail.title">Analise Consultoria</span> {{analiseConsultoria.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="gatewayApp.sgqAnaliseConsultoria.dataSolicitacaoAnalise">Data Solicitacao Analise</span></dt>
+                <dd>
+                    <span>{{analiseConsultoria.dataSolicitacaoAnalise}}</span>
+                </dd>
+                <dt><span jhiTranslate="gatewayApp.sgqAnaliseConsultoria.dataAnalise">Data Analise</span></dt>
+                <dd>
+                    <span>{{analiseConsultoria.dataAnalise}}</span>
+                </dd>
+                <dt><span jhiTranslate="gatewayApp.sgqAnaliseConsultoria.descricao">Descricao</span></dt>
+                <dd>
+                    <span>{{analiseConsultoria.descricao}}</span>
+                </dd>
+                <dt><span jhiTranslate="gatewayApp.sgqAnaliseConsultoria.responsavelAnalise">Responsavel Analise</span></dt>
+                <dd>
+                    <span>{{analiseConsultoria.responsavelAnalise}}</span>
+                </dd>
+                <dt><span jhiTranslate="gatewayApp.sgqAnaliseConsultoria.status">Status</span></dt>
+                <dd>
+                    <span jhiTranslate="{{'gatewayApp.StatusAnaliseExterna.' + analiseConsultoria.status}}">{{analiseConsultoria.status}}</span>
+                </dd>
+                <dt><span jhiTranslate="gatewayApp.sgqAnaliseConsultoria.acao">Acao</span></dt>
+                <dd>
+                    <div *ngIf="analiseConsultoria.acao">
+                        <a [routerLink]="['/acao-sgq', analiseConsultoria.acao?.id, 'view']">{{analiseConsultoria.acao?.titulo}}</a>
+                    </div>
+                </dd>
+                <dt><span jhiTranslate="gatewayApp.sgqAnaliseConsultoria.anexo">Anexo</span></dt>
+                <dd>
+                    <div *ngIf="analiseConsultoria.anexo">
+                        <a [routerLink]="['/anexo', analiseConsultoria.anexo?.id, 'view']">{{analiseConsultoria.anexo?.nomeArquivo}}</a>
+                    </div>
+                </dd>
+                <dt><span jhiTranslate="gatewayApp.sgqAnaliseConsultoria.empresa">Empresa</span></dt>
+                <dd>
+                    <div *ngIf="analiseConsultoria.empresa">
+                        <a [routerLink]="['/empresa-consultoria', analiseConsultoria.empresa?.id, 'view']">{{analiseConsultoria.empresa?.nome}}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/analise-consultoria', analiseConsultoria.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

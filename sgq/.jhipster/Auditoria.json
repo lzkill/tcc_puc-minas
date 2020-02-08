@@ -1,0 +1,52 @@
+{
+    "name": "Auditoria",
+    "fields": [
+        {
+            "fieldName": "tipo",
+            "fieldType": "TipoAuditoria",
+            "fieldValues": "INTERNA,EXTERNA",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "titulo",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required",
+                "minlength",
+                "maxlength"
+            ],
+            "fieldValidateRulesMinlength": 1,
+            "fieldValidateRulesMaxlength": 100
+        },
+        {
+            "fieldName": "descricao",
+            "fieldType": "byte[]",
+            "fieldTypeBlobContent": "text"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "processo",
+            "otherEntityRelationshipName": "auditoria",
+            "relationshipName": "processo",
+            "otherEntityField": "titulo"
+        }
+    ],
+    "changelogDate": "20200208160352",
+    "entityTableName": "auditoria",
+    "dto": "no",
+    "pagination": "pagination",
+    "service": "serviceClass",
+    "jpaMetamodelFiltering": true,
+    "fluentMethods": true,
+    "readOnly": false,
+    "clientRootFolder": "",
+    "applications": [
+        "gateway",
+        "sgq"
+    ],
+    "microserviceName": "sgq"
+}

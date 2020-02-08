@@ -1,0 +1,49 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="resultadoItemChecklist">
+            <h2><span jhiTranslate="gatewayApp.sgqResultadoItemChecklist.detail.title">Resultado Item Checklist</span> {{resultadoItemChecklist.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="gatewayApp.sgqResultadoItemChecklist.conforme">Conforme</span></dt>
+                <dd>
+                    <span>{{resultadoItemChecklist.conforme}}</span>
+                </dd>
+                <dt><span jhiTranslate="gatewayApp.sgqResultadoItemChecklist.descricao">Descricao</span></dt>
+                <dd>
+                    <span>{{resultadoItemChecklist.descricao}}</span>
+                </dd>
+                <dt><span jhiTranslate="gatewayApp.sgqResultadoItemChecklist.anexo">Anexo</span></dt>
+                <dd>
+                    <div *ngIf="resultadoItemChecklist.anexo">
+                        <a [routerLink]="['/anexo', resultadoItemChecklist.anexo?.id, 'view']">{{resultadoItemChecklist.anexo?.nomeArquivo}}</a>
+                    </div>
+                </dd>
+                <dt><span jhiTranslate="gatewayApp.sgqResultadoItemChecklist.item">Item</span></dt>
+                <dd>
+                    <div *ngIf="resultadoItemChecklist.item">
+                        <a [routerLink]="['/item-checklist', resultadoItemChecklist.item?.id, 'view']">{{resultadoItemChecklist.item?.titulo}}</a>
+                    </div>
+                </dd>
+                <dt><span jhiTranslate="gatewayApp.sgqResultadoItemChecklist.resultado">Resultado</span></dt>
+                <dd>
+                    <div *ngIf="resultadoItemChecklist.resultado">
+                        <a [routerLink]="['/resultado-checklist', resultadoItemChecklist.resultado?.id, 'view']">{{resultadoItemChecklist.resultado?.titulo}}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/resultado-item-checklist', resultadoItemChecklist.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

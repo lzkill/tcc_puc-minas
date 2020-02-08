@@ -1,0 +1,33 @@
+{
+  "gatewayApp": {
+    "sgqAnaliseConsultoria": {
+      "home": {
+        "title": "Analise Consultorias",
+        "createLabel": "Criar novo Analise Consultoria",
+        "createOrEditLabel": "Criar ou editar Analise Consultoria",
+        "notFound": "Nenhum Analise Consultoria encontrado"
+      },
+      "delete": {
+        "question": "Tem certeza de que deseja excluir Analise Consultoria {{ id }}?"
+      },
+      "detail": {
+        "title": "Analise Consultoria"
+      },
+      "dataSolicitacaoAnalise": "Data Solicitacao Analise",
+      "dataAnalise": "Data Analise",
+      "descricao": "Descricao",
+      "responsavelAnalise": "Responsavel Analise",
+      "status": "Status",
+      "acao": "Acao",
+      "anexo": "Anexo",
+      "empresa": "Empresa"
+    }
+  },
+  "sgqApp": {
+    "sgqAnaliseConsultoria": {
+      "created": "Um novo Analise Consultoria foi criado com o identificador {{ param }}",
+      "updated": "Um Analise Consultoria foi atualizado com o identificador {{ param }}",
+      "deleted": "Um Analise Consultoria foi excluído com o identificador {{ param }}"
+    }
+  }
+}

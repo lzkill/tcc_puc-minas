@@ -1,0 +1,123 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+            <h2 id="jhi-analise-consultoria-heading" jhiTranslate="gatewayApp.sgqAnaliseConsultoria.home.createOrEditLabel">Create or edit a Analise Consultoria</h2>
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+                <div class="form-group" [hidden]="!editForm.get('id')!.value">
+                    <label for="id" jhiTranslate="global.field.id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id" formControlName="id"
+                        readonly />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="gatewayApp.sgqAnaliseConsultoria.dataSolicitacaoAnalise" for="field_dataSolicitacaoAnalise">Data Solicitacao Analise</label>
+                    <div class="d-flex">
+                        <input id="field_dataSolicitacaoAnalise" type="datetime-local" class="form-control" name="dataSolicitacaoAnalise" formControlName="dataSolicitacaoAnalise" placeholder="YYYY-MM-DD HH:mm"/>
+                    </div>
+                    <div *ngIf="editForm.get('dataSolicitacaoAnalise')!.invalid && (editForm.get('dataSolicitacaoAnalise')!.dirty || editForm.get('dataSolicitacaoAnalise')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('dataSolicitacaoAnalise')?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.get('dataSolicitacaoAnalise')?.errors?.ZonedDateTimelocal" jhiTranslate="entity.validation.ZonedDateTimelocal">
+                            This field should be a date and time.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="gatewayApp.sgqAnaliseConsultoria.dataAnalise" for="field_dataAnalise">Data Analise</label>
+                    <div class="d-flex">
+                        <input id="field_dataAnalise" type="datetime-local" class="form-control" name="dataAnalise" formControlName="dataAnalise" placeholder="YYYY-MM-DD HH:mm"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="gatewayApp.sgqAnaliseConsultoria.descricao" for="field_descricao">Descricao</label>
+                    <textarea class="form-control" name="descricao" id="field_descricao"
+                              formControlName="descricao"></textarea>
+                    <div *ngIf="editForm.get('descricao')!.invalid && (editForm.get('descricao')!.dirty || editForm.get('descricao')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('descricao')?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="gatewayApp.sgqAnaliseConsultoria.responsavelAnalise" for="field_responsavelAnalise">Responsavel Analise</label>
+                    <input type="text" class="form-control" name="responsavelAnalise" id="field_responsavelAnalise"
+                           formControlName="responsavelAnalise"/>
+                    <div *ngIf="editForm.get('responsavelAnalise')!.invalid && (editForm.get('responsavelAnalise')!.dirty || editForm.get('responsavelAnalise')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('responsavelAnalise')?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('responsavelAnalise')?.errors?.minlength" jhiTranslate="entity.validation.minlength" [translateValues]="{ min: 1 }">
+                        This field is required to be at least 1 characters.
+                        </small>
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('responsavelAnalise')?.errors?.maxlength" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: 100 }">
+                        This field cannot be longer than 100 characters.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="gatewayApp.sgqAnaliseConsultoria.status" for="field_status">Status</label>
+                    <select class="form-control" name="status" formControlName="status" id="field_status">
+                        <option value="PENDENTE">{{'gatewayApp.StatusAnaliseExterna.PENDENTE' | translate}}</option>
+                        <option value="APROVADO">{{'gatewayApp.StatusAnaliseExterna.APROVADO' | translate}}</option>
+                        <option value="REPROVADO">{{'gatewayApp.StatusAnaliseExterna.REPROVADO' | translate}}</option>
+                    </select>
+                    <div *ngIf="editForm.get('status')!.invalid && (editForm.get('status')!.dirty || editForm.get('status')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('status')?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="gatewayApp.sgqAnaliseConsultoria.acao" for="field_acao">Acao</label>
+                    <select class="form-control" id="field_acao" name="acao" formControlName="acao">
+                        <option *ngIf="!editForm.get('acao')!.value" [ngValue]="null" selected></option>
+                        <option [ngValue]="acaoSGQOption.id === editForm.get('acao')!.value?.id ? editForm.get('acao')!.value : acaoSGQOption" *ngFor="let acaoSGQOption of acaos; trackBy: trackById">{{acaoSGQOption.titulo}}</option>
+                    </select>
+                </div>
+                <div *ngIf="editForm.get('acao')!.invalid && (editForm.get('acao')!.dirty || editForm.get('acao')!.touched)">
+                    <small class="form-text text-danger"
+                           *ngIf="editForm.get('acao')?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                    </small>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="gatewayApp.sgqAnaliseConsultoria.anexo" for="field_anexo">Anexo</label>
+                    <select class="form-control" id="field_anexo" name="anexo" formControlName="anexo">
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="anexoOption.id === editForm.get('anexo')!.value?.id ? editForm.get('anexo')!.value : anexoOption" *ngFor="let anexoOption of anexos; trackBy: trackById">{{anexoOption.nomeArquivo}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="gatewayApp.sgqAnaliseConsultoria.empresa" for="field_empresa">Empresa</label>
+                    <select class="form-control" id="field_empresa" name="empresa" formControlName="empresa">
+                        <option *ngIf="!editForm.get('empresa')!.value" [ngValue]="null" selected></option>
+                        <option [ngValue]="empresaConsultoriaOption.id === editForm.get('empresa')!.value?.id ? editForm.get('empresa')!.value : empresaConsultoriaOption" *ngFor="let empresaConsultoriaOption of empresaconsultorias; trackBy: trackById">{{empresaConsultoriaOption.nome}}</option>
+                    </select>
+                </div>
+                <div *ngIf="editForm.get('empresa')!.invalid && (editForm.get('empresa')!.dirty || editForm.get('empresa')!.touched)">
+                    <small class="form-text text-danger"
+                           *ngIf="editForm.get('empresa')?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                    </small>
+                </div>
+            </div>
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

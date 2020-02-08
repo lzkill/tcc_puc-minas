@@ -1,0 +1,9 @@
+{
+  "gatewayApp": {
+    "TipoEventoOperacional": {
+      "null": "",
+      "PROGRAMADO": "PROGRAMADO",
+      "NAO_PROGRAMADO": "NAO_PROGRAMADO"
+    }
+  }
+}

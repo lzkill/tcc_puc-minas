@@ -1,0 +1,53 @@
+{
+    "name": "CategoriaPublicacao",
+    "fields": [
+        {
+            "fieldName": "titulo",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required",
+                "minlength",
+                "maxlength"
+            ],
+            "fieldValidateRulesMinlength": 1,
+            "fieldValidateRulesMaxlength": 100
+        },
+        {
+            "fieldName": "descricao",
+            "fieldType": "byte[]",
+            "fieldTypeBlobContent": "text"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "many-to-many",
+            "otherEntityName": "boletimInformativo",
+            "otherEntityRelationshipName": "categoria",
+            "relationshipName": "boletim",
+            "otherEntityField": "titulo",
+            "ownerSide": false
+        },
+        {
+            "relationshipType": "many-to-many",
+            "otherEntityName": "publicacaoFeed",
+            "otherEntityRelationshipName": "categoria",
+            "relationshipName": "publicacao",
+            "otherEntityField": "titulo",
+            "ownerSide": false
+        }
+    ],
+    "changelogDate": "20200208160405",
+    "entityTableName": "categoria_publicacao",
+    "dto": "no",
+    "pagination": "pagination",
+    "service": "serviceClass",
+    "jpaMetamodelFiltering": true,
+    "fluentMethods": true,
+    "readOnly": false,
+    "clientRootFolder": "",
+    "applications": [
+        "gateway",
+        "sgq"
+    ],
+    "microserviceName": "sgq"
+}

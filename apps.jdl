@@ -6,8 +6,8 @@ application {
     buildTool maven
     cacheProvider ehcache
     clientFramework angularX
-    //clientTheme darkly
-    //clientThemeVariant primary
+    clientTheme darkly
+    clientThemeVariant primary
     databaseType sql
     devDatabaseType mariadb
     enableHibernateCache true
@@ -312,7 +312,7 @@ entity EmpresaConsultoria {
 * pela empresa fornecedora de SaaS. 
 */
 @service(serviceClass)
-//@readOnly
+@readOnly
 entity Norma {
   orgao String
   titulo String
@@ -324,7 +324,7 @@ entity Norma {
 }
 
 @service(serviceClass)
-//@readOnly
+@readOnly
 entity CategoriaNorma {
   titulo String
   descricao TextBlob
@@ -350,36 +350,11 @@ enum StatusAnaliseExterna {
 // <<<<<<<<<< compliance
 
 relationship OneToOne {
-  AcaoSGQ{analiseConsultoria(status)} to AnaliseConsultoria{acao(titulo) required}
-}
-
-relationship OneToMany {
-  CampanhaRecall{setorResponsavel(nome)} to Setor{campanhaRecall(titulo)}
-  Checklist{item(titulo)} to ItemChecklist{checklist(titulo) required}
-  Empresa{produto(nome)} to Produto{empresa(nome) required}
-  Empresa{setor(nome)} to Setor{empresa(nome) required}
-  NaoConformidade{acao(titulo)} to AcaoSGQ{naoConformidade(titulo) required}
-  PlanoAuditoria{item} to ItemPlanoAuditoria{plano(titulo)}
-  ResultadoChecklist{resultadoItem} to ResultadoItemChecklist{resultado(titulo) required}
-  Setor{checklist(titulo)} to Checklist{setor(nome) required}
-  Setor{processo(titulo)} to Processo{setor(nome) required}
-}
-
-relationship ManyToOne {
-  AnaliseConsultoria{empresa(nome) required} to EmpresaConsultoria
-  Auditoria{processo(titulo)} to Processo
-  BoletimInformativo{publicoAlvo(nome) required} to PublicoAlvo
-  CampanhaRecall{produto(nome)} to Produto
-  EventoOperacional{processo(titulo)} to Processo
-  ItemPlanoAuditoria{auditoria(titulo) required} to Auditoria
+  AnaliseConsultoria{acao(titulo) required} to AcaoSGQ 
   /** PNCs são tratados com ações únicas e pontuais */
-  ProdutoNaoConforme{acao(titulo)} to AcaoSGQ
+  ProdutoNaoConforme{acao(titulo) required} to AcaoSGQ
   /** Quando o problema identificado é sistêmico deve-se abrir uma NC */
   ProdutoNaoConforme{naoConformidade(titulo)} to NaoConformidade
-  ProdutoNaoConforme{produto(nome) required} to Produto
-  PublicacaoFeed{feed(titulo) required} to Feed
-  ResultadoChecklist{checklist(titulo) required} to Checklist
-  ResultadoItemChecklist{item(titulo) required} to ItemChecklist
   
   AcaoSGQ{anexo(nomeArquivo)} to Anexo
   AnaliseConsultoria{anexo(nomeArquivo)} to Anexo
@@ -396,6 +371,31 @@ relationship ManyToOne {
   PublicacaoFeed{anexo(nomeArquivo)} to Anexo
   ResultadoChecklist{anexo(nomeArquivo)} to Anexo
   ResultadoItemChecklist{anexo(nomeArquivo)} to Anexo
+}
+
+relationship OneToMany {
+  Checklist{item(titulo)} to ItemChecklist{checklist(titulo) required}
+  Empresa{produto(nome)} to Produto{empresa(nome) required}
+  Empresa{setor(nome)} to Setor{empresa(nome) required}
+  NaoConformidade{acao(titulo) required} to AcaoSGQ{naoConformidade(titulo)}
+  PlanoAuditoria{item} to ItemPlanoAuditoria{plano(titulo) required}
+  ResultadoChecklist{resultadoItem} to ResultadoItemChecklist{resultado(titulo) required}
+  Setor{checklist(titulo)} to Checklist{setor(nome) required}
+  Setor{processo(titulo)} to Processo{setor(nome) required}
+}
+
+relationship ManyToOne {
+  AnaliseConsultoria{empresa(nome) required} to EmpresaConsultoria
+  Auditoria{processo(titulo)} to Processo
+  BoletimInformativo{publicoAlvo(nome) required} to PublicoAlvo
+  CampanhaRecall{produto(nome) required} to Produto
+  CampanhaRecall{setorResponsavel(nome) required} to Setor
+  EventoOperacional{processo(titulo)} to Processo
+  ItemPlanoAuditoria{auditoria(titulo) required} to Auditoria
+  ProdutoNaoConforme{produto(nome) required} to Produto
+  PublicacaoFeed{feed(titulo) required} to Feed
+  ResultadoChecklist{checklist(titulo) required} to Checklist
+  ResultadoItemChecklist{item(titulo) required} to ItemChecklist
 
   //AcaoSGQ{usuarioRegistro(login) required} to User
   //AcaoSGQ{usuarioResponsavel(login) required} to User

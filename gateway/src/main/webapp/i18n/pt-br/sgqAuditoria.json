@@ -1,0 +1,29 @@
+{
+  "gatewayApp": {
+    "sgqAuditoria": {
+      "home": {
+        "title": "Auditorias",
+        "createLabel": "Criar novo Auditoria",
+        "createOrEditLabel": "Criar ou editar Auditoria",
+        "notFound": "Nenhum Auditoria encontrado"
+      },
+      "delete": {
+        "question": "Tem certeza de que deseja excluir Auditoria {{ id }}?"
+      },
+      "detail": {
+        "title": "Auditoria"
+      },
+      "tipo": "Tipo",
+      "titulo": "Titulo",
+      "descricao": "Descricao",
+      "processo": "Processo"
+    }
+  },
+  "sgqApp": {
+    "sgqAuditoria": {
+      "created": "Um novo Auditoria foi criado com o identificador {{ param }}",
+      "updated": "Um Auditoria foi atualizado com o identificador {{ param }}",
+      "deleted": "Um Auditoria foi excluído com o identificador {{ param }}"
+    }
+  }
+}

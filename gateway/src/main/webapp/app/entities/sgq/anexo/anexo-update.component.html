@@ -1,0 +1,63 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+            <h2 id="jhi-anexo-heading" jhiTranslate="gatewayApp.sgqAnexo.home.createOrEditLabel">Create or edit a Anexo</h2>
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+                <div class="form-group" [hidden]="!editForm.get('id')!.value">
+                    <label for="id" jhiTranslate="global.field.id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id" formControlName="id"
+                        readonly />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="gatewayApp.sgqAnexo.nomeArquivo" for="field_nomeArquivo">Nome Arquivo</label>
+                    <input type="text" class="form-control" name="nomeArquivo" id="field_nomeArquivo"
+                           formControlName="nomeArquivo"/>
+                    <div *ngIf="editForm.get('nomeArquivo')!.invalid && (editForm.get('nomeArquivo')!.dirty || editForm.get('nomeArquivo')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('nomeArquivo')?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="gatewayApp.sgqAnexo.conteudo" for="field_conteudo">Conteudo</label>
+                    <div>
+                        <div *ngIf="editForm.get('conteudo')!.value" class="form-text text-danger clearfix">
+                            <a class="pull-left" (click)="openFile(editForm.get('conteudoContentType')!.value, editForm.get('conteudo')!.value)" jhiTranslate="entity.action.open">open</a><br>
+                            <span class="pull-left">{{editForm.get('conteudoContentType')!.value}}, {{byteSize(editForm.get('conteudo')!.value)}}</span>
+                            <button type="button" (click)="editForm.patchValue({conteudo: null});editForm.patchValue({conteudoContentType: null});"
+                                    class="btn btn-secondary btn-xs pull-right">
+                                <fa-icon [icon]="'times'"></fa-icon>
+                            </button>
+                        </div>
+                        <input type="file" id="file_conteudo" (change)="setFileData($event, 'conteudo', false)" jhiTranslate="entity.action.addblob"/>
+                    </div>
+                    <input type="hidden" class="form-control" name="conteudo" id="field_conteudo"
+                           formControlName="conteudo"/>
+                    <input type="hidden" class="form-control" name="conteudoContentType" id="field_conteudoContentType"
+                           formControlName="conteudoContentType" />
+                    <div *ngIf="editForm.get('conteudo')!.invalid && (editForm.get('conteudo')!.dirty || editForm.get('conteudo')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('conteudo')?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('conteudo')?.errors?.maxbytes" jhiTranslate="entity.validation.maxbytes" [translateValues]="{ max: 10485760 }">
+                            This field cannot be more than 10485760.
+                        </small>
+                    </div>
+                </div>
+
+            </div>
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

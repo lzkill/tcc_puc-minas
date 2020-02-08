@@ -1,0 +1,49 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="itemPlanoAuditoria">
+            <h2><span jhiTranslate="gatewayApp.sgqItemPlanoAuditoria.detail.title">Item Plano Auditoria</span> {{itemPlanoAuditoria.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="gatewayApp.sgqItemPlanoAuditoria.idUsuarioResponsavel">Id Usuario Responsavel</span></dt>
+                <dd>
+                    <span>{{itemPlanoAuditoria.idUsuarioResponsavel}}</span>
+                </dd>
+                <dt><span jhiTranslate="gatewayApp.sgqItemPlanoAuditoria.dataAuditoria">Data Auditoria</span></dt>
+                <dd>
+                    <span>{{itemPlanoAuditoria.dataAuditoria}}</span>
+                </dd>
+                <dt><span jhiTranslate="gatewayApp.sgqItemPlanoAuditoria.anexo">Anexo</span></dt>
+                <dd>
+                    <div *ngIf="itemPlanoAuditoria.anexo">
+                        <a [routerLink]="['/anexo', itemPlanoAuditoria.anexo?.id, 'view']">{{itemPlanoAuditoria.anexo?.nomeArquivo}}</a>
+                    </div>
+                </dd>
+                <dt><span jhiTranslate="gatewayApp.sgqItemPlanoAuditoria.auditoria">Auditoria</span></dt>
+                <dd>
+                    <div *ngIf="itemPlanoAuditoria.auditoria">
+                        <a [routerLink]="['/auditoria', itemPlanoAuditoria.auditoria?.id, 'view']">{{itemPlanoAuditoria.auditoria?.titulo}}</a>
+                    </div>
+                </dd>
+                <dt><span jhiTranslate="gatewayApp.sgqItemPlanoAuditoria.plano">Plano</span></dt>
+                <dd>
+                    <div *ngIf="itemPlanoAuditoria.plano">
+                        <a [routerLink]="['/plano-auditoria', itemPlanoAuditoria.plano?.id, 'view']">{{itemPlanoAuditoria.plano?.titulo}}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/item-plano-auditoria', itemPlanoAuditoria.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

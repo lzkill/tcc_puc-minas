@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+    <!--
+        Added the constraints for entity ProdutoNaoConforme.
+    -->
+    <changeSet id="20200208160351-2" author="jhipster">
+        
+        <addForeignKeyConstraint baseColumnNames="acao_id"
+                                 baseTableName="produto_nao_conforme"
+                                 constraintName="fk_produto_nao_conforme_acao_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="acao_sgq"/>
+
+        <addForeignKeyConstraint baseColumnNames="nao_conformidade_id"
+                                 baseTableName="produto_nao_conforme"
+                                 constraintName="fk_produto_nao_conforme_nao_conformidade_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="nao_conformidade"/>
+
+        <addForeignKeyConstraint baseColumnNames="anexo_id"
+                                 baseTableName="produto_nao_conforme"
+                                 constraintName="fk_produto_nao_conforme_anexo_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="anexo"/>
+
+        <addForeignKeyConstraint baseColumnNames="produto_id"
+                                 baseTableName="produto_nao_conforme"
+                                 constraintName="fk_produto_nao_conforme_produto_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="produto"/>
+
+    </changeSet>
+</databaseChangeLog>

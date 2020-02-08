@@ -1,0 +1,10 @@
+{
+  "gatewayApp": {
+    "TipoAcaoSGQ": {
+      "null": "",
+      "ACAO_CORRETIVA": "ACAO_CORRETIVA",
+      "ACAO_PREVENTIVA": "ACAO_PREVENTIVA",
+      "CORRECAO_PONTUAL": "CORRECAO_PONTUAL"
+    }
+  }
+}

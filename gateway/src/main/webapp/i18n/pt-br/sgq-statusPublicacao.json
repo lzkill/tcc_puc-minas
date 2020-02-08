@@ -1,0 +1,9 @@
+{
+  "gatewayApp": {
+    "StatusPublicacao": {
+      "null": "",
+      "RASCUNHO": "RASCUNHO",
+      "PUBLICADO": "PUBLICADO"
+    }
+  }
+}

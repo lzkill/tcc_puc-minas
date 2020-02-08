@@ -1,0 +1,7 @@
+export const enum StatusSGQ {
+  REGISTRADO,
+  PENDENTE,
+  CONCLUIDO,
+  SUSPENSO,
+  CANCELADO
+}

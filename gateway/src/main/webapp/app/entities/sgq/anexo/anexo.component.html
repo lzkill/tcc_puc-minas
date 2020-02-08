@@ -1,0 +1,68 @@
+<div>
+    <h2 id="page-heading">
+        <span jhiTranslate="gatewayApp.sgqAnexo.home.title">Anexos</span>
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-anexo" [routerLink]="['/anexo/new']">
+            <fa-icon [icon]="'plus'"></fa-icon>
+            <span  jhiTranslate="gatewayApp.sgqAnexo.home.createLabel">
+            Create a new Anexo
+            </span>
+        </button>
+    </h2>
+    <jhi-alert-error></jhi-alert-error>
+    <jhi-alert></jhi-alert>
+    <br/>
+    <div class="alert alert-warning" *ngIf="anexos?.length === 0">
+        <span jhiTranslate="gatewayApp.sgqAnexo.home.notFound">No anexos found</span>
+    </div>
+    <div class="table-responsive" *ngIf="anexos?.length > 0">
+        <table class="table table-striped" aria-describedby="page-heading">
+            <thead>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
+            <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="nomeArquivo"><span jhiTranslate="gatewayApp.sgqAnexo.nomeArquivo">Nome Arquivo</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="conteudo"><span jhiTranslate="gatewayApp.sgqAnexo.conteudo">Conteudo</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let anexo of anexos ;trackBy: trackId">
+                <td><a [routerLink]="['/anexo', anexo.id, 'view' ]">{{anexo.id}}</a></td>
+                <td>{{anexo.nomeArquivo}}</td>
+                <td>
+                    <a *ngIf="anexo.conteudo" (click)="openFile(anexo.conteudoContentType, anexo.conteudo)" jhiTranslate="entity.action.open">open</a>
+                    <span *ngIf="anexo.conteudo">{{anexo.conteudoContentType}}, {{byteSize(anexo.conteudo)}}</span>
+                </td>
+                <td class="text-right">
+                    <div class="btn-group">
+                        <button type="submit"
+                                [routerLink]="['/anexo', anexo.id, 'view' ]"
+                                class="btn btn-info btn-sm">
+                            <fa-icon [icon]="'eye'"></fa-icon>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/anexo', anexo.id, 'edit']"
+                                class="btn btn-primary btn-sm">
+                            <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                        </button>
+                        <button type="submit" (click)="delete(anexo)"
+                                class="btn btn-danger btn-sm">
+                            <fa-icon [icon]="'times'"></fa-icon>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div *ngIf="anexos?.length > 0">
+        <div class="row justify-content-center">
+            <jhi-item-count [page]="page" [total]="totalItems" [itemsPerPage]="itemsPerPage"></jhi-item-count>
+        </div>
+        <div class="row justify-content-center">
+            <ngb-pagination [collectionSize]="totalItems" [(page)]="ngbPaginationPage" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage($event)"></ngb-pagination>
+        </div>
+    </div>
+</div>

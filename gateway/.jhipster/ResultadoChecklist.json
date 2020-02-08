@@ -1,0 +1,68 @@
+{
+    "name": "ResultadoChecklist",
+    "fields": [
+        {
+            "fieldName": "idUsuarioRegistro",
+            "fieldType": "Integer",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "titulo",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required",
+                "minlength",
+                "maxlength"
+            ],
+            "fieldValidateRulesMinlength": 1,
+            "fieldValidateRulesMaxlength": 100
+        },
+        {
+            "fieldName": "dataVerificacao",
+            "fieldType": "Instant",
+            "fieldValidateRules": [
+                "required"
+            ]
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "one-to-one",
+            "otherEntityName": "anexo",
+            "otherEntityRelationshipName": "resultadoChecklist",
+            "relationshipName": "anexo",
+            "otherEntityField": "nomeArquivo",
+            "ownerSide": true
+        },
+        {
+            "relationshipType": "one-to-many",
+            "otherEntityName": "resultadoItemChecklist",
+            "otherEntityRelationshipName": "resultado",
+            "relationshipName": "resultadoItem"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "checklist",
+            "otherEntityRelationshipName": "resultadoChecklist",
+            "relationshipValidateRules": "required",
+            "relationshipName": "checklist",
+            "otherEntityField": "titulo"
+        }
+    ],
+    "changelogDate": "20200208160357",
+    "entityTableName": "resultado_checklist",
+    "dto": "no",
+    "pagination": "pagination",
+    "service": "serviceClass",
+    "jpaMetamodelFiltering": true,
+    "fluentMethods": true,
+    "readOnly": false,
+    "clientRootFolder": "",
+    "applications": [
+        "gateway",
+        "sgq"
+    ],
+    "microserviceName": "sgq"
+}

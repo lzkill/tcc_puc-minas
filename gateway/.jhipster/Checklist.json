@@ -1,0 +1,59 @@
+{
+    "name": "Checklist",
+    "fields": [
+        {
+            "fieldName": "titulo",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required",
+                "minlength",
+                "maxlength"
+            ],
+            "fieldValidateRulesMinlength": 1,
+            "fieldValidateRulesMaxlength": 100
+        },
+        {
+            "fieldName": "periodicidade",
+            "fieldType": "Periodicidade",
+            "fieldValues": "DIARIO,SEMANAL,QUINZENAL,MENSAL,BIMESTRAL,TRIMESTRAL,SEMESTRAL,ANUAL"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "one-to-one",
+            "otherEntityName": "anexo",
+            "otherEntityRelationshipName": "checklist",
+            "relationshipName": "anexo",
+            "otherEntityField": "nomeArquivo",
+            "ownerSide": true
+        },
+        {
+            "relationshipType": "one-to-many",
+            "otherEntityName": "itemChecklist",
+            "otherEntityRelationshipName": "checklist",
+            "relationshipName": "item"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "setor",
+            "otherEntityRelationshipName": "checklist",
+            "relationshipValidateRules": "required",
+            "relationshipName": "setor",
+            "otherEntityField": "nome"
+        }
+    ],
+    "changelogDate": "20200208160355",
+    "entityTableName": "checklist",
+    "dto": "no",
+    "pagination": "pagination",
+    "service": "serviceClass",
+    "jpaMetamodelFiltering": true,
+    "fluentMethods": true,
+    "readOnly": false,
+    "clientRootFolder": "",
+    "applications": [
+        "gateway",
+        "sgq"
+    ],
+    "microserviceName": "sgq"
+}

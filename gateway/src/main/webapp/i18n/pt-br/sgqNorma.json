@@ -1,0 +1,34 @@
+{
+  "gatewayApp": {
+    "sgqNorma": {
+      "home": {
+        "title": "Normas",
+        "createLabel": "Criar novo Norma",
+        "createOrEditLabel": "Criar ou editar Norma",
+        "notFound": "Nenhum Norma encontrado"
+      },
+      "delete": {
+        "question": "Tem certeza de que deseja excluir Norma {{ id }}?"
+      },
+      "detail": {
+        "title": "Norma"
+      },
+      "orgao": "Orgao",
+      "titulo": "Titulo",
+      "descricao": "Descricao",
+      "versao": "Versao",
+      "numeroEdicao": "Numero Edicao",
+      "dataEdicao": "Data Edicao",
+      "dataInicioValidade": "Data Inicio Validade",
+      "anexo": "Anexo",
+      "categoria": "Categoria"
+    }
+  },
+  "sgqApp": {
+    "sgqNorma": {
+      "created": "Um novo Norma foi criado com o identificador {{ param }}",
+      "updated": "Um Norma foi atualizado com o identificador {{ param }}",
+      "deleted": "Um Norma foi excluído com o identificador {{ param }}"
+    }
+  }
+}

@@ -1,0 +1,64 @@
+<div>
+    <h2 id="page-heading">
+        <span jhiTranslate="gatewayApp.sgqNorma.home.title">Normas</span>
+    </h2>
+    <jhi-alert-error></jhi-alert-error>
+    <jhi-alert></jhi-alert>
+    <br/>
+    <div class="alert alert-warning" *ngIf="normas?.length === 0">
+        <span jhiTranslate="gatewayApp.sgqNorma.home.notFound">No normas found</span>
+    </div>
+    <div class="table-responsive" *ngIf="normas?.length > 0">
+        <table class="table table-striped" aria-describedby="page-heading">
+            <thead>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
+            <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="orgao"><span jhiTranslate="gatewayApp.sgqNorma.orgao">Orgao</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="titulo"><span jhiTranslate="gatewayApp.sgqNorma.titulo">Titulo</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="descricao"><span jhiTranslate="gatewayApp.sgqNorma.descricao">Descricao</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="versao"><span jhiTranslate="gatewayApp.sgqNorma.versao">Versao</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="numeroEdicao"><span jhiTranslate="gatewayApp.sgqNorma.numeroEdicao">Numero Edicao</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="dataEdicao"><span jhiTranslate="gatewayApp.sgqNorma.dataEdicao">Data Edicao</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="dataInicioValidade"><span jhiTranslate="gatewayApp.sgqNorma.dataInicioValidade">Data Inicio Validade</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="anexo.nomeArquivo"><span jhiTranslate="gatewayApp.sgqNorma.anexo">Anexo</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let norma of normas ;trackBy: trackId">
+                <td><a [routerLink]="['/norma', norma.id, 'view' ]">{{norma.id}}</a></td>
+                <td>{{norma.orgao}}</td>
+                <td>{{norma.titulo}}</td>
+                <td>{{norma.descricao}}</td>
+                <td>{{norma.versao}}</td>
+                <td>{{norma.numeroEdicao}}</td>
+                <td>{{norma.dataEdicao | date:'medium'}}</td>
+                <td>{{norma.dataInicioValidade | date:'medium'}}</td>
+                <td>
+                    <div *ngIf="norma.anexo">
+                        <a [routerLink]="['/anexo', norma.anexo?.id, 'view' ]" >{{norma.anexo?.nomeArquivo}}</a>
+                    </div>
+                </td>
+                <td class="text-right">
+                    <div class="btn-group">
+                        <button type="submit"
+                                [routerLink]="['/norma', norma.id, 'view' ]"
+                                class="btn btn-info btn-sm">
+                            <fa-icon [icon]="'eye'"></fa-icon>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div *ngIf="normas?.length > 0">
+        <div class="row justify-content-center">
+            <jhi-item-count [page]="page" [total]="totalItems" [itemsPerPage]="itemsPerPage"></jhi-item-count>
+        </div>
+        <div class="row justify-content-center">
+            <ngb-pagination [collectionSize]="totalItems" [(page)]="ngbPaginationPage" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage($event)"></ngb-pagination>
+        </div>
+    </div>
+</div>

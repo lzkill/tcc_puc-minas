@@ -1,0 +1,112 @@
+{
+    "name": "NaoConformidade",
+    "fields": [
+        {
+            "fieldName": "idUsuarioRegistro",
+            "fieldType": "Integer",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "idUsuarioResponsavel",
+            "fieldType": "Integer",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "titulo",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required",
+                "minlength",
+                "maxlength"
+            ],
+            "fieldValidateRulesMinlength": 1,
+            "fieldValidateRulesMaxlength": 100
+        },
+        {
+            "fieldName": "fato",
+            "fieldType": "byte[]",
+            "fieldTypeBlobContent": "text",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "causa",
+            "javadoc": "O fechamento da NC só é possível se houver identificação de causa",
+            "fieldType": "byte[]",
+            "fieldTypeBlobContent": "text"
+        },
+        {
+            "fieldName": "prazoConclusao",
+            "fieldType": "Instant",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "novoPrazoConclusao",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "dataRegistro",
+            "fieldType": "Instant",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "dataConclusao",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "analiseFinal",
+            "javadoc": "Análise de eficácia",
+            "fieldType": "byte[]",
+            "fieldTypeBlobContent": "text"
+        },
+        {
+            "fieldName": "statusSGQ",
+            "fieldType": "StatusSGQ",
+            "fieldValues": "REGISTRADO,PENDENTE,CONCLUIDO,SUSPENSO,CANCELADO",
+            "fieldValidateRules": [
+                "required"
+            ]
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "one-to-one",
+            "otherEntityName": "anexo",
+            "otherEntityRelationshipName": "naoConformidade",
+            "relationshipName": "anexo",
+            "otherEntityField": "nomeArquivo",
+            "ownerSide": true
+        },
+        {
+            "relationshipType": "one-to-many",
+            "otherEntityName": "acaoSGQ",
+            "otherEntityRelationshipName": "naoConformidade",
+            "relationshipValidateRules": "required",
+            "relationshipName": "acao"
+        }
+    ],
+    "changelogDate": "20200208160350",
+    "javadoc": "Representa a violação de algum requisito regulamentar (normas,\\nprocedimentos internos, definições de processos, etc)",
+    "entityTableName": "nao_conformidade",
+    "dto": "no",
+    "pagination": "pagination",
+    "service": "serviceClass",
+    "jpaMetamodelFiltering": true,
+    "fluentMethods": true,
+    "readOnly": false,
+    "clientRootFolder": "",
+    "applications": [
+        "gateway",
+        "sgq"
+    ],
+    "microserviceName": "sgq"
+}

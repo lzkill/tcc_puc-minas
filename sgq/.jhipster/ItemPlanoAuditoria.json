@@ -1,0 +1,59 @@
+{
+    "name": "ItemPlanoAuditoria",
+    "fields": [
+        {
+            "fieldName": "idUsuarioResponsavel",
+            "fieldType": "Integer",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "dataAuditoria",
+            "fieldType": "Instant",
+            "fieldValidateRules": [
+                "required"
+            ]
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "one-to-one",
+            "otherEntityName": "anexo",
+            "otherEntityRelationshipName": "itemPlanoAuditoria",
+            "relationshipName": "anexo",
+            "otherEntityField": "nomeArquivo",
+            "ownerSide": true
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "auditoria",
+            "otherEntityRelationshipName": "itemPlanoAuditoria",
+            "relationshipValidateRules": "required",
+            "relationshipName": "auditoria",
+            "otherEntityField": "titulo"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "planoAuditoria",
+            "otherEntityRelationshipName": "item",
+            "relationshipValidateRules": "required",
+            "relationshipName": "plano",
+            "otherEntityField": "titulo"
+        }
+    ],
+    "changelogDate": "20200208160354",
+    "entityTableName": "item_plano_auditoria",
+    "dto": "no",
+    "pagination": "pagination",
+    "service": "serviceClass",
+    "jpaMetamodelFiltering": true,
+    "fluentMethods": true,
+    "readOnly": false,
+    "clientRootFolder": "",
+    "applications": [
+        "gateway",
+        "sgq"
+    ],
+    "microserviceName": "sgq"
+}

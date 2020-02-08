@@ -1,0 +1,37 @@
+{
+  "gatewayApp": {
+    "sgqFeed": {
+      "home": {
+        "title": "Feeds",
+        "createLabel": "Criar novo Feed",
+        "createOrEditLabel": "Criar ou editar Feed",
+        "notFound": "Nenhum Feed encontrado"
+      },
+      "delete": {
+        "question": "Tem certeza de que deseja excluir Feed {{ id }}?"
+      },
+      "detail": {
+        "title": "Feed"
+      },
+      "idUsuarioRegistro": "Id Usuario Registro",
+      "tipo": "Tipo",
+      "titulo": "Titulo",
+      "descricao": "Descricao",
+      "uri": "Uri",
+      "link": "Link",
+      "urlImagem": "Url Imagem",
+      "tituloImagem": "Titulo Imagem",
+      "alturaImagem": "Altura Imagem",
+      "larguraImagem": "Largura Imagem",
+      "dataRegistro": "Data Registro",
+      "status": "Status"
+    }
+  },
+  "sgqApp": {
+    "sgqFeed": {
+      "created": "Um novo Feed foi criado com o identificador {{ param }}",
+      "updated": "Um Feed foi atualizado com o identificador {{ param }}",
+      "deleted": "Um Feed foi excluído com o identificador {{ param }}"
+    }
+  }
+}
