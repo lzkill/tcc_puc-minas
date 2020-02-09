@@ -28,6 +28,8 @@ public class ProdutoCriteria implements Serializable, Criteria {
 
     private StringFilter nome;
 
+    private LongFilter anexoId;
+
     private LongFilter empresaId;
 
     public ProdutoCriteria(){
@@ -36,6 +38,7 @@ public class ProdutoCriteria implements Serializable, Criteria {
     public ProdutoCriteria(ProdutoCriteria other){
         this.id = other.id == null ? null : other.id.copy();
         this.nome = other.nome == null ? null : other.nome.copy();
+        this.anexoId = other.anexoId == null ? null : other.anexoId.copy();
         this.empresaId = other.empresaId == null ? null : other.empresaId.copy();
     }
 
@@ -60,6 +63,14 @@ public class ProdutoCriteria implements Serializable, Criteria {
         this.nome = nome;
     }
 
+    public LongFilter getAnexoId() {
+        return anexoId;
+    }
+
+    public void setAnexoId(LongFilter anexoId) {
+        this.anexoId = anexoId;
+    }
+
     public LongFilter getEmpresaId() {
         return empresaId;
     }
@@ -81,6 +92,7 @@ public class ProdutoCriteria implements Serializable, Criteria {
         return
             Objects.equals(id, that.id) &&
             Objects.equals(nome, that.nome) &&
+            Objects.equals(anexoId, that.anexoId) &&
             Objects.equals(empresaId, that.empresaId);
     }
 
@@ -89,6 +101,7 @@ public class ProdutoCriteria implements Serializable, Criteria {
         return Objects.hash(
         id,
         nome,
+        anexoId,
         empresaId
         );
     }
@@ -98,6 +111,7 @@ public class ProdutoCriteria implements Serializable, Criteria {
         return "ProdutoCriteria{" +
                 (id != null ? "id=" + id + ", " : "") +
                 (nome != null ? "nome=" + nome + ", " : "") +
+                (anexoId != null ? "anexoId=" + anexoId + ", " : "") +
                 (empresaId != null ? "empresaId=" + empresaId + ", " : "") +
             "}";
     }

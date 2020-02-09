@@ -17,6 +17,7 @@
       "idUsuarioResponsavel": "Id Usuario Responsavel",
       "titulo": "Titulo",
       "descricao": "Descricao",
+      "procedente": "Procedente",
       "dataRegistro": "Data Registro",
       "analiseFinal": "Analise Final",
       "statusSGQ": "Status SGQ",
@@ -25,6 +26,7 @@
       "anexo": "Anexo",
       "produto": "Produto",
       "help": {
+        "procedente": "O fato descrito configura de fato um PNC",
         "analiseFinal": "Análise de eficácia"
       }
     }

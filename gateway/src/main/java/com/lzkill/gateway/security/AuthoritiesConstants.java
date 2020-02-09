@@ -11,9 +11,6 @@ public final class AuthoritiesConstants {
 
     public static final String ANONYMOUS = "ROLE_ANONYMOUS";
 
-    /** Gestor de qualidade */
-    public static final String SGQ = "ROLE_SGQ";
-
     private AuthoritiesConstants() {
     }
 }

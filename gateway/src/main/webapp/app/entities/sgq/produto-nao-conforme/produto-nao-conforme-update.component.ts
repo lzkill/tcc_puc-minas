@@ -44,6 +44,7 @@ export class ProdutoNaoConformeUpdateComponent implements OnInit {
     idUsuarioResponsavel: [null, [Validators.required]],
     titulo: [null, [Validators.required, Validators.minLength(1), Validators.maxLength(100)]],
     descricao: [null, [Validators.required]],
+    procedente: [null, [Validators.required]],
     dataRegistro: [null, [Validators.required]],
     analiseFinal: [],
     statusSGQ: [null, [Validators.required]],
@@ -159,6 +160,7 @@ export class ProdutoNaoConformeUpdateComponent implements OnInit {
       idUsuarioResponsavel: produtoNaoConforme.idUsuarioResponsavel,
       titulo: produtoNaoConforme.titulo,
       descricao: produtoNaoConforme.descricao,
+      procedente: produtoNaoConforme.procedente,
       dataRegistro: produtoNaoConforme.dataRegistro != null ? produtoNaoConforme.dataRegistro.format(DATE_TIME_FORMAT) : null,
       analiseFinal: produtoNaoConforme.analiseFinal,
       statusSGQ: produtoNaoConforme.statusSGQ,
@@ -207,6 +209,7 @@ export class ProdutoNaoConformeUpdateComponent implements OnInit {
       idUsuarioResponsavel: this.editForm.get(['idUsuarioResponsavel'])!.value,
       titulo: this.editForm.get(['titulo'])!.value,
       descricao: this.editForm.get(['descricao'])!.value,
+      procedente: this.editForm.get(['procedente'])!.value,
       dataRegistro:
         this.editForm.get(['dataRegistro'])!.value != null
           ? moment(this.editForm.get(['dataRegistro'])!.value, DATE_TIME_FORMAT)

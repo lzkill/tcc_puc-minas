@@ -23,6 +23,7 @@
             <th scope="col"  jhiSortBy="idUsuarioResponsavel"><span jhiTranslate="gatewayApp.sgqNaoConformidade.idUsuarioResponsavel">Id Usuario Responsavel</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="titulo"><span jhiTranslate="gatewayApp.sgqNaoConformidade.titulo">Titulo</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="fato"><span jhiTranslate="gatewayApp.sgqNaoConformidade.fato">Fato</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="procedente"><span jhiTranslate="gatewayApp.sgqNaoConformidade.procedente">Procedente</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="causa"><span jhiTranslate="gatewayApp.sgqNaoConformidade.causa">Causa</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="prazoConclusao"><span jhiTranslate="gatewayApp.sgqNaoConformidade.prazoConclusao">Prazo Conclusao</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="novoPrazoConclusao"><span jhiTranslate="gatewayApp.sgqNaoConformidade.novoPrazoConclusao">Novo Prazo Conclusao</span> <fa-icon [icon]="'sort'"></fa-icon></th>
@@ -41,6 +42,7 @@
                 <td>{{naoConformidade.idUsuarioResponsavel}}</td>
                 <td>{{naoConformidade.titulo}}</td>
                 <td>{{naoConformidade.fato}}</td>
+                <td>{{naoConformidade.procedente}}</td>
                 <td>{{naoConformidade.causa}}</td>
                 <td>{{naoConformidade.prazoConclusao | date:'medium'}}</td>
                 <td>{{naoConformidade.novoPrazoConclusao | date:'medium'}}</td>

@@ -2,6 +2,7 @@ package com.lzkill.sgq.web.rest;
 
 import com.lzkill.sgq.SgqApp;
 import com.lzkill.sgq.domain.Processo;
+import com.lzkill.sgq.domain.Anexo;
 import com.lzkill.sgq.domain.Setor;
 import com.lzkill.sgq.repository.ProcessoRepository;
 import com.lzkill.sgq.service.ProcessoService;
@@ -316,6 +317,26 @@ public class ProcessoResourceIT {
 
         // Get all the processoList where titulo does not contain UPDATED_TITULO
         defaultProcessoShouldBeFound("titulo.doesNotContain=" + UPDATED_TITULO);
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllProcessosByAnexoIsEqualToSomething() throws Exception {
+        // Initialize the database
+        processoRepository.saveAndFlush(processo);
+        Anexo anexo = AnexoResourceIT.createEntity(em);
+        em.persist(anexo);
+        em.flush();
+        processo.setAnexo(anexo);
+        processoRepository.saveAndFlush(processo);
+        Long anexoId = anexo.getId();
+
+        // Get all the processoList where anexo equals to anexoId
+        defaultProcessoShouldBeFound("anexoId.equals=" + anexoId);
+
+        // Get all the processoList where anexo equals to anexoId + 1
+        defaultProcessoShouldNotBeFound("anexoId.equals=" + (anexoId + 1));
     }
 
 

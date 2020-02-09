@@ -25,7 +25,7 @@ describe('Service Tests', () => {
       httpMock = injector.get(HttpTestingController);
       currentDate = moment();
 
-      elemDefault = new ProdutoNaoConforme(0, 0, 0, 'AAAAAAA', 'AAAAAAA', currentDate, 'AAAAAAA', StatusSGQ.REGISTRADO);
+      elemDefault = new ProdutoNaoConforme(0, 0, 0, 'AAAAAAA', 'AAAAAAA', false, currentDate, 'AAAAAAA', StatusSGQ.REGISTRADO);
     });
 
     describe('Service methods', () => {
@@ -76,6 +76,7 @@ describe('Service Tests', () => {
             idUsuarioResponsavel: 1,
             titulo: 'BBBBBB',
             descricao: 'BBBBBB',
+            procedente: true,
             dataRegistro: currentDate.format(DATE_TIME_FORMAT),
             analiseFinal: 'BBBBBB',
             statusSGQ: 'BBBBBB'
@@ -105,6 +106,7 @@ describe('Service Tests', () => {
             idUsuarioResponsavel: 1,
             titulo: 'BBBBBB',
             descricao: 'BBBBBB',
+            procedente: true,
             dataRegistro: currentDate.format(DATE_TIME_FORMAT),
             analiseFinal: 'BBBBBB',
             statusSGQ: 'BBBBBB'

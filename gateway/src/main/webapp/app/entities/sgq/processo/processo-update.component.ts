@@ -10,8 +10,12 @@ import { JhiDataUtils, JhiFileLoadError, JhiEventManager, JhiEventWithContent } 
 import { IProcesso, Processo } from 'app/shared/model/sgq/processo.model';
 import { ProcessoService } from './processo.service';
 import { AlertError } from 'app/shared/alert/alert-error.model';
+import { IAnexo } from 'app/shared/model/sgq/anexo.model';
+import { AnexoService } from 'app/entities/sgq/anexo/anexo.service';
 import { ISetor } from 'app/shared/model/sgq/setor.model';
 import { SetorService } from 'app/entities/sgq/setor/setor.service';
+
+type SelectableEntity = IAnexo | ISetor;
 
 @Component({
   selector: 'jhi-processo-update',
@@ -20,12 +24,15 @@ import { SetorService } from 'app/entities/sgq/setor/setor.service';
 export class ProcessoUpdateComponent implements OnInit {
   isSaving = false;
 
+  anexos: IAnexo[] = [];
+
   setors: ISetor[] = [];
 
   editForm = this.fb.group({
     id: [],
     titulo: [null, [Validators.required, Validators.minLength(1), Validators.maxLength(100)]],
     descricao: [],
+    anexo: [],
     setor: [null, Validators.required]
   });
 
@@ -33,6 +40,7 @@ export class ProcessoUpdateComponent implements OnInit {
     protected dataUtils: JhiDataUtils,
     protected eventManager: JhiEventManager,
     protected processoService: ProcessoService,
+    protected anexoService: AnexoService,
     protected setorService: SetorService,
     protected activatedRoute: ActivatedRoute,
     private fb: FormBuilder
@@ -41,6 +49,30 @@ export class ProcessoUpdateComponent implements OnInit {
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ processo }) => {
       this.updateForm(processo);
+
+      this.anexoService
+        .query({ 'processoId.specified': 'false' })
+        .pipe(
+          map((res: HttpResponse<IAnexo[]>) => {
+            return res.body ? res.body : [];
+          })
+        )
+        .subscribe((resBody: IAnexo[]) => {
+          if (!processo.anexo || !processo.anexo.id) {
+            this.anexos = resBody;
+          } else {
+            this.anexoService
+              .find(processo.anexo.id)
+              .pipe(
+                map((subRes: HttpResponse<IAnexo>) => {
+                  return subRes.body ? [subRes.body].concat(resBody) : resBody;
+                })
+              )
+              .subscribe((concatRes: IAnexo[]) => {
+                this.anexos = concatRes;
+              });
+          }
+        });
 
       this.setorService
         .query()
@@ -58,6 +90,7 @@ export class ProcessoUpdateComponent implements OnInit {
       id: processo.id,
       titulo: processo.titulo,
       descricao: processo.descricao,
+      anexo: processo.anexo,
       setor: processo.setor
     });
   }
@@ -98,6 +131,7 @@ export class ProcessoUpdateComponent implements OnInit {
       id: this.editForm.get(['id'])!.value,
       titulo: this.editForm.get(['titulo'])!.value,
       descricao: this.editForm.get(['descricao'])!.value,
+      anexo: this.editForm.get(['anexo'])!.value,
       setor: this.editForm.get(['setor'])!.value
     };
   }
@@ -118,7 +152,7 @@ export class ProcessoUpdateComponent implements OnInit {
     this.isSaving = false;
   }
 
-  trackById(index: number, item: ISetor): any {
+  trackById(index: number, item: SelectableEntity): any {
     return item.id;
   }
 }

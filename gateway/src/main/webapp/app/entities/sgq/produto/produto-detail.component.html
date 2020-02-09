@@ -13,6 +13,12 @@
                 <dd>
                     <span>{{produto.descricao}}</span>
                 </dd>
+                <dt><span jhiTranslate="gatewayApp.sgqProduto.anexo">Anexo</span></dt>
+                <dd>
+                    <div *ngIf="produto.anexo">
+                        <a [routerLink]="['/anexo', produto.anexo?.id, 'view']">{{produto.anexo?.nomeArquivo}}</a>
+                    </div>
+                </dd>
                 <dt><span jhiTranslate="gatewayApp.sgqProduto.empresa">Empresa</span></dt>
                 <dd>
                     <div *ngIf="produto.empresa">

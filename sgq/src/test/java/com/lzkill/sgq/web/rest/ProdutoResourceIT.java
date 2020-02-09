@@ -2,6 +2,7 @@ package com.lzkill.sgq.web.rest;
 
 import com.lzkill.sgq.SgqApp;
 import com.lzkill.sgq.domain.Produto;
+import com.lzkill.sgq.domain.Anexo;
 import com.lzkill.sgq.domain.Empresa;
 import com.lzkill.sgq.repository.ProdutoRepository;
 import com.lzkill.sgq.service.ProdutoService;
@@ -316,6 +317,26 @@ public class ProdutoResourceIT {
 
         // Get all the produtoList where nome does not contain UPDATED_NOME
         defaultProdutoShouldBeFound("nome.doesNotContain=" + UPDATED_NOME);
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllProdutosByAnexoIsEqualToSomething() throws Exception {
+        // Initialize the database
+        produtoRepository.saveAndFlush(produto);
+        Anexo anexo = AnexoResourceIT.createEntity(em);
+        em.persist(anexo);
+        em.flush();
+        produto.setAnexo(anexo);
+        produtoRepository.saveAndFlush(produto);
+        Long anexoId = anexo.getId();
+
+        // Get all the produtoList where anexo equals to anexoId
+        defaultProdutoShouldBeFound("anexoId.equals=" + anexoId);
+
+        // Get all the produtoList where anexo equals to anexoId + 1
+        defaultProdutoShouldNotBeFound("anexoId.equals=" + (anexoId + 1));
     }
 
 

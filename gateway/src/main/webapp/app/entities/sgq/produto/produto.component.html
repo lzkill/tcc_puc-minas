@@ -21,6 +21,7 @@
             <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="nome"><span jhiTranslate="gatewayApp.sgqProduto.nome">Nome</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="descricao"><span jhiTranslate="gatewayApp.sgqProduto.descricao">Descricao</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="anexo.nomeArquivo"><span jhiTranslate="gatewayApp.sgqProduto.anexo">Anexo</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="empresa.nome"><span jhiTranslate="gatewayApp.sgqProduto.empresa">Empresa</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"></th>
             </tr>
@@ -30,6 +31,11 @@
                 <td><a [routerLink]="['/produto', produto.id, 'view' ]">{{produto.id}}</a></td>
                 <td>{{produto.nome}}</td>
                 <td>{{produto.descricao}}</td>
+                <td>
+                    <div *ngIf="produto.anexo">
+                        <a [routerLink]="['/anexo', produto.anexo?.id, 'view' ]" >{{produto.anexo?.nomeArquivo}}</a>
+                    </div>
+                </td>
                 <td>
                     <div *ngIf="produto.empresa">
                         <a [routerLink]="['/empresa', produto.empresa?.id, 'view' ]" >{{produto.empresa?.nome}}</a>

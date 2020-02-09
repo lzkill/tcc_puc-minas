@@ -15,6 +15,7 @@
       },
       "titulo": "Titulo",
       "descricao": "Descricao",
+      "anexo": "Anexo",
       "setor": "Setor"
     }
   },

@@ -94,6 +94,9 @@ public class ProdutoNaoConformeQueryService extends QueryService<ProdutoNaoConfo
             if (criteria.getTitulo() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getTitulo(), ProdutoNaoConforme_.titulo));
             }
+            if (criteria.getProcedente() != null) {
+                specification = specification.and(buildSpecification(criteria.getProcedente(), ProdutoNaoConforme_.procedente));
+            }
             if (criteria.getDataRegistro() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getDataRegistro(), ProdutoNaoConforme_.dataRegistro));
             }

@@ -20,6 +20,14 @@
     ],
     "relationships": [
         {
+            "relationshipType": "one-to-one",
+            "otherEntityName": "anexo",
+            "otherEntityRelationshipName": "processo",
+            "relationshipName": "anexo",
+            "otherEntityField": "nomeArquivo",
+            "ownerSide": true
+        },
+        {
             "relationshipType": "many-to-one",
             "otherEntityName": "setor",
             "otherEntityRelationshipName": "processo",

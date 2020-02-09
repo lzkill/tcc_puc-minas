@@ -35,6 +35,14 @@
             ]
         },
         {
+            "fieldName": "procedente",
+            "javadoc": "O fato descrito configura de fato um PNC",
+            "fieldType": "Boolean",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
             "fieldName": "dataRegistro",
             "fieldType": "Instant",
             "fieldValidateRules": [

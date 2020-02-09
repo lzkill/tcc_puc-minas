@@ -56,6 +56,9 @@ public class NaoConformidadeResourceIT {
     private static final String DEFAULT_FATO = "AAAAAAAAAA";
     private static final String UPDATED_FATO = "BBBBBBBBBB";
 
+    private static final Boolean DEFAULT_PROCEDENTE = false;
+    private static final Boolean UPDATED_PROCEDENTE = true;
+
     private static final String DEFAULT_CAUSA = "AAAAAAAAAA";
     private static final String UPDATED_CAUSA = "BBBBBBBBBB";
 
@@ -129,6 +132,7 @@ public class NaoConformidadeResourceIT {
             .idUsuarioResponsavel(DEFAULT_ID_USUARIO_RESPONSAVEL)
             .titulo(DEFAULT_TITULO)
             .fato(DEFAULT_FATO)
+            .procedente(DEFAULT_PROCEDENTE)
             .causa(DEFAULT_CAUSA)
             .prazoConclusao(DEFAULT_PRAZO_CONCLUSAO)
             .novoPrazoConclusao(DEFAULT_NOVO_PRAZO_CONCLUSAO)
@@ -160,6 +164,7 @@ public class NaoConformidadeResourceIT {
             .idUsuarioResponsavel(UPDATED_ID_USUARIO_RESPONSAVEL)
             .titulo(UPDATED_TITULO)
             .fato(UPDATED_FATO)
+            .procedente(UPDATED_PROCEDENTE)
             .causa(UPDATED_CAUSA)
             .prazoConclusao(UPDATED_PRAZO_CONCLUSAO)
             .novoPrazoConclusao(UPDATED_NOVO_PRAZO_CONCLUSAO)
@@ -204,6 +209,7 @@ public class NaoConformidadeResourceIT {
         assertThat(testNaoConformidade.getIdUsuarioResponsavel()).isEqualTo(DEFAULT_ID_USUARIO_RESPONSAVEL);
         assertThat(testNaoConformidade.getTitulo()).isEqualTo(DEFAULT_TITULO);
         assertThat(testNaoConformidade.getFato()).isEqualTo(DEFAULT_FATO);
+        assertThat(testNaoConformidade.isProcedente()).isEqualTo(DEFAULT_PROCEDENTE);
         assertThat(testNaoConformidade.getCausa()).isEqualTo(DEFAULT_CAUSA);
         assertThat(testNaoConformidade.getPrazoConclusao()).isEqualTo(DEFAULT_PRAZO_CONCLUSAO);
         assertThat(testNaoConformidade.getNovoPrazoConclusao()).isEqualTo(DEFAULT_NOVO_PRAZO_CONCLUSAO);
@@ -289,6 +295,24 @@ public class NaoConformidadeResourceIT {
 
     @Test
     @Transactional
+    public void checkProcedenteIsRequired() throws Exception {
+        int databaseSizeBeforeTest = naoConformidadeRepository.findAll().size();
+        // set the field null
+        naoConformidade.setProcedente(null);
+
+        // Create the NaoConformidade, which fails.
+
+        restNaoConformidadeMockMvc.perform(post("/api/nao-conformidades")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(naoConformidade)))
+            .andExpect(status().isBadRequest());
+
+        List<NaoConformidade> naoConformidadeList = naoConformidadeRepository.findAll();
+        assertThat(naoConformidadeList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     public void checkPrazoConclusaoIsRequired() throws Exception {
         int databaseSizeBeforeTest = naoConformidadeRepository.findAll().size();
         // set the field null
@@ -356,6 +380,7 @@ public class NaoConformidadeResourceIT {
             .andExpect(jsonPath("$.[*].idUsuarioResponsavel").value(hasItem(DEFAULT_ID_USUARIO_RESPONSAVEL)))
             .andExpect(jsonPath("$.[*].titulo").value(hasItem(DEFAULT_TITULO)))
             .andExpect(jsonPath("$.[*].fato").value(hasItem(DEFAULT_FATO.toString())))
+            .andExpect(jsonPath("$.[*].procedente").value(hasItem(DEFAULT_PROCEDENTE.booleanValue())))
             .andExpect(jsonPath("$.[*].causa").value(hasItem(DEFAULT_CAUSA.toString())))
             .andExpect(jsonPath("$.[*].prazoConclusao").value(hasItem(DEFAULT_PRAZO_CONCLUSAO.toString())))
             .andExpect(jsonPath("$.[*].novoPrazoConclusao").value(hasItem(DEFAULT_NOVO_PRAZO_CONCLUSAO.toString())))
@@ -380,6 +405,7 @@ public class NaoConformidadeResourceIT {
             .andExpect(jsonPath("$.idUsuarioResponsavel").value(DEFAULT_ID_USUARIO_RESPONSAVEL))
             .andExpect(jsonPath("$.titulo").value(DEFAULT_TITULO))
             .andExpect(jsonPath("$.fato").value(DEFAULT_FATO.toString()))
+            .andExpect(jsonPath("$.procedente").value(DEFAULT_PROCEDENTE.booleanValue()))
             .andExpect(jsonPath("$.causa").value(DEFAULT_CAUSA.toString()))
             .andExpect(jsonPath("$.prazoConclusao").value(DEFAULT_PRAZO_CONCLUSAO.toString()))
             .andExpect(jsonPath("$.novoPrazoConclusao").value(DEFAULT_NOVO_PRAZO_CONCLUSAO.toString()))
@@ -699,6 +725,58 @@ public class NaoConformidadeResourceIT {
 
     @Test
     @Transactional
+    public void getAllNaoConformidadesByProcedenteIsEqualToSomething() throws Exception {
+        // Initialize the database
+        naoConformidadeRepository.saveAndFlush(naoConformidade);
+
+        // Get all the naoConformidadeList where procedente equals to DEFAULT_PROCEDENTE
+        defaultNaoConformidadeShouldBeFound("procedente.equals=" + DEFAULT_PROCEDENTE);
+
+        // Get all the naoConformidadeList where procedente equals to UPDATED_PROCEDENTE
+        defaultNaoConformidadeShouldNotBeFound("procedente.equals=" + UPDATED_PROCEDENTE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllNaoConformidadesByProcedenteIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        naoConformidadeRepository.saveAndFlush(naoConformidade);
+
+        // Get all the naoConformidadeList where procedente not equals to DEFAULT_PROCEDENTE
+        defaultNaoConformidadeShouldNotBeFound("procedente.notEquals=" + DEFAULT_PROCEDENTE);
+
+        // Get all the naoConformidadeList where procedente not equals to UPDATED_PROCEDENTE
+        defaultNaoConformidadeShouldBeFound("procedente.notEquals=" + UPDATED_PROCEDENTE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllNaoConformidadesByProcedenteIsInShouldWork() throws Exception {
+        // Initialize the database
+        naoConformidadeRepository.saveAndFlush(naoConformidade);
+
+        // Get all the naoConformidadeList where procedente in DEFAULT_PROCEDENTE or UPDATED_PROCEDENTE
+        defaultNaoConformidadeShouldBeFound("procedente.in=" + DEFAULT_PROCEDENTE + "," + UPDATED_PROCEDENTE);
+
+        // Get all the naoConformidadeList where procedente equals to UPDATED_PROCEDENTE
+        defaultNaoConformidadeShouldNotBeFound("procedente.in=" + UPDATED_PROCEDENTE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllNaoConformidadesByProcedenteIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        naoConformidadeRepository.saveAndFlush(naoConformidade);
+
+        // Get all the naoConformidadeList where procedente is not null
+        defaultNaoConformidadeShouldBeFound("procedente.specified=true");
+
+        // Get all the naoConformidadeList where procedente is null
+        defaultNaoConformidadeShouldNotBeFound("procedente.specified=false");
+    }
+
+    @Test
+    @Transactional
     public void getAllNaoConformidadesByPrazoConclusaoIsEqualToSomething() throws Exception {
         // Initialize the database
         naoConformidadeRepository.saveAndFlush(naoConformidade);
@@ -1005,6 +1083,7 @@ public class NaoConformidadeResourceIT {
             .andExpect(jsonPath("$.[*].idUsuarioResponsavel").value(hasItem(DEFAULT_ID_USUARIO_RESPONSAVEL)))
             .andExpect(jsonPath("$.[*].titulo").value(hasItem(DEFAULT_TITULO)))
             .andExpect(jsonPath("$.[*].fato").value(hasItem(DEFAULT_FATO.toString())))
+            .andExpect(jsonPath("$.[*].procedente").value(hasItem(DEFAULT_PROCEDENTE.booleanValue())))
             .andExpect(jsonPath("$.[*].causa").value(hasItem(DEFAULT_CAUSA.toString())))
             .andExpect(jsonPath("$.[*].prazoConclusao").value(hasItem(DEFAULT_PRAZO_CONCLUSAO.toString())))
             .andExpect(jsonPath("$.[*].novoPrazoConclusao").value(hasItem(DEFAULT_NOVO_PRAZO_CONCLUSAO.toString())))
@@ -1063,6 +1142,7 @@ public class NaoConformidadeResourceIT {
             .idUsuarioResponsavel(UPDATED_ID_USUARIO_RESPONSAVEL)
             .titulo(UPDATED_TITULO)
             .fato(UPDATED_FATO)
+            .procedente(UPDATED_PROCEDENTE)
             .causa(UPDATED_CAUSA)
             .prazoConclusao(UPDATED_PRAZO_CONCLUSAO)
             .novoPrazoConclusao(UPDATED_NOVO_PRAZO_CONCLUSAO)
@@ -1084,6 +1164,7 @@ public class NaoConformidadeResourceIT {
         assertThat(testNaoConformidade.getIdUsuarioResponsavel()).isEqualTo(UPDATED_ID_USUARIO_RESPONSAVEL);
         assertThat(testNaoConformidade.getTitulo()).isEqualTo(UPDATED_TITULO);
         assertThat(testNaoConformidade.getFato()).isEqualTo(UPDATED_FATO);
+        assertThat(testNaoConformidade.isProcedente()).isEqualTo(UPDATED_PROCEDENTE);
         assertThat(testNaoConformidade.getCausa()).isEqualTo(UPDATED_CAUSA);
         assertThat(testNaoConformidade.getPrazoConclusao()).isEqualTo(UPDATED_PRAZO_CONCLUSAO);
         assertThat(testNaoConformidade.getNovoPrazoConclusao()).isEqualTo(UPDATED_NOVO_PRAZO_CONCLUSAO);

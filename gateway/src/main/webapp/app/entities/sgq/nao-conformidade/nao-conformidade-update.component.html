@@ -70,6 +70,17 @@
                     </div>
                 </div>
                 <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="gatewayApp.sgqNaoConformidade.procedente" for="field_procedente" [ngbTooltip]="'gatewayApp.sgqNaoConformidade.help.procedente' | translate">Procedente</label>
+                    <input type="checkbox" class="form-control" name="procedente" id="field_procedente"
+                           formControlName="procedente"/>
+                    <div *ngIf="editForm.get('procedente')!.invalid && (editForm.get('procedente')!.dirty || editForm.get('procedente')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('procedente')?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
                     <label class="form-control-label" jhiTranslate="gatewayApp.sgqNaoConformidade.causa" for="field_causa" [ngbTooltip]="'gatewayApp.sgqNaoConformidade.help.causa' | translate">Causa</label>
                     <textarea class="form-control" name="causa" id="field_causa"
                               formControlName="causa"></textarea>

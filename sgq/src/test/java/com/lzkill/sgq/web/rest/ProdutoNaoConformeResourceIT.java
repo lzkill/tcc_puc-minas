@@ -58,6 +58,9 @@ public class ProdutoNaoConformeResourceIT {
     private static final String DEFAULT_DESCRICAO = "AAAAAAAAAA";
     private static final String UPDATED_DESCRICAO = "BBBBBBBBBB";
 
+    private static final Boolean DEFAULT_PROCEDENTE = false;
+    private static final Boolean UPDATED_PROCEDENTE = true;
+
     private static final Instant DEFAULT_DATA_REGISTRO = Instant.ofEpochMilli(0L);
     private static final Instant UPDATED_DATA_REGISTRO = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
@@ -119,6 +122,7 @@ public class ProdutoNaoConformeResourceIT {
             .idUsuarioResponsavel(DEFAULT_ID_USUARIO_RESPONSAVEL)
             .titulo(DEFAULT_TITULO)
             .descricao(DEFAULT_DESCRICAO)
+            .procedente(DEFAULT_PROCEDENTE)
             .dataRegistro(DEFAULT_DATA_REGISTRO)
             .analiseFinal(DEFAULT_ANALISE_FINAL)
             .statusSGQ(DEFAULT_STATUS_SGQ);
@@ -156,6 +160,7 @@ public class ProdutoNaoConformeResourceIT {
             .idUsuarioResponsavel(UPDATED_ID_USUARIO_RESPONSAVEL)
             .titulo(UPDATED_TITULO)
             .descricao(UPDATED_DESCRICAO)
+            .procedente(UPDATED_PROCEDENTE)
             .dataRegistro(UPDATED_DATA_REGISTRO)
             .analiseFinal(UPDATED_ANALISE_FINAL)
             .statusSGQ(UPDATED_STATUS_SGQ);
@@ -206,6 +211,7 @@ public class ProdutoNaoConformeResourceIT {
         assertThat(testProdutoNaoConforme.getIdUsuarioResponsavel()).isEqualTo(DEFAULT_ID_USUARIO_RESPONSAVEL);
         assertThat(testProdutoNaoConforme.getTitulo()).isEqualTo(DEFAULT_TITULO);
         assertThat(testProdutoNaoConforme.getDescricao()).isEqualTo(DEFAULT_DESCRICAO);
+        assertThat(testProdutoNaoConforme.isProcedente()).isEqualTo(DEFAULT_PROCEDENTE);
         assertThat(testProdutoNaoConforme.getDataRegistro()).isEqualTo(DEFAULT_DATA_REGISTRO);
         assertThat(testProdutoNaoConforme.getAnaliseFinal()).isEqualTo(DEFAULT_ANALISE_FINAL);
         assertThat(testProdutoNaoConforme.getStatusSGQ()).isEqualTo(DEFAULT_STATUS_SGQ);
@@ -287,6 +293,24 @@ public class ProdutoNaoConformeResourceIT {
 
     @Test
     @Transactional
+    public void checkProcedenteIsRequired() throws Exception {
+        int databaseSizeBeforeTest = produtoNaoConformeRepository.findAll().size();
+        // set the field null
+        produtoNaoConforme.setProcedente(null);
+
+        // Create the ProdutoNaoConforme, which fails.
+
+        restProdutoNaoConformeMockMvc.perform(post("/api/produto-nao-conformes")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(produtoNaoConforme)))
+            .andExpect(status().isBadRequest());
+
+        List<ProdutoNaoConforme> produtoNaoConformeList = produtoNaoConformeRepository.findAll();
+        assertThat(produtoNaoConformeList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     public void checkDataRegistroIsRequired() throws Exception {
         int databaseSizeBeforeTest = produtoNaoConformeRepository.findAll().size();
         // set the field null
@@ -336,6 +360,7 @@ public class ProdutoNaoConformeResourceIT {
             .andExpect(jsonPath("$.[*].idUsuarioResponsavel").value(hasItem(DEFAULT_ID_USUARIO_RESPONSAVEL)))
             .andExpect(jsonPath("$.[*].titulo").value(hasItem(DEFAULT_TITULO)))
             .andExpect(jsonPath("$.[*].descricao").value(hasItem(DEFAULT_DESCRICAO.toString())))
+            .andExpect(jsonPath("$.[*].procedente").value(hasItem(DEFAULT_PROCEDENTE.booleanValue())))
             .andExpect(jsonPath("$.[*].dataRegistro").value(hasItem(DEFAULT_DATA_REGISTRO.toString())))
             .andExpect(jsonPath("$.[*].analiseFinal").value(hasItem(DEFAULT_ANALISE_FINAL.toString())))
             .andExpect(jsonPath("$.[*].statusSGQ").value(hasItem(DEFAULT_STATUS_SGQ.toString())));
@@ -356,6 +381,7 @@ public class ProdutoNaoConformeResourceIT {
             .andExpect(jsonPath("$.idUsuarioResponsavel").value(DEFAULT_ID_USUARIO_RESPONSAVEL))
             .andExpect(jsonPath("$.titulo").value(DEFAULT_TITULO))
             .andExpect(jsonPath("$.descricao").value(DEFAULT_DESCRICAO.toString()))
+            .andExpect(jsonPath("$.procedente").value(DEFAULT_PROCEDENTE.booleanValue()))
             .andExpect(jsonPath("$.dataRegistro").value(DEFAULT_DATA_REGISTRO.toString()))
             .andExpect(jsonPath("$.analiseFinal").value(DEFAULT_ANALISE_FINAL.toString()))
             .andExpect(jsonPath("$.statusSGQ").value(DEFAULT_STATUS_SGQ.toString()));
@@ -671,6 +697,58 @@ public class ProdutoNaoConformeResourceIT {
 
     @Test
     @Transactional
+    public void getAllProdutoNaoConformesByProcedenteIsEqualToSomething() throws Exception {
+        // Initialize the database
+        produtoNaoConformeRepository.saveAndFlush(produtoNaoConforme);
+
+        // Get all the produtoNaoConformeList where procedente equals to DEFAULT_PROCEDENTE
+        defaultProdutoNaoConformeShouldBeFound("procedente.equals=" + DEFAULT_PROCEDENTE);
+
+        // Get all the produtoNaoConformeList where procedente equals to UPDATED_PROCEDENTE
+        defaultProdutoNaoConformeShouldNotBeFound("procedente.equals=" + UPDATED_PROCEDENTE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllProdutoNaoConformesByProcedenteIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        produtoNaoConformeRepository.saveAndFlush(produtoNaoConforme);
+
+        // Get all the produtoNaoConformeList where procedente not equals to DEFAULT_PROCEDENTE
+        defaultProdutoNaoConformeShouldNotBeFound("procedente.notEquals=" + DEFAULT_PROCEDENTE);
+
+        // Get all the produtoNaoConformeList where procedente not equals to UPDATED_PROCEDENTE
+        defaultProdutoNaoConformeShouldBeFound("procedente.notEquals=" + UPDATED_PROCEDENTE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllProdutoNaoConformesByProcedenteIsInShouldWork() throws Exception {
+        // Initialize the database
+        produtoNaoConformeRepository.saveAndFlush(produtoNaoConforme);
+
+        // Get all the produtoNaoConformeList where procedente in DEFAULT_PROCEDENTE or UPDATED_PROCEDENTE
+        defaultProdutoNaoConformeShouldBeFound("procedente.in=" + DEFAULT_PROCEDENTE + "," + UPDATED_PROCEDENTE);
+
+        // Get all the produtoNaoConformeList where procedente equals to UPDATED_PROCEDENTE
+        defaultProdutoNaoConformeShouldNotBeFound("procedente.in=" + UPDATED_PROCEDENTE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllProdutoNaoConformesByProcedenteIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        produtoNaoConformeRepository.saveAndFlush(produtoNaoConforme);
+
+        // Get all the produtoNaoConformeList where procedente is not null
+        defaultProdutoNaoConformeShouldBeFound("procedente.specified=true");
+
+        // Get all the produtoNaoConformeList where procedente is null
+        defaultProdutoNaoConformeShouldNotBeFound("procedente.specified=false");
+    }
+
+    @Test
+    @Transactional
     public void getAllProdutoNaoConformesByDataRegistroIsEqualToSomething() throws Exception {
         // Initialize the database
         produtoNaoConformeRepository.saveAndFlush(produtoNaoConforme);
@@ -856,6 +934,7 @@ public class ProdutoNaoConformeResourceIT {
             .andExpect(jsonPath("$.[*].idUsuarioResponsavel").value(hasItem(DEFAULT_ID_USUARIO_RESPONSAVEL)))
             .andExpect(jsonPath("$.[*].titulo").value(hasItem(DEFAULT_TITULO)))
             .andExpect(jsonPath("$.[*].descricao").value(hasItem(DEFAULT_DESCRICAO.toString())))
+            .andExpect(jsonPath("$.[*].procedente").value(hasItem(DEFAULT_PROCEDENTE.booleanValue())))
             .andExpect(jsonPath("$.[*].dataRegistro").value(hasItem(DEFAULT_DATA_REGISTRO.toString())))
             .andExpect(jsonPath("$.[*].analiseFinal").value(hasItem(DEFAULT_ANALISE_FINAL.toString())))
             .andExpect(jsonPath("$.[*].statusSGQ").value(hasItem(DEFAULT_STATUS_SGQ.toString())));
@@ -910,6 +989,7 @@ public class ProdutoNaoConformeResourceIT {
             .idUsuarioResponsavel(UPDATED_ID_USUARIO_RESPONSAVEL)
             .titulo(UPDATED_TITULO)
             .descricao(UPDATED_DESCRICAO)
+            .procedente(UPDATED_PROCEDENTE)
             .dataRegistro(UPDATED_DATA_REGISTRO)
             .analiseFinal(UPDATED_ANALISE_FINAL)
             .statusSGQ(UPDATED_STATUS_SGQ);
@@ -927,6 +1007,7 @@ public class ProdutoNaoConformeResourceIT {
         assertThat(testProdutoNaoConforme.getIdUsuarioResponsavel()).isEqualTo(UPDATED_ID_USUARIO_RESPONSAVEL);
         assertThat(testProdutoNaoConforme.getTitulo()).isEqualTo(UPDATED_TITULO);
         assertThat(testProdutoNaoConforme.getDescricao()).isEqualTo(UPDATED_DESCRICAO);
+        assertThat(testProdutoNaoConforme.isProcedente()).isEqualTo(UPDATED_PROCEDENTE);
         assertThat(testProdutoNaoConforme.getDataRegistro()).isEqualTo(UPDATED_DATA_REGISTRO);
         assertThat(testProdutoNaoConforme.getAnaliseFinal()).isEqualTo(UPDATED_ANALISE_FINAL);
         assertThat(testProdutoNaoConforme.getStatusSGQ()).isEqualTo(UPDATED_STATUS_SGQ);

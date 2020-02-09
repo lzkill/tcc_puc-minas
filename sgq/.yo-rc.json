@@ -31,8 +31,8 @@
     "creationTimestamp": 1581177827651,
     "entitySuffix": "",
     "dtoSuffix": "DTO",
-    "otherModules": [],
-    "blueprints": []
+    "blueprints": [],
+    "otherModules": []
   },
   "entities": [
     "Empresa",

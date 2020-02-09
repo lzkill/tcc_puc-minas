@@ -31,6 +31,10 @@ public class Produto implements Serializable {
     @Column(name = "descricao")
     private String descricao;
 
+    @OneToOne
+    @JoinColumn(unique = true)
+    private Anexo anexo;
+
     @ManyToOne(optional = false)
     @NotNull
     @JsonIgnoreProperties("produtos")
@@ -69,6 +73,19 @@ public class Produto implements Serializable {
 
     public void setDescricao(String descricao) {
         this.descricao = descricao;
+    }
+
+    public Anexo getAnexo() {
+        return anexo;
+    }
+
+    public Produto anexo(Anexo anexo) {
+        this.anexo = anexo;
+        return this;
+    }
+
+    public void setAnexo(Anexo anexo) {
+        this.anexo = anexo;
     }
 
     public Empresa getEmpresa() {

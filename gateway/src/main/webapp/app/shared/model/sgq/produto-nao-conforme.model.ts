@@ -11,6 +11,7 @@ export interface IProdutoNaoConforme {
   idUsuarioResponsavel?: number;
   titulo?: string;
   descricao?: any;
+  procedente?: boolean;
   dataRegistro?: Moment;
   analiseFinal?: any;
   statusSGQ?: StatusSGQ;
@@ -27,6 +28,7 @@ export class ProdutoNaoConforme implements IProdutoNaoConforme {
     public idUsuarioResponsavel?: number,
     public titulo?: string,
     public descricao?: any,
+    public procedente?: boolean,
     public dataRegistro?: Moment,
     public analiseFinal?: any,
     public statusSGQ?: StatusSGQ,
@@ -34,5 +36,7 @@ export class ProdutoNaoConforme implements IProdutoNaoConforme {
     public naoConformidade?: INaoConformidade,
     public anexo?: IAnexo,
     public produto?: IProduto
-  ) {}
+  ) {
+    this.procedente = this.procedente || false;
+  }
 }

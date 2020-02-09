@@ -30,6 +30,7 @@ export class NaoConformidadeUpdateComponent implements OnInit {
     idUsuarioResponsavel: [null, [Validators.required]],
     titulo: [null, [Validators.required, Validators.minLength(1), Validators.maxLength(100)]],
     fato: [null, [Validators.required]],
+    procedente: [null, [Validators.required]],
     causa: [],
     prazoConclusao: [null, [Validators.required]],
     novoPrazoConclusao: [],
@@ -86,6 +87,7 @@ export class NaoConformidadeUpdateComponent implements OnInit {
       idUsuarioResponsavel: naoConformidade.idUsuarioResponsavel,
       titulo: naoConformidade.titulo,
       fato: naoConformidade.fato,
+      procedente: naoConformidade.procedente,
       causa: naoConformidade.causa,
       prazoConclusao: naoConformidade.prazoConclusao != null ? naoConformidade.prazoConclusao.format(DATE_TIME_FORMAT) : null,
       novoPrazoConclusao: naoConformidade.novoPrazoConclusao != null ? naoConformidade.novoPrazoConclusao.format(DATE_TIME_FORMAT) : null,
@@ -135,6 +137,7 @@ export class NaoConformidadeUpdateComponent implements OnInit {
       idUsuarioResponsavel: this.editForm.get(['idUsuarioResponsavel'])!.value,
       titulo: this.editForm.get(['titulo'])!.value,
       fato: this.editForm.get(['fato'])!.value,
+      procedente: this.editForm.get(['procedente'])!.value,
       causa: this.editForm.get(['causa'])!.value,
       prazoConclusao:
         this.editForm.get(['prazoConclusao'])!.value != null

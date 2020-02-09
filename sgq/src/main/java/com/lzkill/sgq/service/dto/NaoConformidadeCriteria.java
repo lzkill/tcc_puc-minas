@@ -52,6 +52,8 @@ public class NaoConformidadeCriteria implements Serializable, Criteria {
 
     private StringFilter titulo;
 
+    private BooleanFilter procedente;
+
     private InstantFilter prazoConclusao;
 
     private InstantFilter novoPrazoConclusao;
@@ -74,6 +76,7 @@ public class NaoConformidadeCriteria implements Serializable, Criteria {
         this.idUsuarioRegistro = other.idUsuarioRegistro == null ? null : other.idUsuarioRegistro.copy();
         this.idUsuarioResponsavel = other.idUsuarioResponsavel == null ? null : other.idUsuarioResponsavel.copy();
         this.titulo = other.titulo == null ? null : other.titulo.copy();
+        this.procedente = other.procedente == null ? null : other.procedente.copy();
         this.prazoConclusao = other.prazoConclusao == null ? null : other.prazoConclusao.copy();
         this.novoPrazoConclusao = other.novoPrazoConclusao == null ? null : other.novoPrazoConclusao.copy();
         this.dataRegistro = other.dataRegistro == null ? null : other.dataRegistro.copy();
@@ -118,6 +121,14 @@ public class NaoConformidadeCriteria implements Serializable, Criteria {
 
     public void setTitulo(StringFilter titulo) {
         this.titulo = titulo;
+    }
+
+    public BooleanFilter getProcedente() {
+        return procedente;
+    }
+
+    public void setProcedente(BooleanFilter procedente) {
+        this.procedente = procedente;
     }
 
     public InstantFilter getPrazoConclusao() {
@@ -191,6 +202,7 @@ public class NaoConformidadeCriteria implements Serializable, Criteria {
             Objects.equals(idUsuarioRegistro, that.idUsuarioRegistro) &&
             Objects.equals(idUsuarioResponsavel, that.idUsuarioResponsavel) &&
             Objects.equals(titulo, that.titulo) &&
+            Objects.equals(procedente, that.procedente) &&
             Objects.equals(prazoConclusao, that.prazoConclusao) &&
             Objects.equals(novoPrazoConclusao, that.novoPrazoConclusao) &&
             Objects.equals(dataRegistro, that.dataRegistro) &&
@@ -207,6 +219,7 @@ public class NaoConformidadeCriteria implements Serializable, Criteria {
         idUsuarioRegistro,
         idUsuarioResponsavel,
         titulo,
+        procedente,
         prazoConclusao,
         novoPrazoConclusao,
         dataRegistro,
@@ -224,6 +237,7 @@ public class NaoConformidadeCriteria implements Serializable, Criteria {
                 (idUsuarioRegistro != null ? "idUsuarioRegistro=" + idUsuarioRegistro + ", " : "") +
                 (idUsuarioResponsavel != null ? "idUsuarioResponsavel=" + idUsuarioResponsavel + ", " : "") +
                 (titulo != null ? "titulo=" + titulo + ", " : "") +
+                (procedente != null ? "procedente=" + procedente + ", " : "") +
                 (prazoConclusao != null ? "prazoConclusao=" + prazoConclusao + ", " : "") +
                 (novoPrazoConclusao != null ? "novoPrazoConclusao=" + novoPrazoConclusao + ", " : "") +
                 (dataRegistro != null ? "dataRegistro=" + dataRegistro + ", " : "") +

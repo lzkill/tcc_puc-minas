@@ -28,6 +28,9 @@
             <column name="fato" type="${clobType}">
                 <constraints nullable="false" />
             </column>
+            <column name="procedente" type="boolean" remarks="O fato descrito implica de fato uma NC">
+                <constraints nullable="false" />
+            </column>
             <column name="causa" type="${clobType}" remarks="O fechamento da NC só é possível se houver identificação de causa">
                 <constraints nullable="true" />
             </column>
@@ -83,6 +86,7 @@
             <column name="id_usuario_responsavel" type="numeric"/>
             <column name="titulo" type="string"/>
             <column name="fato" type="clob"/>
+            <column name="procedente" type="boolean"/>
             <column name="causa" type="clob"/>
             <column name="prazo_conclusao" type="datetime"/>
             <column name="novo_prazo_conclusao" type="datetime"/>

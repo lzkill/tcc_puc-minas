@@ -17,6 +17,7 @@
       "idUsuarioResponsavel": "Id Usuario Responsavel",
       "titulo": "Titulo",
       "fato": "Fato",
+      "procedente": "Procedente",
       "causa": "Causa",
       "prazoConclusao": "Prazo Conclusao",
       "novoPrazoConclusao": "Novo Prazo Conclusao",
@@ -27,6 +28,7 @@
       "anexo": "Anexo",
       "acao": "Acao",
       "help": {
+        "procedente": "O fato descrito implica de fato uma NC",
         "causa": "O fechamento da NC só é possível se houver identificação de causa",
         "analiseFinal": "Análise de eficácia"
       }

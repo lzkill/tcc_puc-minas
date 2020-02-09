@@ -35,6 +35,14 @@
             ]
         },
         {
+            "fieldName": "procedente",
+            "javadoc": "O fato descrito implica de fato uma NC",
+            "fieldType": "Boolean",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
             "fieldName": "causa",
             "javadoc": "O fechamento da NC só é possível se houver identificação de causa",
             "fieldType": "byte[]",

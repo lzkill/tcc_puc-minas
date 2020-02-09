@@ -46,6 +46,14 @@ public class ProdutoNaoConforme implements Serializable {
     @Column(name = "descricao", nullable = false)
     private String descricao;
 
+    /**
+     * O fato descrito configura de fato um PNC
+     */
+    @NotNull
+    @ApiModelProperty(value = "O fato descrito configura de fato um PNC", required = true)
+    @Column(name = "procedente", nullable = false)
+    private Boolean procedente;
+
     @NotNull
     @Column(name = "data_registro", nullable = false)
     private Instant dataRegistro;
@@ -148,6 +156,19 @@ public class ProdutoNaoConforme implements Serializable {
 
     public void setDescricao(String descricao) {
         this.descricao = descricao;
+    }
+
+    public Boolean isProcedente() {
+        return procedente;
+    }
+
+    public ProdutoNaoConforme procedente(Boolean procedente) {
+        this.procedente = procedente;
+        return this;
+    }
+
+    public void setProcedente(Boolean procedente) {
+        this.procedente = procedente;
     }
 
     public Instant getDataRegistro() {
@@ -266,6 +287,7 @@ public class ProdutoNaoConforme implements Serializable {
             ", idUsuarioResponsavel=" + getIdUsuarioResponsavel() +
             ", titulo='" + getTitulo() + "'" +
             ", descricao='" + getDescricao() + "'" +
+            ", procedente='" + isProcedente() + "'" +
             ", dataRegistro='" + getDataRegistro() + "'" +
             ", analiseFinal='" + getAnaliseFinal() + "'" +
             ", statusSGQ='" + getStatusSGQ() + "'" +

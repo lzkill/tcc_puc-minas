@@ -9,6 +9,7 @@ export interface INaoConformidade {
   idUsuarioResponsavel?: number;
   titulo?: string;
   fato?: any;
+  procedente?: boolean;
   causa?: any;
   prazoConclusao?: Moment;
   novoPrazoConclusao?: Moment;
@@ -27,6 +28,7 @@ export class NaoConformidade implements INaoConformidade {
     public idUsuarioResponsavel?: number,
     public titulo?: string,
     public fato?: any,
+    public procedente?: boolean,
     public causa?: any,
     public prazoConclusao?: Moment,
     public novoPrazoConclusao?: Moment,
@@ -36,5 +38,7 @@ export class NaoConformidade implements INaoConformidade {
     public statusSGQ?: StatusSGQ,
     public anexo?: IAnexo,
     public acaos?: IAcaoSGQ[]
-  ) {}
+  ) {
+    this.procedente = this.procedente || false;
+  }
 }

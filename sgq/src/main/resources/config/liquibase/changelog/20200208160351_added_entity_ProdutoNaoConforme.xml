@@ -28,6 +28,9 @@
             <column name="descricao" type="${clobType}">
                 <constraints nullable="false" />
             </column>
+            <column name="procedente" type="boolean" remarks="O fato descrito configura de fato um PNC">
+                <constraints nullable="false" />
+            </column>
             <column name="data_registro" type="datetime">
                 <constraints nullable="false" />
             </column>
@@ -77,6 +80,7 @@
             <column name="id_usuario_responsavel" type="numeric"/>
             <column name="titulo" type="string"/>
             <column name="descricao" type="clob"/>
+            <column name="procedente" type="boolean"/>
             <column name="data_registro" type="datetime"/>
             <column name="analise_final" type="clob"/>
             <column name="status_sgq" type="string"/>

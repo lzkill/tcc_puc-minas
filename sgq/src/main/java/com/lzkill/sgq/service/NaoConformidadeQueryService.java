@@ -94,6 +94,9 @@ public class NaoConformidadeQueryService extends QueryService<NaoConformidade> {
             if (criteria.getTitulo() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getTitulo(), NaoConformidade_.titulo));
             }
+            if (criteria.getProcedente() != null) {
+                specification = specification.and(buildSpecification(criteria.getProcedente(), NaoConformidade_.procedente));
+            }
             if (criteria.getPrazoConclusao() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getPrazoConclusao(), NaoConformidade_.prazoConclusao));
             }

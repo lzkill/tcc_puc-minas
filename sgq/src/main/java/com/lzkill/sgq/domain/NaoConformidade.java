@@ -48,6 +48,14 @@ public class NaoConformidade implements Serializable {
     private String fato;
 
     /**
+     * O fato descrito implica de fato uma NC
+     */
+    @NotNull
+    @ApiModelProperty(value = "O fato descrito implica de fato uma NC", required = true)
+    @Column(name = "procedente", nullable = false)
+    private Boolean procedente;
+
+    /**
      * O fechamento da NC só é possível se houver identificação de causa
      */
     @ApiModelProperty(value = "O fechamento da NC só é possível se houver identificação de causa")
@@ -149,6 +157,19 @@ public class NaoConformidade implements Serializable {
 
     public void setFato(String fato) {
         this.fato = fato;
+    }
+
+    public Boolean isProcedente() {
+        return procedente;
+    }
+
+    public NaoConformidade procedente(Boolean procedente) {
+        this.procedente = procedente;
+        return this;
+    }
+
+    public void setProcedente(Boolean procedente) {
+        this.procedente = procedente;
     }
 
     public String getCausa() {
@@ -305,6 +326,7 @@ public class NaoConformidade implements Serializable {
             ", idUsuarioResponsavel=" + getIdUsuarioResponsavel() +
             ", titulo='" + getTitulo() + "'" +
             ", fato='" + getFato() + "'" +
+            ", procedente='" + isProcedente() + "'" +
             ", causa='" + getCausa() + "'" +
             ", prazoConclusao='" + getPrazoConclusao() + "'" +
             ", novoPrazoConclusao='" + getNovoPrazoConclusao() + "'" +

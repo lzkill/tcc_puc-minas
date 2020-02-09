@@ -52,6 +52,8 @@ public class ProdutoNaoConformeCriteria implements Serializable, Criteria {
 
     private StringFilter titulo;
 
+    private BooleanFilter procedente;
+
     private InstantFilter dataRegistro;
 
     private StatusSGQFilter statusSGQ;
@@ -72,6 +74,7 @@ public class ProdutoNaoConformeCriteria implements Serializable, Criteria {
         this.idUsuarioRegistro = other.idUsuarioRegistro == null ? null : other.idUsuarioRegistro.copy();
         this.idUsuarioResponsavel = other.idUsuarioResponsavel == null ? null : other.idUsuarioResponsavel.copy();
         this.titulo = other.titulo == null ? null : other.titulo.copy();
+        this.procedente = other.procedente == null ? null : other.procedente.copy();
         this.dataRegistro = other.dataRegistro == null ? null : other.dataRegistro.copy();
         this.statusSGQ = other.statusSGQ == null ? null : other.statusSGQ.copy();
         this.acaoId = other.acaoId == null ? null : other.acaoId.copy();
@@ -115,6 +118,14 @@ public class ProdutoNaoConformeCriteria implements Serializable, Criteria {
 
     public void setTitulo(StringFilter titulo) {
         this.titulo = titulo;
+    }
+
+    public BooleanFilter getProcedente() {
+        return procedente;
+    }
+
+    public void setProcedente(BooleanFilter procedente) {
+        this.procedente = procedente;
     }
 
     public InstantFilter getDataRegistro() {
@@ -180,6 +191,7 @@ public class ProdutoNaoConformeCriteria implements Serializable, Criteria {
             Objects.equals(idUsuarioRegistro, that.idUsuarioRegistro) &&
             Objects.equals(idUsuarioResponsavel, that.idUsuarioResponsavel) &&
             Objects.equals(titulo, that.titulo) &&
+            Objects.equals(procedente, that.procedente) &&
             Objects.equals(dataRegistro, that.dataRegistro) &&
             Objects.equals(statusSGQ, that.statusSGQ) &&
             Objects.equals(acaoId, that.acaoId) &&
@@ -195,6 +207,7 @@ public class ProdutoNaoConformeCriteria implements Serializable, Criteria {
         idUsuarioRegistro,
         idUsuarioResponsavel,
         titulo,
+        procedente,
         dataRegistro,
         statusSGQ,
         acaoId,
@@ -211,6 +224,7 @@ public class ProdutoNaoConformeCriteria implements Serializable, Criteria {
                 (idUsuarioRegistro != null ? "idUsuarioRegistro=" + idUsuarioRegistro + ", " : "") +
                 (idUsuarioResponsavel != null ? "idUsuarioResponsavel=" + idUsuarioResponsavel + ", " : "") +
                 (titulo != null ? "titulo=" + titulo + ", " : "") +
+                (procedente != null ? "procedente=" + procedente + ", " : "") +
                 (dataRegistro != null ? "dataRegistro=" + dataRegistro + ", " : "") +
                 (statusSGQ != null ? "statusSGQ=" + statusSGQ + ", " : "") +
                 (acaoId != null ? "acaoId=" + acaoId + ", " : "") +
