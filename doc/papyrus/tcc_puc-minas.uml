@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Model xmi:version="20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML" xmi:id="_H68t4EriEeq2BJ7SZTbqhA" name="tcc_puc-minas">
+  <packageImport xmi:type="uml:PackageImport" xmi:id="_IIAScEriEeq2BJ7SZTbqhA">
+    <importedPackage xmi:type="uml:Model" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#_0"/>
+  </packageImport>
+  <packagedElement xmi:type="uml:Package" xmi:id="_ndix8EriEeq2BJ7SZTbqhA" name="Cadastros básicos">
+    <packagedElement xmi:type="uml:UseCase" xmi:id="_vAmTsEriEeq2BJ7SZTbqhA" name="Faz login"/>
+    <packagedElement xmi:type="uml:UseCase" xmi:id="_0mXpYEriEeq2BJ7SZTbqhA" name="Mantém empresa">
+      <include xmi:type="uml:Include" xmi:id="_a-TQwErnEeqBIsgVbhEyLQ" addition="_vAmTsEriEeq2BJ7SZTbqhA"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:UseCase" xmi:id="__fu_oEriEeq2BJ7SZTbqhA" name="Mantém setor">
+      <include xmi:type="uml:Include" xmi:id="_dA-6MErnEeqBIsgVbhEyLQ" addition="_vAmTsEriEeq2BJ7SZTbqhA"/>
+      <include xmi:type="uml:Include" xmi:id="_jm9IoErnEeqBIsgVbhEyLQ" addition="_znAhUErmEeqBIsgVbhEyLQ"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:UseCase" xmi:id="_Eo7uEErjEeq2BJ7SZTbqhA" name="Mantém processo">
+      <include xmi:type="uml:Include" xmi:id="_e4LsYErnEeqBIsgVbhEyLQ" addition="_vAmTsEriEeq2BJ7SZTbqhA"/>
+      <include xmi:type="uml:Include" xmi:id="_lJhHkErnEeqBIsgVbhEyLQ" addition="_znAhUErmEeqBIsgVbhEyLQ"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:UseCase" xmi:id="_GDckQErjEeq2BJ7SZTbqhA" name="Mantém produto">
+      <include xmi:type="uml:Include" xmi:id="_hOFMwErnEeqBIsgVbhEyLQ" addition="_vAmTsEriEeq2BJ7SZTbqhA"/>
+      <include xmi:type="uml:Include" xmi:id="_mSvZcErnEeqBIsgVbhEyLQ" addition="_znAhUErmEeqBIsgVbhEyLQ"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:UseCase" xmi:id="_znAhUErmEeqBIsgVbhEyLQ" name="Consulta empresas"/>
+    <packagedElement xmi:type="uml:UseCase" xmi:id="_3-UYcErpEeqBIsgVbhEyLQ" name="Outros casos disponibilizados pelo JHipster"/>
+    <packagedElement xmi:type="uml:Actor" xmi:id="_WjbkwErjEeq2BJ7SZTbqhA" name="Usuário"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Actor" xmi:id="_siyNcEriEeq2BJ7SZTbqhA" name="Administrador">
+    <generalization xmi:type="uml:Generalization" xmi:id="_VsFzcErrEeqBIsgVbhEyLQ" general="_WjbkwErjEeq2BJ7SZTbqhA"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_RBtooErjEeq2BJ7SZTbqhA" memberEnd="_RBzvQErjEeq2BJ7SZTbqhA _RB2LgErjEeq2BJ7SZTbqhA">
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_RByhIErjEeq2BJ7SZTbqhA" source="org.eclipse.papyrus">
+      <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_RByhIUrjEeq2BJ7SZTbqhA" key="nature" value="UML_Nature"/>
+    </eAnnotations>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_RBzvQErjEeq2BJ7SZTbqhA" name="mantém empresa" type="_0mXpYEriEeq2BJ7SZTbqhA" association="_RBtooErjEeq2BJ7SZTbqhA"/>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_RB2LgErjEeq2BJ7SZTbqhA" name="administrador" type="_siyNcEriEeq2BJ7SZTbqhA" association="_RBtooErjEeq2BJ7SZTbqhA"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_TWThcErjEeq2BJ7SZTbqhA" memberEnd="_TWUIgkrjEeq2BJ7SZTbqhA _TWUIg0rjEeq2BJ7SZTbqhA">
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_TWUIgErjEeq2BJ7SZTbqhA" source="org.eclipse.papyrus">
+      <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_TWUIgUrjEeq2BJ7SZTbqhA" key="nature" value="UML_Nature"/>
+    </eAnnotations>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_TWUIgkrjEeq2BJ7SZTbqhA" name="mantém setor" type="__fu_oEriEeq2BJ7SZTbqhA" association="_TWThcErjEeq2BJ7SZTbqhA"/>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_TWUIg0rjEeq2BJ7SZTbqhA" name="administrador" type="_siyNcEriEeq2BJ7SZTbqhA" association="_TWThcErjEeq2BJ7SZTbqhA"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_khRYoErjEeq2BJ7SZTbqhA" memberEnd="_khTN0krjEeq2BJ7SZTbqhA _khTN00rjEeq2BJ7SZTbqhA">
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_khTN0ErjEeq2BJ7SZTbqhA" source="org.eclipse.papyrus">
+      <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_khTN0UrjEeq2BJ7SZTbqhA" key="nature" value="UML_Nature"/>
+    </eAnnotations>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_khTN0krjEeq2BJ7SZTbqhA" name="mantém processo" type="_Eo7uEErjEeq2BJ7SZTbqhA" association="_khRYoErjEeq2BJ7SZTbqhA"/>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_khTN00rjEeq2BJ7SZTbqhA" name="administrador" type="_siyNcEriEeq2BJ7SZTbqhA" association="_khRYoErjEeq2BJ7SZTbqhA"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_CZD10ErmEeqBIsgVbhEyLQ" memberEnd="_CZIuUErmEeqBIsgVbhEyLQ _CZJVYErmEeqBIsgVbhEyLQ">
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_CZHgMErmEeqBIsgVbhEyLQ" source="org.eclipse.papyrus">
+      <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_CZIHQErmEeqBIsgVbhEyLQ" key="nature" value="UML_Nature"/>
+    </eAnnotations>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_CZIuUErmEeqBIsgVbhEyLQ" name="mantém produto" type="_GDckQErjEeq2BJ7SZTbqhA" association="_CZD10ErmEeqBIsgVbhEyLQ"/>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_CZJVYErmEeqBIsgVbhEyLQ" name="administrador" type="_siyNcEriEeq2BJ7SZTbqhA" association="_CZD10ErmEeqBIsgVbhEyLQ"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Package" xmi:id="_sVRZEErmEeqBIsgVbhEyLQ" name="Incidentes e problemas">
+    <packagedElement xmi:type="uml:UseCase" xmi:id="_opyT4EroEeqBIsgVbhEyLQ" name="Faz login"/>
+    <packagedElement xmi:type="uml:UseCase" xmi:id="_uo26YEroEeqBIsgVbhEyLQ" name="Registra não conformidade">
+      <include xmi:type="uml:Include" xmi:id="_8g59YErqEeqBIsgVbhEyLQ" addition="_opyT4EroEeqBIsgVbhEyLQ"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:UseCase" xmi:id="_xFQEUEroEeqBIsgVbhEyLQ" name="Mantém não conformidade">
+      <include xmi:type="uml:Include" xmi:id="_z5ZVAErqEeqBIsgVbhEyLQ" addition="_nC9DgErpEeqBIsgVbhEyLQ"/>
+      <include xmi:type="uml:Include" xmi:id="_95oD0ErqEeqBIsgVbhEyLQ" addition="_opyT4EroEeqBIsgVbhEyLQ"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:UseCase" xmi:id="_nC9DgErpEeqBIsgVbhEyLQ" name="Mantém plano de ação">
+      <include xmi:type="uml:Include" xmi:id="_-_oCkErqEeqBIsgVbhEyLQ" addition="_opyT4EroEeqBIsgVbhEyLQ"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:UseCase" xmi:id="_UdVWwErqEeqBIsgVbhEyLQ" name="Finaliza item do plano de ação">
+      <include xmi:type="uml:Include" xmi:id="_9UogYErqEeqBIsgVbhEyLQ" addition="_opyT4EroEeqBIsgVbhEyLQ"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Actor" xmi:id="_sGy4MErmEeqBIsgVbhEyLQ" name="Usuário"/>
+    <packagedElement xmi:type="uml:Actor" xmi:id="_RW1KwEroEeqBIsgVbhEyLQ" name="Gestor SGQ">
+      <generalization xmi:type="uml:Generalization" xmi:id="_Z6nXcErtEeqBIsgVbhEyLQ" general="_sGy4MErmEeqBIsgVbhEyLQ"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:UseCase" xmi:id="_UJ6kIErtEeqBIsgVbhEyLQ" name="Registra produto não conforme"/>
+    <packagedElement xmi:type="uml:UseCase" xmi:id="_fHbakErtEeqBIsgVbhEyLQ" name="Mantém produto não conforme"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_ilMpUErqEeqBIsgVbhEyLQ" memberEnd="_ilNQYkrqEeqBIsgVbhEyLQ _ilN3cErqEeqBIsgVbhEyLQ">
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_ilNQYErqEeqBIsgVbhEyLQ" source="org.eclipse.papyrus">
+      <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_ilNQYUrqEeqBIsgVbhEyLQ" key="nature" value="UML_Nature"/>
+    </eAnnotations>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_ilNQYkrqEeqBIsgVbhEyLQ" name="registra não conformidade" type="_uo26YEroEeqBIsgVbhEyLQ" association="_ilMpUErqEeqBIsgVbhEyLQ"/>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_ilN3cErqEeqBIsgVbhEyLQ" name="usuário" type="_sGy4MErmEeqBIsgVbhEyLQ" association="_ilMpUErqEeqBIsgVbhEyLQ"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_qIPkAErqEeqBIsgVbhEyLQ" memberEnd="_qIQyIUrqEeqBIsgVbhEyLQ _qIQyIkrqEeqBIsgVbhEyLQ">
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_qIQLEErqEeqBIsgVbhEyLQ" source="org.eclipse.papyrus">
+      <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_qIQyIErqEeqBIsgVbhEyLQ" key="nature" value="UML_Nature"/>
+    </eAnnotations>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_qIQyIUrqEeqBIsgVbhEyLQ" name="mantém não conformidade" type="_xFQEUEroEeqBIsgVbhEyLQ" association="_qIPkAErqEeqBIsgVbhEyLQ"/>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_qIQyIkrqEeqBIsgVbhEyLQ" name="gestor sgq" type="_RW1KwEroEeqBIsgVbhEyLQ" association="_qIPkAErqEeqBIsgVbhEyLQ"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_4Qf4IErqEeqBIsgVbhEyLQ" memberEnd="_4Qf4I0rqEeqBIsgVbhEyLQ _4QgfMErqEeqBIsgVbhEyLQ">
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_4Qf4IUrqEeqBIsgVbhEyLQ" source="org.eclipse.papyrus">
+      <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_4Qf4IkrqEeqBIsgVbhEyLQ" key="nature" value="UML_Nature"/>
+    </eAnnotations>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_4Qf4I0rqEeqBIsgVbhEyLQ" name="finaliza ação do sgq" type="_UdVWwErqEeqBIsgVbhEyLQ" association="_4Qf4IErqEeqBIsgVbhEyLQ"/>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_4QgfMErqEeqBIsgVbhEyLQ" name="usuário" type="_sGy4MErmEeqBIsgVbhEyLQ" association="_4Qf4IErqEeqBIsgVbhEyLQ"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_eC0i8ErtEeqBIsgVbhEyLQ" memberEnd="_eC1KAkrtEeqBIsgVbhEyLQ _eC1KA0rtEeqBIsgVbhEyLQ">
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_eC1KAErtEeqBIsgVbhEyLQ" source="org.eclipse.papyrus">
+      <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_eC1KAUrtEeqBIsgVbhEyLQ" key="nature" value="UML_Nature"/>
+    </eAnnotations>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_eC1KAkrtEeqBIsgVbhEyLQ" name="registra produto não conforme" type="_UJ6kIErtEeqBIsgVbhEyLQ" association="_eC0i8ErtEeqBIsgVbhEyLQ"/>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_eC1KA0rtEeqBIsgVbhEyLQ" name="usuário" type="_sGy4MErmEeqBIsgVbhEyLQ" association="_eC0i8ErtEeqBIsgVbhEyLQ"/>
+  </packagedElement>
+</uml:Model>

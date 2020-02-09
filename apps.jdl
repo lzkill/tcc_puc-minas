@@ -114,6 +114,8 @@ entity NaoConformidade {
   idUsuarioResponsavel Integer required
   titulo String required minlength(1) maxlength(100)
   fato TextBlob required
+  /** O fato descrito implica de fato uma NC */
+  procedente Boolean required
   /** O fechamento da NC só é possível se houver identificação de causa */
   causa TextBlob
   prazoConclusao Instant required
@@ -133,6 +135,8 @@ entity ProdutoNaoConforme {
   idUsuarioResponsavel Integer required
   titulo String required minlength(1) maxlength(100)
   descricao TextBlob required
+  /** O fato descrito configura de fato um PNC */
+  procedente Boolean required
   dataRegistro Instant required
   /** Análise de eficácia */
   analiseFinal TextBlob
@@ -366,6 +370,8 @@ relationship OneToOne {
   ItemPlanoAuditoria{anexo(nomeArquivo)} to Anexo
   NaoConformidade{anexo(nomeArquivo)} to Anexo
   Norma{anexo(nomeArquivo)} to Anexo
+  Processo{anexo(nomeArquivo)} to Anexo
+  Produto{anexo(nomeArquivo)} to Anexo
   PlanoAuditoria{anexo(nomeArquivo)} to Anexo
   ProdutoNaoConforme{anexo(nomeArquivo)} to Anexo
   PublicacaoFeed{anexo(nomeArquivo)} to Anexo

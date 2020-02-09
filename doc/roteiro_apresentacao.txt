@@ -1,1 +1,43 @@
-- Escalabilidade com Docker Swarm
+Modelagem funcional
+    Atores
+    Principais classes
+    Interpretação sobre as integrações
+    Casos de uso críticos
+
+Arquitetura
+    - Componentes JHipster (Netflix OSS + apps.jdl)
+    - JWT (escalável) + ROLE_SGQ
+    - Módulos Angular
+    - APIs (filtros + paginação)
+    - Kong + JWT plugin
+
+Tecnologias
+    - Angular + Spring Boot
+    - Docker / docker-compose
+    - Swagger (api-first)
+    - Maven
+    - Liquibase
+    - Husky / Prettier
+    - Testes unitários
+    - Translation
+    - Caching
+    - Bootstrap / Bootswatch
+    - SaaS (CSS)
+    - Validações (frontend + backend)
+    - Monitoramento (Prometheus + Grafana)
+    - Logs centralizados (ELK)
+    - Sonar
+    - Hibernate cache
+    - Hikari
+
+Demonstração
+    - Página públca (Home)
+    - Fake data
+    - ROLE_SGQ
+    - Scaling do sgq com Docker swarm
+    - Responsividade
+    - Chamadas Rest + tempos de resposta
+    - [Consulta ao cache]
+
+
+=> Janela secundária no OBS com agenda da apresentação
