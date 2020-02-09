@@ -48,7 +48,7 @@ Este trabalho é licenciado sob a licença MIT - veja o arquivo [LICENSE.md](LIC
 - Obter usuários nos forms (veja [Missing User class...](https://stackoverflow.com/a/43405851))
 - Exibir o plano de auditoria do ano corrente na página inicial (pública)
 - Implementar integrações
-- Diferenciar papéis do SGQ
+- ~~Diferenciar papéis do SGQ~~
 - Criar perfil webpack para desenvolvimento através do ngrok
 
 ## Issues
