@@ -8,6 +8,7 @@ Arquitetura
     - Componentes JHipster (Netflix OSS + apps.jdl)
     - JWT (escalável) + ROLE_SGQ
     - Módulos Angular
+    - Service worker
     - APIs (filtros + paginação)
     - Kong + JWT plugin
 
