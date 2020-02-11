@@ -146,6 +146,7 @@ entity ProdutoNaoConforme {
 entity Auditoria {
   tipo TipoAuditoria required
   titulo String required minlength(1) maxlength(100)
+  /** Requisitos abordados, objetivos, etc */
   descricao TextBlob
 }
 
@@ -157,13 +158,18 @@ enum TipoAuditoria {
 entity PlanoAuditoria {
   titulo String required minlength(1) maxlength(100)
   descricao TextBlob
-  dataInicio Instant
-  dataFim Instant
 }
 
 entity ItemPlanoAuditoria {
+  dataInicioPrevisto Instant
+  dataFimPrevisto Instant
+}
+
+entity ResultadoAuditoria {
   idUsuarioResponsavel Integer required
-	dataAuditoria Instant required
+  dataInicio Instant required
+  dataFim Instant required
+  descricao TextBlob required
 }
 // <<<<<<<<<< incidentes_problemas
 
@@ -313,7 +319,7 @@ entity EmpresaConsultoria {
 * <i>"O repositório de normas está disponível em nuvem como um serviço (SaaS)..."</i>
 *
 * entende-se que a aplicação deve consumir uma API cuja interface é definida
-* pela empresa fornecedora de SaaS. 
+* pela empresa fornecedora de SaaS.
 */
 @service(serviceClass)
 @readOnly
@@ -354,38 +360,42 @@ enum StatusAnaliseExterna {
 // <<<<<<<<<< compliance
 
 relationship OneToOne {
-  AnaliseConsultoria{acao(titulo) required} to AcaoSGQ 
+  AnaliseConsultoria{acao(titulo) required} to AcaoSGQ
   /** PNCs são tratados com ações únicas e pontuais */
   ProdutoNaoConforme{acao(titulo) required} to AcaoSGQ
   /** Quando o problema identificado é sistêmico deve-se abrir uma NC */
   ProdutoNaoConforme{naoConformidade(titulo)} to NaoConformidade
-  
-  AcaoSGQ{anexo(nomeArquivo)} to Anexo
-  AnaliseConsultoria{anexo(nomeArquivo)} to Anexo
-  Checklist{anexo(nomeArquivo)} to Anexo
-  BoletimInformativo{anexo(nomeArquivo)} to Anexo
-  CampanhaRecall{anexo(nomeArquivo)} to Anexo
-  EventoOperacional{anexo(nomeArquivo)} to Anexo
-  ItemChecklist{anexo(nomeArquivo)} to Anexo
-  ItemPlanoAuditoria{anexo(nomeArquivo)} to Anexo
-  NaoConformidade{anexo(nomeArquivo)} to Anexo
-  Norma{anexo(nomeArquivo)} to Anexo
-  Processo{anexo(nomeArquivo)} to Anexo
-  Produto{anexo(nomeArquivo)} to Anexo
-  PlanoAuditoria{anexo(nomeArquivo)} to Anexo
-  ProdutoNaoConforme{anexo(nomeArquivo)} to Anexo
-  PublicacaoFeed{anexo(nomeArquivo)} to Anexo
-  ResultadoChecklist{anexo(nomeArquivo)} to Anexo
-  ResultadoItemChecklist{anexo(nomeArquivo)} to Anexo
 }
 
 relationship OneToMany {
+  AcaoSGQ{anexo(nomeArquivo)} to Anexo{acaoSGQ}
+  AnaliseConsultoria{anexo(nomeArquivo)} to Anexo{analiseConsultoria}
+  Checklist{anexo(nomeArquivo)} to Anexo{checklist}
+  BoletimInformativo{anexo(nomeArquivo)} to Anexo{boletimInformativo}
+  CampanhaRecall{anexo(nomeArquivo)} to Anexo{campanhaRecall}
+  EventoOperacional{anexo(nomeArquivo)} to Anexo{eventoOperacional}
+  ItemChecklist{anexo(nomeArquivo)} to Anexo{itemChecklist}
+  ItemPlanoAuditoria{anexo(nomeArquivo)} to Anexo{itemPlanoAuditoria}
+  NaoConformidade{anexo(nomeArquivo)} to Anexo{naoConformidade}
+  Norma{anexo(nomeArquivo)} to Anexo{norma}
+  Processo{anexo(nomeArquivo)} to Anexo{processo}
+  Produto{anexo(nomeArquivo)} to Anexo{produto}
+  PlanoAuditoria{anexo(nomeArquivo)} to Anexo{planoAuditoria}
+  ProdutoNaoConforme{anexo(nomeArquivo)} to Anexo{produtoNaoConforme}
+  PublicacaoFeed{anexo(nomeArquivo)} to Anexo{publicacaoFeed}
+  ResultadoChecklist{anexo(nomeArquivo)} to Anexo{resultadoChecklist}
+  ResultadoItemChecklist{anexo(nomeArquivo)} to Anexo{resultadoItemChecklist}
+
   Checklist{item(titulo)} to ItemChecklist{checklist(titulo) required}
   Empresa{produto(nome)} to Produto{empresa(nome) required}
   Empresa{setor(nome)} to Setor{empresa(nome) required}
-  NaoConformidade{acao(titulo) required} to AcaoSGQ{naoConformidade(titulo)}
+  NaoConformidade{acaoSGQ(titulo) required} to AcaoSGQ{naoConformidade(titulo)}
   PlanoAuditoria{item} to ItemPlanoAuditoria{plano(titulo) required}
+  ResultadoAuditoria{naoConformidade(titulo)} to NaoConformidade{resultadoAuditoria}
+  ResultadoAuditoria{produtoNaoConforme(titulo)} to ProdutoNaoConforme{resultadoAuditoria}
   ResultadoChecklist{resultadoItem} to ResultadoItemChecklist{resultado(titulo) required}
+  ResultadoItemChecklist{naoConformidade(titulo)} to NaoConformidade{resultadoItemChecklist}
+  ResultadoItemChecklist{produtoNaoConforme(titulo)} to ProdutoNaoConforme{resultadoItemChecklist}
   Setor{checklist(titulo)} to Checklist{setor(nome) required}
   Setor{processo(titulo)} to Processo{setor(nome) required}
 }
@@ -400,6 +410,7 @@ relationship ManyToOne {
   ItemPlanoAuditoria{auditoria(titulo) required} to Auditoria
   ProdutoNaoConforme{produto(nome) required} to Produto
   PublicacaoFeed{feed(titulo) required} to Feed
+  ResultadoAuditoria{auditoria(titulo)} to Auditoria
   ResultadoChecklist{checklist(titulo) required} to Checklist
   ResultadoItemChecklist{item(titulo) required} to ItemChecklist
 

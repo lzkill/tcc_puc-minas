@@ -153,7 +153,7 @@
       <body>Os planos são exibidos na página pública  aplicação, sem a necessidade de login</body>
     </ownedComment>
     <packagedElement xmi:type="uml:UseCase" xmi:id="_0nGisExiEeqBIsgVbhEyLQ" name="Mantém auditorias"/>
-    <packagedElement xmi:type="uml:UseCase" xmi:id="_0nGisUxiEeqBIsgVbhEyLQ" name="Mantém planos de auditoria"/>
+    <packagedElement xmi:type="uml:UseCase" xmi:id="_0nGisUxiEeqBIsgVbhEyLQ" name="Mantém planos de auditorias"/>
     <packagedElement xmi:type="uml:Actor" xmi:id="_qpGKYEzDEeqw1eWi9ig49w" name="Usuário"/>
     <packagedElement xmi:type="uml:Actor" xmi:id="_sQnh0EzDEeqw1eWi9ig49w" name="Gestor SGQ">
       <generalization xmi:type="uml:Generalization" xmi:id="_IIlKYEzIEeqw1eWi9ig49w" general="_qpGKYEzDEeqw1eWi9ig49w"/>
@@ -162,10 +162,12 @@
     <packagedElement xmi:type="uml:UseCase" xmi:id="_PHeL8EzEEeqw1eWi9ig49w" name="Consulta planos de auditoria"/>
     <packagedElement xmi:type="uml:UseCase" xmi:id="_6NB84EzEEeqw1eWi9ig49w" name="Consultar checklists"/>
     <packagedElement xmi:type="uml:UseCase" xmi:id="_7wDO0EzEEeqw1eWi9ig49w" name="Mantém checklists"/>
-    <packagedElement xmi:type="uml:UseCase" xmi:id="_-jg08EzEEeqw1eWi9ig49w" name="Consulta resultados de checklist"/>
+    <packagedElement xmi:type="uml:UseCase" xmi:id="_-jg08EzEEeqw1eWi9ig49w" name="Consulta resultados de checklists"/>
     <packagedElement xmi:type="uml:UseCase" xmi:id="_BRzAIEzFEeqw1eWi9ig49w" name="Registra resultado de checklist"/>
     <packagedElement xmi:type="uml:UseCase" xmi:id="_FllwkEzFEeqw1eWi9ig49w" name="Consulta eventos operacionais"/>
     <packagedElement xmi:type="uml:UseCase" xmi:id="_HPZnAEzFEeqw1eWi9ig49w" name="Registra evento operacional"/>
+    <packagedElement xmi:type="uml:UseCase" xmi:id="_A8Sf0EzpEeqw1eWi9ig49w" name="Mantém resultados de auditorias"/>
+    <packagedElement xmi:type="uml:UseCase" xmi:id="_q4AeYEzqEeqw1eWi9ig49w" name="Consulta resultados de auditorias"/>
   </packagedElement>
   <packagedElement xmi:type="uml:Association" xmi:id="_pDzpMExjEeqBIsgVbhEyLQ" memberEnd="_pD0QQkxjEeqBIsgVbhEyLQ _pD0QQ0xjEeqBIsgVbhEyLQ">
     <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_pD0QQExjEeqBIsgVbhEyLQ" source="org.eclipse.papyrus">
@@ -494,7 +496,36 @@
     <ownedEnd xmi:type="uml:Property" xmi:id="__J264EzSEeqw1eWi9ig49w" name="consulta normas" type="_XQ3MkEzSEeqw1eWi9ig49w" association="__J1FsEzSEeqw1eWi9ig49w"/>
   </packagedElement>
   <packagedElement xmi:type="uml:Package" xmi:id="_sZ4YQEzTEeqw1eWi9ig49w" name="Relatórios">
+    <ownedComment xmi:type="uml:Comment" xmi:id="_hM82sEzcEeqw1eWi9ig49w">
+      <body>Controle de processo (resultados de checklists)
+
+Eventos operacionais
+
+Resultado de auditoria
+
+Não conformidades
+
+Produtos não conformes
+
+Análises de consultoria
+
+Boletim informativo (exportar)</body>
+    </ownedComment>
     <packagedElement xmi:type="uml:Actor" xmi:id="_u-uTkEzTEeqw1eWi9ig49w" name="Usuário"/>
     <packagedElement xmi:type="uml:Actor" xmi:id="_vy47cEzTEeqw1eWi9ig49w" name="Gestor SGQ"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_K-Ps8EzpEeqw1eWi9ig49w" memberEnd="_K-T-YEzpEeqw1eWi9ig49w _K-T-YUzpEeqw1eWi9ig49w">
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_K-TXUEzpEeqw1eWi9ig49w" source="org.eclipse.papyrus">
+      <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_K-TXUUzpEeqw1eWi9ig49w" key="nature" value="UML_Nature"/>
+    </eAnnotations>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_K-T-YEzpEeqw1eWi9ig49w" name="gestor sgq" type="_sQnh0EzDEeqw1eWi9ig49w" association="_K-Ps8EzpEeqw1eWi9ig49w"/>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_K-T-YUzpEeqw1eWi9ig49w" name="mantém resultados de auditorias" type="_A8Sf0EzpEeqw1eWi9ig49w" association="_K-Ps8EzpEeqw1eWi9ig49w"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="__Tx_AEzqEeqw1eWi9ig49w" memberEnd="__TzNIEzqEeqw1eWi9ig49w __TzNIUzqEeqw1eWi9ig49w">
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="__TymEEzqEeqw1eWi9ig49w" source="org.eclipse.papyrus">
+      <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="__TymEUzqEeqw1eWi9ig49w" key="nature" value="UML_Nature"/>
+    </eAnnotations>
+    <ownedEnd xmi:type="uml:Property" xmi:id="__TzNIEzqEeqw1eWi9ig49w" name="consulta resultados de auditorias" type="_q4AeYEzqEeqw1eWi9ig49w" association="__Tx_AEzqEeqw1eWi9ig49w"/>
+    <ownedEnd xmi:type="uml:Property" xmi:id="__TzNIUzqEeqw1eWi9ig49w" name="usuário" type="_qpGKYEzDEeqw1eWi9ig49w" association="__Tx_AEzqEeqw1eWi9ig49w"/>
   </packagedElement>
 </uml:Model>
