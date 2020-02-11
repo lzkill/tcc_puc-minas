@@ -46,10 +46,12 @@ Este trabalho é licenciado sob a licença MIT - veja o arquivo [LICENSE.md](LIC
 - ~~Configurar volumes dos containers~~
 - Reorganizar menus do frontend
 - Diferenciar papéis do SGQ
-- Reorganizar módulos do frontend
 - Obter usuários nos forms (veja [Missing User class...](https://stackoverflow.com/a/43405851))
 - Exibir o plano de auditoria do ano corrente na página inicial (pública)
 - Implementar integrações
+
+### If there's enough time, do it
+- Reorganizar módulos do frontend
 - Criar perfil webpack para desenvolvimento através do ngrok
 - [Configurar CI/CD com GitLab](https://www.jhipster.tech/setting-up-ci/#would-you-like-to-perform-the-build-in-a-docker-container--jenkins--gitlab)
 
