@@ -49,6 +49,7 @@ Este trabalho é licenciado sob a licença MIT - veja o arquivo [LICENSE.md](LIC
 - Implementar integrações
 - Obter usuários nos forms (veja [Missing User class...](https://stackoverflow.com/a/43405851))
 - Exibir o plano de auditoria do ano corrente na página inicial (pública)
+- Traduzir páginas
 
 ### If there's enough time, do it
 - Reorganizar módulos do frontend
