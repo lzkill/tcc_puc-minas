@@ -22,7 +22,6 @@
             <th scope="col"  jhiSortBy="idUsuarioRegistro"><span jhiTranslate="gatewayApp.sgqResultadoChecklist.idUsuarioRegistro">Id Usuario Registro</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="titulo"><span jhiTranslate="gatewayApp.sgqResultadoChecklist.titulo">Titulo</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="dataVerificacao"><span jhiTranslate="gatewayApp.sgqResultadoChecklist.dataVerificacao">Data Verificacao</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  jhiSortBy="anexo.nomeArquivo"><span jhiTranslate="gatewayApp.sgqResultadoChecklist.anexo">Anexo</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="checklist.titulo"><span jhiTranslate="gatewayApp.sgqResultadoChecklist.checklist">Checklist</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"></th>
             </tr>
@@ -33,11 +32,6 @@
                 <td>{{resultadoChecklist.idUsuarioRegistro}}</td>
                 <td>{{resultadoChecklist.titulo}}</td>
                 <td>{{resultadoChecklist.dataVerificacao | date:'medium'}}</td>
-                <td>
-                    <div *ngIf="resultadoChecklist.anexo">
-                        <a [routerLink]="['/anexo', resultadoChecklist.anexo?.id, 'view' ]" >{{resultadoChecklist.anexo?.nomeArquivo}}</a>
-                    </div>
-                </td>
                 <td>
                     <div *ngIf="resultadoChecklist.checklist">
                         <a [routerLink]="['/checklist', resultadoChecklist.checklist?.id, 'view' ]" >{{resultadoChecklist.checklist?.titulo}}</a>

@@ -88,15 +88,9 @@ public class PlanoAuditoriaQueryService extends QueryService<PlanoAuditoria> {
             if (criteria.getTitulo() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getTitulo(), PlanoAuditoria_.titulo));
             }
-            if (criteria.getDataInicio() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getDataInicio(), PlanoAuditoria_.dataInicio));
-            }
-            if (criteria.getDataFim() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getDataFim(), PlanoAuditoria_.dataFim));
-            }
             if (criteria.getAnexoId() != null) {
                 specification = specification.and(buildSpecification(criteria.getAnexoId(),
-                    root -> root.join(PlanoAuditoria_.anexo, JoinType.LEFT).get(Anexo_.id)));
+                    root -> root.join(PlanoAuditoria_.anexos, JoinType.LEFT).get(Anexo_.id)));
             }
             if (criteria.getItemId() != null) {
                 specification = specification.and(buildSpecification(criteria.getItemId(),

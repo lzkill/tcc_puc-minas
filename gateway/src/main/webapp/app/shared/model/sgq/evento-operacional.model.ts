@@ -12,7 +12,7 @@ export interface IEventoOperacional {
   dataEvento?: Moment;
   duracao?: number;
   houveParadaProducao?: boolean;
-  anexo?: IAnexo;
+  anexos?: IAnexo[];
   processo?: IProcesso;
 }
 
@@ -26,7 +26,7 @@ export class EventoOperacional implements IEventoOperacional {
     public dataEvento?: Moment,
     public duracao?: number,
     public houveParadaProducao?: boolean,
-    public anexo?: IAnexo,
+    public anexos?: IAnexo[],
     public processo?: IProcesso
   ) {
     this.houveParadaProducao = this.houveParadaProducao || false;

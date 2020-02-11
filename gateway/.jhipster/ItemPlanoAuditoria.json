@@ -2,28 +2,20 @@
     "name": "ItemPlanoAuditoria",
     "fields": [
         {
-            "fieldName": "idUsuarioResponsavel",
-            "fieldType": "Integer",
-            "fieldValidateRules": [
-                "required"
-            ]
+            "fieldName": "dataInicioPrevisto",
+            "fieldType": "Instant"
         },
         {
-            "fieldName": "dataAuditoria",
-            "fieldType": "Instant",
-            "fieldValidateRules": [
-                "required"
-            ]
+            "fieldName": "dataFimPrevisto",
+            "fieldType": "Instant"
         }
     ],
     "relationships": [
         {
-            "relationshipType": "one-to-one",
+            "relationshipType": "one-to-many",
             "otherEntityName": "anexo",
             "otherEntityRelationshipName": "itemPlanoAuditoria",
-            "relationshipName": "anexo",
-            "otherEntityField": "nomeArquivo",
-            "ownerSide": true
+            "relationshipName": "anexo"
         },
         {
             "relationshipType": "many-to-one",

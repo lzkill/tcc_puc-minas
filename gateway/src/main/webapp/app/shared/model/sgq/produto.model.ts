@@ -5,10 +5,10 @@ export interface IProduto {
   id?: number;
   nome?: string;
   descricao?: any;
-  anexo?: IAnexo;
+  anexos?: IAnexo[];
   empresa?: IEmpresa;
 }
 
 export class Produto implements IProduto {
-  constructor(public id?: number, public nome?: string, public descricao?: any, public anexo?: IAnexo, public empresa?: IEmpresa) {}
+  constructor(public id?: number, public nome?: string, public descricao?: any, public anexos?: IAnexo[], public empresa?: IEmpresa) {}
 }

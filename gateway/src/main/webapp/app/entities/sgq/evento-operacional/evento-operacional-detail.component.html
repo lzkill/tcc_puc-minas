@@ -33,12 +33,6 @@
                 <dd>
                     <span>{{eventoOperacional.houveParadaProducao}}</span>
                 </dd>
-                <dt><span jhiTranslate="gatewayApp.sgqEventoOperacional.anexo">Anexo</span></dt>
-                <dd>
-                    <div *ngIf="eventoOperacional.anexo">
-                        <a [routerLink]="['/anexo', eventoOperacional.anexo?.id, 'view']">{{eventoOperacional.anexo?.nomeArquivo}}</a>
-                    </div>
-                </dd>
                 <dt><span jhiTranslate="gatewayApp.sgqEventoOperacional.processo">Processo</span></dt>
                 <dd>
                     <div *ngIf="eventoOperacional.processo">

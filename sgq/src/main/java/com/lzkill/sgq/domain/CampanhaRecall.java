@@ -8,6 +8,8 @@ import javax.validation.constraints.*;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * A CampanhaRecall.
@@ -50,9 +52,9 @@ public class CampanhaRecall implements Serializable {
     @Column(name = "resultado")
     private String resultado;
 
-    @OneToOne
-    @JoinColumn(unique = true)
-    private Anexo anexo;
+    @OneToMany(mappedBy = "campanhaRecall")
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<Anexo> anexos = new HashSet<>();
 
     @ManyToOne(optional = false)
     @NotNull
@@ -164,17 +166,29 @@ public class CampanhaRecall implements Serializable {
         this.resultado = resultado;
     }
 
-    public Anexo getAnexo() {
-        return anexo;
+    public Set<Anexo> getAnexos() {
+        return anexos;
     }
 
-    public CampanhaRecall anexo(Anexo anexo) {
-        this.anexo = anexo;
+    public CampanhaRecall anexos(Set<Anexo> anexos) {
+        this.anexos = anexos;
         return this;
     }
 
-    public void setAnexo(Anexo anexo) {
-        this.anexo = anexo;
+    public CampanhaRecall addAnexo(Anexo anexo) {
+        this.anexos.add(anexo);
+        anexo.setCampanhaRecall(this);
+        return this;
+    }
+
+    public CampanhaRecall removeAnexo(Anexo anexo) {
+        this.anexos.remove(anexo);
+        anexo.setCampanhaRecall(null);
+        return this;
+    }
+
+    public void setAnexos(Set<Anexo> anexos) {
+        this.anexos = anexos;
     }
 
     public Produto getProduto() {

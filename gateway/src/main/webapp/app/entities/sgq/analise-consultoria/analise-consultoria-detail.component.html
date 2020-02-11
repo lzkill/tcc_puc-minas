@@ -31,12 +31,6 @@
                         <a [routerLink]="['/acao-sgq', analiseConsultoria.acao?.id, 'view']">{{analiseConsultoria.acao?.titulo}}</a>
                     </div>
                 </dd>
-                <dt><span jhiTranslate="gatewayApp.sgqAnaliseConsultoria.anexo">Anexo</span></dt>
-                <dd>
-                    <div *ngIf="analiseConsultoria.anexo">
-                        <a [routerLink]="['/anexo', analiseConsultoria.anexo?.id, 'view']">{{analiseConsultoria.anexo?.nomeArquivo}}</a>
-                    </div>
-                </dd>
                 <dt><span jhiTranslate="gatewayApp.sgqAnaliseConsultoria.empresa">Empresa</span></dt>
                 <dd>
                     <div *ngIf="analiseConsultoria.empresa">

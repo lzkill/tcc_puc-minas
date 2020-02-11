@@ -25,7 +25,6 @@
             <th scope="col"  jhiSortBy="responsavelAnalise"><span jhiTranslate="gatewayApp.sgqAnaliseConsultoria.responsavelAnalise">Responsavel Analise</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="status"><span jhiTranslate="gatewayApp.sgqAnaliseConsultoria.status">Status</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="acao.titulo"><span jhiTranslate="gatewayApp.sgqAnaliseConsultoria.acao">Acao</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  jhiSortBy="anexo.nomeArquivo"><span jhiTranslate="gatewayApp.sgqAnaliseConsultoria.anexo">Anexo</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="empresa.nome"><span jhiTranslate="gatewayApp.sgqAnaliseConsultoria.empresa">Empresa</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"></th>
             </tr>
@@ -41,11 +40,6 @@
                 <td>
                     <div *ngIf="analiseConsultoria.acao">
                         <a [routerLink]="['/acao-sgq', analiseConsultoria.acao?.id, 'view' ]" >{{analiseConsultoria.acao?.titulo}}</a>
-                    </div>
-                </td>
-                <td>
-                    <div *ngIf="analiseConsultoria.anexo">
-                        <a [routerLink]="['/anexo', analiseConsultoria.anexo?.id, 'view' ]" >{{analiseConsultoria.anexo?.nomeArquivo}}</a>
                     </div>
                 </td>
                 <td>

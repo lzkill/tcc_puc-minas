@@ -35,13 +35,6 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="gatewayApp.sgqProcesso.anexo" for="field_anexo">Anexo</label>
-                    <select class="form-control" id="field_anexo" name="anexo" formControlName="anexo">
-                        <option [ngValue]="null"></option>
-                        <option [ngValue]="anexoOption.id === editForm.get('anexo')!.value?.id ? editForm.get('anexo')!.value : anexoOption" *ngFor="let anexoOption of anexos; trackBy: trackById">{{anexoOption.nomeArquivo}}</option>
-                    </select>
-                </div>
-                <div class="form-group">
                     <label class="form-control-label" jhiTranslate="gatewayApp.sgqProcesso.setor" for="field_setor">Setor</label>
                     <select class="form-control" id="field_setor" name="setor" formControlName="setor">
                         <option *ngIf="!editForm.get('setor')!.value" [ngValue]="null" selected></option>

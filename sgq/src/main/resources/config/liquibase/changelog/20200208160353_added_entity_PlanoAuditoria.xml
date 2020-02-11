@@ -22,19 +22,8 @@
             <column name="descricao" type="${clobType}">
                 <constraints nullable="true" />
             </column>
-            <column name="data_inicio" type="datetime">
-                <constraints nullable="true" />
-            </column>
-            <column name="data_fim" type="datetime">
-                <constraints nullable="true" />
-            </column>
-            <column name="anexo_id" type="bigint">
-                <constraints unique="true" nullable="true" uniqueConstraintName="ux_plano_auditoria_anexo_id" />
-            </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
         </createTable>
-        <dropDefaultValue tableName="plano_auditoria" columnName="data_inicio" columnDataType="datetime"/>
-        <dropDefaultValue tableName="plano_auditoria" columnName="data_fim" columnDataType="datetime"/>
     </changeSet>
 
     <changeSet id="20200208160353-1-relations" author="jhipster">
@@ -58,8 +47,6 @@
             <column name="id" type="numeric"/>
             <column name="titulo" type="string"/>
             <column name="descricao" type="clob"/>
-            <column name="data_inicio" type="datetime"/>
-            <column name="data_fim" type="datetime"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here, do not remove-->
         </loadData>
     </changeSet>

@@ -13,12 +13,6 @@
                 <dd>
                     <span>{{processo.descricao}}</span>
                 </dd>
-                <dt><span jhiTranslate="gatewayApp.sgqProcesso.anexo">Anexo</span></dt>
-                <dd>
-                    <div *ngIf="processo.anexo">
-                        <a [routerLink]="['/anexo', processo.anexo?.id, 'view']">{{processo.anexo?.nomeArquivo}}</a>
-                    </div>
-                </dd>
                 <dt><span jhiTranslate="gatewayApp.sgqProcesso.setor">Setor</span></dt>
                 <dd>
                     <div *ngIf="processo.setor">

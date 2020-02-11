@@ -53,10 +53,16 @@
                 <dd>
                     <span jhiTranslate="{{'gatewayApp.StatusSGQ.' + naoConformidade.statusSGQ}}">{{naoConformidade.statusSGQ}}</span>
                 </dd>
-                <dt><span jhiTranslate="gatewayApp.sgqNaoConformidade.anexo">Anexo</span></dt>
+                <dt><span jhiTranslate="gatewayApp.sgqNaoConformidade.resultadoAuditoria">Resultado Auditoria</span></dt>
                 <dd>
-                    <div *ngIf="naoConformidade.anexo">
-                        <a [routerLink]="['/anexo', naoConformidade.anexo?.id, 'view']">{{naoConformidade.anexo?.nomeArquivo}}</a>
+                    <div *ngIf="naoConformidade.resultadoAuditoria">
+                        <a [routerLink]="['/resultado-auditoria', naoConformidade.resultadoAuditoria?.id, 'view']">{{naoConformidade.resultadoAuditoria?.id}}</a>
+                    </div>
+                </dd>
+                <dt><span jhiTranslate="gatewayApp.sgqNaoConformidade.resultadoItemChecklist">Resultado Item Checklist</span></dt>
+                <dd>
+                    <div *ngIf="naoConformidade.resultadoItemChecklist">
+                        <a [routerLink]="['/resultado-item-checklist', naoConformidade.resultadoItemChecklist?.id, 'view']">{{naoConformidade.resultadoItemChecklist?.id}}</a>
                     </div>
                 </dd>
             </dl>

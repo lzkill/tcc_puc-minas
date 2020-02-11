@@ -46,12 +46,10 @@
     ],
     "relationships": [
         {
-            "relationshipType": "one-to-one",
+            "relationshipType": "one-to-many",
             "otherEntityName": "anexo",
             "otherEntityRelationshipName": "boletimInformativo",
-            "relationshipName": "anexo",
-            "otherEntityField": "nomeArquivo",
-            "ownerSide": true
+            "relationshipName": "anexo"
         },
         {
             "relationshipType": "many-to-one",

@@ -8,12 +8,8 @@ import { map } from 'rxjs/operators';
 
 import { IChecklist, Checklist } from 'app/shared/model/sgq/checklist.model';
 import { ChecklistService } from './checklist.service';
-import { IAnexo } from 'app/shared/model/sgq/anexo.model';
-import { AnexoService } from 'app/entities/sgq/anexo/anexo.service';
 import { ISetor } from 'app/shared/model/sgq/setor.model';
 import { SetorService } from 'app/entities/sgq/setor/setor.service';
-
-type SelectableEntity = IAnexo | ISetor;
 
 @Component({
   selector: 'jhi-checklist-update',
@@ -22,21 +18,17 @@ type SelectableEntity = IAnexo | ISetor;
 export class ChecklistUpdateComponent implements OnInit {
   isSaving = false;
 
-  anexos: IAnexo[] = [];
-
   setors: ISetor[] = [];
 
   editForm = this.fb.group({
     id: [],
     titulo: [null, [Validators.required, Validators.minLength(1), Validators.maxLength(100)]],
     periodicidade: [],
-    anexo: [],
     setor: [null, Validators.required]
   });
 
   constructor(
     protected checklistService: ChecklistService,
-    protected anexoService: AnexoService,
     protected setorService: SetorService,
     protected activatedRoute: ActivatedRoute,
     private fb: FormBuilder
@@ -45,30 +37,6 @@ export class ChecklistUpdateComponent implements OnInit {
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ checklist }) => {
       this.updateForm(checklist);
-
-      this.anexoService
-        .query({ 'checklistId.specified': 'false' })
-        .pipe(
-          map((res: HttpResponse<IAnexo[]>) => {
-            return res.body ? res.body : [];
-          })
-        )
-        .subscribe((resBody: IAnexo[]) => {
-          if (!checklist.anexo || !checklist.anexo.id) {
-            this.anexos = resBody;
-          } else {
-            this.anexoService
-              .find(checklist.anexo.id)
-              .pipe(
-                map((subRes: HttpResponse<IAnexo>) => {
-                  return subRes.body ? [subRes.body].concat(resBody) : resBody;
-                })
-              )
-              .subscribe((concatRes: IAnexo[]) => {
-                this.anexos = concatRes;
-              });
-          }
-        });
 
       this.setorService
         .query()
@@ -86,7 +54,6 @@ export class ChecklistUpdateComponent implements OnInit {
       id: checklist.id,
       titulo: checklist.titulo,
       periodicidade: checklist.periodicidade,
-      anexo: checklist.anexo,
       setor: checklist.setor
     });
   }
@@ -111,7 +78,6 @@ export class ChecklistUpdateComponent implements OnInit {
       id: this.editForm.get(['id'])!.value,
       titulo: this.editForm.get(['titulo'])!.value,
       periodicidade: this.editForm.get(['periodicidade'])!.value,
-      anexo: this.editForm.get(['anexo'])!.value,
       setor: this.editForm.get(['setor'])!.value
     };
   }
@@ -132,7 +98,7 @@ export class ChecklistUpdateComponent implements OnInit {
     this.isSaving = false;
   }
 
-  trackById(index: number, item: SelectableEntity): any {
+  trackById(index: number, item: ISetor): any {
     return item.id;
   }
 }

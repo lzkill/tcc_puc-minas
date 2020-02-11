@@ -7,6 +7,8 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * A ItemChecklist.
@@ -36,9 +38,9 @@ public class ItemChecklist implements Serializable {
     @Column(name = "descricao")
     private String descricao;
 
-    @OneToOne
-    @JoinColumn(unique = true)
-    private Anexo anexo;
+    @OneToMany(mappedBy = "itemChecklist")
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<Anexo> anexos = new HashSet<>();
 
     @ManyToOne(optional = false)
     @NotNull
@@ -93,17 +95,29 @@ public class ItemChecklist implements Serializable {
         this.descricao = descricao;
     }
 
-    public Anexo getAnexo() {
-        return anexo;
+    public Set<Anexo> getAnexos() {
+        return anexos;
     }
 
-    public ItemChecklist anexo(Anexo anexo) {
-        this.anexo = anexo;
+    public ItemChecklist anexos(Set<Anexo> anexos) {
+        this.anexos = anexos;
         return this;
     }
 
-    public void setAnexo(Anexo anexo) {
-        this.anexo = anexo;
+    public ItemChecklist addAnexo(Anexo anexo) {
+        this.anexos.add(anexo);
+        anexo.setItemChecklist(this);
+        return this;
+    }
+
+    public ItemChecklist removeAnexo(Anexo anexo) {
+        this.anexos.remove(anexo);
+        anexo.setItemChecklist(null);
+        return this;
+    }
+
+    public void setAnexos(Set<Anexo> anexos) {
+        this.anexos = anexos;
     }
 
     public Checklist getChecklist() {

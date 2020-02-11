@@ -6,6 +6,8 @@ import com.lzkill.sgq.domain.AcaoSGQ;
 import com.lzkill.sgq.domain.NaoConformidade;
 import com.lzkill.sgq.domain.Anexo;
 import com.lzkill.sgq.domain.Produto;
+import com.lzkill.sgq.domain.ResultadoAuditoria;
+import com.lzkill.sgq.domain.ResultadoItemChecklist;
 import com.lzkill.sgq.repository.ProdutoNaoConformeRepository;
 import com.lzkill.sgq.service.ProdutoNaoConformeService;
 import com.lzkill.sgq.web.rest.errors.ExceptionTranslator;
@@ -895,7 +897,7 @@ public class ProdutoNaoConformeResourceIT {
         Anexo anexo = AnexoResourceIT.createEntity(em);
         em.persist(anexo);
         em.flush();
-        produtoNaoConforme.setAnexo(anexo);
+        produtoNaoConforme.addAnexo(anexo);
         produtoNaoConformeRepository.saveAndFlush(produtoNaoConforme);
         Long anexoId = anexo.getId();
 
@@ -920,6 +922,46 @@ public class ProdutoNaoConformeResourceIT {
 
         // Get all the produtoNaoConformeList where produto equals to produtoId + 1
         defaultProdutoNaoConformeShouldNotBeFound("produtoId.equals=" + (produtoId + 1));
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllProdutoNaoConformesByResultadoAuditoriaIsEqualToSomething() throws Exception {
+        // Initialize the database
+        produtoNaoConformeRepository.saveAndFlush(produtoNaoConforme);
+        ResultadoAuditoria resultadoAuditoria = ResultadoAuditoriaResourceIT.createEntity(em);
+        em.persist(resultadoAuditoria);
+        em.flush();
+        produtoNaoConforme.setResultadoAuditoria(resultadoAuditoria);
+        produtoNaoConformeRepository.saveAndFlush(produtoNaoConforme);
+        Long resultadoAuditoriaId = resultadoAuditoria.getId();
+
+        // Get all the produtoNaoConformeList where resultadoAuditoria equals to resultadoAuditoriaId
+        defaultProdutoNaoConformeShouldBeFound("resultadoAuditoriaId.equals=" + resultadoAuditoriaId);
+
+        // Get all the produtoNaoConformeList where resultadoAuditoria equals to resultadoAuditoriaId + 1
+        defaultProdutoNaoConformeShouldNotBeFound("resultadoAuditoriaId.equals=" + (resultadoAuditoriaId + 1));
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllProdutoNaoConformesByResultadoItemChecklistIsEqualToSomething() throws Exception {
+        // Initialize the database
+        produtoNaoConformeRepository.saveAndFlush(produtoNaoConforme);
+        ResultadoItemChecklist resultadoItemChecklist = ResultadoItemChecklistResourceIT.createEntity(em);
+        em.persist(resultadoItemChecklist);
+        em.flush();
+        produtoNaoConforme.setResultadoItemChecklist(resultadoItemChecklist);
+        produtoNaoConformeRepository.saveAndFlush(produtoNaoConforme);
+        Long resultadoItemChecklistId = resultadoItemChecklist.getId();
+
+        // Get all the produtoNaoConformeList where resultadoItemChecklist equals to resultadoItemChecklistId
+        defaultProdutoNaoConformeShouldBeFound("resultadoItemChecklistId.equals=" + resultadoItemChecklistId);
+
+        // Get all the produtoNaoConformeList where resultadoItemChecklist equals to resultadoItemChecklistId + 1
+        defaultProdutoNaoConformeShouldNotBeFound("resultadoItemChecklistId.equals=" + (resultadoItemChecklistId + 1));
     }
 
     /**

@@ -10,12 +10,8 @@ import { JhiDataUtils, JhiFileLoadError, JhiEventManager, JhiEventWithContent } 
 import { IProduto, Produto } from 'app/shared/model/sgq/produto.model';
 import { ProdutoService } from './produto.service';
 import { AlertError } from 'app/shared/alert/alert-error.model';
-import { IAnexo } from 'app/shared/model/sgq/anexo.model';
-import { AnexoService } from 'app/entities/sgq/anexo/anexo.service';
 import { IEmpresa } from 'app/shared/model/sgq/empresa.model';
 import { EmpresaService } from 'app/entities/sgq/empresa/empresa.service';
-
-type SelectableEntity = IAnexo | IEmpresa;
 
 @Component({
   selector: 'jhi-produto-update',
@@ -24,15 +20,12 @@ type SelectableEntity = IAnexo | IEmpresa;
 export class ProdutoUpdateComponent implements OnInit {
   isSaving = false;
 
-  anexos: IAnexo[] = [];
-
   empresas: IEmpresa[] = [];
 
   editForm = this.fb.group({
     id: [],
     nome: [null, [Validators.required, Validators.minLength(1), Validators.maxLength(100)]],
     descricao: [],
-    anexo: [],
     empresa: [null, Validators.required]
   });
 
@@ -40,7 +33,6 @@ export class ProdutoUpdateComponent implements OnInit {
     protected dataUtils: JhiDataUtils,
     protected eventManager: JhiEventManager,
     protected produtoService: ProdutoService,
-    protected anexoService: AnexoService,
     protected empresaService: EmpresaService,
     protected activatedRoute: ActivatedRoute,
     private fb: FormBuilder
@@ -49,30 +41,6 @@ export class ProdutoUpdateComponent implements OnInit {
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ produto }) => {
       this.updateForm(produto);
-
-      this.anexoService
-        .query({ 'produtoId.specified': 'false' })
-        .pipe(
-          map((res: HttpResponse<IAnexo[]>) => {
-            return res.body ? res.body : [];
-          })
-        )
-        .subscribe((resBody: IAnexo[]) => {
-          if (!produto.anexo || !produto.anexo.id) {
-            this.anexos = resBody;
-          } else {
-            this.anexoService
-              .find(produto.anexo.id)
-              .pipe(
-                map((subRes: HttpResponse<IAnexo>) => {
-                  return subRes.body ? [subRes.body].concat(resBody) : resBody;
-                })
-              )
-              .subscribe((concatRes: IAnexo[]) => {
-                this.anexos = concatRes;
-              });
-          }
-        });
 
       this.empresaService
         .query()
@@ -90,7 +58,6 @@ export class ProdutoUpdateComponent implements OnInit {
       id: produto.id,
       nome: produto.nome,
       descricao: produto.descricao,
-      anexo: produto.anexo,
       empresa: produto.empresa
     });
   }
@@ -131,7 +98,6 @@ export class ProdutoUpdateComponent implements OnInit {
       id: this.editForm.get(['id'])!.value,
       nome: this.editForm.get(['nome'])!.value,
       descricao: this.editForm.get(['descricao'])!.value,
-      anexo: this.editForm.get(['anexo'])!.value,
       empresa: this.editForm.get(['empresa'])!.value
     };
   }
@@ -152,7 +118,7 @@ export class ProdutoUpdateComponent implements OnInit {
     this.isSaving = false;
   }
 
-  trackById(index: number, item: SelectableEntity): any {
+  trackById(index: number, item: IEmpresa): any {
     return item.id;
   }
 }

@@ -52,9 +52,13 @@ export class ItemPlanoAuditoriaService {
 
   protected convertDateFromClient(itemPlanoAuditoria: IItemPlanoAuditoria): IItemPlanoAuditoria {
     const copy: IItemPlanoAuditoria = Object.assign({}, itemPlanoAuditoria, {
-      dataAuditoria:
-        itemPlanoAuditoria.dataAuditoria && itemPlanoAuditoria.dataAuditoria.isValid()
-          ? itemPlanoAuditoria.dataAuditoria.toJSON()
+      dataInicioPrevisto:
+        itemPlanoAuditoria.dataInicioPrevisto && itemPlanoAuditoria.dataInicioPrevisto.isValid()
+          ? itemPlanoAuditoria.dataInicioPrevisto.toJSON()
+          : undefined,
+      dataFimPrevisto:
+        itemPlanoAuditoria.dataFimPrevisto && itemPlanoAuditoria.dataFimPrevisto.isValid()
+          ? itemPlanoAuditoria.dataFimPrevisto.toJSON()
           : undefined
     });
     return copy;
@@ -62,7 +66,8 @@ export class ItemPlanoAuditoriaService {
 
   protected convertDateFromServer(res: EntityResponseType): EntityResponseType {
     if (res.body) {
-      res.body.dataAuditoria = res.body.dataAuditoria ? moment(res.body.dataAuditoria) : undefined;
+      res.body.dataInicioPrevisto = res.body.dataInicioPrevisto ? moment(res.body.dataInicioPrevisto) : undefined;
+      res.body.dataFimPrevisto = res.body.dataFimPrevisto ? moment(res.body.dataFimPrevisto) : undefined;
     }
     return res;
   }
@@ -70,7 +75,10 @@ export class ItemPlanoAuditoriaService {
   protected convertDateArrayFromServer(res: EntityArrayResponseType): EntityArrayResponseType {
     if (res.body) {
       res.body.forEach((itemPlanoAuditoria: IItemPlanoAuditoria) => {
-        itemPlanoAuditoria.dataAuditoria = itemPlanoAuditoria.dataAuditoria ? moment(itemPlanoAuditoria.dataAuditoria) : undefined;
+        itemPlanoAuditoria.dataInicioPrevisto = itemPlanoAuditoria.dataInicioPrevisto
+          ? moment(itemPlanoAuditoria.dataInicioPrevisto)
+          : undefined;
+        itemPlanoAuditoria.dataFimPrevisto = itemPlanoAuditoria.dataFimPrevisto ? moment(itemPlanoAuditoria.dataFimPrevisto) : undefined;
       });
     }
     return res;

@@ -328,7 +328,7 @@ public class ProcessoResourceIT {
         Anexo anexo = AnexoResourceIT.createEntity(em);
         em.persist(anexo);
         em.flush();
-        processo.setAnexo(anexo);
+        processo.addAnexo(anexo);
         processoRepository.saveAndFlush(processo);
         Long anexoId = anexo.getId();
 

@@ -35,9 +35,9 @@ public class Checklist implements Serializable {
     @Column(name = "periodicidade")
     private Periodicidade periodicidade;
 
-    @OneToOne
-    @JoinColumn(unique = true)
-    private Anexo anexo;
+    @OneToMany(mappedBy = "checklist")
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<Anexo> anexos = new HashSet<>();
 
     @OneToMany(mappedBy = "checklist")
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
@@ -83,17 +83,29 @@ public class Checklist implements Serializable {
         this.periodicidade = periodicidade;
     }
 
-    public Anexo getAnexo() {
-        return anexo;
+    public Set<Anexo> getAnexos() {
+        return anexos;
     }
 
-    public Checklist anexo(Anexo anexo) {
-        this.anexo = anexo;
+    public Checklist anexos(Set<Anexo> anexos) {
+        this.anexos = anexos;
         return this;
     }
 
-    public void setAnexo(Anexo anexo) {
-        this.anexo = anexo;
+    public Checklist addAnexo(Anexo anexo) {
+        this.anexos.add(anexo);
+        anexo.setChecklist(this);
+        return this;
+    }
+
+    public Checklist removeAnexo(Anexo anexo) {
+        this.anexos.remove(anexo);
+        anexo.setChecklist(null);
+        return this;
+    }
+
+    public void setAnexos(Set<Anexo> anexos) {
+        this.anexos = anexos;
     }
 
     public Set<ItemChecklist> getItems() {

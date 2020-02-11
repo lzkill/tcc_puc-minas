@@ -26,7 +26,6 @@
             <th scope="col"  jhiSortBy="dataEvento"><span jhiTranslate="gatewayApp.sgqEventoOperacional.dataEvento">Data Evento</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="duracao"><span jhiTranslate="gatewayApp.sgqEventoOperacional.duracao">Duracao</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="houveParadaProducao"><span jhiTranslate="gatewayApp.sgqEventoOperacional.houveParadaProducao">Houve Parada Producao</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  jhiSortBy="anexo.nomeArquivo"><span jhiTranslate="gatewayApp.sgqEventoOperacional.anexo">Anexo</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="processo.titulo"><span jhiTranslate="gatewayApp.sgqEventoOperacional.processo">Processo</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"></th>
             </tr>
@@ -41,11 +40,6 @@
                 <td>{{eventoOperacional.dataEvento | date:'medium'}}</td>
                 <td>{{eventoOperacional.duracao}}</td>
                 <td>{{eventoOperacional.houveParadaProducao}}</td>
-                <td>
-                    <div *ngIf="eventoOperacional.anexo">
-                        <a [routerLink]="['/anexo', eventoOperacional.anexo?.id, 'view' ]" >{{eventoOperacional.anexo?.nomeArquivo}}</a>
-                    </div>
-                </td>
                 <td>
                     <div *ngIf="eventoOperacional.processo">
                         <a [routerLink]="['/processo', eventoOperacional.processo?.id, 'view' ]" >{{eventoOperacional.processo?.titulo}}</a>

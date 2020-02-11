@@ -1,5 +1,6 @@
 package com.lzkill.sgq.domain;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import io.swagger.annotations.ApiModelProperty;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -34,6 +35,10 @@ public class Auditoria implements Serializable {
     @Column(name = "titulo", length = 100, nullable = false)
     private String titulo;
 
+    /**
+     * Requisitos abordados, objetivos, etc
+     */
+    @ApiModelProperty(value = "Requisitos abordados, objetivos, etc")
     @Lob
     @Column(name = "descricao")
     private String descricao;

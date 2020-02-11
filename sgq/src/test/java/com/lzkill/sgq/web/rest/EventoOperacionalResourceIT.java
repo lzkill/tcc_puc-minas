@@ -792,7 +792,7 @@ public class EventoOperacionalResourceIT {
         Anexo anexo = AnexoResourceIT.createEntity(em);
         em.persist(anexo);
         em.flush();
-        eventoOperacional.setAnexo(anexo);
+        eventoOperacional.addAnexo(anexo);
         eventoOperacionalRepository.saveAndFlush(eventoOperacional);
         Long anexoId = anexo.getId();
 

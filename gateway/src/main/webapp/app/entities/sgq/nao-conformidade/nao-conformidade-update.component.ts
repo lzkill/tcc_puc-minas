@@ -12,8 +12,12 @@ import { JhiDataUtils, JhiFileLoadError, JhiEventManager, JhiEventWithContent } 
 import { INaoConformidade, NaoConformidade } from 'app/shared/model/sgq/nao-conformidade.model';
 import { NaoConformidadeService } from './nao-conformidade.service';
 import { AlertError } from 'app/shared/alert/alert-error.model';
-import { IAnexo } from 'app/shared/model/sgq/anexo.model';
-import { AnexoService } from 'app/entities/sgq/anexo/anexo.service';
+import { IResultadoAuditoria } from 'app/shared/model/sgq/resultado-auditoria.model';
+import { ResultadoAuditoriaService } from 'app/entities/sgq/resultado-auditoria/resultado-auditoria.service';
+import { IResultadoItemChecklist } from 'app/shared/model/sgq/resultado-item-checklist.model';
+import { ResultadoItemChecklistService } from 'app/entities/sgq/resultado-item-checklist/resultado-item-checklist.service';
+
+type SelectableEntity = IResultadoAuditoria | IResultadoItemChecklist;
 
 @Component({
   selector: 'jhi-nao-conformidade-update',
@@ -22,7 +26,9 @@ import { AnexoService } from 'app/entities/sgq/anexo/anexo.service';
 export class NaoConformidadeUpdateComponent implements OnInit {
   isSaving = false;
 
-  anexos: IAnexo[] = [];
+  resultadoauditorias: IResultadoAuditoria[] = [];
+
+  resultadoitemchecklists: IResultadoItemChecklist[] = [];
 
   editForm = this.fb.group({
     id: [],
@@ -38,14 +44,16 @@ export class NaoConformidadeUpdateComponent implements OnInit {
     dataConclusao: [],
     analiseFinal: [],
     statusSGQ: [null, [Validators.required]],
-    anexo: []
+    resultadoAuditoria: [],
+    resultadoItemChecklist: []
   });
 
   constructor(
     protected dataUtils: JhiDataUtils,
     protected eventManager: JhiEventManager,
     protected naoConformidadeService: NaoConformidadeService,
-    protected anexoService: AnexoService,
+    protected resultadoAuditoriaService: ResultadoAuditoriaService,
+    protected resultadoItemChecklistService: ResultadoItemChecklistService,
     protected activatedRoute: ActivatedRoute,
     private fb: FormBuilder
   ) {}
@@ -54,29 +62,23 @@ export class NaoConformidadeUpdateComponent implements OnInit {
     this.activatedRoute.data.subscribe(({ naoConformidade }) => {
       this.updateForm(naoConformidade);
 
-      this.anexoService
-        .query({ 'naoConformidadeId.specified': 'false' })
+      this.resultadoAuditoriaService
+        .query()
         .pipe(
-          map((res: HttpResponse<IAnexo[]>) => {
+          map((res: HttpResponse<IResultadoAuditoria[]>) => {
             return res.body ? res.body : [];
           })
         )
-        .subscribe((resBody: IAnexo[]) => {
-          if (!naoConformidade.anexo || !naoConformidade.anexo.id) {
-            this.anexos = resBody;
-          } else {
-            this.anexoService
-              .find(naoConformidade.anexo.id)
-              .pipe(
-                map((subRes: HttpResponse<IAnexo>) => {
-                  return subRes.body ? [subRes.body].concat(resBody) : resBody;
-                })
-              )
-              .subscribe((concatRes: IAnexo[]) => {
-                this.anexos = concatRes;
-              });
-          }
-        });
+        .subscribe((resBody: IResultadoAuditoria[]) => (this.resultadoauditorias = resBody));
+
+      this.resultadoItemChecklistService
+        .query()
+        .pipe(
+          map((res: HttpResponse<IResultadoItemChecklist[]>) => {
+            return res.body ? res.body : [];
+          })
+        )
+        .subscribe((resBody: IResultadoItemChecklist[]) => (this.resultadoitemchecklists = resBody));
     });
   }
 
@@ -95,7 +97,8 @@ export class NaoConformidadeUpdateComponent implements OnInit {
       dataConclusao: naoConformidade.dataConclusao != null ? naoConformidade.dataConclusao.format(DATE_TIME_FORMAT) : null,
       analiseFinal: naoConformidade.analiseFinal,
       statusSGQ: naoConformidade.statusSGQ,
-      anexo: naoConformidade.anexo
+      resultadoAuditoria: naoConformidade.resultadoAuditoria,
+      resultadoItemChecklist: naoConformidade.resultadoItemChecklist
     });
   }
 
@@ -157,7 +160,8 @@ export class NaoConformidadeUpdateComponent implements OnInit {
           : undefined,
       analiseFinal: this.editForm.get(['analiseFinal'])!.value,
       statusSGQ: this.editForm.get(['statusSGQ'])!.value,
-      anexo: this.editForm.get(['anexo'])!.value
+      resultadoAuditoria: this.editForm.get(['resultadoAuditoria'])!.value,
+      resultadoItemChecklist: this.editForm.get(['resultadoItemChecklist'])!.value
     };
   }
 
@@ -177,7 +181,7 @@ export class NaoConformidadeUpdateComponent implements OnInit {
     this.isSaving = false;
   }
 
-  trackById(index: number, item: IAnexo): any {
+  trackById(index: number, item: SelectableEntity): any {
     return item.id;
   }
 }

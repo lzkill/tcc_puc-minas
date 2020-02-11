@@ -19,9 +19,8 @@
             <thead>
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
             <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  jhiSortBy="idUsuarioResponsavel"><span jhiTranslate="gatewayApp.sgqItemPlanoAuditoria.idUsuarioResponsavel">Id Usuario Responsavel</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  jhiSortBy="dataAuditoria"><span jhiTranslate="gatewayApp.sgqItemPlanoAuditoria.dataAuditoria">Data Auditoria</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  jhiSortBy="anexo.nomeArquivo"><span jhiTranslate="gatewayApp.sgqItemPlanoAuditoria.anexo">Anexo</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="dataInicioPrevisto"><span jhiTranslate="gatewayApp.sgqItemPlanoAuditoria.dataInicioPrevisto">Data Inicio Previsto</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="dataFimPrevisto"><span jhiTranslate="gatewayApp.sgqItemPlanoAuditoria.dataFimPrevisto">Data Fim Previsto</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="auditoria.titulo"><span jhiTranslate="gatewayApp.sgqItemPlanoAuditoria.auditoria">Auditoria</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="plano.titulo"><span jhiTranslate="gatewayApp.sgqItemPlanoAuditoria.plano">Plano</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"></th>
@@ -30,13 +29,8 @@
             <tbody>
             <tr *ngFor="let itemPlanoAuditoria of itemPlanoAuditorias ;trackBy: trackId">
                 <td><a [routerLink]="['/item-plano-auditoria', itemPlanoAuditoria.id, 'view' ]">{{itemPlanoAuditoria.id}}</a></td>
-                <td>{{itemPlanoAuditoria.idUsuarioResponsavel}}</td>
-                <td>{{itemPlanoAuditoria.dataAuditoria | date:'medium'}}</td>
-                <td>
-                    <div *ngIf="itemPlanoAuditoria.anexo">
-                        <a [routerLink]="['/anexo', itemPlanoAuditoria.anexo?.id, 'view' ]" >{{itemPlanoAuditoria.anexo?.nomeArquivo}}</a>
-                    </div>
-                </td>
+                <td>{{itemPlanoAuditoria.dataInicioPrevisto | date:'medium'}}</td>
+                <td>{{itemPlanoAuditoria.dataFimPrevisto | date:'medium'}}</td>
                 <td>
                     <div *ngIf="itemPlanoAuditoria.auditoria">
                         <a [routerLink]="['/auditoria', itemPlanoAuditoria.auditoria?.id, 'view' ]" >{{itemPlanoAuditoria.auditoria?.titulo}}</a>

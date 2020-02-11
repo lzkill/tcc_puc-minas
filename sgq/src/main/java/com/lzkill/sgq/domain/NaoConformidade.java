@@ -1,4 +1,5 @@
 package com.lzkill.sgq.domain;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.hibernate.annotations.Cache;
@@ -90,13 +91,21 @@ public class NaoConformidade implements Serializable {
     @Column(name = "status_sgq", nullable = false)
     private StatusSGQ statusSGQ;
 
-    @OneToOne
-    @JoinColumn(unique = true)
-    private Anexo anexo;
+    @OneToMany(mappedBy = "naoConformidade")
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<Anexo> anexos = new HashSet<>();
 
     @OneToMany(mappedBy = "naoConformidade")
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<AcaoSGQ> acaos = new HashSet<>();
+    private Set<AcaoSGQ> acaoSGQS = new HashSet<>();
+
+    @ManyToOne
+    @JsonIgnoreProperties("naoConformidades")
+    private ResultadoAuditoria resultadoAuditoria;
+
+    @ManyToOne
+    @JsonIgnoreProperties("naoConformidades")
+    private ResultadoItemChecklist resultadoItemChecklist;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -263,42 +272,80 @@ public class NaoConformidade implements Serializable {
         this.statusSGQ = statusSGQ;
     }
 
-    public Anexo getAnexo() {
-        return anexo;
+    public Set<Anexo> getAnexos() {
+        return anexos;
     }
 
-    public NaoConformidade anexo(Anexo anexo) {
-        this.anexo = anexo;
+    public NaoConformidade anexos(Set<Anexo> anexos) {
+        this.anexos = anexos;
         return this;
     }
 
-    public void setAnexo(Anexo anexo) {
-        this.anexo = anexo;
-    }
-
-    public Set<AcaoSGQ> getAcaos() {
-        return acaos;
-    }
-
-    public NaoConformidade acaos(Set<AcaoSGQ> acaoSGQS) {
-        this.acaos = acaoSGQS;
+    public NaoConformidade addAnexo(Anexo anexo) {
+        this.anexos.add(anexo);
+        anexo.setNaoConformidade(this);
         return this;
     }
 
-    public NaoConformidade addAcao(AcaoSGQ acaoSGQ) {
-        this.acaos.add(acaoSGQ);
+    public NaoConformidade removeAnexo(Anexo anexo) {
+        this.anexos.remove(anexo);
+        anexo.setNaoConformidade(null);
+        return this;
+    }
+
+    public void setAnexos(Set<Anexo> anexos) {
+        this.anexos = anexos;
+    }
+
+    public Set<AcaoSGQ> getAcaoSGQS() {
+        return acaoSGQS;
+    }
+
+    public NaoConformidade acaoSGQS(Set<AcaoSGQ> acaoSGQS) {
+        this.acaoSGQS = acaoSGQS;
+        return this;
+    }
+
+    public NaoConformidade addAcaoSGQ(AcaoSGQ acaoSGQ) {
+        this.acaoSGQS.add(acaoSGQ);
         acaoSGQ.setNaoConformidade(this);
         return this;
     }
 
-    public NaoConformidade removeAcao(AcaoSGQ acaoSGQ) {
-        this.acaos.remove(acaoSGQ);
+    public NaoConformidade removeAcaoSGQ(AcaoSGQ acaoSGQ) {
+        this.acaoSGQS.remove(acaoSGQ);
         acaoSGQ.setNaoConformidade(null);
         return this;
     }
 
-    public void setAcaos(Set<AcaoSGQ> acaoSGQS) {
-        this.acaos = acaoSGQS;
+    public void setAcaoSGQS(Set<AcaoSGQ> acaoSGQS) {
+        this.acaoSGQS = acaoSGQS;
+    }
+
+    public ResultadoAuditoria getResultadoAuditoria() {
+        return resultadoAuditoria;
+    }
+
+    public NaoConformidade resultadoAuditoria(ResultadoAuditoria resultadoAuditoria) {
+        this.resultadoAuditoria = resultadoAuditoria;
+        return this;
+    }
+
+    public void setResultadoAuditoria(ResultadoAuditoria resultadoAuditoria) {
+        this.resultadoAuditoria = resultadoAuditoria;
+    }
+
+    public ResultadoItemChecklist getResultadoItemChecklist() {
+        return resultadoItemChecklist;
+    }
+
+    public NaoConformidade resultadoItemChecklist(ResultadoItemChecklist resultadoItemChecklist) {
+        this.resultadoItemChecklist = resultadoItemChecklist;
+        return this;
+    }
+
+    public void setResultadoItemChecklist(ResultadoItemChecklist resultadoItemChecklist) {
+        this.resultadoItemChecklist = resultadoItemChecklist;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 

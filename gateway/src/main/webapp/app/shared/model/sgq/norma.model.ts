@@ -11,7 +11,7 @@ export interface INorma {
   numeroEdicao?: number;
   dataEdicao?: Moment;
   dataInicioValidade?: Moment;
-  anexo?: IAnexo;
+  anexos?: IAnexo[];
   categorias?: ICategoriaNorma[];
 }
 
@@ -25,7 +25,7 @@ export class Norma implements INorma {
     public numeroEdicao?: number,
     public dataEdicao?: Moment,
     public dataInicioValidade?: Moment,
-    public anexo?: IAnexo,
+    public anexos?: IAnexo[],
     public categorias?: ICategoriaNorma[]
   ) {}
 }

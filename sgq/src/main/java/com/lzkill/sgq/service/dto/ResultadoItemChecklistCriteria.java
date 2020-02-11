@@ -30,6 +30,10 @@ public class ResultadoItemChecklistCriteria implements Serializable, Criteria {
 
     private LongFilter anexoId;
 
+    private LongFilter naoConformidadeId;
+
+    private LongFilter produtoNaoConformeId;
+
     private LongFilter itemId;
 
     private LongFilter resultadoId;
@@ -41,6 +45,8 @@ public class ResultadoItemChecklistCriteria implements Serializable, Criteria {
         this.id = other.id == null ? null : other.id.copy();
         this.conforme = other.conforme == null ? null : other.conforme.copy();
         this.anexoId = other.anexoId == null ? null : other.anexoId.copy();
+        this.naoConformidadeId = other.naoConformidadeId == null ? null : other.naoConformidadeId.copy();
+        this.produtoNaoConformeId = other.produtoNaoConformeId == null ? null : other.produtoNaoConformeId.copy();
         this.itemId = other.itemId == null ? null : other.itemId.copy();
         this.resultadoId = other.resultadoId == null ? null : other.resultadoId.copy();
     }
@@ -74,6 +80,22 @@ public class ResultadoItemChecklistCriteria implements Serializable, Criteria {
         this.anexoId = anexoId;
     }
 
+    public LongFilter getNaoConformidadeId() {
+        return naoConformidadeId;
+    }
+
+    public void setNaoConformidadeId(LongFilter naoConformidadeId) {
+        this.naoConformidadeId = naoConformidadeId;
+    }
+
+    public LongFilter getProdutoNaoConformeId() {
+        return produtoNaoConformeId;
+    }
+
+    public void setProdutoNaoConformeId(LongFilter produtoNaoConformeId) {
+        this.produtoNaoConformeId = produtoNaoConformeId;
+    }
+
     public LongFilter getItemId() {
         return itemId;
     }
@@ -104,6 +126,8 @@ public class ResultadoItemChecklistCriteria implements Serializable, Criteria {
             Objects.equals(id, that.id) &&
             Objects.equals(conforme, that.conforme) &&
             Objects.equals(anexoId, that.anexoId) &&
+            Objects.equals(naoConformidadeId, that.naoConformidadeId) &&
+            Objects.equals(produtoNaoConformeId, that.produtoNaoConformeId) &&
             Objects.equals(itemId, that.itemId) &&
             Objects.equals(resultadoId, that.resultadoId);
     }
@@ -114,6 +138,8 @@ public class ResultadoItemChecklistCriteria implements Serializable, Criteria {
         id,
         conforme,
         anexoId,
+        naoConformidadeId,
+        produtoNaoConformeId,
         itemId,
         resultadoId
         );
@@ -125,6 +151,8 @@ public class ResultadoItemChecklistCriteria implements Serializable, Criteria {
                 (id != null ? "id=" + id + ", " : "") +
                 (conforme != null ? "conforme=" + conforme + ", " : "") +
                 (anexoId != null ? "anexoId=" + anexoId + ", " : "") +
+                (naoConformidadeId != null ? "naoConformidadeId=" + naoConformidadeId + ", " : "") +
+                (produtoNaoConformeId != null ? "produtoNaoConformeId=" + produtoNaoConformeId + ", " : "") +
                 (itemId != null ? "itemId=" + itemId + ", " : "") +
                 (resultadoId != null ? "resultadoId=" + resultadoId + ", " : "") +
             "}";

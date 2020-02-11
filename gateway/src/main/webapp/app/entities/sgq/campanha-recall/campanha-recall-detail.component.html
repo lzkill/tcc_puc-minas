@@ -33,12 +33,6 @@
                 <dd>
                     <span>{{campanhaRecall.resultado}}</span>
                 </dd>
-                <dt><span jhiTranslate="gatewayApp.sgqCampanhaRecall.anexo">Anexo</span></dt>
-                <dd>
-                    <div *ngIf="campanhaRecall.anexo">
-                        <a [routerLink]="['/anexo', campanhaRecall.anexo?.id, 'view']">{{campanhaRecall.anexo?.nomeArquivo}}</a>
-                    </div>
-                </dd>
                 <dt><span jhiTranslate="gatewayApp.sgqCampanhaRecall.produto">Produto</span></dt>
                 <dd>
                     <div *ngIf="campanhaRecall.produto">

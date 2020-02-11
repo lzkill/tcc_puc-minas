@@ -13,12 +13,6 @@
                 <dd>
                     <span>{{resultadoItemChecklist.descricao}}</span>
                 </dd>
-                <dt><span jhiTranslate="gatewayApp.sgqResultadoItemChecklist.anexo">Anexo</span></dt>
-                <dd>
-                    <div *ngIf="resultadoItemChecklist.anexo">
-                        <a [routerLink]="['/anexo', resultadoItemChecklist.anexo?.id, 'view']">{{resultadoItemChecklist.anexo?.nomeArquivo}}</a>
-                    </div>
-                </dd>
                 <dt><span jhiTranslate="gatewayApp.sgqResultadoItemChecklist.item">Item</span></dt>
                 <dd>
                     <div *ngIf="resultadoItemChecklist.item">

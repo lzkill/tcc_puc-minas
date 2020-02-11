@@ -15,8 +15,6 @@
       },
       "titulo": "Titulo",
       "descricao": "Descricao",
-      "dataInicio": "Data Inicio",
-      "dataFim": "Data Fim",
       "anexo": "Anexo",
       "item": "Item"
     }

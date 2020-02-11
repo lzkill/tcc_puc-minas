@@ -1,0 +1,69 @@
+{
+    "name": "ResultadoAuditoria",
+    "fields": [
+        {
+            "fieldName": "idUsuarioResponsavel",
+            "fieldType": "Integer",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "dataInicio",
+            "fieldType": "Instant",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "dataFim",
+            "fieldType": "Instant",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "descricao",
+            "fieldType": "byte[]",
+            "fieldTypeBlobContent": "text",
+            "fieldValidateRules": [
+                "required"
+            ]
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "one-to-many",
+            "otherEntityName": "naoConformidade",
+            "otherEntityRelationshipName": "resultadoAuditoria",
+            "relationshipName": "naoConformidade"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "otherEntityName": "produtoNaoConforme",
+            "otherEntityRelationshipName": "resultadoAuditoria",
+            "relationshipName": "produtoNaoConforme"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "auditoria",
+            "otherEntityRelationshipName": "resultadoAuditoria",
+            "relationshipName": "auditoria",
+            "otherEntityField": "titulo"
+        }
+    ],
+    "changelogDate": "20200211184801",
+    "entityTableName": "resultado_auditoria",
+    "dto": "no",
+    "pagination": "pagination",
+    "service": "serviceClass",
+    "jpaMetamodelFiltering": true,
+    "fluentMethods": true,
+    "readOnly": false,
+    "clientRootFolder": "",
+    "applications": [
+        "gateway",
+        "sgq"
+    ],
+    "microserviceName": "sgq"
+}

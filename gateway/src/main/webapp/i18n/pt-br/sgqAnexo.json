@@ -14,7 +14,24 @@
         "title": "Anexo"
       },
       "nomeArquivo": "Nome Arquivo",
-      "conteudo": "Conteudo"
+      "conteudo": "Conteudo",
+      "acaoSGQ": "Acao SGQ",
+      "analiseConsultoria": "Analise Consultoria",
+      "checklist": "Checklist",
+      "boletimInformativo": "Boletim Informativo",
+      "campanhaRecall": "Campanha Recall",
+      "eventoOperacional": "Evento Operacional",
+      "itemChecklist": "Item Checklist",
+      "itemPlanoAuditoria": "Item Plano Auditoria",
+      "naoConformidade": "Nao Conformidade",
+      "norma": "Norma",
+      "processo": "Processo",
+      "produto": "Produto",
+      "planoAuditoria": "Plano Auditoria",
+      "produtoNaoConforme": "Produto Nao Conforme",
+      "publicacaoFeed": "Publicacao Feed",
+      "resultadoChecklist": "Resultado Checklist",
+      "resultadoItemChecklist": "Resultado Item Checklist"
     }
   },
   "sgqApp": {

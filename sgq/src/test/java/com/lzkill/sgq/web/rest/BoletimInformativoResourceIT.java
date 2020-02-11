@@ -324,7 +324,7 @@ public class BoletimInformativoResourceIT {
             .andExpect(jsonPath("$.[*].dataPublicacao").value(hasItem(DEFAULT_DATA_PUBLICACAO.toString())))
             .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())));
     }
-    
+
     @SuppressWarnings({"unchecked"})
     public void getAllBoletimInformativosWithEagerRelationshipsIsEnabled() throws Exception {
         BoletimInformativoResource boletimInformativoResource = new BoletimInformativoResource(boletimInformativoServiceMock, boletimInformativoQueryService);
@@ -744,7 +744,7 @@ public class BoletimInformativoResourceIT {
         Anexo anexo = AnexoResourceIT.createEntity(em);
         em.persist(anexo);
         em.flush();
-        boletimInformativo.setAnexo(anexo);
+        boletimInformativo.addAnexo(anexo);
         boletimInformativoRepository.saveAndFlush(boletimInformativo);
         Long anexoId = anexo.getId();
 

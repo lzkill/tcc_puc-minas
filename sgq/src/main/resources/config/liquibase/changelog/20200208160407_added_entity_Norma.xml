@@ -37,9 +37,6 @@
             <column name="data_inicio_validade" type="datetime">
                 <constraints nullable="true" />
             </column>
-            <column name="anexo_id" type="bigint">
-                <constraints unique="true" nullable="true" uniqueConstraintName="ux_norma_anexo_id" />
-            </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
         </createTable>
         <dropDefaultValue tableName="norma" columnName="data_edicao" columnDataType="datetime"/>

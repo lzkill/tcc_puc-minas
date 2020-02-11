@@ -54,13 +54,6 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="gatewayApp.sgqItemChecklist.anexo" for="field_anexo">Anexo</label>
-                    <select class="form-control" id="field_anexo" name="anexo" formControlName="anexo">
-                        <option [ngValue]="null"></option>
-                        <option [ngValue]="anexoOption.id === editForm.get('anexo')!.value?.id ? editForm.get('anexo')!.value : anexoOption" *ngFor="let anexoOption of anexos; trackBy: trackById">{{anexoOption.nomeArquivo}}</option>
-                    </select>
-                </div>
-                <div class="form-group">
                     <label class="form-control-label" jhiTranslate="gatewayApp.sgqItemChecklist.checklist" for="field_checklist">Checklist</label>
                     <select class="form-control" id="field_checklist" name="checklist" formControlName="checklist">
                         <option *ngIf="!editForm.get('checklist')!.value" [ngValue]="null" selected></option>

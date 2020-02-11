@@ -399,7 +399,7 @@ public class PublicacaoFeedResourceIT {
             .andExpect(jsonPath("$.[*].dataPublicacao").value(hasItem(DEFAULT_DATA_PUBLICACAO.toString())))
             .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())));
     }
-    
+
     @SuppressWarnings({"unchecked"})
     public void getAllPublicacaoFeedsWithEagerRelationshipsIsEnabled() throws Exception {
         PublicacaoFeedResource publicacaoFeedResource = new PublicacaoFeedResource(publicacaoFeedServiceMock, publicacaoFeedQueryService);
@@ -1056,7 +1056,7 @@ public class PublicacaoFeedResourceIT {
         Anexo anexo = AnexoResourceIT.createEntity(em);
         em.persist(anexo);
         em.flush();
-        publicacaoFeed.setAnexo(anexo);
+        publicacaoFeed.addAnexo(anexo);
         publicacaoFeedRepository.saveAndFlush(publicacaoFeed);
         Long anexoId = anexo.getId();
 

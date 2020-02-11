@@ -27,9 +27,9 @@ public class ItemPlanoAuditoriaCriteria implements Serializable, Criteria {
 
     private LongFilter id;
 
-    private IntegerFilter idUsuarioResponsavel;
+    private InstantFilter dataInicioPrevisto;
 
-    private InstantFilter dataAuditoria;
+    private InstantFilter dataFimPrevisto;
 
     private LongFilter anexoId;
 
@@ -42,8 +42,8 @@ public class ItemPlanoAuditoriaCriteria implements Serializable, Criteria {
 
     public ItemPlanoAuditoriaCriteria(ItemPlanoAuditoriaCriteria other){
         this.id = other.id == null ? null : other.id.copy();
-        this.idUsuarioResponsavel = other.idUsuarioResponsavel == null ? null : other.idUsuarioResponsavel.copy();
-        this.dataAuditoria = other.dataAuditoria == null ? null : other.dataAuditoria.copy();
+        this.dataInicioPrevisto = other.dataInicioPrevisto == null ? null : other.dataInicioPrevisto.copy();
+        this.dataFimPrevisto = other.dataFimPrevisto == null ? null : other.dataFimPrevisto.copy();
         this.anexoId = other.anexoId == null ? null : other.anexoId.copy();
         this.auditoriaId = other.auditoriaId == null ? null : other.auditoriaId.copy();
         this.planoId = other.planoId == null ? null : other.planoId.copy();
@@ -62,20 +62,20 @@ public class ItemPlanoAuditoriaCriteria implements Serializable, Criteria {
         this.id = id;
     }
 
-    public IntegerFilter getIdUsuarioResponsavel() {
-        return idUsuarioResponsavel;
+    public InstantFilter getDataInicioPrevisto() {
+        return dataInicioPrevisto;
     }
 
-    public void setIdUsuarioResponsavel(IntegerFilter idUsuarioResponsavel) {
-        this.idUsuarioResponsavel = idUsuarioResponsavel;
+    public void setDataInicioPrevisto(InstantFilter dataInicioPrevisto) {
+        this.dataInicioPrevisto = dataInicioPrevisto;
     }
 
-    public InstantFilter getDataAuditoria() {
-        return dataAuditoria;
+    public InstantFilter getDataFimPrevisto() {
+        return dataFimPrevisto;
     }
 
-    public void setDataAuditoria(InstantFilter dataAuditoria) {
-        this.dataAuditoria = dataAuditoria;
+    public void setDataFimPrevisto(InstantFilter dataFimPrevisto) {
+        this.dataFimPrevisto = dataFimPrevisto;
     }
 
     public LongFilter getAnexoId() {
@@ -114,8 +114,8 @@ public class ItemPlanoAuditoriaCriteria implements Serializable, Criteria {
         final ItemPlanoAuditoriaCriteria that = (ItemPlanoAuditoriaCriteria) o;
         return
             Objects.equals(id, that.id) &&
-            Objects.equals(idUsuarioResponsavel, that.idUsuarioResponsavel) &&
-            Objects.equals(dataAuditoria, that.dataAuditoria) &&
+            Objects.equals(dataInicioPrevisto, that.dataInicioPrevisto) &&
+            Objects.equals(dataFimPrevisto, that.dataFimPrevisto) &&
             Objects.equals(anexoId, that.anexoId) &&
             Objects.equals(auditoriaId, that.auditoriaId) &&
             Objects.equals(planoId, that.planoId);
@@ -125,8 +125,8 @@ public class ItemPlanoAuditoriaCriteria implements Serializable, Criteria {
     public int hashCode() {
         return Objects.hash(
         id,
-        idUsuarioResponsavel,
-        dataAuditoria,
+        dataInicioPrevisto,
+        dataFimPrevisto,
         anexoId,
         auditoriaId,
         planoId
@@ -137,8 +137,8 @@ public class ItemPlanoAuditoriaCriteria implements Serializable, Criteria {
     public String toString() {
         return "ItemPlanoAuditoriaCriteria{" +
                 (id != null ? "id=" + id + ", " : "") +
-                (idUsuarioResponsavel != null ? "idUsuarioResponsavel=" + idUsuarioResponsavel + ", " : "") +
-                (dataAuditoria != null ? "dataAuditoria=" + dataAuditoria + ", " : "") +
+                (dataInicioPrevisto != null ? "dataInicioPrevisto=" + dataInicioPrevisto + ", " : "") +
+                (dataFimPrevisto != null ? "dataFimPrevisto=" + dataFimPrevisto + ", " : "") +
                 (anexoId != null ? "anexoId=" + anexoId + ", " : "") +
                 (auditoriaId != null ? "auditoriaId=" + auditoriaId + ", " : "") +
                 (planoId != null ? "planoId=" + planoId + ", " : "") +

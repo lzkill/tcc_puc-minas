@@ -381,7 +381,7 @@ public class ChecklistResourceIT {
         Anexo anexo = AnexoResourceIT.createEntity(em);
         em.persist(anexo);
         em.flush();
-        checklist.setAnexo(anexo);
+        checklist.addAnexo(anexo);
         checklistRepository.saveAndFlush(checklist);
         Long anexoId = anexo.getId();
 

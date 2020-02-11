@@ -689,7 +689,7 @@ public class CampanhaRecallResourceIT {
         Anexo anexo = AnexoResourceIT.createEntity(em);
         em.persist(anexo);
         em.flush();
-        campanhaRecall.setAnexo(anexo);
+        campanhaRecall.addAnexo(anexo);
         campanhaRecallRepository.saveAndFlush(campanhaRecall);
         Long anexoId = anexo.getId();
 

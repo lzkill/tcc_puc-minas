@@ -26,7 +26,9 @@
       "analiseFinal": "Analise Final",
       "statusSGQ": "Status SGQ",
       "anexo": "Anexo",
-      "acao": "Acao",
+      "acaoSGQ": "Acao SGQ",
+      "resultadoAuditoria": "Resultado Auditoria",
+      "resultadoItemChecklist": "Resultado Item Checklist",
       "help": {
         "procedente": "O fato descrito implica de fato uma NC",
         "causa": "O fechamento da NC só é possível se houver identificação de causa",

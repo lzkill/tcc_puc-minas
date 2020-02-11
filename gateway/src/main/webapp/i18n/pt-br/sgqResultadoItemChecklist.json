@@ -16,6 +16,8 @@
       "conforme": "Conforme",
       "descricao": "Descricao",
       "anexo": "Anexo",
+      "naoConformidade": "Nao Conformidade",
+      "produtoNaoConforme": "Produto Nao Conforme",
       "item": "Item",
       "resultado": "Resultado"
     }

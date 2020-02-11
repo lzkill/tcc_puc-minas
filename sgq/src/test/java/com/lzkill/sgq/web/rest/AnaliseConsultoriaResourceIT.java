@@ -584,7 +584,7 @@ public class AnaliseConsultoriaResourceIT {
         Anexo anexo = AnexoResourceIT.createEntity(em);
         em.persist(anexo);
         em.flush();
-        analiseConsultoria.setAnexo(anexo);
+        analiseConsultoria.addAnexo(anexo);
         analiseConsultoriaRepository.saveAndFlush(analiseConsultoria);
         Long anexoId = anexo.getId();
 

@@ -49,16 +49,22 @@
                         <a [routerLink]="['/nao-conformidade', produtoNaoConforme.naoConformidade?.id, 'view']">{{produtoNaoConforme.naoConformidade?.titulo}}</a>
                     </div>
                 </dd>
-                <dt><span jhiTranslate="gatewayApp.sgqProdutoNaoConforme.anexo">Anexo</span></dt>
-                <dd>
-                    <div *ngIf="produtoNaoConforme.anexo">
-                        <a [routerLink]="['/anexo', produtoNaoConforme.anexo?.id, 'view']">{{produtoNaoConforme.anexo?.nomeArquivo}}</a>
-                    </div>
-                </dd>
                 <dt><span jhiTranslate="gatewayApp.sgqProdutoNaoConforme.produto">Produto</span></dt>
                 <dd>
                     <div *ngIf="produtoNaoConforme.produto">
                         <a [routerLink]="['/produto', produtoNaoConforme.produto?.id, 'view']">{{produtoNaoConforme.produto?.nome}}</a>
+                    </div>
+                </dd>
+                <dt><span jhiTranslate="gatewayApp.sgqProdutoNaoConforme.resultadoAuditoria">Resultado Auditoria</span></dt>
+                <dd>
+                    <div *ngIf="produtoNaoConforme.resultadoAuditoria">
+                        <a [routerLink]="['/resultado-auditoria', produtoNaoConforme.resultadoAuditoria?.id, 'view']">{{produtoNaoConforme.resultadoAuditoria?.id}}</a>
+                    </div>
+                </dd>
+                <dt><span jhiTranslate="gatewayApp.sgqProdutoNaoConforme.resultadoItemChecklist">Resultado Item Checklist</span></dt>
+                <dd>
+                    <div *ngIf="produtoNaoConforme.resultadoItemChecklist">
+                        <a [routerLink]="['/resultado-item-checklist', produtoNaoConforme.resultadoItemChecklist?.id, 'view']">{{produtoNaoConforme.resultadoItemChecklist?.id}}</a>
                     </div>
                 </dd>
             </dl>

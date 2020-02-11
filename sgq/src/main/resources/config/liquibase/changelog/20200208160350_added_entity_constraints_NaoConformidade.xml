@@ -8,11 +8,17 @@
     -->
     <changeSet id="20200208160350-2" author="jhipster">
         
-        <addForeignKeyConstraint baseColumnNames="anexo_id"
+        <addForeignKeyConstraint baseColumnNames="resultado_auditoria_id"
                                  baseTableName="nao_conformidade"
-                                 constraintName="fk_nao_conformidade_anexo_id"
+                                 constraintName="fk_nao_conformidade_resultado_auditoria_id"
                                  referencedColumnNames="id"
-                                 referencedTableName="anexo"/>
+                                 referencedTableName="resultado_auditoria"/>
+
+        <addForeignKeyConstraint baseColumnNames="resultado_item_checklist_id"
+                                 baseTableName="nao_conformidade"
+                                 constraintName="fk_nao_conformidade_resultado_item_checklist_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="resultado_item_checklist"/>
 
     </changeSet>
 </databaseChangeLog>

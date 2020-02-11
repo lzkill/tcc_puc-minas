@@ -33,12 +33,6 @@
                 <dd>
                     <span>{{norma.dataInicioValidade}}</span>
                 </dd>
-                <dt><span jhiTranslate="gatewayApp.sgqNorma.anexo">Anexo</span></dt>
-                <dd>
-                    <div *ngIf="norma.anexo">
-                        <a [routerLink]="['/anexo', norma.anexo?.id, 'view']">{{norma.anexo?.nomeArquivo}}</a>
-                    </div>
-                </dd>
                 <dt><span jhiTranslate="gatewayApp.sgqNorma.categoria">Categoria</span></dt>
                 <dd>
                     <span *ngFor="let categoria of norma.categorias; let last = last">

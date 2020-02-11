@@ -16,12 +16,14 @@ import { IAcaoSGQ } from 'app/shared/model/sgq/acao-sgq.model';
 import { AcaoSGQService } from 'app/entities/sgq/acao-sgq/acao-sgq.service';
 import { INaoConformidade } from 'app/shared/model/sgq/nao-conformidade.model';
 import { NaoConformidadeService } from 'app/entities/sgq/nao-conformidade/nao-conformidade.service';
-import { IAnexo } from 'app/shared/model/sgq/anexo.model';
-import { AnexoService } from 'app/entities/sgq/anexo/anexo.service';
 import { IProduto } from 'app/shared/model/sgq/produto.model';
 import { ProdutoService } from 'app/entities/sgq/produto/produto.service';
+import { IResultadoAuditoria } from 'app/shared/model/sgq/resultado-auditoria.model';
+import { ResultadoAuditoriaService } from 'app/entities/sgq/resultado-auditoria/resultado-auditoria.service';
+import { IResultadoItemChecklist } from 'app/shared/model/sgq/resultado-item-checklist.model';
+import { ResultadoItemChecklistService } from 'app/entities/sgq/resultado-item-checklist/resultado-item-checklist.service';
 
-type SelectableEntity = IAcaoSGQ | INaoConformidade | IAnexo | IProduto;
+type SelectableEntity = IAcaoSGQ | INaoConformidade | IProduto | IResultadoAuditoria | IResultadoItemChecklist;
 
 @Component({
   selector: 'jhi-produto-nao-conforme-update',
@@ -34,9 +36,11 @@ export class ProdutoNaoConformeUpdateComponent implements OnInit {
 
   naoconformidades: INaoConformidade[] = [];
 
-  anexos: IAnexo[] = [];
-
   produtos: IProduto[] = [];
+
+  resultadoauditorias: IResultadoAuditoria[] = [];
+
+  resultadoitemchecklists: IResultadoItemChecklist[] = [];
 
   editForm = this.fb.group({
     id: [],
@@ -50,8 +54,9 @@ export class ProdutoNaoConformeUpdateComponent implements OnInit {
     statusSGQ: [null, [Validators.required]],
     acao: [null, Validators.required],
     naoConformidade: [],
-    anexo: [],
-    produto: [null, Validators.required]
+    produto: [null, Validators.required],
+    resultadoAuditoria: [],
+    resultadoItemChecklist: []
   });
 
   constructor(
@@ -60,8 +65,9 @@ export class ProdutoNaoConformeUpdateComponent implements OnInit {
     protected produtoNaoConformeService: ProdutoNaoConformeService,
     protected acaoSGQService: AcaoSGQService,
     protected naoConformidadeService: NaoConformidadeService,
-    protected anexoService: AnexoService,
     protected produtoService: ProdutoService,
+    protected resultadoAuditoriaService: ResultadoAuditoriaService,
+    protected resultadoItemChecklistService: ResultadoItemChecklistService,
     protected activatedRoute: ActivatedRoute,
     private fb: FormBuilder
   ) {}
@@ -118,30 +124,6 @@ export class ProdutoNaoConformeUpdateComponent implements OnInit {
           }
         });
 
-      this.anexoService
-        .query({ 'produtoNaoConformeId.specified': 'false' })
-        .pipe(
-          map((res: HttpResponse<IAnexo[]>) => {
-            return res.body ? res.body : [];
-          })
-        )
-        .subscribe((resBody: IAnexo[]) => {
-          if (!produtoNaoConforme.anexo || !produtoNaoConforme.anexo.id) {
-            this.anexos = resBody;
-          } else {
-            this.anexoService
-              .find(produtoNaoConforme.anexo.id)
-              .pipe(
-                map((subRes: HttpResponse<IAnexo>) => {
-                  return subRes.body ? [subRes.body].concat(resBody) : resBody;
-                })
-              )
-              .subscribe((concatRes: IAnexo[]) => {
-                this.anexos = concatRes;
-              });
-          }
-        });
-
       this.produtoService
         .query()
         .pipe(
@@ -150,6 +132,24 @@ export class ProdutoNaoConformeUpdateComponent implements OnInit {
           })
         )
         .subscribe((resBody: IProduto[]) => (this.produtos = resBody));
+
+      this.resultadoAuditoriaService
+        .query()
+        .pipe(
+          map((res: HttpResponse<IResultadoAuditoria[]>) => {
+            return res.body ? res.body : [];
+          })
+        )
+        .subscribe((resBody: IResultadoAuditoria[]) => (this.resultadoauditorias = resBody));
+
+      this.resultadoItemChecklistService
+        .query()
+        .pipe(
+          map((res: HttpResponse<IResultadoItemChecklist[]>) => {
+            return res.body ? res.body : [];
+          })
+        )
+        .subscribe((resBody: IResultadoItemChecklist[]) => (this.resultadoitemchecklists = resBody));
     });
   }
 
@@ -166,8 +166,9 @@ export class ProdutoNaoConformeUpdateComponent implements OnInit {
       statusSGQ: produtoNaoConforme.statusSGQ,
       acao: produtoNaoConforme.acao,
       naoConformidade: produtoNaoConforme.naoConformidade,
-      anexo: produtoNaoConforme.anexo,
-      produto: produtoNaoConforme.produto
+      produto: produtoNaoConforme.produto,
+      resultadoAuditoria: produtoNaoConforme.resultadoAuditoria,
+      resultadoItemChecklist: produtoNaoConforme.resultadoItemChecklist
     });
   }
 
@@ -218,8 +219,9 @@ export class ProdutoNaoConformeUpdateComponent implements OnInit {
       statusSGQ: this.editForm.get(['statusSGQ'])!.value,
       acao: this.editForm.get(['acao'])!.value,
       naoConformidade: this.editForm.get(['naoConformidade'])!.value,
-      anexo: this.editForm.get(['anexo'])!.value,
-      produto: this.editForm.get(['produto'])!.value
+      produto: this.editForm.get(['produto'])!.value,
+      resultadoAuditoria: this.editForm.get(['resultadoAuditoria'])!.value,
+      resultadoItemChecklist: this.editForm.get(['resultadoItemChecklist'])!.value
     };
   }
 

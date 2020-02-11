@@ -33,6 +33,7 @@
         "sgqNorma": "Norma",
         "sgqCategoriaNorma": "Categoria Norma",
         "sgqAnaliseConsultoria": "Analise Consultoria",
+        "sgqResultadoAuditoria": "Resultado Auditoria",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
       "account": {

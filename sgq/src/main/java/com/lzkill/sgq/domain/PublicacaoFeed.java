@@ -68,9 +68,9 @@ public class PublicacaoFeed implements Serializable {
     @Column(name = "status", nullable = false)
     private StatusPublicacao status;
 
-    @OneToOne
-    @JoinColumn(unique = true)
-    private Anexo anexo;
+    @OneToMany(mappedBy = "publicacaoFeed")
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<Anexo> anexos = new HashSet<>();
 
     @ManyToOne(optional = false)
     @NotNull
@@ -211,17 +211,29 @@ public class PublicacaoFeed implements Serializable {
         this.status = status;
     }
 
-    public Anexo getAnexo() {
-        return anexo;
+    public Set<Anexo> getAnexos() {
+        return anexos;
     }
 
-    public PublicacaoFeed anexo(Anexo anexo) {
-        this.anexo = anexo;
+    public PublicacaoFeed anexos(Set<Anexo> anexos) {
+        this.anexos = anexos;
         return this;
     }
 
-    public void setAnexo(Anexo anexo) {
-        this.anexo = anexo;
+    public PublicacaoFeed addAnexo(Anexo anexo) {
+        this.anexos.add(anexo);
+        anexo.setPublicacaoFeed(this);
+        return this;
+    }
+
+    public PublicacaoFeed removeAnexo(Anexo anexo) {
+        this.anexos.remove(anexo);
+        anexo.setPublicacaoFeed(null);
+        return this;
+    }
+
+    public void setAnexos(Set<Anexo> anexos) {
+        this.anexos = anexos;
     }
 
     public Feed getFeed() {

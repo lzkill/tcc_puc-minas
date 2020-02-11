@@ -15,7 +15,7 @@ export interface IPublicacaoFeed {
   dataRegistro?: Moment;
   dataPublicacao?: Moment;
   status?: StatusPublicacao;
-  anexo?: IAnexo;
+  anexos?: IAnexo[];
   feed?: IFeed;
   categorias?: ICategoriaPublicacao[];
 }
@@ -32,7 +32,7 @@ export class PublicacaoFeed implements IPublicacaoFeed {
     public dataRegistro?: Moment,
     public dataPublicacao?: Moment,
     public status?: StatusPublicacao,
-    public anexo?: IAnexo,
+    public anexos?: IAnexo[],
     public feed?: IFeed,
     public categorias?: ICategoriaPublicacao[]
   ) {}

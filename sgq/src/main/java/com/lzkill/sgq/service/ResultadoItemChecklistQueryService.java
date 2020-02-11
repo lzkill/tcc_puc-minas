@@ -90,7 +90,15 @@ public class ResultadoItemChecklistQueryService extends QueryService<ResultadoIt
             }
             if (criteria.getAnexoId() != null) {
                 specification = specification.and(buildSpecification(criteria.getAnexoId(),
-                    root -> root.join(ResultadoItemChecklist_.anexo, JoinType.LEFT).get(Anexo_.id)));
+                    root -> root.join(ResultadoItemChecklist_.anexos, JoinType.LEFT).get(Anexo_.id)));
+            }
+            if (criteria.getNaoConformidadeId() != null) {
+                specification = specification.and(buildSpecification(criteria.getNaoConformidadeId(),
+                    root -> root.join(ResultadoItemChecklist_.naoConformidades, JoinType.LEFT).get(NaoConformidade_.id)));
+            }
+            if (criteria.getProdutoNaoConformeId() != null) {
+                specification = specification.and(buildSpecification(criteria.getProdutoNaoConformeId(),
+                    root -> root.join(ResultadoItemChecklist_.produtoNaoConformes, JoinType.LEFT).get(ProdutoNaoConforme_.id)));
             }
             if (criteria.getItemId() != null) {
                 specification = specification.and(buildSpecification(criteria.getItemId(),

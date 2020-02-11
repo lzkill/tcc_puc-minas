@@ -93,7 +93,7 @@ public class ItemChecklistQueryService extends QueryService<ItemChecklist> {
             }
             if (criteria.getAnexoId() != null) {
                 specification = specification.and(buildSpecification(criteria.getAnexoId(),
-                    root -> root.join(ItemChecklist_.anexo, JoinType.LEFT).get(Anexo_.id)));
+                    root -> root.join(ItemChecklist_.anexos, JoinType.LEFT).get(Anexo_.id)));
             }
             if (criteria.getChecklistId() != null) {
                 specification = specification.and(buildSpecification(criteria.getChecklistId(),

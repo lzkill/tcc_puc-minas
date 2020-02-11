@@ -25,9 +25,6 @@
             <column name="data_verificacao" type="datetime">
                 <constraints nullable="false" />
             </column>
-            <column name="anexo_id" type="bigint">
-                <constraints unique="true" nullable="true" uniqueConstraintName="ux_resultado_checklist_anexo_id" />
-            </column>
             <column name="checklist_id" type="bigint">
                 <constraints nullable="false" />
             </column>

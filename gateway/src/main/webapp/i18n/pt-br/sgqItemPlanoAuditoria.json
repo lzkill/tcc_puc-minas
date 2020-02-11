@@ -13,8 +13,8 @@
       "detail": {
         "title": "Item Plano Auditoria"
       },
-      "idUsuarioResponsavel": "Id Usuario Responsavel",
-      "dataAuditoria": "Data Auditoria",
+      "dataInicioPrevisto": "Data Inicio Previsto",
+      "dataFimPrevisto": "Data Fim Previsto",
       "anexo": "Anexo",
       "auditoria": "Auditoria",
       "plano": "Plano"

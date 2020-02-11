@@ -48,9 +48,9 @@ public class Norma implements Serializable {
     @Column(name = "data_inicio_validade")
     private Instant dataInicioValidade;
 
-    @OneToOne
-    @JoinColumn(unique = true)
-    private Anexo anexo;
+    @OneToMany(mappedBy = "norma")
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<Anexo> anexos = new HashSet<>();
 
     @ManyToMany
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
@@ -160,17 +160,29 @@ public class Norma implements Serializable {
         this.dataInicioValidade = dataInicioValidade;
     }
 
-    public Anexo getAnexo() {
-        return anexo;
+    public Set<Anexo> getAnexos() {
+        return anexos;
     }
 
-    public Norma anexo(Anexo anexo) {
-        this.anexo = anexo;
+    public Norma anexos(Set<Anexo> anexos) {
+        this.anexos = anexos;
         return this;
     }
 
-    public void setAnexo(Anexo anexo) {
-        this.anexo = anexo;
+    public Norma addAnexo(Anexo anexo) {
+        this.anexos.add(anexo);
+        anexo.setNorma(this);
+        return this;
+    }
+
+    public Norma removeAnexo(Anexo anexo) {
+        this.anexos.remove(anexo);
+        anexo.setNorma(null);
+        return this;
+    }
+
+    public void setAnexos(Set<Anexo> anexos) {
+        this.anexos = anexos;
     }
 
     public Set<CategoriaNorma> getCategorias() {

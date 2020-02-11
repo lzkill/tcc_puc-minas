@@ -29,12 +29,6 @@
                 <dd>
                     <span jhiTranslate="{{'gatewayApp.StatusPublicacao.' + boletimInformativo.status}}">{{boletimInformativo.status}}</span>
                 </dd>
-                <dt><span jhiTranslate="gatewayApp.sgqBoletimInformativo.anexo">Anexo</span></dt>
-                <dd>
-                    <div *ngIf="boletimInformativo.anexo">
-                        <a [routerLink]="['/anexo', boletimInformativo.anexo?.id, 'view']">{{boletimInformativo.anexo?.nomeArquivo}}</a>
-                    </div>
-                </dd>
                 <dt><span jhiTranslate="gatewayApp.sgqBoletimInformativo.publicoAlvo">Publico Alvo</span></dt>
                 <dd>
                     <div *ngIf="boletimInformativo.publicoAlvo">

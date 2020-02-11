@@ -12,12 +12,8 @@ import { JhiDataUtils, JhiFileLoadError, JhiEventManager, JhiEventWithContent } 
 import { IAcaoSGQ, AcaoSGQ } from 'app/shared/model/sgq/acao-sgq.model';
 import { AcaoSGQService } from './acao-sgq.service';
 import { AlertError } from 'app/shared/alert/alert-error.model';
-import { IAnexo } from 'app/shared/model/sgq/anexo.model';
-import { AnexoService } from 'app/entities/sgq/anexo/anexo.service';
 import { INaoConformidade } from 'app/shared/model/sgq/nao-conformidade.model';
 import { NaoConformidadeService } from 'app/entities/sgq/nao-conformidade/nao-conformidade.service';
-
-type SelectableEntity = IAnexo | INaoConformidade;
 
 @Component({
   selector: 'jhi-acao-sgq-update',
@@ -25,8 +21,6 @@ type SelectableEntity = IAnexo | INaoConformidade;
 })
 export class AcaoSGQUpdateComponent implements OnInit {
   isSaving = false;
-
-  anexos: IAnexo[] = [];
 
   naoconformidades: INaoConformidade[] = [];
 
@@ -43,7 +37,6 @@ export class AcaoSGQUpdateComponent implements OnInit {
     dataConclusao: [],
     resultado: [],
     statusSGQ: [null, [Validators.required]],
-    anexo: [],
     naoConformidade: []
   });
 
@@ -51,7 +44,6 @@ export class AcaoSGQUpdateComponent implements OnInit {
     protected dataUtils: JhiDataUtils,
     protected eventManager: JhiEventManager,
     protected acaoSGQService: AcaoSGQService,
-    protected anexoService: AnexoService,
     protected naoConformidadeService: NaoConformidadeService,
     protected activatedRoute: ActivatedRoute,
     private fb: FormBuilder
@@ -60,30 +52,6 @@ export class AcaoSGQUpdateComponent implements OnInit {
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ acaoSGQ }) => {
       this.updateForm(acaoSGQ);
-
-      this.anexoService
-        .query({ 'acaoSGQId.specified': 'false' })
-        .pipe(
-          map((res: HttpResponse<IAnexo[]>) => {
-            return res.body ? res.body : [];
-          })
-        )
-        .subscribe((resBody: IAnexo[]) => {
-          if (!acaoSGQ.anexo || !acaoSGQ.anexo.id) {
-            this.anexos = resBody;
-          } else {
-            this.anexoService
-              .find(acaoSGQ.anexo.id)
-              .pipe(
-                map((subRes: HttpResponse<IAnexo>) => {
-                  return subRes.body ? [subRes.body].concat(resBody) : resBody;
-                })
-              )
-              .subscribe((concatRes: IAnexo[]) => {
-                this.anexos = concatRes;
-              });
-          }
-        });
 
       this.naoConformidadeService
         .query()
@@ -110,7 +78,6 @@ export class AcaoSGQUpdateComponent implements OnInit {
       dataConclusao: acaoSGQ.dataConclusao != null ? acaoSGQ.dataConclusao.format(DATE_TIME_FORMAT) : null,
       resultado: acaoSGQ.resultado,
       statusSGQ: acaoSGQ.statusSGQ,
-      anexo: acaoSGQ.anexo,
       naoConformidade: acaoSGQ.naoConformidade
     });
   }
@@ -172,7 +139,6 @@ export class AcaoSGQUpdateComponent implements OnInit {
           : undefined,
       resultado: this.editForm.get(['resultado'])!.value,
       statusSGQ: this.editForm.get(['statusSGQ'])!.value,
-      anexo: this.editForm.get(['anexo'])!.value,
       naoConformidade: this.editForm.get(['naoConformidade'])!.value
     };
   }
@@ -193,7 +159,7 @@ export class AcaoSGQUpdateComponent implements OnInit {
     this.isSaving = false;
   }
 
-  trackById(index: number, item: SelectableEntity): any {
+  trackById(index: number, item: INaoConformidade): any {
     return item.id;
   }
 }

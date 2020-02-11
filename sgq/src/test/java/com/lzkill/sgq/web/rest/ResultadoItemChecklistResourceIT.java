@@ -3,6 +3,8 @@ package com.lzkill.sgq.web.rest;
 import com.lzkill.sgq.SgqApp;
 import com.lzkill.sgq.domain.ResultadoItemChecklist;
 import com.lzkill.sgq.domain.Anexo;
+import com.lzkill.sgq.domain.NaoConformidade;
+import com.lzkill.sgq.domain.ProdutoNaoConforme;
 import com.lzkill.sgq.domain.ItemChecklist;
 import com.lzkill.sgq.domain.ResultadoChecklist;
 import com.lzkill.sgq.repository.ResultadoItemChecklistRepository;
@@ -323,7 +325,7 @@ public class ResultadoItemChecklistResourceIT {
         Anexo anexo = AnexoResourceIT.createEntity(em);
         em.persist(anexo);
         em.flush();
-        resultadoItemChecklist.setAnexo(anexo);
+        resultadoItemChecklist.addAnexo(anexo);
         resultadoItemChecklistRepository.saveAndFlush(resultadoItemChecklist);
         Long anexoId = anexo.getId();
 
@@ -332,6 +334,46 @@ public class ResultadoItemChecklistResourceIT {
 
         // Get all the resultadoItemChecklistList where anexo equals to anexoId + 1
         defaultResultadoItemChecklistShouldNotBeFound("anexoId.equals=" + (anexoId + 1));
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllResultadoItemChecklistsByNaoConformidadeIsEqualToSomething() throws Exception {
+        // Initialize the database
+        resultadoItemChecklistRepository.saveAndFlush(resultadoItemChecklist);
+        NaoConformidade naoConformidade = NaoConformidadeResourceIT.createEntity(em);
+        em.persist(naoConformidade);
+        em.flush();
+        resultadoItemChecklist.addNaoConformidade(naoConformidade);
+        resultadoItemChecklistRepository.saveAndFlush(resultadoItemChecklist);
+        Long naoConformidadeId = naoConformidade.getId();
+
+        // Get all the resultadoItemChecklistList where naoConformidade equals to naoConformidadeId
+        defaultResultadoItemChecklistShouldBeFound("naoConformidadeId.equals=" + naoConformidadeId);
+
+        // Get all the resultadoItemChecklistList where naoConformidade equals to naoConformidadeId + 1
+        defaultResultadoItemChecklistShouldNotBeFound("naoConformidadeId.equals=" + (naoConformidadeId + 1));
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllResultadoItemChecklistsByProdutoNaoConformeIsEqualToSomething() throws Exception {
+        // Initialize the database
+        resultadoItemChecklistRepository.saveAndFlush(resultadoItemChecklist);
+        ProdutoNaoConforme produtoNaoConforme = ProdutoNaoConformeResourceIT.createEntity(em);
+        em.persist(produtoNaoConforme);
+        em.flush();
+        resultadoItemChecklist.addProdutoNaoConforme(produtoNaoConforme);
+        resultadoItemChecklistRepository.saveAndFlush(resultadoItemChecklist);
+        Long produtoNaoConformeId = produtoNaoConforme.getId();
+
+        // Get all the resultadoItemChecklistList where produtoNaoConforme equals to produtoNaoConformeId
+        defaultResultadoItemChecklistShouldBeFound("produtoNaoConformeId.equals=" + produtoNaoConformeId);
+
+        // Get all the resultadoItemChecklistList where produtoNaoConforme equals to produtoNaoConformeId + 1
+        defaultResultadoItemChecklistShouldNotBeFound("produtoNaoConformeId.equals=" + (produtoNaoConformeId + 1));
     }
 
 

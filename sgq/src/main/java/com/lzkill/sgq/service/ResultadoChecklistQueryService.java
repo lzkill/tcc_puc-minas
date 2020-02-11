@@ -96,7 +96,7 @@ public class ResultadoChecklistQueryService extends QueryService<ResultadoCheckl
             }
             if (criteria.getAnexoId() != null) {
                 specification = specification.and(buildSpecification(criteria.getAnexoId(),
-                    root -> root.join(ResultadoChecklist_.anexo, JoinType.LEFT).get(Anexo_.id)));
+                    root -> root.join(ResultadoChecklist_.anexos, JoinType.LEFT).get(Anexo_.id)));
             }
             if (criteria.getResultadoItemId() != null) {
                 specification = specification.and(buildSpecification(criteria.getResultadoItemId(),

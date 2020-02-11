@@ -1,8 +1,6 @@
 import { TestBed, getTestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { take, map } from 'rxjs/operators';
-import * as moment from 'moment';
-import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 import { PlanoAuditoriaService } from 'app/entities/sgq/plano-auditoria/plano-auditoria.service';
 import { IPlanoAuditoria, PlanoAuditoria } from 'app/shared/model/sgq/plano-auditoria.model';
 
@@ -13,7 +11,6 @@ describe('Service Tests', () => {
     let httpMock: HttpTestingController;
     let elemDefault: IPlanoAuditoria;
     let expectedResult: IPlanoAuditoria | IPlanoAuditoria[] | boolean | null;
-    let currentDate: moment.Moment;
     beforeEach(() => {
       TestBed.configureTestingModule({
         imports: [HttpClientTestingModule]
@@ -22,20 +19,13 @@ describe('Service Tests', () => {
       injector = getTestBed();
       service = injector.get(PlanoAuditoriaService);
       httpMock = injector.get(HttpTestingController);
-      currentDate = moment();
 
-      elemDefault = new PlanoAuditoria(0, 'AAAAAAA', 'AAAAAAA', currentDate, currentDate);
+      elemDefault = new PlanoAuditoria(0, 'AAAAAAA', 'AAAAAAA');
     });
 
     describe('Service methods', () => {
       it('should find an element', () => {
-        const returnedFromService = Object.assign(
-          {
-            dataInicio: currentDate.format(DATE_TIME_FORMAT),
-            dataFim: currentDate.format(DATE_TIME_FORMAT)
-          },
-          elemDefault
-        );
+        const returnedFromService = Object.assign({}, elemDefault);
         service
           .find(123)
           .pipe(take(1))
@@ -49,19 +39,11 @@ describe('Service Tests', () => {
       it('should create a PlanoAuditoria', () => {
         const returnedFromService = Object.assign(
           {
-            id: 0,
-            dataInicio: currentDate.format(DATE_TIME_FORMAT),
-            dataFim: currentDate.format(DATE_TIME_FORMAT)
+            id: 0
           },
           elemDefault
         );
-        const expected = Object.assign(
-          {
-            dataInicio: currentDate,
-            dataFim: currentDate
-          },
-          returnedFromService
-        );
+        const expected = Object.assign({}, returnedFromService);
         service
           .create(new PlanoAuditoria())
           .pipe(take(1))
@@ -75,20 +57,12 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             titulo: 'BBBBBB',
-            descricao: 'BBBBBB',
-            dataInicio: currentDate.format(DATE_TIME_FORMAT),
-            dataFim: currentDate.format(DATE_TIME_FORMAT)
+            descricao: 'BBBBBB'
           },
           elemDefault
         );
 
-        const expected = Object.assign(
-          {
-            dataInicio: currentDate,
-            dataFim: currentDate
-          },
-          returnedFromService
-        );
+        const expected = Object.assign({}, returnedFromService);
         service
           .update(expected)
           .pipe(take(1))
@@ -102,19 +76,11 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             titulo: 'BBBBBB',
-            descricao: 'BBBBBB',
-            dataInicio: currentDate.format(DATE_TIME_FORMAT),
-            dataFim: currentDate.format(DATE_TIME_FORMAT)
+            descricao: 'BBBBBB'
           },
           elemDefault
         );
-        const expected = Object.assign(
-          {
-            dataInicio: currentDate,
-            dataFim: currentDate
-          },
-          returnedFromService
-        );
+        const expected = Object.assign({}, returnedFromService);
         service
           .query()
           .pipe(

@@ -25,8 +25,6 @@ import org.springframework.util.Base64Utils;
 import org.springframework.validation.Validator;
 
 import javax.persistence.EntityManager;
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 import static com.lzkill.sgq.web.rest.TestUtil.createFormattingConversionService;
@@ -46,12 +44,6 @@ public class PlanoAuditoriaResourceIT {
 
     private static final String DEFAULT_DESCRICAO = "AAAAAAAAAA";
     private static final String UPDATED_DESCRICAO = "BBBBBBBBBB";
-
-    private static final Instant DEFAULT_DATA_INICIO = Instant.ofEpochMilli(0L);
-    private static final Instant UPDATED_DATA_INICIO = Instant.now().truncatedTo(ChronoUnit.MILLIS);
-
-    private static final Instant DEFAULT_DATA_FIM = Instant.ofEpochMilli(0L);
-    private static final Instant UPDATED_DATA_FIM = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
     @Autowired
     private PlanoAuditoriaRepository planoAuditoriaRepository;
@@ -102,9 +94,7 @@ public class PlanoAuditoriaResourceIT {
     public static PlanoAuditoria createEntity(EntityManager em) {
         PlanoAuditoria planoAuditoria = new PlanoAuditoria()
             .titulo(DEFAULT_TITULO)
-            .descricao(DEFAULT_DESCRICAO)
-            .dataInicio(DEFAULT_DATA_INICIO)
-            .dataFim(DEFAULT_DATA_FIM);
+            .descricao(DEFAULT_DESCRICAO);
         return planoAuditoria;
     }
     /**
@@ -116,9 +106,7 @@ public class PlanoAuditoriaResourceIT {
     public static PlanoAuditoria createUpdatedEntity(EntityManager em) {
         PlanoAuditoria planoAuditoria = new PlanoAuditoria()
             .titulo(UPDATED_TITULO)
-            .descricao(UPDATED_DESCRICAO)
-            .dataInicio(UPDATED_DATA_INICIO)
-            .dataFim(UPDATED_DATA_FIM);
+            .descricao(UPDATED_DESCRICAO);
         return planoAuditoria;
     }
 
@@ -144,8 +132,6 @@ public class PlanoAuditoriaResourceIT {
         PlanoAuditoria testPlanoAuditoria = planoAuditoriaList.get(planoAuditoriaList.size() - 1);
         assertThat(testPlanoAuditoria.getTitulo()).isEqualTo(DEFAULT_TITULO);
         assertThat(testPlanoAuditoria.getDescricao()).isEqualTo(DEFAULT_DESCRICAO);
-        assertThat(testPlanoAuditoria.getDataInicio()).isEqualTo(DEFAULT_DATA_INICIO);
-        assertThat(testPlanoAuditoria.getDataFim()).isEqualTo(DEFAULT_DATA_FIM);
     }
 
     @Test
@@ -198,9 +184,7 @@ public class PlanoAuditoriaResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(planoAuditoria.getId().intValue())))
             .andExpect(jsonPath("$.[*].titulo").value(hasItem(DEFAULT_TITULO)))
-            .andExpect(jsonPath("$.[*].descricao").value(hasItem(DEFAULT_DESCRICAO.toString())))
-            .andExpect(jsonPath("$.[*].dataInicio").value(hasItem(DEFAULT_DATA_INICIO.toString())))
-            .andExpect(jsonPath("$.[*].dataFim").value(hasItem(DEFAULT_DATA_FIM.toString())));
+            .andExpect(jsonPath("$.[*].descricao").value(hasItem(DEFAULT_DESCRICAO.toString())));
     }
     
     @Test
@@ -215,9 +199,7 @@ public class PlanoAuditoriaResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(planoAuditoria.getId().intValue()))
             .andExpect(jsonPath("$.titulo").value(DEFAULT_TITULO))
-            .andExpect(jsonPath("$.descricao").value(DEFAULT_DESCRICAO.toString()))
-            .andExpect(jsonPath("$.dataInicio").value(DEFAULT_DATA_INICIO.toString()))
-            .andExpect(jsonPath("$.dataFim").value(DEFAULT_DATA_FIM.toString()));
+            .andExpect(jsonPath("$.descricao").value(DEFAULT_DESCRICAO.toString()));
     }
 
 
@@ -320,117 +302,13 @@ public class PlanoAuditoriaResourceIT {
 
     @Test
     @Transactional
-    public void getAllPlanoAuditoriasByDataInicioIsEqualToSomething() throws Exception {
-        // Initialize the database
-        planoAuditoriaRepository.saveAndFlush(planoAuditoria);
-
-        // Get all the planoAuditoriaList where dataInicio equals to DEFAULT_DATA_INICIO
-        defaultPlanoAuditoriaShouldBeFound("dataInicio.equals=" + DEFAULT_DATA_INICIO);
-
-        // Get all the planoAuditoriaList where dataInicio equals to UPDATED_DATA_INICIO
-        defaultPlanoAuditoriaShouldNotBeFound("dataInicio.equals=" + UPDATED_DATA_INICIO);
-    }
-
-    @Test
-    @Transactional
-    public void getAllPlanoAuditoriasByDataInicioIsNotEqualToSomething() throws Exception {
-        // Initialize the database
-        planoAuditoriaRepository.saveAndFlush(planoAuditoria);
-
-        // Get all the planoAuditoriaList where dataInicio not equals to DEFAULT_DATA_INICIO
-        defaultPlanoAuditoriaShouldNotBeFound("dataInicio.notEquals=" + DEFAULT_DATA_INICIO);
-
-        // Get all the planoAuditoriaList where dataInicio not equals to UPDATED_DATA_INICIO
-        defaultPlanoAuditoriaShouldBeFound("dataInicio.notEquals=" + UPDATED_DATA_INICIO);
-    }
-
-    @Test
-    @Transactional
-    public void getAllPlanoAuditoriasByDataInicioIsInShouldWork() throws Exception {
-        // Initialize the database
-        planoAuditoriaRepository.saveAndFlush(planoAuditoria);
-
-        // Get all the planoAuditoriaList where dataInicio in DEFAULT_DATA_INICIO or UPDATED_DATA_INICIO
-        defaultPlanoAuditoriaShouldBeFound("dataInicio.in=" + DEFAULT_DATA_INICIO + "," + UPDATED_DATA_INICIO);
-
-        // Get all the planoAuditoriaList where dataInicio equals to UPDATED_DATA_INICIO
-        defaultPlanoAuditoriaShouldNotBeFound("dataInicio.in=" + UPDATED_DATA_INICIO);
-    }
-
-    @Test
-    @Transactional
-    public void getAllPlanoAuditoriasByDataInicioIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        planoAuditoriaRepository.saveAndFlush(planoAuditoria);
-
-        // Get all the planoAuditoriaList where dataInicio is not null
-        defaultPlanoAuditoriaShouldBeFound("dataInicio.specified=true");
-
-        // Get all the planoAuditoriaList where dataInicio is null
-        defaultPlanoAuditoriaShouldNotBeFound("dataInicio.specified=false");
-    }
-
-    @Test
-    @Transactional
-    public void getAllPlanoAuditoriasByDataFimIsEqualToSomething() throws Exception {
-        // Initialize the database
-        planoAuditoriaRepository.saveAndFlush(planoAuditoria);
-
-        // Get all the planoAuditoriaList where dataFim equals to DEFAULT_DATA_FIM
-        defaultPlanoAuditoriaShouldBeFound("dataFim.equals=" + DEFAULT_DATA_FIM);
-
-        // Get all the planoAuditoriaList where dataFim equals to UPDATED_DATA_FIM
-        defaultPlanoAuditoriaShouldNotBeFound("dataFim.equals=" + UPDATED_DATA_FIM);
-    }
-
-    @Test
-    @Transactional
-    public void getAllPlanoAuditoriasByDataFimIsNotEqualToSomething() throws Exception {
-        // Initialize the database
-        planoAuditoriaRepository.saveAndFlush(planoAuditoria);
-
-        // Get all the planoAuditoriaList where dataFim not equals to DEFAULT_DATA_FIM
-        defaultPlanoAuditoriaShouldNotBeFound("dataFim.notEquals=" + DEFAULT_DATA_FIM);
-
-        // Get all the planoAuditoriaList where dataFim not equals to UPDATED_DATA_FIM
-        defaultPlanoAuditoriaShouldBeFound("dataFim.notEquals=" + UPDATED_DATA_FIM);
-    }
-
-    @Test
-    @Transactional
-    public void getAllPlanoAuditoriasByDataFimIsInShouldWork() throws Exception {
-        // Initialize the database
-        planoAuditoriaRepository.saveAndFlush(planoAuditoria);
-
-        // Get all the planoAuditoriaList where dataFim in DEFAULT_DATA_FIM or UPDATED_DATA_FIM
-        defaultPlanoAuditoriaShouldBeFound("dataFim.in=" + DEFAULT_DATA_FIM + "," + UPDATED_DATA_FIM);
-
-        // Get all the planoAuditoriaList where dataFim equals to UPDATED_DATA_FIM
-        defaultPlanoAuditoriaShouldNotBeFound("dataFim.in=" + UPDATED_DATA_FIM);
-    }
-
-    @Test
-    @Transactional
-    public void getAllPlanoAuditoriasByDataFimIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        planoAuditoriaRepository.saveAndFlush(planoAuditoria);
-
-        // Get all the planoAuditoriaList where dataFim is not null
-        defaultPlanoAuditoriaShouldBeFound("dataFim.specified=true");
-
-        // Get all the planoAuditoriaList where dataFim is null
-        defaultPlanoAuditoriaShouldNotBeFound("dataFim.specified=false");
-    }
-
-    @Test
-    @Transactional
     public void getAllPlanoAuditoriasByAnexoIsEqualToSomething() throws Exception {
         // Initialize the database
         planoAuditoriaRepository.saveAndFlush(planoAuditoria);
         Anexo anexo = AnexoResourceIT.createEntity(em);
         em.persist(anexo);
         em.flush();
-        planoAuditoria.setAnexo(anexo);
+        planoAuditoria.addAnexo(anexo);
         planoAuditoriaRepository.saveAndFlush(planoAuditoria);
         Long anexoId = anexo.getId();
 
@@ -470,9 +348,7 @@ public class PlanoAuditoriaResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(planoAuditoria.getId().intValue())))
             .andExpect(jsonPath("$.[*].titulo").value(hasItem(DEFAULT_TITULO)))
-            .andExpect(jsonPath("$.[*].descricao").value(hasItem(DEFAULT_DESCRICAO.toString())))
-            .andExpect(jsonPath("$.[*].dataInicio").value(hasItem(DEFAULT_DATA_INICIO.toString())))
-            .andExpect(jsonPath("$.[*].dataFim").value(hasItem(DEFAULT_DATA_FIM.toString())));
+            .andExpect(jsonPath("$.[*].descricao").value(hasItem(DEFAULT_DESCRICAO.toString())));
 
         // Check, that the count call also returns 1
         restPlanoAuditoriaMockMvc.perform(get("/api/plano-auditorias/count?sort=id,desc&" + filter))
@@ -521,9 +397,7 @@ public class PlanoAuditoriaResourceIT {
         em.detach(updatedPlanoAuditoria);
         updatedPlanoAuditoria
             .titulo(UPDATED_TITULO)
-            .descricao(UPDATED_DESCRICAO)
-            .dataInicio(UPDATED_DATA_INICIO)
-            .dataFim(UPDATED_DATA_FIM);
+            .descricao(UPDATED_DESCRICAO);
 
         restPlanoAuditoriaMockMvc.perform(put("/api/plano-auditorias")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -536,8 +410,6 @@ public class PlanoAuditoriaResourceIT {
         PlanoAuditoria testPlanoAuditoria = planoAuditoriaList.get(planoAuditoriaList.size() - 1);
         assertThat(testPlanoAuditoria.getTitulo()).isEqualTo(UPDATED_TITULO);
         assertThat(testPlanoAuditoria.getDescricao()).isEqualTo(UPDATED_DESCRICAO);
-        assertThat(testPlanoAuditoria.getDataInicio()).isEqualTo(UPDATED_DATA_INICIO);
-        assertThat(testPlanoAuditoria.getDataFim()).isEqualTo(UPDATED_DATA_FIM);
     }
 
     @Test

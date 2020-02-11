@@ -12,7 +12,7 @@ export interface IBoletimInformativo {
   dataRegistro?: Moment;
   dataPublicacao?: Moment;
   status?: StatusPublicacao;
-  anexo?: IAnexo;
+  anexos?: IAnexo[];
   publicoAlvo?: IPublicoAlvo;
   categorias?: ICategoriaPublicacao[];
 }
@@ -26,7 +26,7 @@ export class BoletimInformativo implements IBoletimInformativo {
     public dataRegistro?: Moment,
     public dataPublicacao?: Moment,
     public status?: StatusPublicacao,
-    public anexo?: IAnexo,
+    public anexos?: IAnexo[],
     public publicoAlvo?: IPublicoAlvo,
     public categorias?: ICategoriaPublicacao[]
   ) {}

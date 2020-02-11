@@ -103,7 +103,7 @@ public class AnaliseConsultoriaQueryService extends QueryService<AnaliseConsulto
             }
             if (criteria.getAnexoId() != null) {
                 specification = specification.and(buildSpecification(criteria.getAnexoId(),
-                    root -> root.join(AnaliseConsultoria_.anexo, JoinType.LEFT).get(Anexo_.id)));
+                    root -> root.join(AnaliseConsultoria_.anexos, JoinType.LEFT).get(Anexo_.id)));
             }
             if (criteria.getEmpresaId() != null) {
                 specification = specification.and(buildSpecification(criteria.getEmpresaId(),

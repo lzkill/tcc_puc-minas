@@ -14,12 +14,6 @@
                                  referencedColumnNames="id"
                                  referencedTableName="acao_sgq"/>
 
-        <addForeignKeyConstraint baseColumnNames="anexo_id"
-                                 baseTableName="analise_consultoria"
-                                 constraintName="fk_analise_consultoria_anexo_id"
-                                 referencedColumnNames="id"
-                                 referencedTableName="anexo"/>
-
         <addForeignKeyConstraint baseColumnNames="empresa_id"
                                  baseTableName="analise_consultoria"
                                  constraintName="fk_analise_consultoria_empresa_id"

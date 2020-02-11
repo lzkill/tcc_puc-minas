@@ -1,6 +1,8 @@
 import { Moment } from 'moment';
 import { IAnexo } from 'app/shared/model/sgq/anexo.model';
 import { IAcaoSGQ } from 'app/shared/model/sgq/acao-sgq.model';
+import { IResultadoAuditoria } from 'app/shared/model/sgq/resultado-auditoria.model';
+import { IResultadoItemChecklist } from 'app/shared/model/sgq/resultado-item-checklist.model';
 import { StatusSGQ } from 'app/shared/model/enumerations/status-sgq.model';
 
 export interface INaoConformidade {
@@ -17,8 +19,10 @@ export interface INaoConformidade {
   dataConclusao?: Moment;
   analiseFinal?: any;
   statusSGQ?: StatusSGQ;
-  anexo?: IAnexo;
-  acaos?: IAcaoSGQ[];
+  anexos?: IAnexo[];
+  acaoSGQS?: IAcaoSGQ[];
+  resultadoAuditoria?: IResultadoAuditoria;
+  resultadoItemChecklist?: IResultadoItemChecklist;
 }
 
 export class NaoConformidade implements INaoConformidade {
@@ -36,8 +40,10 @@ export class NaoConformidade implements INaoConformidade {
     public dataConclusao?: Moment,
     public analiseFinal?: any,
     public statusSGQ?: StatusSGQ,
-    public anexo?: IAnexo,
-    public acaos?: IAcaoSGQ[]
+    public anexos?: IAnexo[],
+    public acaoSGQS?: IAcaoSGQ[],
+    public resultadoAuditoria?: IResultadoAuditoria,
+    public resultadoItemChecklist?: IResultadoItemChecklist
   ) {
     this.procedente = this.procedente || false;
   }

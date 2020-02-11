@@ -8,7 +8,7 @@ export interface IResultadoChecklist {
   idUsuarioRegistro?: number;
   titulo?: string;
   dataVerificacao?: Moment;
-  anexo?: IAnexo;
+  anexos?: IAnexo[];
   resultadoItems?: IResultadoItemChecklist[];
   checklist?: IChecklist;
 }
@@ -19,7 +19,7 @@ export class ResultadoChecklist implements IResultadoChecklist {
     public idUsuarioRegistro?: number,
     public titulo?: string,
     public dataVerificacao?: Moment,
-    public anexo?: IAnexo,
+    public anexos?: IAnexo[],
     public resultadoItems?: IResultadoItemChecklist[],
     public checklist?: IChecklist
   ) {}

@@ -22,7 +22,6 @@
             <th scope="col"  jhiSortBy="ordem"><span jhiTranslate="gatewayApp.sgqItemChecklist.ordem">Ordem</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="titulo"><span jhiTranslate="gatewayApp.sgqItemChecklist.titulo">Titulo</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="descricao"><span jhiTranslate="gatewayApp.sgqItemChecklist.descricao">Descricao</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  jhiSortBy="anexo.nomeArquivo"><span jhiTranslate="gatewayApp.sgqItemChecklist.anexo">Anexo</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="checklist.titulo"><span jhiTranslate="gatewayApp.sgqItemChecklist.checklist">Checklist</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"></th>
             </tr>
@@ -33,11 +32,6 @@
                 <td>{{itemChecklist.ordem}}</td>
                 <td>{{itemChecklist.titulo}}</td>
                 <td>{{itemChecklist.descricao}}</td>
-                <td>
-                    <div *ngIf="itemChecklist.anexo">
-                        <a [routerLink]="['/anexo', itemChecklist.anexo?.id, 'view' ]" >{{itemChecklist.anexo?.nomeArquivo}}</a>
-                    </div>
-                </td>
                 <td>
                     <div *ngIf="itemChecklist.checklist">
                         <a [routerLink]="['/checklist', itemChecklist.checklist?.id, 'view' ]" >{{itemChecklist.checklist?.titulo}}</a>

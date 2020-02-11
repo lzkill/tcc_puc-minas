@@ -87,19 +87,31 @@
     ],
     "relationships": [
         {
-            "relationshipType": "one-to-one",
+            "relationshipType": "one-to-many",
             "otherEntityName": "anexo",
             "otherEntityRelationshipName": "naoConformidade",
-            "relationshipName": "anexo",
-            "otherEntityField": "nomeArquivo",
-            "ownerSide": true
+            "relationshipName": "anexo"
         },
         {
             "relationshipType": "one-to-many",
             "otherEntityName": "acaoSGQ",
             "otherEntityRelationshipName": "naoConformidade",
             "relationshipValidateRules": "required",
-            "relationshipName": "acao"
+            "relationshipName": "acaoSGQ"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "resultadoAuditoria",
+            "otherEntityRelationshipName": "naoConformidade",
+            "relationshipName": "resultadoAuditoria",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "resultadoItemChecklist",
+            "otherEntityRelationshipName": "naoConformidade",
+            "relationshipName": "resultadoItemChecklist",
+            "otherEntityField": "id"
         }
     ],
     "changelogDate": "20200208160350",

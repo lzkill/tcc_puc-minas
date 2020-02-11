@@ -9,6 +9,8 @@ import javax.validation.constraints.*;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.HashSet;
+import java.util.Set;
 
 import com.lzkill.sgq.domain.enumeration.StatusAnaliseExterna;
 
@@ -54,9 +56,9 @@ public class AnaliseConsultoria implements Serializable {
     @JoinColumn(unique = true)
     private AcaoSGQ acao;
 
-    @OneToOne
-    @JoinColumn(unique = true)
-    private Anexo anexo;
+    @OneToMany(mappedBy = "analiseConsultoria")
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<Anexo> anexos = new HashSet<>();
 
     @ManyToOne(optional = false)
     @NotNull
@@ -150,17 +152,29 @@ public class AnaliseConsultoria implements Serializable {
         this.acao = acaoSGQ;
     }
 
-    public Anexo getAnexo() {
-        return anexo;
+    public Set<Anexo> getAnexos() {
+        return anexos;
     }
 
-    public AnaliseConsultoria anexo(Anexo anexo) {
-        this.anexo = anexo;
+    public AnaliseConsultoria anexos(Set<Anexo> anexos) {
+        this.anexos = anexos;
         return this;
     }
 
-    public void setAnexo(Anexo anexo) {
-        this.anexo = anexo;
+    public AnaliseConsultoria addAnexo(Anexo anexo) {
+        this.anexos.add(anexo);
+        anexo.setAnaliseConsultoria(this);
+        return this;
+    }
+
+    public AnaliseConsultoria removeAnexo(Anexo anexo) {
+        this.anexos.remove(anexo);
+        anexo.setAnaliseConsultoria(null);
+        return this;
+    }
+
+    public void setAnexos(Set<Anexo> anexos) {
+        this.anexos = anexos;
     }
 
     public EmpresaConsultoria getEmpresa() {

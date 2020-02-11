@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+    <!--
+        Added the constraints for entity Anexo.
+    -->
+    <changeSet id="20200208160348-2" author="jhipster">
+        
+        <addForeignKeyConstraint baseColumnNames="acaosgq_id"
+                                 baseTableName="anexo"
+                                 constraintName="fk_anexo_acaosgq_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="acao_sgq"/>
+
+        <addForeignKeyConstraint baseColumnNames="analise_consultoria_id"
+                                 baseTableName="anexo"
+                                 constraintName="fk_anexo_analise_consultoria_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="analise_consultoria"/>
+
+        <addForeignKeyConstraint baseColumnNames="checklist_id"
+                                 baseTableName="anexo"
+                                 constraintName="fk_anexo_checklist_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="checklist"/>
+
+        <addForeignKeyConstraint baseColumnNames="boletim_informativo_id"
+                                 baseTableName="anexo"
+                                 constraintName="fk_anexo_boletim_informativo_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="boletim_informativo"/>
+
+        <addForeignKeyConstraint baseColumnNames="campanha_recall_id"
+                                 baseTableName="anexo"
+                                 constraintName="fk_anexo_campanha_recall_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="campanha_recall"/>
+
+        <addForeignKeyConstraint baseColumnNames="evento_operacional_id"
+                                 baseTableName="anexo"
+                                 constraintName="fk_anexo_evento_operacional_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="evento_operacional"/>
+
+        <addForeignKeyConstraint baseColumnNames="item_checklist_id"
+                                 baseTableName="anexo"
+                                 constraintName="fk_anexo_item_checklist_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="item_checklist"/>
+
+        <addForeignKeyConstraint baseColumnNames="item_plano_auditoria_id"
+                                 baseTableName="anexo"
+                                 constraintName="fk_anexo_item_plano_auditoria_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="item_plano_auditoria"/>
+
+        <addForeignKeyConstraint baseColumnNames="nao_conformidade_id"
+                                 baseTableName="anexo"
+                                 constraintName="fk_anexo_nao_conformidade_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="nao_conformidade"/>
+
+        <addForeignKeyConstraint baseColumnNames="norma_id"
+                                 baseTableName="anexo"
+                                 constraintName="fk_anexo_norma_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="norma"/>
+
+        <addForeignKeyConstraint baseColumnNames="processo_id"
+                                 baseTableName="anexo"
+                                 constraintName="fk_anexo_processo_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="processo"/>
+
+        <addForeignKeyConstraint baseColumnNames="produto_id"
+                                 baseTableName="anexo"
+                                 constraintName="fk_anexo_produto_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="produto"/>
+
+        <addForeignKeyConstraint baseColumnNames="plano_auditoria_id"
+                                 baseTableName="anexo"
+                                 constraintName="fk_anexo_plano_auditoria_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="plano_auditoria"/>
+
+        <addForeignKeyConstraint baseColumnNames="produto_nao_conforme_id"
+                                 baseTableName="anexo"
+                                 constraintName="fk_anexo_produto_nao_conforme_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="produto_nao_conforme"/>
+
+        <addForeignKeyConstraint baseColumnNames="publicacao_feed_id"
+                                 baseTableName="anexo"
+                                 constraintName="fk_anexo_publicacao_feed_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="publicacao_feed"/>
+
+        <addForeignKeyConstraint baseColumnNames="resultado_checklist_id"
+                                 baseTableName="anexo"
+                                 constraintName="fk_anexo_resultado_checklist_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="resultado_checklist"/>
+
+        <addForeignKeyConstraint baseColumnNames="resultado_item_checklist_id"
+                                 baseTableName="anexo"
+                                 constraintName="fk_anexo_resultado_item_checklist_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="resultado_item_checklist"/>
+
+    </changeSet>
+</databaseChangeLog>

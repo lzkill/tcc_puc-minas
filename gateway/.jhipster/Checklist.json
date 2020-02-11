@@ -20,12 +20,10 @@
     ],
     "relationships": [
         {
-            "relationshipType": "one-to-one",
+            "relationshipType": "one-to-many",
             "otherEntityName": "anexo",
             "otherEntityRelationshipName": "checklist",
-            "relationshipName": "anexo",
-            "otherEntityField": "nomeArquivo",
-            "ownerSide": true
+            "relationshipName": "anexo"
         },
         {
             "relationshipType": "one-to-many",

@@ -52,8 +52,11 @@
             <column name="status_sgq" type="varchar(255)">
                 <constraints nullable="false" />
             </column>
-            <column name="anexo_id" type="bigint">
-                <constraints unique="true" nullable="true" uniqueConstraintName="ux_nao_conformidade_anexo_id" />
+            <column name="resultado_auditoria_id" type="bigint">
+                <constraints nullable="true" />
+            </column>
+            <column name="resultado_item_checklist_id" type="bigint">
+                <constraints nullable="true" />
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
         </createTable>

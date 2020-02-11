@@ -4,6 +4,8 @@ import com.lzkill.sgq.SgqApp;
 import com.lzkill.sgq.domain.NaoConformidade;
 import com.lzkill.sgq.domain.Anexo;
 import com.lzkill.sgq.domain.AcaoSGQ;
+import com.lzkill.sgq.domain.ResultadoAuditoria;
+import com.lzkill.sgq.domain.ResultadoItemChecklist;
 import com.lzkill.sgq.repository.NaoConformidadeRepository;
 import com.lzkill.sgq.service.NaoConformidadeService;
 import com.lzkill.sgq.web.rest.errors.ExceptionTranslator;
@@ -149,7 +151,7 @@ public class NaoConformidadeResourceIT {
         } else {
             acaoSGQ = TestUtil.findAll(em, AcaoSGQ.class).get(0);
         }
-        naoConformidade.getAcaos().add(acaoSGQ);
+        naoConformidade.getAcaoSGQS().add(acaoSGQ);
         return naoConformidade;
     }
     /**
@@ -181,7 +183,7 @@ public class NaoConformidadeResourceIT {
         } else {
             acaoSGQ = TestUtil.findAll(em, AcaoSGQ.class).get(0);
         }
-        naoConformidade.getAcaos().add(acaoSGQ);
+        naoConformidade.getAcaoSGQS().add(acaoSGQ);
         return naoConformidade;
     }
 
@@ -389,7 +391,7 @@ public class NaoConformidadeResourceIT {
             .andExpect(jsonPath("$.[*].analiseFinal").value(hasItem(DEFAULT_ANALISE_FINAL.toString())))
             .andExpect(jsonPath("$.[*].statusSGQ").value(hasItem(DEFAULT_STATUS_SGQ.toString())));
     }
-    
+
     @Test
     @Transactional
     public void getNaoConformidade() throws Exception {
@@ -1043,7 +1045,7 @@ public class NaoConformidadeResourceIT {
         Anexo anexo = AnexoResourceIT.createEntity(em);
         em.persist(anexo);
         em.flush();
-        naoConformidade.setAnexo(anexo);
+        naoConformidade.addAnexo(anexo);
         naoConformidadeRepository.saveAndFlush(naoConformidade);
         Long anexoId = anexo.getId();
 
@@ -1057,19 +1059,58 @@ public class NaoConformidadeResourceIT {
 /*
     @Test
     @Transactional
-    public void getAllNaoConformidadesByAcaoIsEqualToSomething() throws Exception {
+    public void getAllNaoConformidadesByAcaoSGQIsEqualToSomething() throws Exception {
         // Get already existing entity
-        AcaoSGQ acao = naoConformidade.getAcao();
+        AcaoSGQ acaoSGQ = naoConformidade.getAcaoSGQ();
         naoConformidadeRepository.saveAndFlush(naoConformidade);
-        Long acaoId = acao.getId();
+        Long acaoSGQId = acaoSGQ.getId();
 
-        // Get all the naoConformidadeList where acao equals to acaoId
-        defaultNaoConformidadeShouldBeFound("acaoId.equals=" + acaoId);
+        // Get all the naoConformidadeList where acaoSGQ equals to acaoSGQId
+        defaultNaoConformidadeShouldBeFound("acaoSGQId.equals=" + acaoSGQId);
 
-        // Get all the naoConformidadeList where acao equals to acaoId + 1
-        defaultNaoConformidadeShouldNotBeFound("acaoId.equals=" + (acaoId + 1));
+        // Get all the naoConformidadeList where acaoSGQ equals to acaoSGQId + 1
+        defaultNaoConformidadeShouldNotBeFound("acaoSGQId.equals=" + (acaoSGQId + 1));
     }
 */
+
+    @Test
+    @Transactional
+    public void getAllNaoConformidadesByResultadoAuditoriaIsEqualToSomething() throws Exception {
+        // Initialize the database
+        naoConformidadeRepository.saveAndFlush(naoConformidade);
+        ResultadoAuditoria resultadoAuditoria = ResultadoAuditoriaResourceIT.createEntity(em);
+        em.persist(resultadoAuditoria);
+        em.flush();
+        naoConformidade.setResultadoAuditoria(resultadoAuditoria);
+        naoConformidadeRepository.saveAndFlush(naoConformidade);
+        Long resultadoAuditoriaId = resultadoAuditoria.getId();
+
+        // Get all the naoConformidadeList where resultadoAuditoria equals to resultadoAuditoriaId
+        defaultNaoConformidadeShouldBeFound("resultadoAuditoriaId.equals=" + resultadoAuditoriaId);
+
+        // Get all the naoConformidadeList where resultadoAuditoria equals to resultadoAuditoriaId + 1
+        defaultNaoConformidadeShouldNotBeFound("resultadoAuditoriaId.equals=" + (resultadoAuditoriaId + 1));
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllNaoConformidadesByResultadoItemChecklistIsEqualToSomething() throws Exception {
+        // Initialize the database
+        naoConformidadeRepository.saveAndFlush(naoConformidade);
+        ResultadoItemChecklist resultadoItemChecklist = ResultadoItemChecklistResourceIT.createEntity(em);
+        em.persist(resultadoItemChecklist);
+        em.flush();
+        naoConformidade.setResultadoItemChecklist(resultadoItemChecklist);
+        naoConformidadeRepository.saveAndFlush(naoConformidade);
+        Long resultadoItemChecklistId = resultadoItemChecklist.getId();
+
+        // Get all the naoConformidadeList where resultadoItemChecklist equals to resultadoItemChecklistId
+        defaultNaoConformidadeShouldBeFound("resultadoItemChecklistId.equals=" + resultadoItemChecklistId);
+
+        // Get all the naoConformidadeList where resultadoItemChecklist equals to resultadoItemChecklistId + 1
+        defaultNaoConformidadeShouldNotBeFound("resultadoItemChecklistId.equals=" + (resultadoItemChecklistId + 1));
+    }
 
     /**
      * Executes the search, and checks that the default entity is returned.

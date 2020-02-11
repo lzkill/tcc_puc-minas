@@ -12,14 +12,12 @@ import { JhiDataUtils, JhiFileLoadError, JhiEventManager, JhiEventWithContent } 
 import { IPublicacaoFeed, PublicacaoFeed } from 'app/shared/model/sgq/publicacao-feed.model';
 import { PublicacaoFeedService } from './publicacao-feed.service';
 import { AlertError } from 'app/shared/alert/alert-error.model';
-import { IAnexo } from 'app/shared/model/sgq/anexo.model';
-import { AnexoService } from 'app/entities/sgq/anexo/anexo.service';
 import { IFeed } from 'app/shared/model/sgq/feed.model';
 import { FeedService } from 'app/entities/sgq/feed/feed.service';
 import { ICategoriaPublicacao } from 'app/shared/model/sgq/categoria-publicacao.model';
 import { CategoriaPublicacaoService } from 'app/entities/sgq/categoria-publicacao/categoria-publicacao.service';
 
-type SelectableEntity = IAnexo | IFeed | ICategoriaPublicacao;
+type SelectableEntity = IFeed | ICategoriaPublicacao;
 
 @Component({
   selector: 'jhi-publicacao-feed-update',
@@ -27,8 +25,6 @@ type SelectableEntity = IAnexo | IFeed | ICategoriaPublicacao;
 })
 export class PublicacaoFeedUpdateComponent implements OnInit {
   isSaving = false;
-
-  anexos: IAnexo[] = [];
 
   feeds: IFeed[] = [];
 
@@ -45,7 +41,6 @@ export class PublicacaoFeedUpdateComponent implements OnInit {
     dataRegistro: [null, [Validators.required]],
     dataPublicacao: [null, [Validators.required]],
     status: [null, [Validators.required]],
-    anexo: [],
     feed: [null, Validators.required],
     categorias: [null, Validators.required]
   });
@@ -54,7 +49,6 @@ export class PublicacaoFeedUpdateComponent implements OnInit {
     protected dataUtils: JhiDataUtils,
     protected eventManager: JhiEventManager,
     protected publicacaoFeedService: PublicacaoFeedService,
-    protected anexoService: AnexoService,
     protected feedService: FeedService,
     protected categoriaPublicacaoService: CategoriaPublicacaoService,
     protected activatedRoute: ActivatedRoute,
@@ -64,30 +58,6 @@ export class PublicacaoFeedUpdateComponent implements OnInit {
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ publicacaoFeed }) => {
       this.updateForm(publicacaoFeed);
-
-      this.anexoService
-        .query({ 'publicacaoFeedId.specified': 'false' })
-        .pipe(
-          map((res: HttpResponse<IAnexo[]>) => {
-            return res.body ? res.body : [];
-          })
-        )
-        .subscribe((resBody: IAnexo[]) => {
-          if (!publicacaoFeed.anexo || !publicacaoFeed.anexo.id) {
-            this.anexos = resBody;
-          } else {
-            this.anexoService
-              .find(publicacaoFeed.anexo.id)
-              .pipe(
-                map((subRes: HttpResponse<IAnexo>) => {
-                  return subRes.body ? [subRes.body].concat(resBody) : resBody;
-                })
-              )
-              .subscribe((concatRes: IAnexo[]) => {
-                this.anexos = concatRes;
-              });
-          }
-        });
 
       this.feedService
         .query()
@@ -121,7 +91,6 @@ export class PublicacaoFeedUpdateComponent implements OnInit {
       dataRegistro: publicacaoFeed.dataRegistro != null ? publicacaoFeed.dataRegistro.format(DATE_TIME_FORMAT) : null,
       dataPublicacao: publicacaoFeed.dataPublicacao != null ? publicacaoFeed.dataPublicacao.format(DATE_TIME_FORMAT) : null,
       status: publicacaoFeed.status,
-      anexo: publicacaoFeed.anexo,
       feed: publicacaoFeed.feed,
       categorias: publicacaoFeed.categorias
     });
@@ -176,7 +145,6 @@ export class PublicacaoFeedUpdateComponent implements OnInit {
           ? moment(this.editForm.get(['dataPublicacao'])!.value, DATE_TIME_FORMAT)
           : undefined,
       status: this.editForm.get(['status'])!.value,
-      anexo: this.editForm.get(['anexo'])!.value,
       feed: this.editForm.get(['feed'])!.value,
       categorias: this.editForm.get(['categorias'])!.value
     };

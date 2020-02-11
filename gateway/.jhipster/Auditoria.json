@@ -22,6 +22,7 @@
         },
         {
             "fieldName": "descricao",
+            "javadoc": "Requisitos abordados, objetivos, etc",
             "fieldType": "byte[]",
             "fieldTypeBlobContent": "text"
         }

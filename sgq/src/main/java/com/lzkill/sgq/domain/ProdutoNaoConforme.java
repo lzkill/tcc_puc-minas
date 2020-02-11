@@ -10,6 +10,8 @@ import javax.validation.constraints.*;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.HashSet;
+import java.util.Set;
 
 import com.lzkill.sgq.domain.enumeration.StatusSGQ;
 
@@ -88,14 +90,22 @@ public class ProdutoNaoConforme implements Serializable {
     @JoinColumn(unique = true)
     private NaoConformidade naoConformidade;
 
-    @OneToOne
-    @JoinColumn(unique = true)
-    private Anexo anexo;
+    @OneToMany(mappedBy = "produtoNaoConforme")
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<Anexo> anexos = new HashSet<>();
 
     @ManyToOne(optional = false)
     @NotNull
     @JsonIgnoreProperties("produtoNaoConformes")
     private Produto produto;
+
+    @ManyToOne
+    @JsonIgnoreProperties("produtoNaoConformes")
+    private ResultadoAuditoria resultadoAuditoria;
+
+    @ManyToOne
+    @JsonIgnoreProperties("produtoNaoConformes")
+    private ResultadoItemChecklist resultadoItemChecklist;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -236,17 +246,29 @@ public class ProdutoNaoConforme implements Serializable {
         this.naoConformidade = naoConformidade;
     }
 
-    public Anexo getAnexo() {
-        return anexo;
+    public Set<Anexo> getAnexos() {
+        return anexos;
     }
 
-    public ProdutoNaoConforme anexo(Anexo anexo) {
-        this.anexo = anexo;
+    public ProdutoNaoConforme anexos(Set<Anexo> anexos) {
+        this.anexos = anexos;
         return this;
     }
 
-    public void setAnexo(Anexo anexo) {
-        this.anexo = anexo;
+    public ProdutoNaoConforme addAnexo(Anexo anexo) {
+        this.anexos.add(anexo);
+        anexo.setProdutoNaoConforme(this);
+        return this;
+    }
+
+    public ProdutoNaoConforme removeAnexo(Anexo anexo) {
+        this.anexos.remove(anexo);
+        anexo.setProdutoNaoConforme(null);
+        return this;
+    }
+
+    public void setAnexos(Set<Anexo> anexos) {
+        this.anexos = anexos;
     }
 
     public Produto getProduto() {
@@ -260,6 +282,32 @@ public class ProdutoNaoConforme implements Serializable {
 
     public void setProduto(Produto produto) {
         this.produto = produto;
+    }
+
+    public ResultadoAuditoria getResultadoAuditoria() {
+        return resultadoAuditoria;
+    }
+
+    public ProdutoNaoConforme resultadoAuditoria(ResultadoAuditoria resultadoAuditoria) {
+        this.resultadoAuditoria = resultadoAuditoria;
+        return this;
+    }
+
+    public void setResultadoAuditoria(ResultadoAuditoria resultadoAuditoria) {
+        this.resultadoAuditoria = resultadoAuditoria;
+    }
+
+    public ResultadoItemChecklist getResultadoItemChecklist() {
+        return resultadoItemChecklist;
+    }
+
+    public ProdutoNaoConforme resultadoItemChecklist(ResultadoItemChecklist resultadoItemChecklist) {
+        this.resultadoItemChecklist = resultadoItemChecklist;
+        return this;
+    }
+
+    public void setResultadoItemChecklist(ResultadoItemChecklist resultadoItemChecklist) {
+        this.resultadoItemChecklist = resultadoItemChecklist;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 

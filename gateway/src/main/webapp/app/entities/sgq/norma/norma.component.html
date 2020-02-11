@@ -20,7 +20,6 @@
             <th scope="col"  jhiSortBy="numeroEdicao"><span jhiTranslate="gatewayApp.sgqNorma.numeroEdicao">Numero Edicao</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="dataEdicao"><span jhiTranslate="gatewayApp.sgqNorma.dataEdicao">Data Edicao</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="dataInicioValidade"><span jhiTranslate="gatewayApp.sgqNorma.dataInicioValidade">Data Inicio Validade</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  jhiSortBy="anexo.nomeArquivo"><span jhiTranslate="gatewayApp.sgqNorma.anexo">Anexo</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"></th>
             </tr>
             </thead>
@@ -34,11 +33,6 @@
                 <td>{{norma.numeroEdicao}}</td>
                 <td>{{norma.dataEdicao | date:'medium'}}</td>
                 <td>{{norma.dataInicioValidade | date:'medium'}}</td>
-                <td>
-                    <div *ngIf="norma.anexo">
-                        <a [routerLink]="['/anexo', norma.anexo?.id, 'view' ]" >{{norma.anexo?.nomeArquivo}}</a>
-                    </div>
-                </td>
                 <td class="text-right">
                     <div class="btn-group">
                         <button type="submit"

@@ -8,6 +8,8 @@ import javax.validation.constraints.*;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.HashSet;
+import java.util.Set;
 
 import com.lzkill.sgq.domain.enumeration.TipoAcaoSGQ;
 
@@ -73,12 +75,12 @@ public class AcaoSGQ implements Serializable {
     @Column(name = "status_sgq", nullable = false)
     private StatusSGQ statusSGQ;
 
-    @OneToOne
-    @JoinColumn(unique = true)
-    private Anexo anexo;
+    @OneToMany(mappedBy = "acaoSGQ")
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<Anexo> anexos = new HashSet<>();
 
     @ManyToOne
-    @JsonIgnoreProperties("acaos")
+    @JsonIgnoreProperties("acaoSGQS")
     private NaoConformidade naoConformidade;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
@@ -233,17 +235,29 @@ public class AcaoSGQ implements Serializable {
         this.statusSGQ = statusSGQ;
     }
 
-    public Anexo getAnexo() {
-        return anexo;
+    public Set<Anexo> getAnexos() {
+        return anexos;
     }
 
-    public AcaoSGQ anexo(Anexo anexo) {
-        this.anexo = anexo;
+    public AcaoSGQ anexos(Set<Anexo> anexos) {
+        this.anexos = anexos;
         return this;
     }
 
-    public void setAnexo(Anexo anexo) {
-        this.anexo = anexo;
+    public AcaoSGQ addAnexo(Anexo anexo) {
+        this.anexos.add(anexo);
+        anexo.setAcaoSGQ(this);
+        return this;
+    }
+
+    public AcaoSGQ removeAnexo(Anexo anexo) {
+        this.anexos.remove(anexo);
+        anexo.setAcaoSGQ(null);
+        return this;
+    }
+
+    public void setAnexos(Set<Anexo> anexos) {
+        this.anexos = anexos;
     }
 
     public NaoConformidade getNaoConformidade() {

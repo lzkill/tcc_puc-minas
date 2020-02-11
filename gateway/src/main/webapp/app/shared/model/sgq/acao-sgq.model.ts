@@ -17,7 +17,7 @@ export interface IAcaoSGQ {
   dataConclusao?: Moment;
   resultado?: any;
   statusSGQ?: StatusSGQ;
-  anexo?: IAnexo;
+  anexos?: IAnexo[];
   naoConformidade?: INaoConformidade;
 }
 
@@ -35,7 +35,7 @@ export class AcaoSGQ implements IAcaoSGQ {
     public dataConclusao?: Moment,
     public resultado?: any,
     public statusSGQ?: StatusSGQ,
-    public anexo?: IAnexo,
+    public anexos?: IAnexo[],
     public naoConformidade?: INaoConformidade
   ) {}
 }

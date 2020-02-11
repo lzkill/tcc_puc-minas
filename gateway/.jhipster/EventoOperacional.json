@@ -56,12 +56,10 @@
     ],
     "relationships": [
         {
-            "relationshipType": "one-to-one",
+            "relationshipType": "one-to-many",
             "otherEntityName": "anexo",
             "otherEntityRelationshipName": "eventoOperacional",
-            "relationshipName": "anexo",
-            "otherEntityField": "nomeArquivo",
-            "ownerSide": true
+            "relationshipName": "anexo"
         },
         {
             "relationshipType": "many-to-one",

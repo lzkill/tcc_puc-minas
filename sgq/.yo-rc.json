@@ -46,6 +46,7 @@
     "Auditoria",
     "PlanoAuditoria",
     "ItemPlanoAuditoria",
+    "ResultadoAuditoria",
     "Checklist",
     "ItemChecklist",
     "ResultadoChecklist",

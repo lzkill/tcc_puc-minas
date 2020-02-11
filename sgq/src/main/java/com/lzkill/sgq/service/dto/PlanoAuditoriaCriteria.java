@@ -10,7 +10,6 @@ import io.github.jhipster.service.filter.FloatFilter;
 import io.github.jhipster.service.filter.IntegerFilter;
 import io.github.jhipster.service.filter.LongFilter;
 import io.github.jhipster.service.filter.StringFilter;
-import io.github.jhipster.service.filter.InstantFilter;
 
 /**
  * Criteria class for the {@link com.lzkill.sgq.domain.PlanoAuditoria} entity. This class is used
@@ -29,10 +28,6 @@ public class PlanoAuditoriaCriteria implements Serializable, Criteria {
 
     private StringFilter titulo;
 
-    private InstantFilter dataInicio;
-
-    private InstantFilter dataFim;
-
     private LongFilter anexoId;
 
     private LongFilter itemId;
@@ -43,8 +38,6 @@ public class PlanoAuditoriaCriteria implements Serializable, Criteria {
     public PlanoAuditoriaCriteria(PlanoAuditoriaCriteria other){
         this.id = other.id == null ? null : other.id.copy();
         this.titulo = other.titulo == null ? null : other.titulo.copy();
-        this.dataInicio = other.dataInicio == null ? null : other.dataInicio.copy();
-        this.dataFim = other.dataFim == null ? null : other.dataFim.copy();
         this.anexoId = other.anexoId == null ? null : other.anexoId.copy();
         this.itemId = other.itemId == null ? null : other.itemId.copy();
     }
@@ -68,22 +61,6 @@ public class PlanoAuditoriaCriteria implements Serializable, Criteria {
 
     public void setTitulo(StringFilter titulo) {
         this.titulo = titulo;
-    }
-
-    public InstantFilter getDataInicio() {
-        return dataInicio;
-    }
-
-    public void setDataInicio(InstantFilter dataInicio) {
-        this.dataInicio = dataInicio;
-    }
-
-    public InstantFilter getDataFim() {
-        return dataFim;
-    }
-
-    public void setDataFim(InstantFilter dataFim) {
-        this.dataFim = dataFim;
     }
 
     public LongFilter getAnexoId() {
@@ -115,8 +92,6 @@ public class PlanoAuditoriaCriteria implements Serializable, Criteria {
         return
             Objects.equals(id, that.id) &&
             Objects.equals(titulo, that.titulo) &&
-            Objects.equals(dataInicio, that.dataInicio) &&
-            Objects.equals(dataFim, that.dataFim) &&
             Objects.equals(anexoId, that.anexoId) &&
             Objects.equals(itemId, that.itemId);
     }
@@ -126,8 +101,6 @@ public class PlanoAuditoriaCriteria implements Serializable, Criteria {
         return Objects.hash(
         id,
         titulo,
-        dataInicio,
-        dataFim,
         anexoId,
         itemId
         );
@@ -138,8 +111,6 @@ public class PlanoAuditoriaCriteria implements Serializable, Criteria {
         return "PlanoAuditoriaCriteria{" +
                 (id != null ? "id=" + id + ", " : "") +
                 (titulo != null ? "titulo=" + titulo + ", " : "") +
-                (dataInicio != null ? "dataInicio=" + dataInicio + ", " : "") +
-                (dataFim != null ? "dataFim=" + dataFim + ", " : "") +
                 (anexoId != null ? "anexoId=" + anexoId + ", " : "") +
                 (itemId != null ? "itemId=" + itemId + ", " : "") +
             "}";

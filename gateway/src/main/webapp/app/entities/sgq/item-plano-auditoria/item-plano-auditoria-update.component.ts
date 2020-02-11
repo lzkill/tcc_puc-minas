@@ -10,14 +10,12 @@ import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 
 import { IItemPlanoAuditoria, ItemPlanoAuditoria } from 'app/shared/model/sgq/item-plano-auditoria.model';
 import { ItemPlanoAuditoriaService } from './item-plano-auditoria.service';
-import { IAnexo } from 'app/shared/model/sgq/anexo.model';
-import { AnexoService } from 'app/entities/sgq/anexo/anexo.service';
 import { IAuditoria } from 'app/shared/model/sgq/auditoria.model';
 import { AuditoriaService } from 'app/entities/sgq/auditoria/auditoria.service';
 import { IPlanoAuditoria } from 'app/shared/model/sgq/plano-auditoria.model';
 import { PlanoAuditoriaService } from 'app/entities/sgq/plano-auditoria/plano-auditoria.service';
 
-type SelectableEntity = IAnexo | IAuditoria | IPlanoAuditoria;
+type SelectableEntity = IAuditoria | IPlanoAuditoria;
 
 @Component({
   selector: 'jhi-item-plano-auditoria-update',
@@ -26,24 +24,20 @@ type SelectableEntity = IAnexo | IAuditoria | IPlanoAuditoria;
 export class ItemPlanoAuditoriaUpdateComponent implements OnInit {
   isSaving = false;
 
-  anexos: IAnexo[] = [];
-
   auditorias: IAuditoria[] = [];
 
   planoauditorias: IPlanoAuditoria[] = [];
 
   editForm = this.fb.group({
     id: [],
-    idUsuarioResponsavel: [null, [Validators.required]],
-    dataAuditoria: [null, [Validators.required]],
-    anexo: [],
+    dataInicioPrevisto: [],
+    dataFimPrevisto: [],
     auditoria: [null, Validators.required],
     plano: [null, Validators.required]
   });
 
   constructor(
     protected itemPlanoAuditoriaService: ItemPlanoAuditoriaService,
-    protected anexoService: AnexoService,
     protected auditoriaService: AuditoriaService,
     protected planoAuditoriaService: PlanoAuditoriaService,
     protected activatedRoute: ActivatedRoute,
@@ -53,30 +47,6 @@ export class ItemPlanoAuditoriaUpdateComponent implements OnInit {
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ itemPlanoAuditoria }) => {
       this.updateForm(itemPlanoAuditoria);
-
-      this.anexoService
-        .query({ 'itemPlanoAuditoriaId.specified': 'false' })
-        .pipe(
-          map((res: HttpResponse<IAnexo[]>) => {
-            return res.body ? res.body : [];
-          })
-        )
-        .subscribe((resBody: IAnexo[]) => {
-          if (!itemPlanoAuditoria.anexo || !itemPlanoAuditoria.anexo.id) {
-            this.anexos = resBody;
-          } else {
-            this.anexoService
-              .find(itemPlanoAuditoria.anexo.id)
-              .pipe(
-                map((subRes: HttpResponse<IAnexo>) => {
-                  return subRes.body ? [subRes.body].concat(resBody) : resBody;
-                })
-              )
-              .subscribe((concatRes: IAnexo[]) => {
-                this.anexos = concatRes;
-              });
-          }
-        });
 
       this.auditoriaService
         .query()
@@ -101,9 +71,9 @@ export class ItemPlanoAuditoriaUpdateComponent implements OnInit {
   updateForm(itemPlanoAuditoria: IItemPlanoAuditoria): void {
     this.editForm.patchValue({
       id: itemPlanoAuditoria.id,
-      idUsuarioResponsavel: itemPlanoAuditoria.idUsuarioResponsavel,
-      dataAuditoria: itemPlanoAuditoria.dataAuditoria != null ? itemPlanoAuditoria.dataAuditoria.format(DATE_TIME_FORMAT) : null,
-      anexo: itemPlanoAuditoria.anexo,
+      dataInicioPrevisto:
+        itemPlanoAuditoria.dataInicioPrevisto != null ? itemPlanoAuditoria.dataInicioPrevisto.format(DATE_TIME_FORMAT) : null,
+      dataFimPrevisto: itemPlanoAuditoria.dataFimPrevisto != null ? itemPlanoAuditoria.dataFimPrevisto.format(DATE_TIME_FORMAT) : null,
       auditoria: itemPlanoAuditoria.auditoria,
       plano: itemPlanoAuditoria.plano
     });
@@ -127,12 +97,14 @@ export class ItemPlanoAuditoriaUpdateComponent implements OnInit {
     return {
       ...new ItemPlanoAuditoria(),
       id: this.editForm.get(['id'])!.value,
-      idUsuarioResponsavel: this.editForm.get(['idUsuarioResponsavel'])!.value,
-      dataAuditoria:
-        this.editForm.get(['dataAuditoria'])!.value != null
-          ? moment(this.editForm.get(['dataAuditoria'])!.value, DATE_TIME_FORMAT)
+      dataInicioPrevisto:
+        this.editForm.get(['dataInicioPrevisto'])!.value != null
+          ? moment(this.editForm.get(['dataInicioPrevisto'])!.value, DATE_TIME_FORMAT)
           : undefined,
-      anexo: this.editForm.get(['anexo'])!.value,
+      dataFimPrevisto:
+        this.editForm.get(['dataFimPrevisto'])!.value != null
+          ? moment(this.editForm.get(['dataFimPrevisto'])!.value, DATE_TIME_FORMAT)
+          : undefined,
       auditoria: this.editForm.get(['auditoria'])!.value,
       plano: this.editForm.get(['plano'])!.value
     };

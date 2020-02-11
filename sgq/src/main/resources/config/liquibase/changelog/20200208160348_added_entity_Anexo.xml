@@ -25,6 +25,57 @@
             <column name="conteudo_content_type" type="varchar(255)">
                 <constraints nullable="false" />
             </column>
+            <column name="acaosgq_id" type="bigint">
+                <constraints nullable="true" />
+            </column>
+            <column name="analise_consultoria_id" type="bigint">
+                <constraints nullable="true" />
+            </column>
+            <column name="checklist_id" type="bigint">
+                <constraints nullable="true" />
+            </column>
+            <column name="boletim_informativo_id" type="bigint">
+                <constraints nullable="true" />
+            </column>
+            <column name="campanha_recall_id" type="bigint">
+                <constraints nullable="true" />
+            </column>
+            <column name="evento_operacional_id" type="bigint">
+                <constraints nullable="true" />
+            </column>
+            <column name="item_checklist_id" type="bigint">
+                <constraints nullable="true" />
+            </column>
+            <column name="item_plano_auditoria_id" type="bigint">
+                <constraints nullable="true" />
+            </column>
+            <column name="nao_conformidade_id" type="bigint">
+                <constraints nullable="true" />
+            </column>
+            <column name="norma_id" type="bigint">
+                <constraints nullable="true" />
+            </column>
+            <column name="processo_id" type="bigint">
+                <constraints nullable="true" />
+            </column>
+            <column name="produto_id" type="bigint">
+                <constraints nullable="true" />
+            </column>
+            <column name="plano_auditoria_id" type="bigint">
+                <constraints nullable="true" />
+            </column>
+            <column name="produto_nao_conforme_id" type="bigint">
+                <constraints nullable="true" />
+            </column>
+            <column name="publicacao_feed_id" type="bigint">
+                <constraints nullable="true" />
+            </column>
+            <column name="resultado_checklist_id" type="bigint">
+                <constraints nullable="true" />
+            </column>
+            <column name="resultado_item_checklist_id" type="bigint">
+                <constraints nullable="true" />
+            </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
         </createTable>
     </changeSet>

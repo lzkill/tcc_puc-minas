@@ -22,7 +22,7 @@
             <column name="titulo" type="varchar(100)">
                 <constraints nullable="false" />
             </column>
-            <column name="descricao" type="${clobType}">
+            <column name="descricao" type="${clobType}" remarks="Requisitos abordados, objetivos, etc">
                 <constraints nullable="true" />
             </column>
             <column name="processo_id" type="bigint">

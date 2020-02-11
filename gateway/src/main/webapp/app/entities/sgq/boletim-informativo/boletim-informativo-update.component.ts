@@ -12,14 +12,12 @@ import { JhiDataUtils, JhiFileLoadError, JhiEventManager, JhiEventWithContent } 
 import { IBoletimInformativo, BoletimInformativo } from 'app/shared/model/sgq/boletim-informativo.model';
 import { BoletimInformativoService } from './boletim-informativo.service';
 import { AlertError } from 'app/shared/alert/alert-error.model';
-import { IAnexo } from 'app/shared/model/sgq/anexo.model';
-import { AnexoService } from 'app/entities/sgq/anexo/anexo.service';
 import { IPublicoAlvo } from 'app/shared/model/sgq/publico-alvo.model';
 import { PublicoAlvoService } from 'app/entities/sgq/publico-alvo/publico-alvo.service';
 import { ICategoriaPublicacao } from 'app/shared/model/sgq/categoria-publicacao.model';
 import { CategoriaPublicacaoService } from 'app/entities/sgq/categoria-publicacao/categoria-publicacao.service';
 
-type SelectableEntity = IAnexo | IPublicoAlvo | ICategoriaPublicacao;
+type SelectableEntity = IPublicoAlvo | ICategoriaPublicacao;
 
 @Component({
   selector: 'jhi-boletim-informativo-update',
@@ -27,8 +25,6 @@ type SelectableEntity = IAnexo | IPublicoAlvo | ICategoriaPublicacao;
 })
 export class BoletimInformativoUpdateComponent implements OnInit {
   isSaving = false;
-
-  anexos: IAnexo[] = [];
 
   publicoalvos: IPublicoAlvo[] = [];
 
@@ -42,7 +38,6 @@ export class BoletimInformativoUpdateComponent implements OnInit {
     dataRegistro: [null, [Validators.required]],
     dataPublicacao: [],
     status: [null, [Validators.required]],
-    anexo: [],
     publicoAlvo: [null, Validators.required],
     categorias: [null, Validators.required]
   });
@@ -51,7 +46,6 @@ export class BoletimInformativoUpdateComponent implements OnInit {
     protected dataUtils: JhiDataUtils,
     protected eventManager: JhiEventManager,
     protected boletimInformativoService: BoletimInformativoService,
-    protected anexoService: AnexoService,
     protected publicoAlvoService: PublicoAlvoService,
     protected categoriaPublicacaoService: CategoriaPublicacaoService,
     protected activatedRoute: ActivatedRoute,
@@ -61,30 +55,6 @@ export class BoletimInformativoUpdateComponent implements OnInit {
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ boletimInformativo }) => {
       this.updateForm(boletimInformativo);
-
-      this.anexoService
-        .query({ 'boletimInformativoId.specified': 'false' })
-        .pipe(
-          map((res: HttpResponse<IAnexo[]>) => {
-            return res.body ? res.body : [];
-          })
-        )
-        .subscribe((resBody: IAnexo[]) => {
-          if (!boletimInformativo.anexo || !boletimInformativo.anexo.id) {
-            this.anexos = resBody;
-          } else {
-            this.anexoService
-              .find(boletimInformativo.anexo.id)
-              .pipe(
-                map((subRes: HttpResponse<IAnexo>) => {
-                  return subRes.body ? [subRes.body].concat(resBody) : resBody;
-                })
-              )
-              .subscribe((concatRes: IAnexo[]) => {
-                this.anexos = concatRes;
-              });
-          }
-        });
 
       this.publicoAlvoService
         .query()
@@ -115,7 +85,6 @@ export class BoletimInformativoUpdateComponent implements OnInit {
       dataRegistro: boletimInformativo.dataRegistro != null ? boletimInformativo.dataRegistro.format(DATE_TIME_FORMAT) : null,
       dataPublicacao: boletimInformativo.dataPublicacao != null ? boletimInformativo.dataPublicacao.format(DATE_TIME_FORMAT) : null,
       status: boletimInformativo.status,
-      anexo: boletimInformativo.anexo,
       publicoAlvo: boletimInformativo.publicoAlvo,
       categorias: boletimInformativo.categorias
     });
@@ -167,7 +136,6 @@ export class BoletimInformativoUpdateComponent implements OnInit {
           ? moment(this.editForm.get(['dataPublicacao'])!.value, DATE_TIME_FORMAT)
           : undefined,
       status: this.editForm.get(['status'])!.value,
-      anexo: this.editForm.get(['anexo'])!.value,
       publicoAlvo: this.editForm.get(['publicoAlvo'])!.value,
       categorias: this.editForm.get(['categorias'])!.value
     };

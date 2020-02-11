@@ -31,7 +31,8 @@
             <th scope="col"  jhiSortBy="dataConclusao"><span jhiTranslate="gatewayApp.sgqNaoConformidade.dataConclusao">Data Conclusao</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="analiseFinal"><span jhiTranslate="gatewayApp.sgqNaoConformidade.analiseFinal">Analise Final</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="statusSGQ"><span jhiTranslate="gatewayApp.sgqNaoConformidade.statusSGQ">Status SGQ</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  jhiSortBy="anexo.nomeArquivo"><span jhiTranslate="gatewayApp.sgqNaoConformidade.anexo">Anexo</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="resultadoAuditoria.id"><span jhiTranslate="gatewayApp.sgqNaoConformidade.resultadoAuditoria">Resultado Auditoria</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="resultadoItemChecklist.id"><span jhiTranslate="gatewayApp.sgqNaoConformidade.resultadoItemChecklist">Resultado Item Checklist</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"></th>
             </tr>
             </thead>
@@ -51,8 +52,13 @@
                 <td>{{naoConformidade.analiseFinal}}</td>
                 <td jhiTranslate="{{'gatewayApp.StatusSGQ.' + naoConformidade.statusSGQ}}">{{naoConformidade.statusSGQ}}</td>
                 <td>
-                    <div *ngIf="naoConformidade.anexo">
-                        <a [routerLink]="['/anexo', naoConformidade.anexo?.id, 'view' ]" >{{naoConformidade.anexo?.nomeArquivo}}</a>
+                    <div *ngIf="naoConformidade.resultadoAuditoria">
+                        <a [routerLink]="['/resultado-auditoria', naoConformidade.resultadoAuditoria?.id, 'view' ]" >{{naoConformidade.resultadoAuditoria?.id}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="naoConformidade.resultadoItemChecklist">
+                        <a [routerLink]="['/resultado-item-checklist', naoConformidade.resultadoItemChecklist?.id, 'view' ]" >{{naoConformidade.resultadoItemChecklist?.id}}</a>
                     </div>
                 </td>
                 <td class="text-right">

@@ -2,6 +2,23 @@ package com.lzkill.sgq.web.rest;
 
 import com.lzkill.sgq.SgqApp;
 import com.lzkill.sgq.domain.Anexo;
+import com.lzkill.sgq.domain.AcaoSGQ;
+import com.lzkill.sgq.domain.AnaliseConsultoria;
+import com.lzkill.sgq.domain.Checklist;
+import com.lzkill.sgq.domain.BoletimInformativo;
+import com.lzkill.sgq.domain.CampanhaRecall;
+import com.lzkill.sgq.domain.EventoOperacional;
+import com.lzkill.sgq.domain.ItemChecklist;
+import com.lzkill.sgq.domain.ItemPlanoAuditoria;
+import com.lzkill.sgq.domain.NaoConformidade;
+import com.lzkill.sgq.domain.Norma;
+import com.lzkill.sgq.domain.Processo;
+import com.lzkill.sgq.domain.Produto;
+import com.lzkill.sgq.domain.PlanoAuditoria;
+import com.lzkill.sgq.domain.ProdutoNaoConforme;
+import com.lzkill.sgq.domain.PublicacaoFeed;
+import com.lzkill.sgq.domain.ResultadoChecklist;
+import com.lzkill.sgq.domain.ResultadoItemChecklist;
 import com.lzkill.sgq.repository.AnexoRepository;
 import com.lzkill.sgq.service.AnexoService;
 import com.lzkill.sgq.web.rest.errors.ExceptionTranslator;
@@ -302,6 +319,346 @@ public class AnexoResourceIT {
 
         // Get all the anexoList where nomeArquivo does not contain UPDATED_NOME_ARQUIVO
         defaultAnexoShouldBeFound("nomeArquivo.doesNotContain=" + UPDATED_NOME_ARQUIVO);
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllAnexosByAcaoSGQIsEqualToSomething() throws Exception {
+        // Initialize the database
+        anexoRepository.saveAndFlush(anexo);
+        AcaoSGQ acaoSGQ = AcaoSGQResourceIT.createEntity(em);
+        em.persist(acaoSGQ);
+        em.flush();
+        anexo.setAcaoSGQ(acaoSGQ);
+        anexoRepository.saveAndFlush(anexo);
+        Long acaoSGQId = acaoSGQ.getId();
+
+        // Get all the anexoList where acaoSGQ equals to acaoSGQId
+        defaultAnexoShouldBeFound("acaoSGQId.equals=" + acaoSGQId);
+
+        // Get all the anexoList where acaoSGQ equals to acaoSGQId + 1
+        defaultAnexoShouldNotBeFound("acaoSGQId.equals=" + (acaoSGQId + 1));
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllAnexosByAnaliseConsultoriaIsEqualToSomething() throws Exception {
+        // Initialize the database
+        anexoRepository.saveAndFlush(anexo);
+        AnaliseConsultoria analiseConsultoria = AnaliseConsultoriaResourceIT.createEntity(em);
+        em.persist(analiseConsultoria);
+        em.flush();
+        anexo.setAnaliseConsultoria(analiseConsultoria);
+        anexoRepository.saveAndFlush(anexo);
+        Long analiseConsultoriaId = analiseConsultoria.getId();
+
+        // Get all the anexoList where analiseConsultoria equals to analiseConsultoriaId
+        defaultAnexoShouldBeFound("analiseConsultoriaId.equals=" + analiseConsultoriaId);
+
+        // Get all the anexoList where analiseConsultoria equals to analiseConsultoriaId + 1
+        defaultAnexoShouldNotBeFound("analiseConsultoriaId.equals=" + (analiseConsultoriaId + 1));
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllAnexosByChecklistIsEqualToSomething() throws Exception {
+        // Initialize the database
+        anexoRepository.saveAndFlush(anexo);
+        Checklist checklist = ChecklistResourceIT.createEntity(em);
+        em.persist(checklist);
+        em.flush();
+        anexo.setChecklist(checklist);
+        anexoRepository.saveAndFlush(anexo);
+        Long checklistId = checklist.getId();
+
+        // Get all the anexoList where checklist equals to checklistId
+        defaultAnexoShouldBeFound("checklistId.equals=" + checklistId);
+
+        // Get all the anexoList where checklist equals to checklistId + 1
+        defaultAnexoShouldNotBeFound("checklistId.equals=" + (checklistId + 1));
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllAnexosByBoletimInformativoIsEqualToSomething() throws Exception {
+        // Initialize the database
+        anexoRepository.saveAndFlush(anexo);
+        BoletimInformativo boletimInformativo = BoletimInformativoResourceIT.createEntity(em);
+        em.persist(boletimInformativo);
+        em.flush();
+        anexo.setBoletimInformativo(boletimInformativo);
+        anexoRepository.saveAndFlush(anexo);
+        Long boletimInformativoId = boletimInformativo.getId();
+
+        // Get all the anexoList where boletimInformativo equals to boletimInformativoId
+        defaultAnexoShouldBeFound("boletimInformativoId.equals=" + boletimInformativoId);
+
+        // Get all the anexoList where boletimInformativo equals to boletimInformativoId + 1
+        defaultAnexoShouldNotBeFound("boletimInformativoId.equals=" + (boletimInformativoId + 1));
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllAnexosByCampanhaRecallIsEqualToSomething() throws Exception {
+        // Initialize the database
+        anexoRepository.saveAndFlush(anexo);
+        CampanhaRecall campanhaRecall = CampanhaRecallResourceIT.createEntity(em);
+        em.persist(campanhaRecall);
+        em.flush();
+        anexo.setCampanhaRecall(campanhaRecall);
+        anexoRepository.saveAndFlush(anexo);
+        Long campanhaRecallId = campanhaRecall.getId();
+
+        // Get all the anexoList where campanhaRecall equals to campanhaRecallId
+        defaultAnexoShouldBeFound("campanhaRecallId.equals=" + campanhaRecallId);
+
+        // Get all the anexoList where campanhaRecall equals to campanhaRecallId + 1
+        defaultAnexoShouldNotBeFound("campanhaRecallId.equals=" + (campanhaRecallId + 1));
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllAnexosByEventoOperacionalIsEqualToSomething() throws Exception {
+        // Initialize the database
+        anexoRepository.saveAndFlush(anexo);
+        EventoOperacional eventoOperacional = EventoOperacionalResourceIT.createEntity(em);
+        em.persist(eventoOperacional);
+        em.flush();
+        anexo.setEventoOperacional(eventoOperacional);
+        anexoRepository.saveAndFlush(anexo);
+        Long eventoOperacionalId = eventoOperacional.getId();
+
+        // Get all the anexoList where eventoOperacional equals to eventoOperacionalId
+        defaultAnexoShouldBeFound("eventoOperacionalId.equals=" + eventoOperacionalId);
+
+        // Get all the anexoList where eventoOperacional equals to eventoOperacionalId + 1
+        defaultAnexoShouldNotBeFound("eventoOperacionalId.equals=" + (eventoOperacionalId + 1));
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllAnexosByItemChecklistIsEqualToSomething() throws Exception {
+        // Initialize the database
+        anexoRepository.saveAndFlush(anexo);
+        ItemChecklist itemChecklist = ItemChecklistResourceIT.createEntity(em);
+        em.persist(itemChecklist);
+        em.flush();
+        anexo.setItemChecklist(itemChecklist);
+        anexoRepository.saveAndFlush(anexo);
+        Long itemChecklistId = itemChecklist.getId();
+
+        // Get all the anexoList where itemChecklist equals to itemChecklistId
+        defaultAnexoShouldBeFound("itemChecklistId.equals=" + itemChecklistId);
+
+        // Get all the anexoList where itemChecklist equals to itemChecklistId + 1
+        defaultAnexoShouldNotBeFound("itemChecklistId.equals=" + (itemChecklistId + 1));
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllAnexosByItemPlanoAuditoriaIsEqualToSomething() throws Exception {
+        // Initialize the database
+        anexoRepository.saveAndFlush(anexo);
+        ItemPlanoAuditoria itemPlanoAuditoria = ItemPlanoAuditoriaResourceIT.createEntity(em);
+        em.persist(itemPlanoAuditoria);
+        em.flush();
+        anexo.setItemPlanoAuditoria(itemPlanoAuditoria);
+        anexoRepository.saveAndFlush(anexo);
+        Long itemPlanoAuditoriaId = itemPlanoAuditoria.getId();
+
+        // Get all the anexoList where itemPlanoAuditoria equals to itemPlanoAuditoriaId
+        defaultAnexoShouldBeFound("itemPlanoAuditoriaId.equals=" + itemPlanoAuditoriaId);
+
+        // Get all the anexoList where itemPlanoAuditoria equals to itemPlanoAuditoriaId + 1
+        defaultAnexoShouldNotBeFound("itemPlanoAuditoriaId.equals=" + (itemPlanoAuditoriaId + 1));
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllAnexosByNaoConformidadeIsEqualToSomething() throws Exception {
+        // Initialize the database
+        anexoRepository.saveAndFlush(anexo);
+        NaoConformidade naoConformidade = NaoConformidadeResourceIT.createEntity(em);
+        em.persist(naoConformidade);
+        em.flush();
+        anexo.setNaoConformidade(naoConformidade);
+        anexoRepository.saveAndFlush(anexo);
+        Long naoConformidadeId = naoConformidade.getId();
+
+        // Get all the anexoList where naoConformidade equals to naoConformidadeId
+        defaultAnexoShouldBeFound("naoConformidadeId.equals=" + naoConformidadeId);
+
+        // Get all the anexoList where naoConformidade equals to naoConformidadeId + 1
+        defaultAnexoShouldNotBeFound("naoConformidadeId.equals=" + (naoConformidadeId + 1));
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllAnexosByNormaIsEqualToSomething() throws Exception {
+        // Initialize the database
+        anexoRepository.saveAndFlush(anexo);
+        Norma norma = NormaResourceIT.createEntity(em);
+        em.persist(norma);
+        em.flush();
+        anexo.setNorma(norma);
+        anexoRepository.saveAndFlush(anexo);
+        Long normaId = norma.getId();
+
+        // Get all the anexoList where norma equals to normaId
+        defaultAnexoShouldBeFound("normaId.equals=" + normaId);
+
+        // Get all the anexoList where norma equals to normaId + 1
+        defaultAnexoShouldNotBeFound("normaId.equals=" + (normaId + 1));
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllAnexosByProcessoIsEqualToSomething() throws Exception {
+        // Initialize the database
+        anexoRepository.saveAndFlush(anexo);
+        Processo processo = ProcessoResourceIT.createEntity(em);
+        em.persist(processo);
+        em.flush();
+        anexo.setProcesso(processo);
+        anexoRepository.saveAndFlush(anexo);
+        Long processoId = processo.getId();
+
+        // Get all the anexoList where processo equals to processoId
+        defaultAnexoShouldBeFound("processoId.equals=" + processoId);
+
+        // Get all the anexoList where processo equals to processoId + 1
+        defaultAnexoShouldNotBeFound("processoId.equals=" + (processoId + 1));
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllAnexosByProdutoIsEqualToSomething() throws Exception {
+        // Initialize the database
+        anexoRepository.saveAndFlush(anexo);
+        Produto produto = ProdutoResourceIT.createEntity(em);
+        em.persist(produto);
+        em.flush();
+        anexo.setProduto(produto);
+        anexoRepository.saveAndFlush(anexo);
+        Long produtoId = produto.getId();
+
+        // Get all the anexoList where produto equals to produtoId
+        defaultAnexoShouldBeFound("produtoId.equals=" + produtoId);
+
+        // Get all the anexoList where produto equals to produtoId + 1
+        defaultAnexoShouldNotBeFound("produtoId.equals=" + (produtoId + 1));
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllAnexosByPlanoAuditoriaIsEqualToSomething() throws Exception {
+        // Initialize the database
+        anexoRepository.saveAndFlush(anexo);
+        PlanoAuditoria planoAuditoria = PlanoAuditoriaResourceIT.createEntity(em);
+        em.persist(planoAuditoria);
+        em.flush();
+        anexo.setPlanoAuditoria(planoAuditoria);
+        anexoRepository.saveAndFlush(anexo);
+        Long planoAuditoriaId = planoAuditoria.getId();
+
+        // Get all the anexoList where planoAuditoria equals to planoAuditoriaId
+        defaultAnexoShouldBeFound("planoAuditoriaId.equals=" + planoAuditoriaId);
+
+        // Get all the anexoList where planoAuditoria equals to planoAuditoriaId + 1
+        defaultAnexoShouldNotBeFound("planoAuditoriaId.equals=" + (planoAuditoriaId + 1));
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllAnexosByProdutoNaoConformeIsEqualToSomething() throws Exception {
+        // Initialize the database
+        anexoRepository.saveAndFlush(anexo);
+        ProdutoNaoConforme produtoNaoConforme = ProdutoNaoConformeResourceIT.createEntity(em);
+        em.persist(produtoNaoConforme);
+        em.flush();
+        anexo.setProdutoNaoConforme(produtoNaoConforme);
+        anexoRepository.saveAndFlush(anexo);
+        Long produtoNaoConformeId = produtoNaoConforme.getId();
+
+        // Get all the anexoList where produtoNaoConforme equals to produtoNaoConformeId
+        defaultAnexoShouldBeFound("produtoNaoConformeId.equals=" + produtoNaoConformeId);
+
+        // Get all the anexoList where produtoNaoConforme equals to produtoNaoConformeId + 1
+        defaultAnexoShouldNotBeFound("produtoNaoConformeId.equals=" + (produtoNaoConformeId + 1));
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllAnexosByPublicacaoFeedIsEqualToSomething() throws Exception {
+        // Initialize the database
+        anexoRepository.saveAndFlush(anexo);
+        PublicacaoFeed publicacaoFeed = PublicacaoFeedResourceIT.createEntity(em);
+        em.persist(publicacaoFeed);
+        em.flush();
+        anexo.setPublicacaoFeed(publicacaoFeed);
+        anexoRepository.saveAndFlush(anexo);
+        Long publicacaoFeedId = publicacaoFeed.getId();
+
+        // Get all the anexoList where publicacaoFeed equals to publicacaoFeedId
+        defaultAnexoShouldBeFound("publicacaoFeedId.equals=" + publicacaoFeedId);
+
+        // Get all the anexoList where publicacaoFeed equals to publicacaoFeedId + 1
+        defaultAnexoShouldNotBeFound("publicacaoFeedId.equals=" + (publicacaoFeedId + 1));
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllAnexosByResultadoChecklistIsEqualToSomething() throws Exception {
+        // Initialize the database
+        anexoRepository.saveAndFlush(anexo);
+        ResultadoChecklist resultadoChecklist = ResultadoChecklistResourceIT.createEntity(em);
+        em.persist(resultadoChecklist);
+        em.flush();
+        anexo.setResultadoChecklist(resultadoChecklist);
+        anexoRepository.saveAndFlush(anexo);
+        Long resultadoChecklistId = resultadoChecklist.getId();
+
+        // Get all the anexoList where resultadoChecklist equals to resultadoChecklistId
+        defaultAnexoShouldBeFound("resultadoChecklistId.equals=" + resultadoChecklistId);
+
+        // Get all the anexoList where resultadoChecklist equals to resultadoChecklistId + 1
+        defaultAnexoShouldNotBeFound("resultadoChecklistId.equals=" + (resultadoChecklistId + 1));
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllAnexosByResultadoItemChecklistIsEqualToSomething() throws Exception {
+        // Initialize the database
+        anexoRepository.saveAndFlush(anexo);
+        ResultadoItemChecklist resultadoItemChecklist = ResultadoItemChecklistResourceIT.createEntity(em);
+        em.persist(resultadoItemChecklist);
+        em.flush();
+        anexo.setResultadoItemChecklist(resultadoItemChecklist);
+        anexoRepository.saveAndFlush(anexo);
+        Long resultadoItemChecklistId = resultadoItemChecklist.getId();
+
+        // Get all the anexoList where resultadoItemChecklist equals to resultadoItemChecklistId
+        defaultAnexoShouldBeFound("resultadoItemChecklistId.equals=" + resultadoItemChecklistId);
+
+        // Get all the anexoList where resultadoItemChecklist equals to resultadoItemChecklistId + 1
+        defaultAnexoShouldNotBeFound("resultadoItemChecklistId.equals=" + (resultadoItemChecklistId + 1));
     }
 
     /**

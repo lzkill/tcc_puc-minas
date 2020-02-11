@@ -28,7 +28,6 @@
             <th scope="col"  jhiSortBy="dataRegistro"><span jhiTranslate="gatewayApp.sgqPublicacaoFeed.dataRegistro">Data Registro</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="dataPublicacao"><span jhiTranslate="gatewayApp.sgqPublicacaoFeed.dataPublicacao">Data Publicacao</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="status"><span jhiTranslate="gatewayApp.sgqPublicacaoFeed.status">Status</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  jhiSortBy="anexo.nomeArquivo"><span jhiTranslate="gatewayApp.sgqPublicacaoFeed.anexo">Anexo</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="feed.titulo"><span jhiTranslate="gatewayApp.sgqPublicacaoFeed.feed">Feed</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"></th>
             </tr>
@@ -45,11 +44,6 @@
                 <td>{{publicacaoFeed.dataRegistro | date:'medium'}}</td>
                 <td>{{publicacaoFeed.dataPublicacao | date:'medium'}}</td>
                 <td jhiTranslate="{{'gatewayApp.StatusPublicacao.' + publicacaoFeed.status}}">{{publicacaoFeed.status}}</td>
-                <td>
-                    <div *ngIf="publicacaoFeed.anexo">
-                        <a [routerLink]="['/anexo', publicacaoFeed.anexo?.id, 'view' ]" >{{publicacaoFeed.anexo?.nomeArquivo}}</a>
-                    </div>
-                </td>
                 <td>
                     <div *ngIf="publicacaoFeed.feed">
                         <a [routerLink]="['/feed', publicacaoFeed.feed?.id, 'view' ]" >{{publicacaoFeed.feed?.titulo}}</a>

@@ -25,7 +25,6 @@
             <th scope="col"  jhiSortBy="dataRegistro"><span jhiTranslate="gatewayApp.sgqBoletimInformativo.dataRegistro">Data Registro</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="dataPublicacao"><span jhiTranslate="gatewayApp.sgqBoletimInformativo.dataPublicacao">Data Publicacao</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="status"><span jhiTranslate="gatewayApp.sgqBoletimInformativo.status">Status</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  jhiSortBy="anexo.nomeArquivo"><span jhiTranslate="gatewayApp.sgqBoletimInformativo.anexo">Anexo</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="publicoAlvo.nome"><span jhiTranslate="gatewayApp.sgqBoletimInformativo.publicoAlvo">Publico Alvo</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"></th>
             </tr>
@@ -39,11 +38,6 @@
                 <td>{{boletimInformativo.dataRegistro | date:'medium'}}</td>
                 <td>{{boletimInformativo.dataPublicacao | date:'medium'}}</td>
                 <td jhiTranslate="{{'gatewayApp.StatusPublicacao.' + boletimInformativo.status}}">{{boletimInformativo.status}}</td>
-                <td>
-                    <div *ngIf="boletimInformativo.anexo">
-                        <a [routerLink]="['/anexo', boletimInformativo.anexo?.id, 'view' ]" >{{boletimInformativo.anexo?.nomeArquivo}}</a>
-                    </div>
-                </td>
                 <td>
                     <div *ngIf="boletimInformativo.publicoAlvo">
                         <a [routerLink]="['/publico-alvo', boletimInformativo.publicoAlvo?.id, 'view' ]" >{{boletimInformativo.publicoAlvo?.nome}}</a>

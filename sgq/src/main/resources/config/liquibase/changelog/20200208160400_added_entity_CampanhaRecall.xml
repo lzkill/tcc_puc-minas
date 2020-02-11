@@ -37,9 +37,6 @@
             <column name="resultado" type="${clobType}">
                 <constraints nullable="true" />
             </column>
-            <column name="anexo_id" type="bigint">
-                <constraints unique="true" nullable="true" uniqueConstraintName="ux_campanha_recall_anexo_id" />
-            </column>
             <column name="produto_id" type="bigint">
                 <constraints nullable="false" />
             </column>

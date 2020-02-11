@@ -90,7 +90,7 @@ public class ProcessoQueryService extends QueryService<Processo> {
             }
             if (criteria.getAnexoId() != null) {
                 specification = specification.and(buildSpecification(criteria.getAnexoId(),
-                    root -> root.join(Processo_.anexo, JoinType.LEFT).get(Anexo_.id)));
+                    root -> root.join(Processo_.anexos, JoinType.LEFT).get(Anexo_.id)));
             }
             if (criteria.getSetorId() != null) {
                 specification = specification.and(buildSpecification(criteria.getSetorId(),

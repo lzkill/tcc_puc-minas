@@ -6,7 +6,6 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 
 import java.io.Serializable;
-import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -33,15 +32,9 @@ public class PlanoAuditoria implements Serializable {
     @Column(name = "descricao")
     private String descricao;
 
-    @Column(name = "data_inicio")
-    private Instant dataInicio;
-
-    @Column(name = "data_fim")
-    private Instant dataFim;
-
-    @OneToOne
-    @JoinColumn(unique = true)
-    private Anexo anexo;
+    @OneToMany(mappedBy = "planoAuditoria")
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<Anexo> anexos = new HashSet<>();
 
     @OneToMany(mappedBy = "plano")
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
@@ -82,43 +75,29 @@ public class PlanoAuditoria implements Serializable {
         this.descricao = descricao;
     }
 
-    public Instant getDataInicio() {
-        return dataInicio;
+    public Set<Anexo> getAnexos() {
+        return anexos;
     }
 
-    public PlanoAuditoria dataInicio(Instant dataInicio) {
-        this.dataInicio = dataInicio;
+    public PlanoAuditoria anexos(Set<Anexo> anexos) {
+        this.anexos = anexos;
         return this;
     }
 
-    public void setDataInicio(Instant dataInicio) {
-        this.dataInicio = dataInicio;
-    }
-
-    public Instant getDataFim() {
-        return dataFim;
-    }
-
-    public PlanoAuditoria dataFim(Instant dataFim) {
-        this.dataFim = dataFim;
+    public PlanoAuditoria addAnexo(Anexo anexo) {
+        this.anexos.add(anexo);
+        anexo.setPlanoAuditoria(this);
         return this;
     }
 
-    public void setDataFim(Instant dataFim) {
-        this.dataFim = dataFim;
-    }
-
-    public Anexo getAnexo() {
-        return anexo;
-    }
-
-    public PlanoAuditoria anexo(Anexo anexo) {
-        this.anexo = anexo;
+    public PlanoAuditoria removeAnexo(Anexo anexo) {
+        this.anexos.remove(anexo);
+        anexo.setPlanoAuditoria(null);
         return this;
     }
 
-    public void setAnexo(Anexo anexo) {
-        this.anexo = anexo;
+    public void setAnexos(Set<Anexo> anexos) {
+        this.anexos = anexos;
     }
 
     public Set<ItemPlanoAuditoria> getItems() {
@@ -169,8 +148,6 @@ public class PlanoAuditoria implements Serializable {
             "id=" + getId() +
             ", titulo='" + getTitulo() + "'" +
             ", descricao='" + getDescricao() + "'" +
-            ", dataInicio='" + getDataInicio() + "'" +
-            ", dataFim='" + getDataFim() + "'" +
             "}";
     }
 }

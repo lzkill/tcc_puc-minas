@@ -25,6 +25,8 @@
       "naoConformidade": "Nao Conformidade",
       "anexo": "Anexo",
       "produto": "Produto",
+      "resultadoAuditoria": "Resultado Auditoria",
+      "resultadoItemChecklist": "Resultado Item Checklist",
       "help": {
         "procedente": "O fato descrito configura de fato um PNC",
         "analiseFinal": "Análise de eficácia"

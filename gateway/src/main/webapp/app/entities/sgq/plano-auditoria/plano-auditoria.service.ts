@@ -1,11 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import * as moment from 'moment';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { DATE_FORMAT } from 'app/shared/constants/input.constants';
 import { SERVER_API_URL } from 'app/app.constants';
 import { createRequestOption } from 'app/shared/util/request-util';
 import { IPlanoAuditoria } from 'app/shared/model/sgq/plano-auditoria.model';
@@ -20,59 +16,23 @@ export class PlanoAuditoriaService {
   constructor(protected http: HttpClient) {}
 
   create(planoAuditoria: IPlanoAuditoria): Observable<EntityResponseType> {
-    const copy = this.convertDateFromClient(planoAuditoria);
-    return this.http
-      .post<IPlanoAuditoria>(this.resourceUrl, copy, { observe: 'response' })
-      .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
+    return this.http.post<IPlanoAuditoria>(this.resourceUrl, planoAuditoria, { observe: 'response' });
   }
 
   update(planoAuditoria: IPlanoAuditoria): Observable<EntityResponseType> {
-    const copy = this.convertDateFromClient(planoAuditoria);
-    return this.http
-      .put<IPlanoAuditoria>(this.resourceUrl, copy, { observe: 'response' })
-      .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
+    return this.http.put<IPlanoAuditoria>(this.resourceUrl, planoAuditoria, { observe: 'response' });
   }
 
   find(id: number): Observable<EntityResponseType> {
-    return this.http
-      .get<IPlanoAuditoria>(`${this.resourceUrl}/${id}`, { observe: 'response' })
-      .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
+    return this.http.get<IPlanoAuditoria>(`${this.resourceUrl}/${id}`, { observe: 'response' });
   }
 
   query(req?: any): Observable<EntityArrayResponseType> {
     const options = createRequestOption(req);
-    return this.http
-      .get<IPlanoAuditoria[]>(this.resourceUrl, { params: options, observe: 'response' })
-      .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
+    return this.http.get<IPlanoAuditoria[]>(this.resourceUrl, { params: options, observe: 'response' });
   }
 
   delete(id: number): Observable<HttpResponse<{}>> {
     return this.http.delete(`${this.resourceUrl}/${id}`, { observe: 'response' });
-  }
-
-  protected convertDateFromClient(planoAuditoria: IPlanoAuditoria): IPlanoAuditoria {
-    const copy: IPlanoAuditoria = Object.assign({}, planoAuditoria, {
-      dataInicio: planoAuditoria.dataInicio && planoAuditoria.dataInicio.isValid() ? planoAuditoria.dataInicio.toJSON() : undefined,
-      dataFim: planoAuditoria.dataFim && planoAuditoria.dataFim.isValid() ? planoAuditoria.dataFim.toJSON() : undefined
-    });
-    return copy;
-  }
-
-  protected convertDateFromServer(res: EntityResponseType): EntityResponseType {
-    if (res.body) {
-      res.body.dataInicio = res.body.dataInicio ? moment(res.body.dataInicio) : undefined;
-      res.body.dataFim = res.body.dataFim ? moment(res.body.dataFim) : undefined;
-    }
-    return res;
-  }
-
-  protected convertDateArrayFromServer(res: EntityArrayResponseType): EntityArrayResponseType {
-    if (res.body) {
-      res.body.forEach((planoAuditoria: IPlanoAuditoria) => {
-        planoAuditoria.dataInicio = planoAuditoria.dataInicio ? moment(planoAuditoria.dataInicio) : undefined;
-        planoAuditoria.dataFim = planoAuditoria.dataFim ? moment(planoAuditoria.dataFim) : undefined;
-      });
-    }
-    return res;
   }
 }

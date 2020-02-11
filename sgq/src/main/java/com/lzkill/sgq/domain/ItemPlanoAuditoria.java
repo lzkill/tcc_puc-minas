@@ -8,6 +8,8 @@ import javax.validation.constraints.*;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * A ItemPlanoAuditoria.
@@ -23,17 +25,15 @@ public class ItemPlanoAuditoria implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
-    @Column(name = "id_usuario_responsavel", nullable = false)
-    private Integer idUsuarioResponsavel;
+    @Column(name = "data_inicio_previsto")
+    private Instant dataInicioPrevisto;
 
-    @NotNull
-    @Column(name = "data_auditoria", nullable = false)
-    private Instant dataAuditoria;
+    @Column(name = "data_fim_previsto")
+    private Instant dataFimPrevisto;
 
-    @OneToOne
-    @JoinColumn(unique = true)
-    private Anexo anexo;
+    @OneToMany(mappedBy = "itemPlanoAuditoria")
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<Anexo> anexos = new HashSet<>();
 
     @ManyToOne(optional = false)
     @NotNull
@@ -54,43 +54,55 @@ public class ItemPlanoAuditoria implements Serializable {
         this.id = id;
     }
 
-    public Integer getIdUsuarioResponsavel() {
-        return idUsuarioResponsavel;
+    public Instant getDataInicioPrevisto() {
+        return dataInicioPrevisto;
     }
 
-    public ItemPlanoAuditoria idUsuarioResponsavel(Integer idUsuarioResponsavel) {
-        this.idUsuarioResponsavel = idUsuarioResponsavel;
+    public ItemPlanoAuditoria dataInicioPrevisto(Instant dataInicioPrevisto) {
+        this.dataInicioPrevisto = dataInicioPrevisto;
         return this;
     }
 
-    public void setIdUsuarioResponsavel(Integer idUsuarioResponsavel) {
-        this.idUsuarioResponsavel = idUsuarioResponsavel;
+    public void setDataInicioPrevisto(Instant dataInicioPrevisto) {
+        this.dataInicioPrevisto = dataInicioPrevisto;
     }
 
-    public Instant getDataAuditoria() {
-        return dataAuditoria;
+    public Instant getDataFimPrevisto() {
+        return dataFimPrevisto;
     }
 
-    public ItemPlanoAuditoria dataAuditoria(Instant dataAuditoria) {
-        this.dataAuditoria = dataAuditoria;
+    public ItemPlanoAuditoria dataFimPrevisto(Instant dataFimPrevisto) {
+        this.dataFimPrevisto = dataFimPrevisto;
         return this;
     }
 
-    public void setDataAuditoria(Instant dataAuditoria) {
-        this.dataAuditoria = dataAuditoria;
+    public void setDataFimPrevisto(Instant dataFimPrevisto) {
+        this.dataFimPrevisto = dataFimPrevisto;
     }
 
-    public Anexo getAnexo() {
-        return anexo;
+    public Set<Anexo> getAnexos() {
+        return anexos;
     }
 
-    public ItemPlanoAuditoria anexo(Anexo anexo) {
-        this.anexo = anexo;
+    public ItemPlanoAuditoria anexos(Set<Anexo> anexos) {
+        this.anexos = anexos;
         return this;
     }
 
-    public void setAnexo(Anexo anexo) {
-        this.anexo = anexo;
+    public ItemPlanoAuditoria addAnexo(Anexo anexo) {
+        this.anexos.add(anexo);
+        anexo.setItemPlanoAuditoria(this);
+        return this;
+    }
+
+    public ItemPlanoAuditoria removeAnexo(Anexo anexo) {
+        this.anexos.remove(anexo);
+        anexo.setItemPlanoAuditoria(null);
+        return this;
+    }
+
+    public void setAnexos(Set<Anexo> anexos) {
+        this.anexos = anexos;
     }
 
     public Auditoria getAuditoria() {
@@ -140,8 +152,8 @@ public class ItemPlanoAuditoria implements Serializable {
     public String toString() {
         return "ItemPlanoAuditoria{" +
             "id=" + getId() +
-            ", idUsuarioResponsavel=" + getIdUsuarioResponsavel() +
-            ", dataAuditoria='" + getDataAuditoria() + "'" +
+            ", dataInicioPrevisto='" + getDataInicioPrevisto() + "'" +
+            ", dataFimPrevisto='" + getDataFimPrevisto() + "'" +
             "}";
     }
 }

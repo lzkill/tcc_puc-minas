@@ -9,6 +9,8 @@ import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.time.Instant;
 import java.time.Duration;
+import java.util.HashSet;
+import java.util.Set;
 
 import com.lzkill.sgq.domain.enumeration.TipoEventoOperacional;
 
@@ -56,9 +58,9 @@ public class EventoOperacional implements Serializable {
     @Column(name = "houve_parada_producao", nullable = false)
     private Boolean houveParadaProducao;
 
-    @OneToOne
-    @JoinColumn(unique = true)
-    private Anexo anexo;
+    @OneToMany(mappedBy = "eventoOperacional")
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<Anexo> anexos = new HashSet<>();
 
     @ManyToOne
     @JsonIgnoreProperties("eventoOperacionals")
@@ -164,17 +166,29 @@ public class EventoOperacional implements Serializable {
         this.houveParadaProducao = houveParadaProducao;
     }
 
-    public Anexo getAnexo() {
-        return anexo;
+    public Set<Anexo> getAnexos() {
+        return anexos;
     }
 
-    public EventoOperacional anexo(Anexo anexo) {
-        this.anexo = anexo;
+    public EventoOperacional anexos(Set<Anexo> anexos) {
+        this.anexos = anexos;
         return this;
     }
 
-    public void setAnexo(Anexo anexo) {
-        this.anexo = anexo;
+    public EventoOperacional addAnexo(Anexo anexo) {
+        this.anexos.add(anexo);
+        anexo.setEventoOperacional(this);
+        return this;
+    }
+
+    public EventoOperacional removeAnexo(Anexo anexo) {
+        this.anexos.remove(anexo);
+        anexo.setEventoOperacional(null);
+        return this;
+    }
+
+    public void setAnexos(Set<Anexo> anexos) {
+        this.anexos = anexos;
     }
 
     public Processo getProcesso() {

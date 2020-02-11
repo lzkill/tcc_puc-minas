@@ -7,6 +7,8 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * A Processo.
@@ -31,9 +33,9 @@ public class Processo implements Serializable {
     @Column(name = "descricao")
     private String descricao;
 
-    @OneToOne
-    @JoinColumn(unique = true)
-    private Anexo anexo;
+    @OneToMany(mappedBy = "processo")
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<Anexo> anexos = new HashSet<>();
 
     @ManyToOne(optional = false)
     @NotNull
@@ -75,17 +77,29 @@ public class Processo implements Serializable {
         this.descricao = descricao;
     }
 
-    public Anexo getAnexo() {
-        return anexo;
+    public Set<Anexo> getAnexos() {
+        return anexos;
     }
 
-    public Processo anexo(Anexo anexo) {
-        this.anexo = anexo;
+    public Processo anexos(Set<Anexo> anexos) {
+        this.anexos = anexos;
         return this;
     }
 
-    public void setAnexo(Anexo anexo) {
-        this.anexo = anexo;
+    public Processo addAnexo(Anexo anexo) {
+        this.anexos.add(anexo);
+        anexo.setProcesso(this);
+        return this;
+    }
+
+    public Processo removeAnexo(Anexo anexo) {
+        this.anexos.remove(anexo);
+        anexo.setProcesso(null);
+        return this;
+    }
+
+    public void setAnexos(Set<Anexo> anexos) {
+        this.anexos = anexos;
     }
 
     public Setor getSetor() {

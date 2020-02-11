@@ -1016,7 +1016,7 @@ public class AcaoSGQResourceIT {
         Anexo anexo = AnexoResourceIT.createEntity(em);
         em.persist(anexo);
         em.flush();
-        acaoSGQ.setAnexo(anexo);
+        acaoSGQ.addAnexo(anexo);
         acaoSGQRepository.saveAndFlush(acaoSGQ);
         Long anexoId = anexo.getId();
 

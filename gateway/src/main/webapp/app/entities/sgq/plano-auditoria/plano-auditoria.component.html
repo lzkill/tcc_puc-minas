@@ -21,9 +21,6 @@
             <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="titulo"><span jhiTranslate="gatewayApp.sgqPlanoAuditoria.titulo">Titulo</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="descricao"><span jhiTranslate="gatewayApp.sgqPlanoAuditoria.descricao">Descricao</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  jhiSortBy="dataInicio"><span jhiTranslate="gatewayApp.sgqPlanoAuditoria.dataInicio">Data Inicio</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  jhiSortBy="dataFim"><span jhiTranslate="gatewayApp.sgqPlanoAuditoria.dataFim">Data Fim</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  jhiSortBy="anexo.nomeArquivo"><span jhiTranslate="gatewayApp.sgqPlanoAuditoria.anexo">Anexo</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"></th>
             </tr>
             </thead>
@@ -32,13 +29,6 @@
                 <td><a [routerLink]="['/plano-auditoria', planoAuditoria.id, 'view' ]">{{planoAuditoria.id}}</a></td>
                 <td>{{planoAuditoria.titulo}}</td>
                 <td>{{planoAuditoria.descricao}}</td>
-                <td>{{planoAuditoria.dataInicio | date:'medium'}}</td>
-                <td>{{planoAuditoria.dataFim | date:'medium'}}</td>
-                <td>
-                    <div *ngIf="planoAuditoria.anexo">
-                        <a [routerLink]="['/anexo', planoAuditoria.anexo?.id, 'view' ]" >{{planoAuditoria.anexo?.nomeArquivo}}</a>
-                    </div>
-                </td>
                 <td class="text-right">
                     <div class="btn-group">
                         <button type="submit"

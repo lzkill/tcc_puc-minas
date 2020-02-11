@@ -38,9 +38,9 @@ public class ResultadoChecklist implements Serializable {
     @Column(name = "data_verificacao", nullable = false)
     private Instant dataVerificacao;
 
-    @OneToOne
-    @JoinColumn(unique = true)
-    private Anexo anexo;
+    @OneToMany(mappedBy = "resultadoChecklist")
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<Anexo> anexos = new HashSet<>();
 
     @OneToMany(mappedBy = "resultado")
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
@@ -99,17 +99,29 @@ public class ResultadoChecklist implements Serializable {
         this.dataVerificacao = dataVerificacao;
     }
 
-    public Anexo getAnexo() {
-        return anexo;
+    public Set<Anexo> getAnexos() {
+        return anexos;
     }
 
-    public ResultadoChecklist anexo(Anexo anexo) {
-        this.anexo = anexo;
+    public ResultadoChecklist anexos(Set<Anexo> anexos) {
+        this.anexos = anexos;
         return this;
     }
 
-    public void setAnexo(Anexo anexo) {
-        this.anexo = anexo;
+    public ResultadoChecklist addAnexo(Anexo anexo) {
+        this.anexos.add(anexo);
+        anexo.setResultadoChecklist(this);
+        return this;
+    }
+
+    public ResultadoChecklist removeAnexo(Anexo anexo) {
+        this.anexos.remove(anexo);
+        anexo.setResultadoChecklist(null);
+        return this;
+    }
+
+    public void setAnexos(Set<Anexo> anexos) {
+        this.anexos = anexos;
     }
 
     public Set<ResultadoItemChecklist> getResultadoItems() {

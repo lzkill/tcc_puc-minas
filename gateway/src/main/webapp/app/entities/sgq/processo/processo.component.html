@@ -21,7 +21,6 @@
             <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="titulo"><span jhiTranslate="gatewayApp.sgqProcesso.titulo">Titulo</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="descricao"><span jhiTranslate="gatewayApp.sgqProcesso.descricao">Descricao</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  jhiSortBy="anexo.nomeArquivo"><span jhiTranslate="gatewayApp.sgqProcesso.anexo">Anexo</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="setor.nome"><span jhiTranslate="gatewayApp.sgqProcesso.setor">Setor</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"></th>
             </tr>
@@ -31,11 +30,6 @@
                 <td><a [routerLink]="['/processo', processo.id, 'view' ]">{{processo.id}}</a></td>
                 <td>{{processo.titulo}}</td>
                 <td>{{processo.descricao}}</td>
-                <td>
-                    <div *ngIf="processo.anexo">
-                        <a [routerLink]="['/anexo', processo.anexo?.id, 'view' ]" >{{processo.anexo?.nomeArquivo}}</a>
-                    </div>
-                </td>
                 <td>
                     <div *ngIf="processo.setor">
                         <a [routerLink]="['/setor', processo.setor?.id, 'view' ]" >{{processo.setor?.nome}}</a>

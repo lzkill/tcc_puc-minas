@@ -8,12 +8,6 @@
     -->
     <changeSet id="20200208160356-2" author="jhipster">
         
-        <addForeignKeyConstraint baseColumnNames="anexo_id"
-                                 baseTableName="item_checklist"
-                                 constraintName="fk_item_checklist_anexo_id"
-                                 referencedColumnNames="id"
-                                 referencedTableName="anexo"/>
-
         <addForeignKeyConstraint baseColumnNames="checklist_id"
                                  baseTableName="item_checklist"
                                  constraintName="fk_item_checklist_checklist_id"

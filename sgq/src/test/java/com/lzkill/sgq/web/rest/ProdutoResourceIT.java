@@ -328,7 +328,7 @@ public class ProdutoResourceIT {
         Anexo anexo = AnexoResourceIT.createEntity(em);
         em.persist(anexo);
         em.flush();
-        produto.setAnexo(anexo);
+        produto.addAnexo(anexo);
         produtoRepository.saveAndFlush(produto);
         Long anexoId = anexo.getId();
 

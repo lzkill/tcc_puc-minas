@@ -193,7 +193,7 @@ public class NormaResourceIT {
             .andExpect(jsonPath("$.[*].dataEdicao").value(hasItem(DEFAULT_DATA_EDICAO.toString())))
             .andExpect(jsonPath("$.[*].dataInicioValidade").value(hasItem(DEFAULT_DATA_INICIO_VALIDADE.toString())));
     }
-    
+
     @SuppressWarnings({"unchecked"})
     public void getAllNormasWithEagerRelationshipsIsEnabled() throws Exception {
         NormaResource normaResource = new NormaResource(normaServiceMock, normaQueryService);
@@ -718,7 +718,7 @@ public class NormaResourceIT {
         Anexo anexo = AnexoResourceIT.createEntity(em);
         em.persist(anexo);
         em.flush();
-        norma.setAnexo(anexo);
+        norma.addAnexo(anexo);
         normaRepository.saveAndFlush(norma);
         Long anexoId = anexo.getId();
 

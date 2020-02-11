@@ -16,12 +16,22 @@
     ],
     "relationships": [
         {
-            "relationshipType": "one-to-one",
+            "relationshipType": "one-to-many",
             "otherEntityName": "anexo",
             "otherEntityRelationshipName": "resultadoItemChecklist",
-            "relationshipName": "anexo",
-            "otherEntityField": "nomeArquivo",
-            "ownerSide": true
+            "relationshipName": "anexo"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "otherEntityName": "naoConformidade",
+            "otherEntityRelationshipName": "resultadoItemChecklist",
+            "relationshipName": "naoConformidade"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "otherEntityName": "produtoNaoConforme",
+            "otherEntityRelationshipName": "resultadoItemChecklist",
+            "relationshipName": "produtoNaoConforme"
         },
         {
             "relationshipType": "many-to-one",

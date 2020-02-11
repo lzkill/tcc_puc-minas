@@ -152,10 +152,17 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="gatewayApp.sgqNaoConformidade.anexo" for="field_anexo">Anexo</label>
-                    <select class="form-control" id="field_anexo" name="anexo" formControlName="anexo">
+                    <label class="form-control-label" jhiTranslate="gatewayApp.sgqNaoConformidade.resultadoAuditoria" for="field_resultadoAuditoria">Resultado Auditoria</label>
+                    <select class="form-control" id="field_resultadoAuditoria" name="resultadoAuditoria" formControlName="resultadoAuditoria">
                         <option [ngValue]="null"></option>
-                        <option [ngValue]="anexoOption.id === editForm.get('anexo')!.value?.id ? editForm.get('anexo')!.value : anexoOption" *ngFor="let anexoOption of anexos; trackBy: trackById">{{anexoOption.nomeArquivo}}</option>
+                        <option [ngValue]="resultadoAuditoriaOption.id === editForm.get('resultadoAuditoria')!.value?.id ? editForm.get('resultadoAuditoria')!.value : resultadoAuditoriaOption" *ngFor="let resultadoAuditoriaOption of resultadoauditorias; trackBy: trackById">{{resultadoAuditoriaOption.id}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="gatewayApp.sgqNaoConformidade.resultadoItemChecklist" for="field_resultadoItemChecklist">Resultado Item Checklist</label>
+                    <select class="form-control" id="field_resultadoItemChecklist" name="resultadoItemChecklist" formControlName="resultadoItemChecklist">
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="resultadoItemChecklistOption.id === editForm.get('resultadoItemChecklist')!.value?.id ? editForm.get('resultadoItemChecklist')!.value : resultadoItemChecklistOption" *ngFor="let resultadoItemChecklistOption of resultadoitemchecklists; trackBy: trackById">{{resultadoItemChecklistOption.id}}</option>
                     </select>
                 </div>
             </div>

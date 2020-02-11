@@ -16,24 +16,14 @@
             "fieldName": "descricao",
             "fieldType": "byte[]",
             "fieldTypeBlobContent": "text"
-        },
-        {
-            "fieldName": "dataInicio",
-            "fieldType": "Instant"
-        },
-        {
-            "fieldName": "dataFim",
-            "fieldType": "Instant"
         }
     ],
     "relationships": [
         {
-            "relationshipType": "one-to-one",
+            "relationshipType": "one-to-many",
             "otherEntityName": "anexo",
             "otherEntityRelationshipName": "planoAuditoria",
-            "relationshipName": "anexo",
-            "otherEntityField": "nomeArquivo",
-            "ownerSide": true
+            "relationshipName": "anexo"
         },
         {
             "relationshipType": "one-to-many",

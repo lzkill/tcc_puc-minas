@@ -5,19 +5,13 @@
             <hr>
             <jhi-alert-error></jhi-alert-error>
             <dl class="row-md jh-entity-details">
-                <dt><span jhiTranslate="gatewayApp.sgqItemPlanoAuditoria.idUsuarioResponsavel">Id Usuario Responsavel</span></dt>
+                <dt><span jhiTranslate="gatewayApp.sgqItemPlanoAuditoria.dataInicioPrevisto">Data Inicio Previsto</span></dt>
                 <dd>
-                    <span>{{itemPlanoAuditoria.idUsuarioResponsavel}}</span>
+                    <span>{{itemPlanoAuditoria.dataInicioPrevisto}}</span>
                 </dd>
-                <dt><span jhiTranslate="gatewayApp.sgqItemPlanoAuditoria.dataAuditoria">Data Auditoria</span></dt>
+                <dt><span jhiTranslate="gatewayApp.sgqItemPlanoAuditoria.dataFimPrevisto">Data Fim Previsto</span></dt>
                 <dd>
-                    <span>{{itemPlanoAuditoria.dataAuditoria}}</span>
-                </dd>
-                <dt><span jhiTranslate="gatewayApp.sgqItemPlanoAuditoria.anexo">Anexo</span></dt>
-                <dd>
-                    <div *ngIf="itemPlanoAuditoria.anexo">
-                        <a [routerLink]="['/anexo', itemPlanoAuditoria.anexo?.id, 'view']">{{itemPlanoAuditoria.anexo?.nomeArquivo}}</a>
-                    </div>
+                    <span>{{itemPlanoAuditoria.dataFimPrevisto}}</span>
                 </dd>
                 <dt><span jhiTranslate="gatewayApp.sgqItemPlanoAuditoria.auditoria">Auditoria</span></dt>
                 <dd>

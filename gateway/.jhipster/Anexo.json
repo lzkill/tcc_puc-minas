@@ -19,7 +19,127 @@
             "fieldValidateRulesMaxbytes": 10485760
         }
     ],
-    "relationships": [],
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "acaoSGQ",
+            "otherEntityRelationshipName": "anexo",
+            "relationshipName": "acaoSGQ",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "analiseConsultoria",
+            "otherEntityRelationshipName": "anexo",
+            "relationshipName": "analiseConsultoria",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "checklist",
+            "otherEntityRelationshipName": "anexo",
+            "relationshipName": "checklist",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "boletimInformativo",
+            "otherEntityRelationshipName": "anexo",
+            "relationshipName": "boletimInformativo",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "campanhaRecall",
+            "otherEntityRelationshipName": "anexo",
+            "relationshipName": "campanhaRecall",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "eventoOperacional",
+            "otherEntityRelationshipName": "anexo",
+            "relationshipName": "eventoOperacional",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "itemChecklist",
+            "otherEntityRelationshipName": "anexo",
+            "relationshipName": "itemChecklist",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "itemPlanoAuditoria",
+            "otherEntityRelationshipName": "anexo",
+            "relationshipName": "itemPlanoAuditoria",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "naoConformidade",
+            "otherEntityRelationshipName": "anexo",
+            "relationshipName": "naoConformidade",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "norma",
+            "otherEntityRelationshipName": "anexo",
+            "relationshipName": "norma",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "processo",
+            "otherEntityRelationshipName": "anexo",
+            "relationshipName": "processo",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "produto",
+            "otherEntityRelationshipName": "anexo",
+            "relationshipName": "produto",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "planoAuditoria",
+            "otherEntityRelationshipName": "anexo",
+            "relationshipName": "planoAuditoria",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "produtoNaoConforme",
+            "otherEntityRelationshipName": "anexo",
+            "relationshipName": "produtoNaoConforme",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "publicacaoFeed",
+            "otherEntityRelationshipName": "anexo",
+            "relationshipName": "publicacaoFeed",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "resultadoChecklist",
+            "otherEntityRelationshipName": "anexo",
+            "relationshipName": "resultadoChecklist",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "resultadoItemChecklist",
+            "otherEntityRelationshipName": "anexo",
+            "relationshipName": "resultadoItemChecklist",
+            "otherEntityField": "id"
+        }
+    ],
     "changelogDate": "20200208160348",
     "entityTableName": "anexo",
     "dto": "no",

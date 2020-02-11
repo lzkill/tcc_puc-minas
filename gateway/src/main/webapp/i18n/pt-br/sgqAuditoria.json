@@ -16,7 +16,10 @@
       "tipo": "Tipo",
       "titulo": "Titulo",
       "descricao": "Descricao",
-      "processo": "Processo"
+      "processo": "Processo",
+      "help": {
+        "descricao": "Requisitos abordados, objetivos, etc"
+      }
     }
   },
   "sgqApp": {

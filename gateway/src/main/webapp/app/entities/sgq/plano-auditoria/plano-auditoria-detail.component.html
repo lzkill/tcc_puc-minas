@@ -13,20 +13,6 @@
                 <dd>
                     <span>{{planoAuditoria.descricao}}</span>
                 </dd>
-                <dt><span jhiTranslate="gatewayApp.sgqPlanoAuditoria.dataInicio">Data Inicio</span></dt>
-                <dd>
-                    <span>{{planoAuditoria.dataInicio}}</span>
-                </dd>
-                <dt><span jhiTranslate="gatewayApp.sgqPlanoAuditoria.dataFim">Data Fim</span></dt>
-                <dd>
-                    <span>{{planoAuditoria.dataFim}}</span>
-                </dd>
-                <dt><span jhiTranslate="gatewayApp.sgqPlanoAuditoria.anexo">Anexo</span></dt>
-                <dd>
-                    <div *ngIf="planoAuditoria.anexo">
-                        <a [routerLink]="['/anexo', planoAuditoria.anexo?.id, 'view']">{{planoAuditoria.anexo?.nomeArquivo}}</a>
-                    </div>
-                </dd>
             </dl>
 
             <button type="submit"

@@ -105,7 +105,7 @@ public class EventoOperacionalQueryService extends QueryService<EventoOperaciona
             }
             if (criteria.getAnexoId() != null) {
                 specification = specification.and(buildSpecification(criteria.getAnexoId(),
-                    root -> root.join(EventoOperacional_.anexo, JoinType.LEFT).get(Anexo_.id)));
+                    root -> root.join(EventoOperacional_.anexos, JoinType.LEFT).get(Anexo_.id)));
             }
             if (criteria.getProcessoId() != null) {
                 specification = specification.and(buildSpecification(criteria.getProcessoId(),

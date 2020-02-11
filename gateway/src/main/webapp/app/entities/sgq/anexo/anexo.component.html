@@ -21,6 +21,23 @@
             <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="nomeArquivo"><span jhiTranslate="gatewayApp.sgqAnexo.nomeArquivo">Nome Arquivo</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="conteudo"><span jhiTranslate="gatewayApp.sgqAnexo.conteudo">Conteudo</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="acaoSGQ.id"><span jhiTranslate="gatewayApp.sgqAnexo.acaoSGQ">Acao SGQ</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="analiseConsultoria.id"><span jhiTranslate="gatewayApp.sgqAnexo.analiseConsultoria">Analise Consultoria</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="checklist.id"><span jhiTranslate="gatewayApp.sgqAnexo.checklist">Checklist</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="boletimInformativo.id"><span jhiTranslate="gatewayApp.sgqAnexo.boletimInformativo">Boletim Informativo</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="campanhaRecall.id"><span jhiTranslate="gatewayApp.sgqAnexo.campanhaRecall">Campanha Recall</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="eventoOperacional.id"><span jhiTranslate="gatewayApp.sgqAnexo.eventoOperacional">Evento Operacional</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="itemChecklist.id"><span jhiTranslate="gatewayApp.sgqAnexo.itemChecklist">Item Checklist</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="itemPlanoAuditoria.id"><span jhiTranslate="gatewayApp.sgqAnexo.itemPlanoAuditoria">Item Plano Auditoria</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="naoConformidade.id"><span jhiTranslate="gatewayApp.sgqAnexo.naoConformidade">Nao Conformidade</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="norma.id"><span jhiTranslate="gatewayApp.sgqAnexo.norma">Norma</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="processo.id"><span jhiTranslate="gatewayApp.sgqAnexo.processo">Processo</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="produto.id"><span jhiTranslate="gatewayApp.sgqAnexo.produto">Produto</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="planoAuditoria.id"><span jhiTranslate="gatewayApp.sgqAnexo.planoAuditoria">Plano Auditoria</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="produtoNaoConforme.id"><span jhiTranslate="gatewayApp.sgqAnexo.produtoNaoConforme">Produto Nao Conforme</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="publicacaoFeed.id"><span jhiTranslate="gatewayApp.sgqAnexo.publicacaoFeed">Publicacao Feed</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="resultadoChecklist.id"><span jhiTranslate="gatewayApp.sgqAnexo.resultadoChecklist">Resultado Checklist</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="resultadoItemChecklist.id"><span jhiTranslate="gatewayApp.sgqAnexo.resultadoItemChecklist">Resultado Item Checklist</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"></th>
             </tr>
             </thead>
@@ -31,6 +48,91 @@
                 <td>
                     <a *ngIf="anexo.conteudo" (click)="openFile(anexo.conteudoContentType, anexo.conteudo)" jhiTranslate="entity.action.open">open</a>
                     <span *ngIf="anexo.conteudo">{{anexo.conteudoContentType}}, {{byteSize(anexo.conteudo)}}</span>
+                </td>
+                <td>
+                    <div *ngIf="anexo.acaoSGQ">
+                        <a [routerLink]="['/acao-sgq', anexo.acaoSGQ?.id, 'view' ]" >{{anexo.acaoSGQ?.id}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="anexo.analiseConsultoria">
+                        <a [routerLink]="['/analise-consultoria', anexo.analiseConsultoria?.id, 'view' ]" >{{anexo.analiseConsultoria?.id}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="anexo.checklist">
+                        <a [routerLink]="['/checklist', anexo.checklist?.id, 'view' ]" >{{anexo.checklist?.id}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="anexo.boletimInformativo">
+                        <a [routerLink]="['/boletim-informativo', anexo.boletimInformativo?.id, 'view' ]" >{{anexo.boletimInformativo?.id}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="anexo.campanhaRecall">
+                        <a [routerLink]="['/campanha-recall', anexo.campanhaRecall?.id, 'view' ]" >{{anexo.campanhaRecall?.id}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="anexo.eventoOperacional">
+                        <a [routerLink]="['/evento-operacional', anexo.eventoOperacional?.id, 'view' ]" >{{anexo.eventoOperacional?.id}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="anexo.itemChecklist">
+                        <a [routerLink]="['/item-checklist', anexo.itemChecklist?.id, 'view' ]" >{{anexo.itemChecklist?.id}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="anexo.itemPlanoAuditoria">
+                        <a [routerLink]="['/item-plano-auditoria', anexo.itemPlanoAuditoria?.id, 'view' ]" >{{anexo.itemPlanoAuditoria?.id}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="anexo.naoConformidade">
+                        <a [routerLink]="['/nao-conformidade', anexo.naoConformidade?.id, 'view' ]" >{{anexo.naoConformidade?.id}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="anexo.norma">
+                        <a [routerLink]="['/norma', anexo.norma?.id, 'view' ]" >{{anexo.norma?.id}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="anexo.processo">
+                        <a [routerLink]="['/processo', anexo.processo?.id, 'view' ]" >{{anexo.processo?.id}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="anexo.produto">
+                        <a [routerLink]="['/produto', anexo.produto?.id, 'view' ]" >{{anexo.produto?.id}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="anexo.planoAuditoria">
+                        <a [routerLink]="['/plano-auditoria', anexo.planoAuditoria?.id, 'view' ]" >{{anexo.planoAuditoria?.id}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="anexo.produtoNaoConforme">
+                        <a [routerLink]="['/produto-nao-conforme', anexo.produtoNaoConforme?.id, 'view' ]" >{{anexo.produtoNaoConforme?.id}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="anexo.publicacaoFeed">
+                        <a [routerLink]="['/publicacao-feed', anexo.publicacaoFeed?.id, 'view' ]" >{{anexo.publicacaoFeed?.id}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="anexo.resultadoChecklist">
+                        <a [routerLink]="['/resultado-checklist', anexo.resultadoChecklist?.id, 'view' ]" >{{anexo.resultadoChecklist?.id}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="anexo.resultadoItemChecklist">
+                        <a [routerLink]="['/resultado-item-checklist', anexo.resultadoItemChecklist?.id, 'view' ]" >{{anexo.resultadoItemChecklist?.id}}</a>
+                    </div>
                 </td>
                 <td class="text-right">
                     <div class="btn-group">

@@ -24,14 +24,15 @@ describe('Service Tests', () => {
       httpMock = injector.get(HttpTestingController);
       currentDate = moment();
 
-      elemDefault = new ItemPlanoAuditoria(0, 0, currentDate);
+      elemDefault = new ItemPlanoAuditoria(0, currentDate, currentDate);
     });
 
     describe('Service methods', () => {
       it('should find an element', () => {
         const returnedFromService = Object.assign(
           {
-            dataAuditoria: currentDate.format(DATE_TIME_FORMAT)
+            dataInicioPrevisto: currentDate.format(DATE_TIME_FORMAT),
+            dataFimPrevisto: currentDate.format(DATE_TIME_FORMAT)
           },
           elemDefault
         );
@@ -49,13 +50,15 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             id: 0,
-            dataAuditoria: currentDate.format(DATE_TIME_FORMAT)
+            dataInicioPrevisto: currentDate.format(DATE_TIME_FORMAT),
+            dataFimPrevisto: currentDate.format(DATE_TIME_FORMAT)
           },
           elemDefault
         );
         const expected = Object.assign(
           {
-            dataAuditoria: currentDate
+            dataInicioPrevisto: currentDate,
+            dataFimPrevisto: currentDate
           },
           returnedFromService
         );
@@ -71,15 +74,16 @@ describe('Service Tests', () => {
       it('should update a ItemPlanoAuditoria', () => {
         const returnedFromService = Object.assign(
           {
-            idUsuarioResponsavel: 1,
-            dataAuditoria: currentDate.format(DATE_TIME_FORMAT)
+            dataInicioPrevisto: currentDate.format(DATE_TIME_FORMAT),
+            dataFimPrevisto: currentDate.format(DATE_TIME_FORMAT)
           },
           elemDefault
         );
 
         const expected = Object.assign(
           {
-            dataAuditoria: currentDate
+            dataInicioPrevisto: currentDate,
+            dataFimPrevisto: currentDate
           },
           returnedFromService
         );
@@ -95,14 +99,15 @@ describe('Service Tests', () => {
       it('should return a list of ItemPlanoAuditoria', () => {
         const returnedFromService = Object.assign(
           {
-            idUsuarioResponsavel: 1,
-            dataAuditoria: currentDate.format(DATE_TIME_FORMAT)
+            dataInicioPrevisto: currentDate.format(DATE_TIME_FORMAT),
+            dataFimPrevisto: currentDate.format(DATE_TIME_FORMAT)
           },
           elemDefault
         );
         const expected = Object.assign(
           {
-            dataAuditoria: currentDate
+            dataInicioPrevisto: currentDate,
+            dataFimPrevisto: currentDate
           },
           returnedFromService
         );

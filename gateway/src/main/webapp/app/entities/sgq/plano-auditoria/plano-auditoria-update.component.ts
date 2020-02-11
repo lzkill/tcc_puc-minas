@@ -4,16 +4,11 @@ import { HttpResponse } from '@angular/common/http';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import * as moment from 'moment';
-import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 import { JhiDataUtils, JhiFileLoadError, JhiEventManager, JhiEventWithContent } from 'ng-jhipster';
 
 import { IPlanoAuditoria, PlanoAuditoria } from 'app/shared/model/sgq/plano-auditoria.model';
 import { PlanoAuditoriaService } from './plano-auditoria.service';
 import { AlertError } from 'app/shared/alert/alert-error.model';
-import { IAnexo } from 'app/shared/model/sgq/anexo.model';
-import { AnexoService } from 'app/entities/sgq/anexo/anexo.service';
 
 @Component({
   selector: 'jhi-plano-auditoria-update',
@@ -22,22 +17,16 @@ import { AnexoService } from 'app/entities/sgq/anexo/anexo.service';
 export class PlanoAuditoriaUpdateComponent implements OnInit {
   isSaving = false;
 
-  anexos: IAnexo[] = [];
-
   editForm = this.fb.group({
     id: [],
     titulo: [null, [Validators.required, Validators.minLength(1), Validators.maxLength(100)]],
-    descricao: [],
-    dataInicio: [],
-    dataFim: [],
-    anexo: []
+    descricao: []
   });
 
   constructor(
     protected dataUtils: JhiDataUtils,
     protected eventManager: JhiEventManager,
     protected planoAuditoriaService: PlanoAuditoriaService,
-    protected anexoService: AnexoService,
     protected activatedRoute: ActivatedRoute,
     private fb: FormBuilder
   ) {}
@@ -45,30 +34,6 @@ export class PlanoAuditoriaUpdateComponent implements OnInit {
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ planoAuditoria }) => {
       this.updateForm(planoAuditoria);
-
-      this.anexoService
-        .query({ 'planoAuditoriaId.specified': 'false' })
-        .pipe(
-          map((res: HttpResponse<IAnexo[]>) => {
-            return res.body ? res.body : [];
-          })
-        )
-        .subscribe((resBody: IAnexo[]) => {
-          if (!planoAuditoria.anexo || !planoAuditoria.anexo.id) {
-            this.anexos = resBody;
-          } else {
-            this.anexoService
-              .find(planoAuditoria.anexo.id)
-              .pipe(
-                map((subRes: HttpResponse<IAnexo>) => {
-                  return subRes.body ? [subRes.body].concat(resBody) : resBody;
-                })
-              )
-              .subscribe((concatRes: IAnexo[]) => {
-                this.anexos = concatRes;
-              });
-          }
-        });
     });
   }
 
@@ -76,10 +41,7 @@ export class PlanoAuditoriaUpdateComponent implements OnInit {
     this.editForm.patchValue({
       id: planoAuditoria.id,
       titulo: planoAuditoria.titulo,
-      descricao: planoAuditoria.descricao,
-      dataInicio: planoAuditoria.dataInicio != null ? planoAuditoria.dataInicio.format(DATE_TIME_FORMAT) : null,
-      dataFim: planoAuditoria.dataFim != null ? planoAuditoria.dataFim.format(DATE_TIME_FORMAT) : null,
-      anexo: planoAuditoria.anexo
+      descricao: planoAuditoria.descricao
     });
   }
 
@@ -118,11 +80,7 @@ export class PlanoAuditoriaUpdateComponent implements OnInit {
       ...new PlanoAuditoria(),
       id: this.editForm.get(['id'])!.value,
       titulo: this.editForm.get(['titulo'])!.value,
-      descricao: this.editForm.get(['descricao'])!.value,
-      dataInicio:
-        this.editForm.get(['dataInicio'])!.value != null ? moment(this.editForm.get(['dataInicio'])!.value, DATE_TIME_FORMAT) : undefined,
-      dataFim: this.editForm.get(['dataFim'])!.value != null ? moment(this.editForm.get(['dataFim'])!.value, DATE_TIME_FORMAT) : undefined,
-      anexo: this.editForm.get(['anexo'])!.value
+      descricao: this.editForm.get(['descricao'])!.value
     };
   }
 
@@ -140,9 +98,5 @@ export class PlanoAuditoriaUpdateComponent implements OnInit {
 
   protected onSaveError(): void {
     this.isSaving = false;
-  }
-
-  trackById(index: number, item: IAnexo): any {
-    return item.id;
   }
 }

@@ -12,12 +12,8 @@ import { JhiDataUtils, JhiFileLoadError, JhiEventManager, JhiEventWithContent } 
 import { IEventoOperacional, EventoOperacional } from 'app/shared/model/sgq/evento-operacional.model';
 import { EventoOperacionalService } from './evento-operacional.service';
 import { AlertError } from 'app/shared/alert/alert-error.model';
-import { IAnexo } from 'app/shared/model/sgq/anexo.model';
-import { AnexoService } from 'app/entities/sgq/anexo/anexo.service';
 import { IProcesso } from 'app/shared/model/sgq/processo.model';
 import { ProcessoService } from 'app/entities/sgq/processo/processo.service';
-
-type SelectableEntity = IAnexo | IProcesso;
 
 @Component({
   selector: 'jhi-evento-operacional-update',
@@ -25,8 +21,6 @@ type SelectableEntity = IAnexo | IProcesso;
 })
 export class EventoOperacionalUpdateComponent implements OnInit {
   isSaving = false;
-
-  anexos: IAnexo[] = [];
 
   processos: IProcesso[] = [];
 
@@ -39,7 +33,6 @@ export class EventoOperacionalUpdateComponent implements OnInit {
     dataEvento: [null, [Validators.required]],
     duracao: [],
     houveParadaProducao: [null, [Validators.required]],
-    anexo: [],
     processo: []
   });
 
@@ -47,7 +40,6 @@ export class EventoOperacionalUpdateComponent implements OnInit {
     protected dataUtils: JhiDataUtils,
     protected eventManager: JhiEventManager,
     protected eventoOperacionalService: EventoOperacionalService,
-    protected anexoService: AnexoService,
     protected processoService: ProcessoService,
     protected activatedRoute: ActivatedRoute,
     private fb: FormBuilder
@@ -56,30 +48,6 @@ export class EventoOperacionalUpdateComponent implements OnInit {
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ eventoOperacional }) => {
       this.updateForm(eventoOperacional);
-
-      this.anexoService
-        .query({ 'eventoOperacionalId.specified': 'false' })
-        .pipe(
-          map((res: HttpResponse<IAnexo[]>) => {
-            return res.body ? res.body : [];
-          })
-        )
-        .subscribe((resBody: IAnexo[]) => {
-          if (!eventoOperacional.anexo || !eventoOperacional.anexo.id) {
-            this.anexos = resBody;
-          } else {
-            this.anexoService
-              .find(eventoOperacional.anexo.id)
-              .pipe(
-                map((subRes: HttpResponse<IAnexo>) => {
-                  return subRes.body ? [subRes.body].concat(resBody) : resBody;
-                })
-              )
-              .subscribe((concatRes: IAnexo[]) => {
-                this.anexos = concatRes;
-              });
-          }
-        });
 
       this.processoService
         .query()
@@ -102,7 +70,6 @@ export class EventoOperacionalUpdateComponent implements OnInit {
       dataEvento: eventoOperacional.dataEvento != null ? eventoOperacional.dataEvento.format(DATE_TIME_FORMAT) : null,
       duracao: eventoOperacional.duracao,
       houveParadaProducao: eventoOperacional.houveParadaProducao,
-      anexo: eventoOperacional.anexo,
       processo: eventoOperacional.processo
     });
   }
@@ -149,7 +116,6 @@ export class EventoOperacionalUpdateComponent implements OnInit {
         this.editForm.get(['dataEvento'])!.value != null ? moment(this.editForm.get(['dataEvento'])!.value, DATE_TIME_FORMAT) : undefined,
       duracao: this.editForm.get(['duracao'])!.value,
       houveParadaProducao: this.editForm.get(['houveParadaProducao'])!.value,
-      anexo: this.editForm.get(['anexo'])!.value,
       processo: this.editForm.get(['processo'])!.value
     };
   }
@@ -170,7 +136,7 @@ export class EventoOperacionalUpdateComponent implements OnInit {
     this.isSaving = false;
   }
 
-  trackById(index: number, item: SelectableEntity): any {
+  trackById(index: number, item: IProcesso): any {
     return item.id;
   }
 }

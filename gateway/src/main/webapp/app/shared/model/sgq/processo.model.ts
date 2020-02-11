@@ -5,10 +5,10 @@ export interface IProcesso {
   id?: number;
   titulo?: string;
   descricao?: any;
-  anexo?: IAnexo;
+  anexos?: IAnexo[];
   setor?: ISetor;
 }
 
 export class Processo implements IProcesso {
-  constructor(public id?: number, public titulo?: string, public descricao?: any, public anexo?: IAnexo, public setor?: ISetor) {}
+  constructor(public id?: number, public titulo?: string, public descricao?: any, public anexos?: IAnexo[], public setor?: ISetor) {}
 }

@@ -14,12 +14,10 @@ import { AnaliseConsultoriaService } from './analise-consultoria.service';
 import { AlertError } from 'app/shared/alert/alert-error.model';
 import { IAcaoSGQ } from 'app/shared/model/sgq/acao-sgq.model';
 import { AcaoSGQService } from 'app/entities/sgq/acao-sgq/acao-sgq.service';
-import { IAnexo } from 'app/shared/model/sgq/anexo.model';
-import { AnexoService } from 'app/entities/sgq/anexo/anexo.service';
 import { IEmpresaConsultoria } from 'app/shared/model/sgq/empresa-consultoria.model';
 import { EmpresaConsultoriaService } from 'app/entities/sgq/empresa-consultoria/empresa-consultoria.service';
 
-type SelectableEntity = IAcaoSGQ | IAnexo | IEmpresaConsultoria;
+type SelectableEntity = IAcaoSGQ | IEmpresaConsultoria;
 
 @Component({
   selector: 'jhi-analise-consultoria-update',
@@ -29,8 +27,6 @@ export class AnaliseConsultoriaUpdateComponent implements OnInit {
   isSaving = false;
 
   acaos: IAcaoSGQ[] = [];
-
-  anexos: IAnexo[] = [];
 
   empresaconsultorias: IEmpresaConsultoria[] = [];
 
@@ -42,7 +38,6 @@ export class AnaliseConsultoriaUpdateComponent implements OnInit {
     responsavelAnalise: [null, [Validators.required, Validators.minLength(1), Validators.maxLength(100)]],
     status: [null, [Validators.required]],
     acao: [null, Validators.required],
-    anexo: [],
     empresa: [null, Validators.required]
   });
 
@@ -51,7 +46,6 @@ export class AnaliseConsultoriaUpdateComponent implements OnInit {
     protected eventManager: JhiEventManager,
     protected analiseConsultoriaService: AnaliseConsultoriaService,
     protected acaoSGQService: AcaoSGQService,
-    protected anexoService: AnexoService,
     protected empresaConsultoriaService: EmpresaConsultoriaService,
     protected activatedRoute: ActivatedRoute,
     private fb: FormBuilder
@@ -85,30 +79,6 @@ export class AnaliseConsultoriaUpdateComponent implements OnInit {
           }
         });
 
-      this.anexoService
-        .query({ 'analiseConsultoriaId.specified': 'false' })
-        .pipe(
-          map((res: HttpResponse<IAnexo[]>) => {
-            return res.body ? res.body : [];
-          })
-        )
-        .subscribe((resBody: IAnexo[]) => {
-          if (!analiseConsultoria.anexo || !analiseConsultoria.anexo.id) {
-            this.anexos = resBody;
-          } else {
-            this.anexoService
-              .find(analiseConsultoria.anexo.id)
-              .pipe(
-                map((subRes: HttpResponse<IAnexo>) => {
-                  return subRes.body ? [subRes.body].concat(resBody) : resBody;
-                })
-              )
-              .subscribe((concatRes: IAnexo[]) => {
-                this.anexos = concatRes;
-              });
-          }
-        });
-
       this.empresaConsultoriaService
         .query()
         .pipe(
@@ -130,7 +100,6 @@ export class AnaliseConsultoriaUpdateComponent implements OnInit {
       responsavelAnalise: analiseConsultoria.responsavelAnalise,
       status: analiseConsultoria.status,
       acao: analiseConsultoria.acao,
-      anexo: analiseConsultoria.anexo,
       empresa: analiseConsultoria.empresa
     });
   }
@@ -179,7 +148,6 @@ export class AnaliseConsultoriaUpdateComponent implements OnInit {
       responsavelAnalise: this.editForm.get(['responsavelAnalise'])!.value,
       status: this.editForm.get(['status'])!.value,
       acao: this.editForm.get(['acao'])!.value,
-      anexo: this.editForm.get(['anexo'])!.value,
       empresa: this.editForm.get(['empresa'])!.value
     };
   }

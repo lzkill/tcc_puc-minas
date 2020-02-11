@@ -42,7 +42,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="gatewayApp.sgqAuditoria.descricao" for="field_descricao">Descricao</label>
+                    <label class="form-control-label" jhiTranslate="gatewayApp.sgqAuditoria.descricao" for="field_descricao" [ngbTooltip]="'gatewayApp.sgqAuditoria.help.descricao' | translate">Descricao</label>
                     <textarea class="form-control" name="descricao" id="field_descricao"
                               formControlName="descricao"></textarea>
                 </div>

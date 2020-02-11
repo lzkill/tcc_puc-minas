@@ -105,7 +105,7 @@ public class NormaQueryService extends QueryService<Norma> {
             }
             if (criteria.getAnexoId() != null) {
                 specification = specification.and(buildSpecification(criteria.getAnexoId(),
-                    root -> root.join(Norma_.anexo, JoinType.LEFT).get(Anexo_.id)));
+                    root -> root.join(Norma_.anexos, JoinType.LEFT).get(Anexo_.id)));
             }
             if (criteria.getCategoriaId() != null) {
                 specification = specification.and(buildSpecification(criteria.getCategoriaId(),

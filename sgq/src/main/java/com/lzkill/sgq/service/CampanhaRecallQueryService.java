@@ -102,7 +102,7 @@ public class CampanhaRecallQueryService extends QueryService<CampanhaRecall> {
             }
             if (criteria.getAnexoId() != null) {
                 specification = specification.and(buildSpecification(criteria.getAnexoId(),
-                    root -> root.join(CampanhaRecall_.anexo, JoinType.LEFT).get(Anexo_.id)));
+                    root -> root.join(CampanhaRecall_.anexos, JoinType.LEFT).get(Anexo_.id)));
             }
             if (criteria.getProdutoId() != null) {
                 specification = specification.and(buildSpecification(criteria.getProdutoId(),

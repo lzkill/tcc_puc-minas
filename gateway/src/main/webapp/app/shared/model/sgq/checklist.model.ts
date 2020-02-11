@@ -7,7 +7,7 @@ export interface IChecklist {
   id?: number;
   titulo?: string;
   periodicidade?: Periodicidade;
-  anexo?: IAnexo;
+  anexos?: IAnexo[];
   items?: IItemChecklist[];
   setor?: ISetor;
 }
@@ -17,7 +17,7 @@ export class Checklist implements IChecklist {
     public id?: number,
     public titulo?: string,
     public periodicidade?: Periodicidade,
-    public anexo?: IAnexo,
+    public anexos?: IAnexo[],
     public items?: IItemChecklist[],
     public setor?: ISetor
   ) {}

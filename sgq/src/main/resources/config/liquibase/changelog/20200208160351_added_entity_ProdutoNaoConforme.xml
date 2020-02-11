@@ -46,11 +46,14 @@
             <column name="nao_conformidade_id" type="bigint">
                 <constraints unique="true" nullable="true" uniqueConstraintName="ux_produto_nao_conforme_nao_conformidade_id" />
             </column>
-            <column name="anexo_id" type="bigint">
-                <constraints unique="true" nullable="true" uniqueConstraintName="ux_produto_nao_conforme_anexo_id" />
-            </column>
             <column name="produto_id" type="bigint">
                 <constraints nullable="false" />
+            </column>
+            <column name="resultado_auditoria_id" type="bigint">
+                <constraints nullable="true" />
+            </column>
+            <column name="resultado_item_checklist_id" type="bigint">
+                <constraints nullable="true" />
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
         </createTable>

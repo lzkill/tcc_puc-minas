@@ -30,7 +30,6 @@
             <th scope="col"  jhiSortBy="dataConclusao"><span jhiTranslate="gatewayApp.sgqAcaoSgq.dataConclusao">Data Conclusao</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="resultado"><span jhiTranslate="gatewayApp.sgqAcaoSgq.resultado">Resultado</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="statusSGQ"><span jhiTranslate="gatewayApp.sgqAcaoSgq.statusSGQ">Status SGQ</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  jhiSortBy="anexo.nomeArquivo"><span jhiTranslate="gatewayApp.sgqAcaoSgq.anexo">Anexo</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="naoConformidade.titulo"><span jhiTranslate="gatewayApp.sgqAcaoSgq.naoConformidade">Nao Conformidade</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"></th>
             </tr>
@@ -49,11 +48,6 @@
                 <td>{{acaoSGQ.dataConclusao | date:'medium'}}</td>
                 <td>{{acaoSGQ.resultado}}</td>
                 <td jhiTranslate="{{'gatewayApp.StatusSGQ.' + acaoSGQ.statusSGQ}}">{{acaoSGQ.statusSGQ}}</td>
-                <td>
-                    <div *ngIf="acaoSGQ.anexo">
-                        <a [routerLink]="['/anexo', acaoSGQ.anexo?.id, 'view' ]" >{{acaoSGQ.anexo?.nomeArquivo}}</a>
-                    </div>
-                </td>
                 <td>
                     <div *ngIf="acaoSGQ.naoConformidade">
                         <a [routerLink]="['/nao-conformidade', acaoSGQ.naoConformidade?.id, 'view' ]" >{{acaoSGQ.naoConformidade?.titulo}}</a>

@@ -17,12 +17,6 @@
                 <dd>
                     <span>{{itemChecklist.descricao}}</span>
                 </dd>
-                <dt><span jhiTranslate="gatewayApp.sgqItemChecklist.anexo">Anexo</span></dt>
-                <dd>
-                    <div *ngIf="itemChecklist.anexo">
-                        <a [routerLink]="['/anexo', itemChecklist.anexo?.id, 'view']">{{itemChecklist.anexo?.nomeArquivo}}</a>
-                    </div>
-                </dd>
                 <dt><span jhiTranslate="gatewayApp.sgqItemChecklist.checklist">Checklist</span></dt>
                 <dd>
                     <div *ngIf="itemChecklist.checklist">

@@ -12,7 +12,7 @@ export interface IAnaliseConsultoria {
   responsavelAnalise?: string;
   status?: StatusAnaliseExterna;
   acao?: IAcaoSGQ;
-  anexo?: IAnexo;
+  anexos?: IAnexo[];
   empresa?: IEmpresaConsultoria;
 }
 
@@ -25,7 +25,7 @@ export class AnaliseConsultoria implements IAnaliseConsultoria {
     public responsavelAnalise?: string,
     public status?: StatusAnaliseExterna,
     public acao?: IAcaoSGQ,
-    public anexo?: IAnexo,
+    public anexos?: IAnexo[],
     public empresa?: IEmpresaConsultoria
   ) {}
 }

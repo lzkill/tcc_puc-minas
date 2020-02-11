@@ -41,12 +41,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = SgqApp.class)
 public class ItemPlanoAuditoriaResourceIT {
 
-    private static final Integer DEFAULT_ID_USUARIO_RESPONSAVEL = 1;
-    private static final Integer UPDATED_ID_USUARIO_RESPONSAVEL = 2;
-    private static final Integer SMALLER_ID_USUARIO_RESPONSAVEL = 1 - 1;
+    private static final Instant DEFAULT_DATA_INICIO_PREVISTO = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_DATA_INICIO_PREVISTO = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
-    private static final Instant DEFAULT_DATA_AUDITORIA = Instant.ofEpochMilli(0L);
-    private static final Instant UPDATED_DATA_AUDITORIA = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+    private static final Instant DEFAULT_DATA_FIM_PREVISTO = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_DATA_FIM_PREVISTO = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
     @Autowired
     private ItemPlanoAuditoriaRepository itemPlanoAuditoriaRepository;
@@ -96,8 +95,8 @@ public class ItemPlanoAuditoriaResourceIT {
      */
     public static ItemPlanoAuditoria createEntity(EntityManager em) {
         ItemPlanoAuditoria itemPlanoAuditoria = new ItemPlanoAuditoria()
-            .idUsuarioResponsavel(DEFAULT_ID_USUARIO_RESPONSAVEL)
-            .dataAuditoria(DEFAULT_DATA_AUDITORIA);
+            .dataInicioPrevisto(DEFAULT_DATA_INICIO_PREVISTO)
+            .dataFimPrevisto(DEFAULT_DATA_FIM_PREVISTO);
         // Add required entity
         Auditoria auditoria;
         if (TestUtil.findAll(em, Auditoria.class).isEmpty()) {
@@ -128,8 +127,8 @@ public class ItemPlanoAuditoriaResourceIT {
      */
     public static ItemPlanoAuditoria createUpdatedEntity(EntityManager em) {
         ItemPlanoAuditoria itemPlanoAuditoria = new ItemPlanoAuditoria()
-            .idUsuarioResponsavel(UPDATED_ID_USUARIO_RESPONSAVEL)
-            .dataAuditoria(UPDATED_DATA_AUDITORIA);
+            .dataInicioPrevisto(UPDATED_DATA_INICIO_PREVISTO)
+            .dataFimPrevisto(UPDATED_DATA_FIM_PREVISTO);
         // Add required entity
         Auditoria auditoria;
         if (TestUtil.findAll(em, Auditoria.class).isEmpty()) {
@@ -173,8 +172,8 @@ public class ItemPlanoAuditoriaResourceIT {
         List<ItemPlanoAuditoria> itemPlanoAuditoriaList = itemPlanoAuditoriaRepository.findAll();
         assertThat(itemPlanoAuditoriaList).hasSize(databaseSizeBeforeCreate + 1);
         ItemPlanoAuditoria testItemPlanoAuditoria = itemPlanoAuditoriaList.get(itemPlanoAuditoriaList.size() - 1);
-        assertThat(testItemPlanoAuditoria.getIdUsuarioResponsavel()).isEqualTo(DEFAULT_ID_USUARIO_RESPONSAVEL);
-        assertThat(testItemPlanoAuditoria.getDataAuditoria()).isEqualTo(DEFAULT_DATA_AUDITORIA);
+        assertThat(testItemPlanoAuditoria.getDataInicioPrevisto()).isEqualTo(DEFAULT_DATA_INICIO_PREVISTO);
+        assertThat(testItemPlanoAuditoria.getDataFimPrevisto()).isEqualTo(DEFAULT_DATA_FIM_PREVISTO);
     }
 
     @Test
@@ -199,42 +198,6 @@ public class ItemPlanoAuditoriaResourceIT {
 
     @Test
     @Transactional
-    public void checkIdUsuarioResponsavelIsRequired() throws Exception {
-        int databaseSizeBeforeTest = itemPlanoAuditoriaRepository.findAll().size();
-        // set the field null
-        itemPlanoAuditoria.setIdUsuarioResponsavel(null);
-
-        // Create the ItemPlanoAuditoria, which fails.
-
-        restItemPlanoAuditoriaMockMvc.perform(post("/api/item-plano-auditorias")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(itemPlanoAuditoria)))
-            .andExpect(status().isBadRequest());
-
-        List<ItemPlanoAuditoria> itemPlanoAuditoriaList = itemPlanoAuditoriaRepository.findAll();
-        assertThat(itemPlanoAuditoriaList).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
-    public void checkDataAuditoriaIsRequired() throws Exception {
-        int databaseSizeBeforeTest = itemPlanoAuditoriaRepository.findAll().size();
-        // set the field null
-        itemPlanoAuditoria.setDataAuditoria(null);
-
-        // Create the ItemPlanoAuditoria, which fails.
-
-        restItemPlanoAuditoriaMockMvc.perform(post("/api/item-plano-auditorias")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(itemPlanoAuditoria)))
-            .andExpect(status().isBadRequest());
-
-        List<ItemPlanoAuditoria> itemPlanoAuditoriaList = itemPlanoAuditoriaRepository.findAll();
-        assertThat(itemPlanoAuditoriaList).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
     public void getAllItemPlanoAuditorias() throws Exception {
         // Initialize the database
         itemPlanoAuditoriaRepository.saveAndFlush(itemPlanoAuditoria);
@@ -244,8 +207,8 @@ public class ItemPlanoAuditoriaResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(itemPlanoAuditoria.getId().intValue())))
-            .andExpect(jsonPath("$.[*].idUsuarioResponsavel").value(hasItem(DEFAULT_ID_USUARIO_RESPONSAVEL)))
-            .andExpect(jsonPath("$.[*].dataAuditoria").value(hasItem(DEFAULT_DATA_AUDITORIA.toString())));
+            .andExpect(jsonPath("$.[*].dataInicioPrevisto").value(hasItem(DEFAULT_DATA_INICIO_PREVISTO.toString())))
+            .andExpect(jsonPath("$.[*].dataFimPrevisto").value(hasItem(DEFAULT_DATA_FIM_PREVISTO.toString())));
     }
     
     @Test
@@ -259,8 +222,8 @@ public class ItemPlanoAuditoriaResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(itemPlanoAuditoria.getId().intValue()))
-            .andExpect(jsonPath("$.idUsuarioResponsavel").value(DEFAULT_ID_USUARIO_RESPONSAVEL))
-            .andExpect(jsonPath("$.dataAuditoria").value(DEFAULT_DATA_AUDITORIA.toString()));
+            .andExpect(jsonPath("$.dataInicioPrevisto").value(DEFAULT_DATA_INICIO_PREVISTO.toString()))
+            .andExpect(jsonPath("$.dataFimPrevisto").value(DEFAULT_DATA_FIM_PREVISTO.toString()));
     }
 
 
@@ -285,159 +248,106 @@ public class ItemPlanoAuditoriaResourceIT {
 
     @Test
     @Transactional
-    public void getAllItemPlanoAuditoriasByIdUsuarioResponsavelIsEqualToSomething() throws Exception {
+    public void getAllItemPlanoAuditoriasByDataInicioPrevistoIsEqualToSomething() throws Exception {
         // Initialize the database
         itemPlanoAuditoriaRepository.saveAndFlush(itemPlanoAuditoria);
 
-        // Get all the itemPlanoAuditoriaList where idUsuarioResponsavel equals to DEFAULT_ID_USUARIO_RESPONSAVEL
-        defaultItemPlanoAuditoriaShouldBeFound("idUsuarioResponsavel.equals=" + DEFAULT_ID_USUARIO_RESPONSAVEL);
+        // Get all the itemPlanoAuditoriaList where dataInicioPrevisto equals to DEFAULT_DATA_INICIO_PREVISTO
+        defaultItemPlanoAuditoriaShouldBeFound("dataInicioPrevisto.equals=" + DEFAULT_DATA_INICIO_PREVISTO);
 
-        // Get all the itemPlanoAuditoriaList where idUsuarioResponsavel equals to UPDATED_ID_USUARIO_RESPONSAVEL
-        defaultItemPlanoAuditoriaShouldNotBeFound("idUsuarioResponsavel.equals=" + UPDATED_ID_USUARIO_RESPONSAVEL);
+        // Get all the itemPlanoAuditoriaList where dataInicioPrevisto equals to UPDATED_DATA_INICIO_PREVISTO
+        defaultItemPlanoAuditoriaShouldNotBeFound("dataInicioPrevisto.equals=" + UPDATED_DATA_INICIO_PREVISTO);
     }
 
     @Test
     @Transactional
-    public void getAllItemPlanoAuditoriasByIdUsuarioResponsavelIsNotEqualToSomething() throws Exception {
+    public void getAllItemPlanoAuditoriasByDataInicioPrevistoIsNotEqualToSomething() throws Exception {
         // Initialize the database
         itemPlanoAuditoriaRepository.saveAndFlush(itemPlanoAuditoria);
 
-        // Get all the itemPlanoAuditoriaList where idUsuarioResponsavel not equals to DEFAULT_ID_USUARIO_RESPONSAVEL
-        defaultItemPlanoAuditoriaShouldNotBeFound("idUsuarioResponsavel.notEquals=" + DEFAULT_ID_USUARIO_RESPONSAVEL);
+        // Get all the itemPlanoAuditoriaList where dataInicioPrevisto not equals to DEFAULT_DATA_INICIO_PREVISTO
+        defaultItemPlanoAuditoriaShouldNotBeFound("dataInicioPrevisto.notEquals=" + DEFAULT_DATA_INICIO_PREVISTO);
 
-        // Get all the itemPlanoAuditoriaList where idUsuarioResponsavel not equals to UPDATED_ID_USUARIO_RESPONSAVEL
-        defaultItemPlanoAuditoriaShouldBeFound("idUsuarioResponsavel.notEquals=" + UPDATED_ID_USUARIO_RESPONSAVEL);
+        // Get all the itemPlanoAuditoriaList where dataInicioPrevisto not equals to UPDATED_DATA_INICIO_PREVISTO
+        defaultItemPlanoAuditoriaShouldBeFound("dataInicioPrevisto.notEquals=" + UPDATED_DATA_INICIO_PREVISTO);
     }
 
     @Test
     @Transactional
-    public void getAllItemPlanoAuditoriasByIdUsuarioResponsavelIsInShouldWork() throws Exception {
+    public void getAllItemPlanoAuditoriasByDataInicioPrevistoIsInShouldWork() throws Exception {
         // Initialize the database
         itemPlanoAuditoriaRepository.saveAndFlush(itemPlanoAuditoria);
 
-        // Get all the itemPlanoAuditoriaList where idUsuarioResponsavel in DEFAULT_ID_USUARIO_RESPONSAVEL or UPDATED_ID_USUARIO_RESPONSAVEL
-        defaultItemPlanoAuditoriaShouldBeFound("idUsuarioResponsavel.in=" + DEFAULT_ID_USUARIO_RESPONSAVEL + "," + UPDATED_ID_USUARIO_RESPONSAVEL);
+        // Get all the itemPlanoAuditoriaList where dataInicioPrevisto in DEFAULT_DATA_INICIO_PREVISTO or UPDATED_DATA_INICIO_PREVISTO
+        defaultItemPlanoAuditoriaShouldBeFound("dataInicioPrevisto.in=" + DEFAULT_DATA_INICIO_PREVISTO + "," + UPDATED_DATA_INICIO_PREVISTO);
 
-        // Get all the itemPlanoAuditoriaList where idUsuarioResponsavel equals to UPDATED_ID_USUARIO_RESPONSAVEL
-        defaultItemPlanoAuditoriaShouldNotBeFound("idUsuarioResponsavel.in=" + UPDATED_ID_USUARIO_RESPONSAVEL);
+        // Get all the itemPlanoAuditoriaList where dataInicioPrevisto equals to UPDATED_DATA_INICIO_PREVISTO
+        defaultItemPlanoAuditoriaShouldNotBeFound("dataInicioPrevisto.in=" + UPDATED_DATA_INICIO_PREVISTO);
     }
 
     @Test
     @Transactional
-    public void getAllItemPlanoAuditoriasByIdUsuarioResponsavelIsNullOrNotNull() throws Exception {
+    public void getAllItemPlanoAuditoriasByDataInicioPrevistoIsNullOrNotNull() throws Exception {
         // Initialize the database
         itemPlanoAuditoriaRepository.saveAndFlush(itemPlanoAuditoria);
 
-        // Get all the itemPlanoAuditoriaList where idUsuarioResponsavel is not null
-        defaultItemPlanoAuditoriaShouldBeFound("idUsuarioResponsavel.specified=true");
+        // Get all the itemPlanoAuditoriaList where dataInicioPrevisto is not null
+        defaultItemPlanoAuditoriaShouldBeFound("dataInicioPrevisto.specified=true");
 
-        // Get all the itemPlanoAuditoriaList where idUsuarioResponsavel is null
-        defaultItemPlanoAuditoriaShouldNotBeFound("idUsuarioResponsavel.specified=false");
+        // Get all the itemPlanoAuditoriaList where dataInicioPrevisto is null
+        defaultItemPlanoAuditoriaShouldNotBeFound("dataInicioPrevisto.specified=false");
     }
 
     @Test
     @Transactional
-    public void getAllItemPlanoAuditoriasByIdUsuarioResponsavelIsGreaterThanOrEqualToSomething() throws Exception {
+    public void getAllItemPlanoAuditoriasByDataFimPrevistoIsEqualToSomething() throws Exception {
         // Initialize the database
         itemPlanoAuditoriaRepository.saveAndFlush(itemPlanoAuditoria);
 
-        // Get all the itemPlanoAuditoriaList where idUsuarioResponsavel is greater than or equal to DEFAULT_ID_USUARIO_RESPONSAVEL
-        defaultItemPlanoAuditoriaShouldBeFound("idUsuarioResponsavel.greaterThanOrEqual=" + DEFAULT_ID_USUARIO_RESPONSAVEL);
+        // Get all the itemPlanoAuditoriaList where dataFimPrevisto equals to DEFAULT_DATA_FIM_PREVISTO
+        defaultItemPlanoAuditoriaShouldBeFound("dataFimPrevisto.equals=" + DEFAULT_DATA_FIM_PREVISTO);
 
-        // Get all the itemPlanoAuditoriaList where idUsuarioResponsavel is greater than or equal to UPDATED_ID_USUARIO_RESPONSAVEL
-        defaultItemPlanoAuditoriaShouldNotBeFound("idUsuarioResponsavel.greaterThanOrEqual=" + UPDATED_ID_USUARIO_RESPONSAVEL);
+        // Get all the itemPlanoAuditoriaList where dataFimPrevisto equals to UPDATED_DATA_FIM_PREVISTO
+        defaultItemPlanoAuditoriaShouldNotBeFound("dataFimPrevisto.equals=" + UPDATED_DATA_FIM_PREVISTO);
     }
 
     @Test
     @Transactional
-    public void getAllItemPlanoAuditoriasByIdUsuarioResponsavelIsLessThanOrEqualToSomething() throws Exception {
+    public void getAllItemPlanoAuditoriasByDataFimPrevistoIsNotEqualToSomething() throws Exception {
         // Initialize the database
         itemPlanoAuditoriaRepository.saveAndFlush(itemPlanoAuditoria);
 
-        // Get all the itemPlanoAuditoriaList where idUsuarioResponsavel is less than or equal to DEFAULT_ID_USUARIO_RESPONSAVEL
-        defaultItemPlanoAuditoriaShouldBeFound("idUsuarioResponsavel.lessThanOrEqual=" + DEFAULT_ID_USUARIO_RESPONSAVEL);
+        // Get all the itemPlanoAuditoriaList where dataFimPrevisto not equals to DEFAULT_DATA_FIM_PREVISTO
+        defaultItemPlanoAuditoriaShouldNotBeFound("dataFimPrevisto.notEquals=" + DEFAULT_DATA_FIM_PREVISTO);
 
-        // Get all the itemPlanoAuditoriaList where idUsuarioResponsavel is less than or equal to SMALLER_ID_USUARIO_RESPONSAVEL
-        defaultItemPlanoAuditoriaShouldNotBeFound("idUsuarioResponsavel.lessThanOrEqual=" + SMALLER_ID_USUARIO_RESPONSAVEL);
+        // Get all the itemPlanoAuditoriaList where dataFimPrevisto not equals to UPDATED_DATA_FIM_PREVISTO
+        defaultItemPlanoAuditoriaShouldBeFound("dataFimPrevisto.notEquals=" + UPDATED_DATA_FIM_PREVISTO);
     }
 
     @Test
     @Transactional
-    public void getAllItemPlanoAuditoriasByIdUsuarioResponsavelIsLessThanSomething() throws Exception {
+    public void getAllItemPlanoAuditoriasByDataFimPrevistoIsInShouldWork() throws Exception {
         // Initialize the database
         itemPlanoAuditoriaRepository.saveAndFlush(itemPlanoAuditoria);
 
-        // Get all the itemPlanoAuditoriaList where idUsuarioResponsavel is less than DEFAULT_ID_USUARIO_RESPONSAVEL
-        defaultItemPlanoAuditoriaShouldNotBeFound("idUsuarioResponsavel.lessThan=" + DEFAULT_ID_USUARIO_RESPONSAVEL);
+        // Get all the itemPlanoAuditoriaList where dataFimPrevisto in DEFAULT_DATA_FIM_PREVISTO or UPDATED_DATA_FIM_PREVISTO
+        defaultItemPlanoAuditoriaShouldBeFound("dataFimPrevisto.in=" + DEFAULT_DATA_FIM_PREVISTO + "," + UPDATED_DATA_FIM_PREVISTO);
 
-        // Get all the itemPlanoAuditoriaList where idUsuarioResponsavel is less than UPDATED_ID_USUARIO_RESPONSAVEL
-        defaultItemPlanoAuditoriaShouldBeFound("idUsuarioResponsavel.lessThan=" + UPDATED_ID_USUARIO_RESPONSAVEL);
+        // Get all the itemPlanoAuditoriaList where dataFimPrevisto equals to UPDATED_DATA_FIM_PREVISTO
+        defaultItemPlanoAuditoriaShouldNotBeFound("dataFimPrevisto.in=" + UPDATED_DATA_FIM_PREVISTO);
     }
 
     @Test
     @Transactional
-    public void getAllItemPlanoAuditoriasByIdUsuarioResponsavelIsGreaterThanSomething() throws Exception {
+    public void getAllItemPlanoAuditoriasByDataFimPrevistoIsNullOrNotNull() throws Exception {
         // Initialize the database
         itemPlanoAuditoriaRepository.saveAndFlush(itemPlanoAuditoria);
 
-        // Get all the itemPlanoAuditoriaList where idUsuarioResponsavel is greater than DEFAULT_ID_USUARIO_RESPONSAVEL
-        defaultItemPlanoAuditoriaShouldNotBeFound("idUsuarioResponsavel.greaterThan=" + DEFAULT_ID_USUARIO_RESPONSAVEL);
+        // Get all the itemPlanoAuditoriaList where dataFimPrevisto is not null
+        defaultItemPlanoAuditoriaShouldBeFound("dataFimPrevisto.specified=true");
 
-        // Get all the itemPlanoAuditoriaList where idUsuarioResponsavel is greater than SMALLER_ID_USUARIO_RESPONSAVEL
-        defaultItemPlanoAuditoriaShouldBeFound("idUsuarioResponsavel.greaterThan=" + SMALLER_ID_USUARIO_RESPONSAVEL);
-    }
-
-
-    @Test
-    @Transactional
-    public void getAllItemPlanoAuditoriasByDataAuditoriaIsEqualToSomething() throws Exception {
-        // Initialize the database
-        itemPlanoAuditoriaRepository.saveAndFlush(itemPlanoAuditoria);
-
-        // Get all the itemPlanoAuditoriaList where dataAuditoria equals to DEFAULT_DATA_AUDITORIA
-        defaultItemPlanoAuditoriaShouldBeFound("dataAuditoria.equals=" + DEFAULT_DATA_AUDITORIA);
-
-        // Get all the itemPlanoAuditoriaList where dataAuditoria equals to UPDATED_DATA_AUDITORIA
-        defaultItemPlanoAuditoriaShouldNotBeFound("dataAuditoria.equals=" + UPDATED_DATA_AUDITORIA);
-    }
-
-    @Test
-    @Transactional
-    public void getAllItemPlanoAuditoriasByDataAuditoriaIsNotEqualToSomething() throws Exception {
-        // Initialize the database
-        itemPlanoAuditoriaRepository.saveAndFlush(itemPlanoAuditoria);
-
-        // Get all the itemPlanoAuditoriaList where dataAuditoria not equals to DEFAULT_DATA_AUDITORIA
-        defaultItemPlanoAuditoriaShouldNotBeFound("dataAuditoria.notEquals=" + DEFAULT_DATA_AUDITORIA);
-
-        // Get all the itemPlanoAuditoriaList where dataAuditoria not equals to UPDATED_DATA_AUDITORIA
-        defaultItemPlanoAuditoriaShouldBeFound("dataAuditoria.notEquals=" + UPDATED_DATA_AUDITORIA);
-    }
-
-    @Test
-    @Transactional
-    public void getAllItemPlanoAuditoriasByDataAuditoriaIsInShouldWork() throws Exception {
-        // Initialize the database
-        itemPlanoAuditoriaRepository.saveAndFlush(itemPlanoAuditoria);
-
-        // Get all the itemPlanoAuditoriaList where dataAuditoria in DEFAULT_DATA_AUDITORIA or UPDATED_DATA_AUDITORIA
-        defaultItemPlanoAuditoriaShouldBeFound("dataAuditoria.in=" + DEFAULT_DATA_AUDITORIA + "," + UPDATED_DATA_AUDITORIA);
-
-        // Get all the itemPlanoAuditoriaList where dataAuditoria equals to UPDATED_DATA_AUDITORIA
-        defaultItemPlanoAuditoriaShouldNotBeFound("dataAuditoria.in=" + UPDATED_DATA_AUDITORIA);
-    }
-
-    @Test
-    @Transactional
-    public void getAllItemPlanoAuditoriasByDataAuditoriaIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        itemPlanoAuditoriaRepository.saveAndFlush(itemPlanoAuditoria);
-
-        // Get all the itemPlanoAuditoriaList where dataAuditoria is not null
-        defaultItemPlanoAuditoriaShouldBeFound("dataAuditoria.specified=true");
-
-        // Get all the itemPlanoAuditoriaList where dataAuditoria is null
-        defaultItemPlanoAuditoriaShouldNotBeFound("dataAuditoria.specified=false");
+        // Get all the itemPlanoAuditoriaList where dataFimPrevisto is null
+        defaultItemPlanoAuditoriaShouldNotBeFound("dataFimPrevisto.specified=false");
     }
 
     @Test
@@ -448,7 +358,7 @@ public class ItemPlanoAuditoriaResourceIT {
         Anexo anexo = AnexoResourceIT.createEntity(em);
         em.persist(anexo);
         em.flush();
-        itemPlanoAuditoria.setAnexo(anexo);
+        itemPlanoAuditoria.addAnexo(anexo);
         itemPlanoAuditoriaRepository.saveAndFlush(itemPlanoAuditoria);
         Long anexoId = anexo.getId();
 
@@ -499,8 +409,8 @@ public class ItemPlanoAuditoriaResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(itemPlanoAuditoria.getId().intValue())))
-            .andExpect(jsonPath("$.[*].idUsuarioResponsavel").value(hasItem(DEFAULT_ID_USUARIO_RESPONSAVEL)))
-            .andExpect(jsonPath("$.[*].dataAuditoria").value(hasItem(DEFAULT_DATA_AUDITORIA.toString())));
+            .andExpect(jsonPath("$.[*].dataInicioPrevisto").value(hasItem(DEFAULT_DATA_INICIO_PREVISTO.toString())))
+            .andExpect(jsonPath("$.[*].dataFimPrevisto").value(hasItem(DEFAULT_DATA_FIM_PREVISTO.toString())));
 
         // Check, that the count call also returns 1
         restItemPlanoAuditoriaMockMvc.perform(get("/api/item-plano-auditorias/count?sort=id,desc&" + filter))
@@ -548,8 +458,8 @@ public class ItemPlanoAuditoriaResourceIT {
         // Disconnect from session so that the updates on updatedItemPlanoAuditoria are not directly saved in db
         em.detach(updatedItemPlanoAuditoria);
         updatedItemPlanoAuditoria
-            .idUsuarioResponsavel(UPDATED_ID_USUARIO_RESPONSAVEL)
-            .dataAuditoria(UPDATED_DATA_AUDITORIA);
+            .dataInicioPrevisto(UPDATED_DATA_INICIO_PREVISTO)
+            .dataFimPrevisto(UPDATED_DATA_FIM_PREVISTO);
 
         restItemPlanoAuditoriaMockMvc.perform(put("/api/item-plano-auditorias")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -560,8 +470,8 @@ public class ItemPlanoAuditoriaResourceIT {
         List<ItemPlanoAuditoria> itemPlanoAuditoriaList = itemPlanoAuditoriaRepository.findAll();
         assertThat(itemPlanoAuditoriaList).hasSize(databaseSizeBeforeUpdate);
         ItemPlanoAuditoria testItemPlanoAuditoria = itemPlanoAuditoriaList.get(itemPlanoAuditoriaList.size() - 1);
-        assertThat(testItemPlanoAuditoria.getIdUsuarioResponsavel()).isEqualTo(UPDATED_ID_USUARIO_RESPONSAVEL);
-        assertThat(testItemPlanoAuditoria.getDataAuditoria()).isEqualTo(UPDATED_DATA_AUDITORIA);
+        assertThat(testItemPlanoAuditoria.getDataInicioPrevisto()).isEqualTo(UPDATED_DATA_INICIO_PREVISTO);
+        assertThat(testItemPlanoAuditoria.getDataFimPrevisto()).isEqualTo(UPDATED_DATA_FIM_PREVISTO);
     }
 
     @Test

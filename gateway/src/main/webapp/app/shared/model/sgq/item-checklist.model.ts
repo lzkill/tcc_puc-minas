@@ -6,7 +6,7 @@ export interface IItemChecklist {
   ordem?: number;
   titulo?: string;
   descricao?: any;
-  anexo?: IAnexo;
+  anexos?: IAnexo[];
   checklist?: IChecklist;
 }
 
@@ -16,7 +16,7 @@ export class ItemChecklist implements IItemChecklist {
     public ordem?: number,
     public titulo?: string,
     public descricao?: any,
-    public anexo?: IAnexo,
+    public anexos?: IAnexo[],
     public checklist?: IChecklist
   ) {}
 }

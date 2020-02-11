@@ -10,14 +10,12 @@ import { JhiDataUtils, JhiFileLoadError, JhiEventManager, JhiEventWithContent } 
 import { IResultadoItemChecklist, ResultadoItemChecklist } from 'app/shared/model/sgq/resultado-item-checklist.model';
 import { ResultadoItemChecklistService } from './resultado-item-checklist.service';
 import { AlertError } from 'app/shared/alert/alert-error.model';
-import { IAnexo } from 'app/shared/model/sgq/anexo.model';
-import { AnexoService } from 'app/entities/sgq/anexo/anexo.service';
 import { IItemChecklist } from 'app/shared/model/sgq/item-checklist.model';
 import { ItemChecklistService } from 'app/entities/sgq/item-checklist/item-checklist.service';
 import { IResultadoChecklist } from 'app/shared/model/sgq/resultado-checklist.model';
 import { ResultadoChecklistService } from 'app/entities/sgq/resultado-checklist/resultado-checklist.service';
 
-type SelectableEntity = IAnexo | IItemChecklist | IResultadoChecklist;
+type SelectableEntity = IItemChecklist | IResultadoChecklist;
 
 @Component({
   selector: 'jhi-resultado-item-checklist-update',
@@ -25,8 +23,6 @@ type SelectableEntity = IAnexo | IItemChecklist | IResultadoChecklist;
 })
 export class ResultadoItemChecklistUpdateComponent implements OnInit {
   isSaving = false;
-
-  anexos: IAnexo[] = [];
 
   itemchecklists: IItemChecklist[] = [];
 
@@ -36,7 +32,6 @@ export class ResultadoItemChecklistUpdateComponent implements OnInit {
     id: [],
     conforme: [null, [Validators.required]],
     descricao: [],
-    anexo: [],
     item: [null, Validators.required],
     resultado: [null, Validators.required]
   });
@@ -45,7 +40,6 @@ export class ResultadoItemChecklistUpdateComponent implements OnInit {
     protected dataUtils: JhiDataUtils,
     protected eventManager: JhiEventManager,
     protected resultadoItemChecklistService: ResultadoItemChecklistService,
-    protected anexoService: AnexoService,
     protected itemChecklistService: ItemChecklistService,
     protected resultadoChecklistService: ResultadoChecklistService,
     protected activatedRoute: ActivatedRoute,
@@ -55,30 +49,6 @@ export class ResultadoItemChecklistUpdateComponent implements OnInit {
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ resultadoItemChecklist }) => {
       this.updateForm(resultadoItemChecklist);
-
-      this.anexoService
-        .query({ 'resultadoItemChecklistId.specified': 'false' })
-        .pipe(
-          map((res: HttpResponse<IAnexo[]>) => {
-            return res.body ? res.body : [];
-          })
-        )
-        .subscribe((resBody: IAnexo[]) => {
-          if (!resultadoItemChecklist.anexo || !resultadoItemChecklist.anexo.id) {
-            this.anexos = resBody;
-          } else {
-            this.anexoService
-              .find(resultadoItemChecklist.anexo.id)
-              .pipe(
-                map((subRes: HttpResponse<IAnexo>) => {
-                  return subRes.body ? [subRes.body].concat(resBody) : resBody;
-                })
-              )
-              .subscribe((concatRes: IAnexo[]) => {
-                this.anexos = concatRes;
-              });
-          }
-        });
 
       this.itemChecklistService
         .query()
@@ -105,7 +75,6 @@ export class ResultadoItemChecklistUpdateComponent implements OnInit {
       id: resultadoItemChecklist.id,
       conforme: resultadoItemChecklist.conforme,
       descricao: resultadoItemChecklist.descricao,
-      anexo: resultadoItemChecklist.anexo,
       item: resultadoItemChecklist.item,
       resultado: resultadoItemChecklist.resultado
     });
@@ -147,7 +116,6 @@ export class ResultadoItemChecklistUpdateComponent implements OnInit {
       id: this.editForm.get(['id'])!.value,
       conforme: this.editForm.get(['conforme'])!.value,
       descricao: this.editForm.get(['descricao'])!.value,
-      anexo: this.editForm.get(['anexo'])!.value,
       item: this.editForm.get(['item'])!.value,
       resultado: this.editForm.get(['resultado'])!.value
     };

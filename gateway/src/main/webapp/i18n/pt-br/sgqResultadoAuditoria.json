@@ -1,0 +1,32 @@
+{
+  "gatewayApp": {
+    "sgqResultadoAuditoria": {
+      "home": {
+        "title": "Resultado Auditorias",
+        "createLabel": "Criar novo Resultado Auditoria",
+        "createOrEditLabel": "Criar ou editar Resultado Auditoria",
+        "notFound": "Nenhum Resultado Auditoria encontrado"
+      },
+      "delete": {
+        "question": "Tem certeza de que deseja excluir Resultado Auditoria {{ id }}?"
+      },
+      "detail": {
+        "title": "Resultado Auditoria"
+      },
+      "idUsuarioResponsavel": "Id Usuario Responsavel",
+      "dataInicio": "Data Inicio",
+      "dataFim": "Data Fim",
+      "descricao": "Descricao",
+      "naoConformidade": "Nao Conformidade",
+      "produtoNaoConforme": "Produto Nao Conforme",
+      "auditoria": "Auditoria"
+    }
+  },
+  "sgqApp": {
+    "sgqResultadoAuditoria": {
+      "created": "Um novo Resultado Auditoria foi criado com o identificador {{ param }}",
+      "updated": "Um Resultado Auditoria foi atualizado com o identificador {{ param }}",
+      "deleted": "Um Resultado Auditoria foi excluído com o identificador {{ param }}"
+    }
+  }
+}

@@ -49,12 +49,6 @@
                 <dd>
                     <span jhiTranslate="{{'gatewayApp.StatusSGQ.' + acaoSGQ.statusSGQ}}">{{acaoSGQ.statusSGQ}}</span>
                 </dd>
-                <dt><span jhiTranslate="gatewayApp.sgqAcaoSgq.anexo">Anexo</span></dt>
-                <dd>
-                    <div *ngIf="acaoSGQ.anexo">
-                        <a [routerLink]="['/anexo', acaoSGQ.anexo?.id, 'view']">{{acaoSGQ.anexo?.nomeArquivo}}</a>
-                    </div>
-                </dd>
                 <dt><span jhiTranslate="gatewayApp.sgqAcaoSgq.naoConformidade">Nao Conformidade</span></dt>
                 <dd>
                     <div *ngIf="acaoSGQ.naoConformidade">

@@ -102,7 +102,7 @@ public class BoletimInformativoQueryService extends QueryService<BoletimInformat
             }
             if (criteria.getAnexoId() != null) {
                 specification = specification.and(buildSpecification(criteria.getAnexoId(),
-                    root -> root.join(BoletimInformativo_.anexo, JoinType.LEFT).get(Anexo_.id)));
+                    root -> root.join(BoletimInformativo_.anexos, JoinType.LEFT).get(Anexo_.id)));
             }
             if (criteria.getPublicoAlvoId() != null) {
                 specification = specification.and(buildSpecification(criteria.getPublicoAlvoId(),

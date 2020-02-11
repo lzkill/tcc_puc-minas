@@ -12,7 +12,7 @@ export interface ICampanhaRecall {
   dataInicio?: Moment;
   dataFim?: Moment;
   resultado?: any;
-  anexo?: IAnexo;
+  anexos?: IAnexo[];
   produto?: IProduto;
   setorResponsavel?: ISetor;
 }
@@ -27,7 +27,7 @@ export class CampanhaRecall implements ICampanhaRecall {
     public dataInicio?: Moment,
     public dataFim?: Moment,
     public resultado?: any,
-    public anexo?: IAnexo,
+    public anexos?: IAnexo[],
     public produto?: IProduto,
     public setorResponsavel?: ISetor
   ) {}

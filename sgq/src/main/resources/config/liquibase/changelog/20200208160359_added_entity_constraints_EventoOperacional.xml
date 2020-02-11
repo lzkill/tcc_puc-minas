@@ -8,12 +8,6 @@
     -->
     <changeSet id="20200208160359-2" author="jhipster">
         
-        <addForeignKeyConstraint baseColumnNames="anexo_id"
-                                 baseTableName="evento_operacional"
-                                 constraintName="fk_evento_operacional_anexo_id"
-                                 referencedColumnNames="id"
-                                 referencedTableName="anexo"/>
-
         <addForeignKeyConstraint baseColumnNames="processo_id"
                                  baseTableName="evento_operacional"
                                  constraintName="fk_evento_operacional_processo_id"

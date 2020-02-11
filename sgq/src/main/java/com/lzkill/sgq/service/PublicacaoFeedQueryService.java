@@ -111,7 +111,7 @@ public class PublicacaoFeedQueryService extends QueryService<PublicacaoFeed> {
             }
             if (criteria.getAnexoId() != null) {
                 specification = specification.and(buildSpecification(criteria.getAnexoId(),
-                    root -> root.join(PublicacaoFeed_.anexo, JoinType.LEFT).get(Anexo_.id)));
+                    root -> root.join(PublicacaoFeed_.anexos, JoinType.LEFT).get(Anexo_.id)));
             }
             if (criteria.getFeedId() != null) {
                 specification = specification.and(buildSpecification(criteria.getFeedId(),

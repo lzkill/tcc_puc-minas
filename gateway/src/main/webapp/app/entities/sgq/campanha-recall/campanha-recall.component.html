@@ -26,7 +26,6 @@
             <th scope="col"  jhiSortBy="dataInicio"><span jhiTranslate="gatewayApp.sgqCampanhaRecall.dataInicio">Data Inicio</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="dataFim"><span jhiTranslate="gatewayApp.sgqCampanhaRecall.dataFim">Data Fim</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="resultado"><span jhiTranslate="gatewayApp.sgqCampanhaRecall.resultado">Resultado</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  jhiSortBy="anexo.nomeArquivo"><span jhiTranslate="gatewayApp.sgqCampanhaRecall.anexo">Anexo</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="produto.nome"><span jhiTranslate="gatewayApp.sgqCampanhaRecall.produto">Produto</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="setorResponsavel.nome"><span jhiTranslate="gatewayApp.sgqCampanhaRecall.setorResponsavel">Setor Responsavel</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"></th>
@@ -42,11 +41,6 @@
                 <td>{{campanhaRecall.dataInicio | date:'medium'}}</td>
                 <td>{{campanhaRecall.dataFim | date:'medium'}}</td>
                 <td>{{campanhaRecall.resultado}}</td>
-                <td>
-                    <div *ngIf="campanhaRecall.anexo">
-                        <a [routerLink]="['/anexo', campanhaRecall.anexo?.id, 'view' ]" >{{campanhaRecall.anexo?.nomeArquivo}}</a>
-                    </div>
-                </td>
                 <td>
                     <div *ngIf="campanhaRecall.produto">
                         <a [routerLink]="['/produto', campanhaRecall.produto?.id, 'view' ]" >{{campanhaRecall.produto?.nome}}</a>

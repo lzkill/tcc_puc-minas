@@ -52,9 +52,9 @@ public class BoletimInformativo implements Serializable {
     @Column(name = "status", nullable = false)
     private StatusPublicacao status;
 
-    @OneToOne
-    @JoinColumn(unique = true)
-    private Anexo anexo;
+    @OneToMany(mappedBy = "boletimInformativo")
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<Anexo> anexos = new HashSet<>();
 
     @ManyToOne(optional = false)
     @NotNull
@@ -156,17 +156,29 @@ public class BoletimInformativo implements Serializable {
         this.status = status;
     }
 
-    public Anexo getAnexo() {
-        return anexo;
+    public Set<Anexo> getAnexos() {
+        return anexos;
     }
 
-    public BoletimInformativo anexo(Anexo anexo) {
-        this.anexo = anexo;
+    public BoletimInformativo anexos(Set<Anexo> anexos) {
+        this.anexos = anexos;
         return this;
     }
 
-    public void setAnexo(Anexo anexo) {
-        this.anexo = anexo;
+    public BoletimInformativo addAnexo(Anexo anexo) {
+        this.anexos.add(anexo);
+        anexo.setBoletimInformativo(this);
+        return this;
+    }
+
+    public BoletimInformativo removeAnexo(Anexo anexo) {
+        this.anexos.remove(anexo);
+        anexo.setBoletimInformativo(null);
+        return this;
+    }
+
+    public void setAnexos(Set<Anexo> anexos) {
+        this.anexos = anexos;
     }
 
     public PublicoAlvo getPublicoAlvo() {

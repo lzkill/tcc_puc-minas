@@ -85,12 +85,10 @@
             "ownerSide": true
         },
         {
-            "relationshipType": "one-to-one",
+            "relationshipType": "one-to-many",
             "otherEntityName": "anexo",
             "otherEntityRelationshipName": "produtoNaoConforme",
-            "relationshipName": "anexo",
-            "otherEntityField": "nomeArquivo",
-            "ownerSide": true
+            "relationshipName": "anexo"
         },
         {
             "relationshipType": "many-to-one",
@@ -99,6 +97,20 @@
             "relationshipValidateRules": "required",
             "relationshipName": "produto",
             "otherEntityField": "nome"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "resultadoAuditoria",
+            "otherEntityRelationshipName": "produtoNaoConforme",
+            "relationshipName": "resultadoAuditoria",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "resultadoItemChecklist",
+            "otherEntityRelationshipName": "produtoNaoConforme",
+            "relationshipName": "resultadoItemChecklist",
+            "otherEntityField": "id"
         }
     ],
     "changelogDate": "20200208160351",

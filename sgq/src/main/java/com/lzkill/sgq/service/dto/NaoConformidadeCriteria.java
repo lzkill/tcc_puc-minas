@@ -66,7 +66,11 @@ public class NaoConformidadeCriteria implements Serializable, Criteria {
 
     private LongFilter anexoId;
 
-    private LongFilter acaoId;
+    private LongFilter acaoSGQId;
+
+    private LongFilter resultadoAuditoriaId;
+
+    private LongFilter resultadoItemChecklistId;
 
     public NaoConformidadeCriteria(){
     }
@@ -83,7 +87,9 @@ public class NaoConformidadeCriteria implements Serializable, Criteria {
         this.dataConclusao = other.dataConclusao == null ? null : other.dataConclusao.copy();
         this.statusSGQ = other.statusSGQ == null ? null : other.statusSGQ.copy();
         this.anexoId = other.anexoId == null ? null : other.anexoId.copy();
-        this.acaoId = other.acaoId == null ? null : other.acaoId.copy();
+        this.acaoSGQId = other.acaoSGQId == null ? null : other.acaoSGQId.copy();
+        this.resultadoAuditoriaId = other.resultadoAuditoriaId == null ? null : other.resultadoAuditoriaId.copy();
+        this.resultadoItemChecklistId = other.resultadoItemChecklistId == null ? null : other.resultadoItemChecklistId.copy();
     }
 
     @Override
@@ -179,12 +185,28 @@ public class NaoConformidadeCriteria implements Serializable, Criteria {
         this.anexoId = anexoId;
     }
 
-    public LongFilter getAcaoId() {
-        return acaoId;
+    public LongFilter getAcaoSGQId() {
+        return acaoSGQId;
     }
 
-    public void setAcaoId(LongFilter acaoId) {
-        this.acaoId = acaoId;
+    public void setAcaoSGQId(LongFilter acaoSGQId) {
+        this.acaoSGQId = acaoSGQId;
+    }
+
+    public LongFilter getResultadoAuditoriaId() {
+        return resultadoAuditoriaId;
+    }
+
+    public void setResultadoAuditoriaId(LongFilter resultadoAuditoriaId) {
+        this.resultadoAuditoriaId = resultadoAuditoriaId;
+    }
+
+    public LongFilter getResultadoItemChecklistId() {
+        return resultadoItemChecklistId;
+    }
+
+    public void setResultadoItemChecklistId(LongFilter resultadoItemChecklistId) {
+        this.resultadoItemChecklistId = resultadoItemChecklistId;
     }
 
 
@@ -209,7 +231,9 @@ public class NaoConformidadeCriteria implements Serializable, Criteria {
             Objects.equals(dataConclusao, that.dataConclusao) &&
             Objects.equals(statusSGQ, that.statusSGQ) &&
             Objects.equals(anexoId, that.anexoId) &&
-            Objects.equals(acaoId, that.acaoId);
+            Objects.equals(acaoSGQId, that.acaoSGQId) &&
+            Objects.equals(resultadoAuditoriaId, that.resultadoAuditoriaId) &&
+            Objects.equals(resultadoItemChecklistId, that.resultadoItemChecklistId);
     }
 
     @Override
@@ -226,7 +250,9 @@ public class NaoConformidadeCriteria implements Serializable, Criteria {
         dataConclusao,
         statusSGQ,
         anexoId,
-        acaoId
+        acaoSGQId,
+        resultadoAuditoriaId,
+        resultadoItemChecklistId
         );
     }
 
@@ -244,7 +270,9 @@ public class NaoConformidadeCriteria implements Serializable, Criteria {
                 (dataConclusao != null ? "dataConclusao=" + dataConclusao + ", " : "") +
                 (statusSGQ != null ? "statusSGQ=" + statusSGQ + ", " : "") +
                 (anexoId != null ? "anexoId=" + anexoId + ", " : "") +
-                (acaoId != null ? "acaoId=" + acaoId + ", " : "") +
+                (acaoSGQId != null ? "acaoSGQId=" + acaoSGQId + ", " : "") +
+                (resultadoAuditoriaId != null ? "resultadoAuditoriaId=" + resultadoAuditoriaId + ", " : "") +
+                (resultadoItemChecklistId != null ? "resultadoItemChecklistId=" + resultadoItemChecklistId + ", " : "") +
             "}";
     }
 
