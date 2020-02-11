@@ -51,6 +51,7 @@ Este trabalho é licenciado sob a licença MIT - veja o arquivo [LICENSE.md](LIC
 - Implementar integrações
 - ~~Diferenciar papéis do SGQ~~
 - Criar perfil webpack para desenvolvimento através do ngrok
+- [Configurar CI/CD com GitLab](https://www.jhipster.tech/setting-up-ci/#would-you-like-to-perform-the-build-in-a-docker-container--jenkins--gitlab)
 
 ## Issues
 
