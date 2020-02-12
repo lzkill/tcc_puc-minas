@@ -46,6 +46,7 @@ Este trabalho é licenciado sob a licença MIT - veja o arquivo [LICENSE.md](LIC
 - ~~Configurar volumes dos containers~~
 - ~~Reorganizar menus do frontend~~
 - ~~Diferenciar papéis do SGQ~~
+- Remover relacionamentos das telas (*OneToMany* bidirecionais)
 - Obter usuários nos forms (veja [Missing User class...](https://stackoverflow.com/a/43405851))
 - Implementar integrações
 - Exibir o plano de auditoria do ano corrente na página inicial (pública)
