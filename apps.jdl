@@ -6,8 +6,7 @@ application {
     buildTool maven
     cacheProvider ehcache
     clientFramework angularX
-    clientTheme darkly
-    clientThemeVariant primary
+    clientTheme none
     databaseType sql
     devDatabaseType mariadb
     enableHibernateCache true

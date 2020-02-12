@@ -39,6 +39,8 @@
     "Setor",
     "Processo",
     "Produto",
+    "PublicoAlvo",
+    "CategoriaPublicacao",
     "Anexo",
     "AcaoSGQ",
     "NaoConformidade",
@@ -54,13 +56,11 @@
     "EventoOperacional",
     "CampanhaRecall",
     "BoletimInformativo",
-    "PublicoAlvo",
     "Feed",
     "PublicacaoFeed",
-    "CategoriaPublicacao",
     "EmpresaConsultoria",
+    "AnaliseConsultoria",
     "Norma",
-    "CategoriaNorma",
-    "AnaliseConsultoria"
+    "CategoriaNorma"
   ]
 }

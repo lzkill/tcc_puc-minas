@@ -24,7 +24,7 @@
     "buildTool": "maven",
     "cacheProvider": "ehcache",
     "clientFramework": "angularX",
-    "clientTheme": "darkly",
+    "clientTheme": "none",
     "clientThemeVariant": "primary",
     "serverPort": "8080",
     "useSass": true,
@@ -44,6 +44,8 @@
     "Setor",
     "Processo",
     "Produto",
+    "PublicoAlvo",
+    "CategoriaPublicacao",
     "Anexo",
     "AcaoSGQ",
     "NaoConformidade",
@@ -59,13 +61,11 @@
     "EventoOperacional",
     "CampanhaRecall",
     "BoletimInformativo",
-    "PublicoAlvo",
     "Feed",
     "PublicacaoFeed",
-    "CategoriaPublicacao",
     "EmpresaConsultoria",
+    "AnaliseConsultoria",
     "Norma",
-    "CategoriaNorma",
-    "AnaliseConsultoria"
+    "CategoriaNorma"
   ]
 }
