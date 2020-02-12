@@ -6,7 +6,7 @@ Modelagem funcional
 
 Arquitetura
     - Componentes JHipster (Netflix OSS + apps.jdl)
-    - JWT (escalável) + roles customizadas
+    - JWT (escalável) + roles customizadas (aplicáveis no back e no frontend)
     - Módulos Angular
     - Service worker
     - APIs (filtros + paginação)

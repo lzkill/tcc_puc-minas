@@ -26,7 +26,7 @@
                 routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
                 <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="entity-menu">
                     <span>
-                        <fa-icon icon="angle-double-right"></fa-icon>
+                        <fa-icon icon="bars"></fa-icon>
                         <span jhiTranslate="sgq.menu.main">
                             SGQ
                         </span>
@@ -37,13 +37,13 @@
                         &nbsp;
                         <fa-icon icon="angle-right"></fa-icon>
                         <span jhiTranslate="sgq.menu.cadastros_basicos.main">
-                            Cadastros básicos
+                            CADASTROS BÁSICOS
                         </span>
                     </span>
                     <li *jhiHasAnyAuthority="'ROLE_ADMIN_SGQ'">
                         <a class="dropdown-item" routerLink="admin/user-management" routerLinkActive="active"
                             (click)="collapseNavbar()">
-                            <fa-icon icon="user" fixedWidth="true"></fa-icon>
+                            <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
                             <span jhiTranslate="global.menu.admin.userManagement">Usuários</span>
                         </a>
                     </li>
@@ -93,7 +93,7 @@
                         &nbsp;
                         <fa-icon icon="angle-right"></fa-icon>
                         <span jhiTranslate="sgq.menu.incidentes_problemas.main">
-                            Incidentes e problemas
+                            INCIDENTES E PROBLEMAS
                         </span>
                     </span>
                     <li>
@@ -121,7 +121,7 @@
                         &nbsp;
                         <fa-icon icon="angle-right"></fa-icon>
                         <span jhiTranslate="sgq.menu.controle_processos.main">
-                            Controle de processos
+                            CONTROLE DE PROCESSOS
                         </span>
                     </span>
                     <li *jhiHasAnyAuthority="'ROLE_ADMIN_SGQ'">
@@ -192,7 +192,7 @@
                         &nbsp;
                         <fa-icon icon="angle-right"></fa-icon>
                         <span jhiTranslate="sgq.menu.divulgacao_transparencia.main">
-                            Divulgação e transparência
+                            DIVULGAÇÃO E TRANSPARÊNCIA
                         </span>
                     </span>
                     <li>
@@ -227,7 +227,7 @@
                         &nbsp;
                         <fa-icon icon="angle-right"></fa-icon>
                         <span jhiTranslate="sgq.menu.inteligencia_negocio.main">
-                            Inteligência de negócio
+                            INTELIGÊNCIA DE NEGÓCIO
                         </span>
                     </span>
                     <li>
@@ -236,7 +236,7 @@
                         &nbsp;
                         <fa-icon icon="angle-right"></fa-icon>
                         <span jhiTranslate="sgq.menu.compliance.main">
-                            Compliance
+                            COMPLIANCE
                         </span>
                     </span>
                     <li *jhiHasAnyAuthority="'ROLE_ADMIN_SGQ'">
@@ -264,7 +264,7 @@
                         &nbsp;
                         <fa-icon icon="angle-right"></fa-icon>
                         <span jhiTranslate="sgq.menu.relatorios.main">
-                            Relatórios
+                            RELATÓRIOS
                         </span>
                     </span>
                     <li>
