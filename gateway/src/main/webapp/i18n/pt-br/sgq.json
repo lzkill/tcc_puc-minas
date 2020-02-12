@@ -1,0 +1,29 @@
+{
+  "sgq": {
+    "title": "Sistema de Gestão da Qualidade",
+    "menu": {
+      "main": "SGQ",
+      "cadastros_basicos": {
+        "main": "Cadastros básicos"
+      },
+      "incidentes_problemas": {
+        "main": "Incidentes e problemas"
+      },
+      "controle_processos": {
+        "main": "Controle de processos"
+      },
+      "divulgacao_transparencia": {
+        "main": "Divulgação e transparência"
+      },
+      "inteligencia_negocio": {
+        "main": "Inteligência de negócio"
+      },
+      "compliance": {
+        "main": "Compliance"
+      },
+      "relatorios": {
+        "main": "Relatórios"
+      }
+    }
+  }
+}
