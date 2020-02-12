@@ -48,7 +48,7 @@
       "admin": {
         "main": "Administração",
         "gateway": "Gateway",
-        "userManagement": "Gerenciamento de usuário",
+        "userManagement": "Usuários",
         "tracker": "Rastreamento de usuário",
         "metrics": "Métricas",
         "health": "Estado do Sistema",

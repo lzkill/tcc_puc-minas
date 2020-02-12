@@ -1,7 +1,7 @@
 <div>
     <h2 id="page-heading">
         <span jhiTranslate="gatewayApp.sgqCampanhaRecall.home.title">Campanha Recalls</span>
-        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-campanha-recall" [routerLink]="['/campanha-recall/new']">
+        <button *jhiHasAnyAuthority="'ROLE_ADMIN_SGQ'" id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-campanha-recall" [routerLink]="['/campanha-recall/new']">
             <fa-icon [icon]="'plus'"></fa-icon>
             <span  jhiTranslate="gatewayApp.sgqCampanhaRecall.home.createLabel">
             Create a new Campanha Recall
@@ -59,13 +59,13 @@
                             <fa-icon [icon]="'eye'"></fa-icon>
                             <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
                         </button>
-                        <button type="submit"
+                        <button *jhiHasAnyAuthority="'ROLE_ADMIN_SGQ'" type="submit"
                                 [routerLink]="['/campanha-recall', campanhaRecall.id, 'edit']"
                                 class="btn btn-primary btn-sm">
                             <fa-icon [icon]="'pencil-alt'"></fa-icon>
                             <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
                         </button>
-                        <button type="submit" (click)="delete(campanhaRecall)"
+                        <button *jhiHasAnyAuthority="'ROLE_ADMIN_SGQ'" type="submit" (click)="delete(campanhaRecall)"
                                 class="btn btn-danger btn-sm">
                             <fa-icon [icon]="'times'"></fa-icon>
                             <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
