@@ -1,7 +1,9 @@
 <div>
     <h2 id="page-heading">
         <span jhiTranslate="gatewayApp.sgqPublicacaoFeed.home.title">Publicacao Feeds</span>
-        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-publicacao-feed" [routerLink]="['/publicacao-feed/new']">
+        <button *jhiHasAnyAuthority="'ROLE_ADMIN_SGQ'" id="jh-create-entity"
+            class="btn btn-primary float-right jh-create-entity create-publicacao-feed"
+            [routerLink]="['/publicacao-feed/new']">
             <fa-icon [icon]="'plus'"></fa-icon>
             <span  jhiTranslate="gatewayApp.sgqPublicacaoFeed.home.createLabel">
             Create a new Publicacao Feed
@@ -57,13 +59,13 @@
                             <fa-icon [icon]="'eye'"></fa-icon>
                             <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
                         </button>
-                        <button type="submit"
+                        <button *jhiHasAnyAuthority="'ROLE_ADMIN_SGQ'" type="submit"
                                 [routerLink]="['/publicacao-feed', publicacaoFeed.id, 'edit']"
                                 class="btn btn-primary btn-sm">
                             <fa-icon [icon]="'pencil-alt'"></fa-icon>
                             <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
                         </button>
-                        <button type="submit" (click)="delete(publicacaoFeed)"
+                        <button *jhiHasAnyAuthority="'ROLE_ADMIN_SGQ'" type="submit" (click)="delete(publicacaoFeed)"
                                 class="btn btn-danger btn-sm">
                             <fa-icon [icon]="'times'"></fa-icon>
                             <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>

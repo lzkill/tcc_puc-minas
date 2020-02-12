@@ -7,9 +7,11 @@ public final class AuthoritiesConstants {
 
     public static final String ADMIN = "ROLE_ADMIN";
 
-    public static final String USER = "ROLE_USER";
+    public static final String ADMIN_SGQ = "ROLE_ADMIN_SGQ";
 
     public static final String SGQ = "ROLE_SGQ";
+
+    public static final String USER = "ROLE_USER";
 
     public static final String ANONYMOUS = "ROLE_ANONYMOUS";
 

@@ -6,7 +6,7 @@ Modelagem funcional
 
 Arquitetura
     - Componentes JHipster (Netflix OSS + apps.jdl)
-    - JWT (escalável) + ROLE_SGQ
+    - JWT (escalável) + roles customizadas (aplicáveis no back e no frontend)
     - Módulos Angular
     - Service worker
     - APIs (filtros + paginação)
@@ -34,12 +34,15 @@ Tecnologias
 Demonstração
     - Página públca (Home)
     - Fake data
-    - ROLE_SGQ
+    - Roles customizadas
     - Scaling do sgq com Docker swarm
     - Responsividade
     - Chamadas Rest + tempos de resposta
     - [Consulta ao cache]
+    - Resiliência à falhas (sgq fora)
 
 
 => Janela secundária no OBS com agenda da apresentação
 => Citar que os includes dos casos de uso foram suprimidos para fins de simplificação
+=> Incluir na arquitetura um servidor de reporting service para consumo de
+relatórios via http

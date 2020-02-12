@@ -66,6 +66,16 @@ entity Produto {
   descricao TextBlob
 }
 
+entity PublicoAlvo {
+  nome String required minlength(1) maxlength(100)
+  descricao TextBlob
+}
+
+entity CategoriaPublicacao {
+  titulo String required minlength(1) maxlength(100)
+  descricao TextBlob
+}
+
 entity Anexo {
   nomeArquivo String required
   conteudo AnyBlob required maxbytes(10485760) // 10 MB
@@ -142,7 +152,9 @@ entity ProdutoNaoConforme {
   analiseFinal TextBlob
   statusSGQ StatusSGQ required
 }
+// <<<<<<<<<< incidentes_problemas
 
+// >>>>>>>>>> controle_processos_automotivos
 entity Auditoria {
   tipo TipoAuditoria required
   titulo String required minlength(1) maxlength(100)
@@ -171,9 +183,7 @@ entity ResultadoAuditoria {
   dataFim Instant required
   descricao TextBlob required
 }
-// <<<<<<<<<< incidentes_problemas
 
-// >>>>>>>>>> controle_processos_automotivos
 entity Checklist {
   titulo String required minlength(1) maxlength(100)
   periodicidade Periodicidade
@@ -243,11 +253,6 @@ entity BoletimInformativo {
   status StatusPublicacao required
 }
 
-entity PublicoAlvo {
-  nome String required minlength(1) maxlength(100)
-  descricao TextBlob
-}
-
 entity Feed {
   idUsuarioRegistro Integer required
   tipo TipoFeed required
@@ -288,11 +293,6 @@ entity PublicacaoFeed {
 enum StatusPublicacao {
   RASCUNHO, PUBLICADO
 }
-
-entity CategoriaPublicacao {
-  titulo String required minlength(1) maxlength(100)
-  descricao TextBlob
-}
 // <<<<<<<<<< divulgacao_transparencia
 
 // >>>>>>>>>> compliance
@@ -311,6 +311,24 @@ entity EmpresaConsultoria {
   urlIntegracao String required minlength(1) maxlength(150)
   /** Token JWT */
   tokenAcesso String required minlength(1)
+}
+
+/**
+* Os itens do plano de ação podem ser analisados pela consultoria antes da
+* implementação na prática
+*/
+entity AnaliseConsultoria {
+  dataSolicitacaoAnalise Instant required
+  dataAnalise Instant
+  descricao TextBlob required
+  responsavelAnalise String required minlength(1) maxlength(100)
+  status StatusAnaliseExterna required
+}
+
+enum StatusAnaliseExterna {
+  PENDENTE,
+  APROVADO,
+  REPROVADO
 }
 
 /**
@@ -338,24 +356,6 @@ entity Norma {
 entity CategoriaNorma {
   titulo String
   descricao TextBlob
-}
-
-/**
-* Os itens do plano de ação podem ser analisados pela consultoria antes da
-* implementação na prática
-*/
-entity AnaliseConsultoria {
-  dataSolicitacaoAnalise Instant required
-  dataAnalise Instant
-  descricao TextBlob required
-  responsavelAnalise String required minlength(1) maxlength(100)
-  status StatusAnaliseExterna required
-}
-
-enum StatusAnaliseExterna {
-  PENDENTE,
-  APROVADO,
-  REPROVADO
 }
 // <<<<<<<<<< compliance
 
