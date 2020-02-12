@@ -3,19 +3,19 @@
     "title": "SISTEMA DE GESTÃO DA QUALIDADE",
     "menu": {
       "main": "SGQ",
-      "cadastros_basicos": {
+      "cadastrosBasicos": {
         "main": "CADASTROS BÁSICOS"
       },
-      "incidentes_problemas": {
+      "incidentesProblemas": {
         "main": "INCIDENTES E PROBLEMAS"
       },
-      "controle_processos": {
+      "controleProcessos": {
         "main": "CONTROLE DE PROCESSOS"
       },
-      "divulgacao_transparencia": {
+      "divulgacaoTransparencia": {
         "main": "DIVULGAÇÃO E TRANSPARÊNCIA"
       },
-      "inteligencia_negocio": {
+      "inteligenciaNegocio": {
         "main": "INTELIGÊNCIA DE NEGÓCIO"
       },
       "compliance": {
