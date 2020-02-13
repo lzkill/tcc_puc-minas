@@ -43,7 +43,7 @@ Este trabalho é licenciado sob a licença MIT - veja o arquivo [LICENSE.md](LIC
 
 ## To do
 
-Veja [To do](https://github.com/lzkill/tcc_puc-minas/issues?q=is%3Aissue+is%3Aopen).
+Veja [Milestones](https://github.com/lzkill/tcc_puc-minas/milestones).
 
 ## Issues
 
