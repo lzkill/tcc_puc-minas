@@ -2,33 +2,33 @@
   "gatewayApp": {
     "sgqBoletimInformativo": {
       "home": {
-        "title": "Boletim Informativos",
-        "createLabel": "Criar novo Boletim Informativo",
-        "createOrEditLabel": "Criar ou editar Boletim Informativo",
-        "notFound": "Nenhum Boletim Informativo encontrado"
+        "title": "Boletins informativos",
+        "createLabel": "Criar novo boletim informativo",
+        "createOrEditLabel": "Criar ou editar boletim informativo",
+        "notFound": "Nenhum boletim informativo encontrado"
       },
       "delete": {
-        "question": "Tem certeza de que deseja excluir Boletim Informativo {{ id }}?"
+        "question": "Tem certeza de que deseja excluir o boletim informativo {{ id }}?"
       },
       "detail": {
-        "title": "Boletim Informativo"
+        "title": "Boletim informativo"
       },
-      "idUsuarioRegistro": "Id Usuario Registro",
-      "titulo": "Titulo",
-      "descricao": "Descricao",
-      "dataRegistro": "Data Registro",
-      "dataPublicacao": "Data Publicacao",
+      "idUsuarioRegistro": "Usuário de registro",
+      "titulo": "Título",
+      "descricao": "Descrição",
+      "dataRegistro": "Data de registro",
+      "dataPublicacao": "Data de publicação",
       "status": "Status",
       "anexo": "Anexo",
-      "publicoAlvo": "Publico Alvo",
+      "publicoAlvo": "Público alvo",
       "categoria": "Categoria"
     }
   },
   "sgqApp": {
     "sgqBoletimInformativo": {
-      "created": "Um novo Boletim Informativo foi criado com o identificador {{ param }}",
-      "updated": "Um Boletim Informativo foi atualizado com o identificador {{ param }}",
-      "deleted": "Um Boletim Informativo foi excluído com o identificador {{ param }}"
+      "created": "Um novo boletim informativo foi criado com o identificador {{ param }}",
+      "updated": "Um boletim informativo foi atualizado com o identificador {{ param }}",
+      "deleted": "Um boletim informativo foi excluído com o identificador {{ param }}"
     }
   }
 }

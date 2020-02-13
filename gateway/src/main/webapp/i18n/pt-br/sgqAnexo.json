@@ -3,41 +3,41 @@
     "sgqAnexo": {
       "home": {
         "title": "Anexos",
-        "createLabel": "Criar novo Anexo",
-        "createOrEditLabel": "Criar ou editar Anexo",
-        "notFound": "Nenhum Anexo encontrado"
+        "createLabel": "Criar novo anexo",
+        "createOrEditLabel": "Criar ou editar anexo",
+        "notFound": "Nenhum anexo encontrado"
       },
       "delete": {
-        "question": "Tem certeza de que deseja excluir Anexo {{ id }}?"
+        "question": "Tem certeza de que deseja excluir o anexo {{ id }}?"
       },
       "detail": {
         "title": "Anexo"
       },
-      "nomeArquivo": "Nome Arquivo",
-      "conteudo": "Conteudo",
-      "acaoSGQ": "Acao SGQ",
-      "analiseConsultoria": "Analise Consultoria",
+      "nomeArquivo": "Nome do arquivo",
+      "conteudo": "Conteúdo",
+      "acaoSGQ": "Ação SGQ",
+      "analiseConsultoria": "Análise de consultoria",
       "checklist": "Checklist",
-      "boletimInformativo": "Boletim Informativo",
-      "campanhaRecall": "Campanha Recall",
-      "eventoOperacional": "Evento Operacional",
-      "itemChecklist": "Item Checklist",
-      "itemPlanoAuditoria": "Item Plano Auditoria",
-      "naoConformidade": "Nao Conformidade",
+      "boletimInformativo": "Boletim informativo",
+      "campanhaRecall": "Campanha de recall",
+      "eventoOperacional": "Evento operacional",
+      "itemChecklist": "Item de checklist",
+      "itemPlanoAuditoria": "Item de plano de auditoria",
+      "naoConformidade": "Não conformidade",
       "processo": "Processo",
       "produto": "Produto",
-      "planoAuditoria": "Plano Auditoria",
-      "produtoNaoConforme": "Produto Nao Conforme",
-      "publicacaoFeed": "Publicacao Feed",
-      "resultadoChecklist": "Resultado Checklist",
-      "resultadoItemChecklist": "Resultado Item Checklist"
+      "planoAuditoria": "Plano de auditoria",
+      "produtoNaoConforme": "Produto não conforme",
+      "publicacaoFeed": "Publicação de feed",
+      "resultadoChecklist": "Resultado de checklist",
+      "resultadoItemChecklist": "Resultado de item de checklist"
     }
   },
   "sgqApp": {
     "sgqAnexo": {
-      "created": "Um novo Anexo foi criado com o identificador {{ param }}",
-      "updated": "Um Anexo foi atualizado com o identificador {{ param }}",
-      "deleted": "Um Anexo foi excluído com o identificador {{ param }}"
+      "created": "Um novo anexo foi criado com o identificador {{ param }}",
+      "updated": "Um anexo foi atualizado com o identificador {{ param }}",
+      "deleted": "Um anexo foi excluído com o identificador {{ param }}"
     }
   }
 }

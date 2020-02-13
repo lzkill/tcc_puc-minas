@@ -2,37 +2,37 @@
   "gatewayApp": {
     "sgqAcaoSgq": {
       "home": {
-        "title": "Acao SGQS",
-        "createLabel": "Criar novo Acao SGQ",
-        "createOrEditLabel": "Criar ou editar Acao SGQ",
-        "notFound": "Nenhum Acao SGQ encontrado"
+        "title": "Ações SGQ",
+        "createLabel": "Criar nova ação",
+        "createOrEditLabel": "Criar ou editar ação",
+        "notFound": "Nenhuma ação encontrada"
       },
       "delete": {
-        "question": "Tem certeza de que deseja excluir Acao SGQ {{ id }}?"
+        "question": "Tem certeza de que deseja excluir a ação {{ id }}?"
       },
       "detail": {
-        "title": "Acao SGQ"
+        "title": "Ação SGQ"
       },
-      "idUsuarioRegistro": "Id Usuario Registro",
-      "idUsuarioResponsavel": "Id Usuario Responsavel",
+      "idUsuarioRegistro": "Usuário de registro",
+      "idUsuarioResponsavel": "Usuário responsável",
       "tipo": "Tipo",
-      "titulo": "Titulo",
-      "descricao": "Descricao",
-      "prazoConclusao": "Prazo Conclusao",
-      "novoPrazoConclusao": "Novo Prazo Conclusao",
-      "dataRegistro": "Data Registro",
-      "dataConclusao": "Data Conclusao",
+      "titulo": "Título",
+      "descricao": "Descrição",
+      "prazoConclusao": "Prazo de conclusão",
+      "novoPrazoConclusao": "Novo prazo de conclusão",
+      "dataRegistro": "Data de registro",
+      "dataConclusao": "Data de conclusão",
       "resultado": "Resultado",
       "statusSGQ": "Status SGQ",
       "anexo": "Anexo",
-      "naoConformidade": "Nao Conformidade"
+      "naoConformidade": "Não conformidade"
     }
   },
   "sgqApp": {
     "sgqAcaoSgq": {
-      "created": "Um novo Acao SGQ foi criado com o identificador {{ param }}",
-      "updated": "Um Acao SGQ foi atualizado com o identificador {{ param }}",
-      "deleted": "Um Acao SGQ foi excluído com o identificador {{ param }}"
+      "created": "Uma nova ação foi criada com o identificador {{ param }}",
+      "updated": "Uma ação foi atualizada com o identificador {{ param }}",
+      "deleted": "Uma ação foi excluída com o identificador {{ param }}"
     }
   }
 }
