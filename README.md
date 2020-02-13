@@ -43,22 +43,13 @@ Este trabalho é licenciado sob a licença MIT - veja o arquivo [LICENSE.md](LIC
 
 ## To do
 
-- ~~Configurar volumes dos containers~~
-- ~~Reorganizar menus do frontend~~
-- ~~Diferenciar papéis do SGQ~~
-- Remover relacionamentos das telas (*OneToMany* bidirecionais)
-- Obter usuários nos forms (veja [Missing User class...](https://stackoverflow.com/a/43405851))
-- Implementar integrações
-- Exibir o plano de auditoria do ano corrente na página inicial (pública)
-
-### If there's enough time, do it
-- Aprimorar traduções e estilos
-- Reorganizar módulos do frontend
-- Criar perfil webpack para desenvolvimento através do ngrok
-- [Configurar CI/CD com GitLab](https://www.jhipster.tech/setting-up-ci/#would-you-like-to-perform-the-build-in-a-docker-container--jenkins--gitlab)
-- Substituir ng-bootstrap por outra biblioteca mais versátil (nested menus!)
+Veja [To do](https://github.com/lzkill/tcc_puc-minas/issues?q=is%3Aissue+is%3Aopen).
 
 ## Issues
+
+Veja [Bugs](https://github.com/lzkill/tcc_puc-minas/issues?q=is%3Aopen+is%3Aissue+label%3Abug).
+
+### JHipster
 
 * `jhipster-generator`
   - O arquivo `docker-compose/docker_compose.yml` repete a porta pública 3306 quando vários MariaDBs estão presentes
