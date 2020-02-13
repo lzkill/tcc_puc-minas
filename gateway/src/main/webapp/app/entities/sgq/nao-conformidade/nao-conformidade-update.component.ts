@@ -16,6 +16,8 @@ import { IResultadoAuditoria } from 'app/shared/model/sgq/resultado-auditoria.mo
 import { ResultadoAuditoriaService } from 'app/entities/sgq/resultado-auditoria/resultado-auditoria.service';
 import { IResultadoItemChecklist } from 'app/shared/model/sgq/resultado-item-checklist.model';
 import { ResultadoItemChecklistService } from 'app/entities/sgq/resultado-item-checklist/resultado-item-checklist.service';
+import { IUser } from 'app/core/user/user.model';
+import { UserService } from 'app/core/user/user.service';
 
 type SelectableEntity = IResultadoAuditoria | IResultadoItemChecklist;
 
@@ -27,8 +29,8 @@ export class NaoConformidadeUpdateComponent implements OnInit {
   isSaving = false;
 
   resultadoauditorias: IResultadoAuditoria[] = [];
-
   resultadoitemchecklists: IResultadoItemChecklist[] = [];
+  usuarios: IUser[] = [];
 
   editForm = this.fb.group({
     id: [],
@@ -55,7 +57,8 @@ export class NaoConformidadeUpdateComponent implements OnInit {
     protected resultadoAuditoriaService: ResultadoAuditoriaService,
     protected resultadoItemChecklistService: ResultadoItemChecklistService,
     protected activatedRoute: ActivatedRoute,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    protected userService: UserService
   ) {}
 
   ngOnInit(): void {
@@ -79,6 +82,15 @@ export class NaoConformidadeUpdateComponent implements OnInit {
           })
         )
         .subscribe((resBody: IResultadoItemChecklist[]) => (this.resultadoitemchecklists = resBody));
+
+      this.userService
+        .query()
+        .pipe(
+          map((res: HttpResponse<IUser[]>) => {
+            return res.body ? res.body : [];
+          })
+        )
+        .subscribe((resBody: IUser[]) => (this.usuarios = resBody));
     });
   }
 
