@@ -22,108 +22,79 @@
             </li>
 
             <!-- jhipster-needle-add-element-to-menu - JHipster will add new menu items here -->
-            <li *jhiHasAnyAuthority="'ROLE_SGQ'" ngbDropdown class="nav-item dropdown pointer" display="dynamic"
+            <li *jhiHasAnyAuthority="'ROLE_ADMIN_SGQ'" ngbDropdown class="nav-item dropdown pointer" display="dynamic"
                 routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
                 <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="entity-menu">
                     <span>
+                        &nbsp;
                         <fa-icon icon="bars"></fa-icon>
-                        <span jhiTranslate="sgq.menu.main">
-                            SGQ
+                        <span jhiTranslate="sgq.menu.cadastrosBasicos.main">
+                            Cadastros básicos
                         </span>
                     </span>
                 </a>
-                <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="entity-menu">
-                    <span *jhiHasAnyAuthority="'ROLE_ADMIN_SGQ'">
-                        &nbsp;
-                        <fa-icon icon="angle-right"></fa-icon>
-                        <span jhiTranslate="sgq.menu.cadastrosBasicos.main">
-                            CADASTROS BÁSICOS
-                        </span>
-                    </span>
-                    <li *jhiHasAnyAuthority="'ROLE_ADMIN_SGQ'">
+                <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="cadastros-basicos-menu">
+                    <li>
                         <a class="dropdown-item" routerLink="admin/user-management" routerLinkActive="active"
                             (click)="collapseNavbar()">
                             <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
                             <span jhiTranslate="global.menu.admin.userManagement">Usuários</span>
                         </a>
                     </li>
-                    <li *jhiHasAnyAuthority="'ROLE_ADMIN_SGQ'">
+                    <hr />
+                    <li>
                         <a class="dropdown-item" routerLink="empresa" routerLinkActive="active"
                             [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                             <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
                             <span jhiTranslate="global.menu.entities.sgqEmpresa">Empresas</span>
                         </a>
                     </li>
-                    <li *jhiHasAnyAuthority="'ROLE_ADMIN_SGQ'">
+                    <li>
                         <a class="dropdown-item" routerLink="setor" routerLinkActive="active"
                             [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                             <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
                             <span jhiTranslate="global.menu.entities.sgqSetor">Setores</span>
                         </a>
                     </li>
-                    <li *jhiHasAnyAuthority="'ROLE_ADMIN_SGQ'">
+                    <li>
                         <a class="dropdown-item" routerLink="processo" routerLinkActive="active"
                             [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                             <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
                             <span jhiTranslate="global.menu.entities.sgqProcesso">Processos</span>
                         </a>
                     </li>
-                    <li *jhiHasAnyAuthority="'ROLE_ADMIN_SGQ'">
+                    <li>
                         <a class="dropdown-item" routerLink="produto" routerLinkActive="active"
                             [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                             <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
                             <span jhiTranslate="global.menu.entities.sgqProduto">Produtos</span>
                         </a>
                     </li>
+                    <hr />
                     <li *jhiHasAnyAuthority="'ROLE_ADMIN_SGQ'">
+                        <a class="dropdown-item" routerLink="empresa-consultoria" routerLinkActive="active"
+                            [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                            <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
+                            <span jhiTranslate="global.menu.entities.sgqEmpresaConsultoria">Empresas de
+                                consultoria</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" routerLink="categoria-publicacao" routerLinkActive="active"
+                            [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                            <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
+                            <span jhiTranslate="global.menu.entities.sgqCategoriaPublicacao">Categorias de
+                                publicação</span>
+                        </a>
+                    </li>
+                    <li>
                         <a class="dropdown-item" routerLink="publico-alvo" routerLinkActive="active"
                             [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                             <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
                             <span jhiTranslate="global.menu.entities.sgqPublicoAlvo">Públicos alvo</span>
                         </a>
                     </li>
-                    <li *jhiHasAnyAuthority="'ROLE_ADMIN_SGQ'">
-                        <a class="dropdown-item" routerLink="categoria-publicacao" routerLinkActive="active"
-                            [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
-                            <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
-                            <span jhiTranslate="global.menu.entities.sgqCategoriaPublicacao">Categorias de publicação</span>
-                        </a>
-                    </li>
-                    <span>
-                        &nbsp;
-                        <fa-icon icon="angle-right"></fa-icon>
-                        <span jhiTranslate="sgq.menu.incidentesProblemas.main">
-                            INCIDENTES E PROBLEMAS
-                        </span>
-                    </span>
-                    <li>
-                        <a class="dropdown-item" routerLink="nao-conformidade" routerLinkActive="active"
-                            [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
-                            <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
-                            <span jhiTranslate="global.menu.entities.sgqNaoConformidade">Não conformidades</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item" routerLink="produto-nao-conforme" routerLinkActive="active"
-                            [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
-                            <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
-                            <span jhiTranslate="global.menu.entities.sgqProdutoNaoConforme">Produtos não conforme</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item" routerLink="acao-sgq" routerLinkActive="active"
-                            [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
-                            <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
-                            <span jhiTranslate="global.menu.entities.sgqAcaoSgq">Ações do SGQ</span>
-                        </a>
-                    </li>
-                    <span>
-                        &nbsp;
-                        <fa-icon icon="angle-right"></fa-icon>
-                        <span jhiTranslate="sgq.menu.controleProcessos.main">
-                            CONTROLE DE PROCESSOS
-                        </span>
-                    </span>
+                    <hr />
                     <li *jhiHasAnyAuthority="'ROLE_ADMIN_SGQ'">
                         <a class="dropdown-item" routerLink="auditoria" routerLinkActive="active"
                             [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
@@ -145,13 +116,7 @@
                             <span jhiTranslate="global.menu.entities.sgqItemPlanoAuditoria">Itens de plano</span>
                         </a>
                     </li>
-                    <li *jhiHasAnyAuthority="'ROLE_ADMIN_SGQ'">
-                        <a class="dropdown-item" routerLink="resultado-auditoria" routerLinkActive="active"
-                            [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
-                            <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
-                            <span jhiTranslate="global.menu.entities.sgqResultadoAuditoria">Resultados de auditoria</span>
-                        </a>
-                    </li>
+                    <hr />
                     <li>
                         <a class="dropdown-item" routerLink="checklist" routerLinkActive="active"
                             [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
@@ -166,11 +131,59 @@
                             <span jhiTranslate="global.menu.entities.sgqItemChecklist">Itens de checklist</span>
                         </a>
                     </li>
+                </ul>
+            </li>
+            <li *jhiHasAnyAuthority="'ROLE_SGQ'" ngbDropdown class="nav-item dropdown pointer" display="dynamic"
+                routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="entity-menu">
+                    <span>
+                        <fa-icon icon="exclamation-triangle"></fa-icon>
+                        <span jhiTranslate="sgq.menu.incidentesProblemas.main">
+                            Incidentes e problemas
+                        </span>
+                    </span>
+                </a>
+                <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="incidentes-problemas-menu">
+                    <li>
+                        <a class="dropdown-item" routerLink="nao-conformidade" routerLinkActive="active"
+                            [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                            <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
+                            <span jhiTranslate="global.menu.entities.sgqNaoConformidade">Não conformidades</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" routerLink="produto-nao-conforme" routerLinkActive="active"
+                            [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                            <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
+                            <span jhiTranslate="global.menu.entities.sgqProdutoNaoConforme">Produtos não conforme</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" routerLink="acao-sgq" routerLinkActive="active"
+                            [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                            <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
+                            <span jhiTranslate="global.menu.entities.sgqAcaoSgq">Ações do SGQ</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li *jhiHasAnyAuthority="'ROLE_SGQ'" ngbDropdown class="nav-item dropdown pointer" display="dynamic"
+                routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="entity-menu">
+                    <span>
+                        <fa-icon icon="clipboard"></fa-icon>
+                        <span jhiTranslate="sgq.menu.controleProcessos.main">
+                            Controle de processos
+                        </span>
+                    </span>
+                </a>
+                <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="controle-processos-menu">
                     <li>
                         <a class="dropdown-item" routerLink="resultado-checklist" routerLinkActive="active"
                             [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                             <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
-                            <span jhiTranslate="global.menu.entities.sgqResultadoChecklist">Resultados de checklist</span>
+                            <span jhiTranslate="global.menu.entities.sgqResultadoChecklist">Resultados de
+                                checklist</span>
                         </a>
                     </li>
                     <li>
@@ -181,6 +194,16 @@
                                 Checklist</span>
                         </a>
                     </li>
+                    <hr />
+                    <li *jhiHasAnyAuthority="'ROLE_ADMIN_SGQ'">
+                        <a class="dropdown-item" routerLink="resultado-auditoria" routerLinkActive="active"
+                            [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                            <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
+                            <span jhiTranslate="global.menu.entities.sgqResultadoAuditoria">Resultados de
+                                auditoria</span>
+                        </a>
+                    </li>
+                    <hr />
                     <li>
                         <a class="dropdown-item" routerLink="evento-operacional" routerLinkActive="active"
                             [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
@@ -188,20 +211,19 @@
                             <span jhiTranslate="global.menu.entities.sgqEventoOperacional">Eventos operacionais</span>
                         </a>
                     </li>
+                </ul>
+            </li>
+            <li *jhiHasAnyAuthority="'ROLE_SGQ'" ngbDropdown class="nav-item dropdown pointer" display="dynamic"
+                routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="entity-menu">
                     <span>
-                        &nbsp;
-                        <fa-icon icon="angle-right"></fa-icon>
+                        <fa-icon icon="bullhorn"></fa-icon>
                         <span jhiTranslate="sgq.menu.divulgacaoTransparencia.main">
-                            DIVULGAÇÃO E TRANSPARÊNCIA
+                            Divulgação e transparência
                         </span>
                     </span>
-                    <li>
-                        <a class="dropdown-item" routerLink="campanha-recall" routerLinkActive="active"
-                            [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
-                            <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
-                            <span jhiTranslate="global.menu.entities.sgqCampanhaRecall">Campanhas de recall</span>
-                        </a>
-                    </li>
+                </a>
+                <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="divulgacao-transparencia-menu">
                     <li>
                         <a class="dropdown-item" routerLink="boletim-informativo" routerLinkActive="active"
                             [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
@@ -209,6 +231,14 @@
                             <span jhiTranslate="global.menu.entities.sgqBoletimInformativo">Boletins informativos</span>
                         </a>
                     </li>
+                    <li>
+                        <a class="dropdown-item" routerLink="campanha-recall" routerLinkActive="active"
+                            [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                            <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
+                            <span jhiTranslate="global.menu.entities.sgqCampanhaRecall">Campanhas de recall</span>
+                        </a>
+                    </li>
+                    <hr />
                     <li *jhiHasAnyAuthority="'ROLE_ADMIN_SGQ'">
                         <a class="dropdown-item" routerLink="feed" routerLinkActive="active"
                             [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
@@ -223,34 +253,38 @@
                             <span jhiTranslate="global.menu.entities.sgqPublicacaoFeed">Publicações de feed</span>
                         </a>
                     </li>
+                </ul>
+            </li>
+            <li *jhiHasAnyAuthority="'ROLE_SGQ'" ngbDropdown class="nav-item dropdown pointer" display="dynamic"
+                routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="entity-menu">
                     <span>
-                        &nbsp;
-                        <fa-icon icon="angle-right"></fa-icon>
+                        <fa-icon icon="compass"></fa-icon>
                         <span jhiTranslate="sgq.menu.inteligenciaNegocio.main">
-                            INTELIGÊNCIA DE NEGÓCIO
+                            Inteligência de negócio
                         </span>
                     </span>
-                    <li>
-                    </li>
+                </a>
+                <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="inteligencia-negocio-menu">
+                </ul>
+            </li>
+            <li *jhiHasAnyAuthority="'ROLE_SGQ'" ngbDropdown class="nav-item dropdown pointer" display="dynamic"
+                routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="entity-menu">
                     <span>
-                        &nbsp;
-                        <fa-icon icon="angle-right"></fa-icon>
+                        <fa-icon icon="plug"></fa-icon>
                         <span jhiTranslate="sgq.menu.compliance.main">
-                            COMPLIANCE
+                            Compliance
                         </span>
                     </span>
-                    <li *jhiHasAnyAuthority="'ROLE_ADMIN_SGQ'">
-                        <a class="dropdown-item" routerLink="empresa-consultoria" routerLinkActive="active"
-                            [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
-                            <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
-                            <span jhiTranslate="global.menu.entities.sgqEmpresaConsultoria">Empresas de consultoria</span>
-                        </a>
-                    </li>
+                </a>
+                <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="compliance-menu">
                     <li *jhiHasAnyAuthority="'ROLE_ADMIN_SGQ'">
                         <a class="dropdown-item" routerLink="analise-consultoria" routerLinkActive="active"
                             [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                             <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
-                            <span jhiTranslate="global.menu.entities.sgqAnaliseConsultoria">Análises de consultoria</span>
+                            <span jhiTranslate="global.menu.entities.sgqAnaliseConsultoria">Análises de
+                                consultoria</span>
                         </a>
                     </li>
                     <li>
@@ -260,18 +294,23 @@
                             <span jhiTranslate="global.menu.entities.sgqNorma">Normas</span>
                         </a>
                     </li>
-                    <span>
-                        &nbsp;
-                        <fa-icon icon="angle-right"></fa-icon>
-                        <span jhiTranslate="sgq.menu.relatorios.main">
-                            RELATÓRIOS
-                        </span>
-                    </span>
-                    <li>
-                    </li>
-                    <!-- jhipster-needle-add-entity-to-menu - JHipster will add entities to the menu here -->
                 </ul>
             </li>
+            <li *jhiHasAnyAuthority="'ROLE_SGQ'" ngbDropdown class="nav-item dropdown pointer" display="dynamic"
+                routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="entity-menu">
+                    <span>
+                        <fa-icon icon="chart-area"></fa-icon>
+                        <span jhiTranslate="sgq.menu.relatorios.main">
+                            Relatórios
+                        </span>
+                    </span>
+                </a>
+                <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="relatorios-menu">
+                </ul>
+            </li>
+
+            <!-- jhipster-needle-add-entity-to-menu - JHipster will add entities to the menu here -->
             <li *jhiHasAnyAuthority="'ROLE_ADMIN'" ngbDropdown class="nav-item dropdown pointer" display="dynamic"
                 routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
                 <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="admin-menu">

@@ -1,28 +1,28 @@
 {
   "sgq": {
-    "title": "SISTEMA DE GESTÃO DA QUALIDADE",
+    "title": "Sistema de Gestão da Qualidade",
     "menu": {
       "main": "SGQ",
       "cadastrosBasicos": {
-        "main": "CADASTROS BÁSICOS"
+        "main": "Configuração"
       },
       "incidentesProblemas": {
-        "main": "INCIDENTES E PROBLEMAS"
+        "main": "Ocorrências"
       },
       "controleProcessos": {
-        "main": "CONTROLE DE PROCESSOS"
+        "main": "Controle"
       },
       "divulgacaoTransparencia": {
-        "main": "DIVULGAÇÃO E TRANSPARÊNCIA"
+        "main": "Divulgação"
       },
       "inteligenciaNegocio": {
-        "main": "INTELIGÊNCIA DE NEGÓCIO"
+        "main": "Inteligência"
       },
       "compliance": {
-        "main": "COMPLIANCE"
+        "main": "Compliance"
       },
       "relatorios": {
-        "main": "RELATÓRIOS"
+        "main": "Relatórios"
       }
     }
   }
