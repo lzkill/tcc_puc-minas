@@ -20,8 +20,8 @@
       "numeroEdicao": "Numero Edicao",
       "dataEdicao": "Data Edicao",
       "dataInicioValidade": "Data Inicio Validade",
-      "anexo": "Anexo",
-      "categoria": "Categoria"
+      "categoria": "Categoria",
+      "urlDownload": "Url Download"
     }
   },
   "sgqApp": {

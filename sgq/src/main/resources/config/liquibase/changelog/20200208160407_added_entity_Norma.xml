@@ -37,6 +37,12 @@
             <column name="data_inicio_validade" type="datetime">
                 <constraints nullable="true" />
             </column>
+            <column name="categoria" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="url_download" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
         </createTable>
         <dropDefaultValue tableName="norma" columnName="data_edicao" columnDataType="datetime"/>
@@ -45,17 +51,6 @@
 
     <changeSet id="20200208160407-1-relations" author="jhipster">
 
-        <createTable tableName="norma_categoria">
-            <column name="categoria_id" type="bigint">
-                <constraints nullable="false"/>
-            </column>
-            <column name="norma_id" type="bigint">
-                <constraints nullable="false"/>
-            </column>
-        </createTable>
-
-        <addPrimaryKey columnNames="norma_id, categoria_id" tableName="norma_categoria"/>
-        
     </changeSet>
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here, do not remove-->
 
@@ -80,6 +75,8 @@
             <column name="numero_edicao" type="numeric"/>
             <column name="data_edicao" type="datetime"/>
             <column name="data_inicio_validade" type="datetime"/>
+            <column name="categoria" type="string"/>
+            <column name="url_download" type="string"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here, do not remove-->
         </loadData>
     </changeSet>

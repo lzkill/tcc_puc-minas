@@ -29,25 +29,17 @@
         {
             "fieldName": "dataInicioValidade",
             "fieldType": "Instant"
-        }
-    ],
-    "relationships": [
-        {
-            "relationshipType": "one-to-many",
-            "otherEntityName": "anexo",
-            "otherEntityRelationshipName": "norma",
-            "relationshipName": "anexo"
         },
         {
-            "relationshipType": "many-to-many",
-            "otherEntityName": "categoriaNorma",
-            "otherEntityRelationshipName": "norma",
-            "relationshipValidateRules": "required",
-            "relationshipName": "categoria",
-            "otherEntityField": "titulo",
-            "ownerSide": true
+            "fieldName": "categoria",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "urlDownload",
+            "fieldType": "String"
         }
     ],
+    "relationships": [],
     "changelogDate": "20200208160407",
     "javadoc": "Do trecho\\n\\n<i>\"O repositório de normas está disponível em nuvem como um serviço (SaaS)...\"</i>\\n\\nentende-se que a aplicação deve consumir uma API cuja interface é definida\\npela empresa fornecedora de SaaS.",
     "entityTableName": "norma",

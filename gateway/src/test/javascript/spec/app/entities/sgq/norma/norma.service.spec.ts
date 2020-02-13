@@ -24,7 +24,7 @@ describe('Service Tests', () => {
       httpMock = injector.get(HttpTestingController);
       currentDate = moment();
 
-      elemDefault = new Norma(0, 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 0, currentDate, currentDate);
+      elemDefault = new Norma(0, 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 0, currentDate, currentDate, 'AAAAAAA', 'AAAAAAA');
     });
 
     describe('Service methods', () => {
@@ -55,7 +55,9 @@ describe('Service Tests', () => {
             versao: 'BBBBBB',
             numeroEdicao: 1,
             dataEdicao: currentDate.format(DATE_TIME_FORMAT),
-            dataInicioValidade: currentDate.format(DATE_TIME_FORMAT)
+            dataInicioValidade: currentDate.format(DATE_TIME_FORMAT),
+            categoria: 'BBBBBB',
+            urlDownload: 'BBBBBB'
           },
           elemDefault
         );

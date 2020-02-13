@@ -46,8 +46,6 @@ public class AnexoCriteria implements Serializable, Criteria {
 
     private LongFilter naoConformidadeId;
 
-    private LongFilter normaId;
-
     private LongFilter processoId;
 
     private LongFilter produtoId;
@@ -77,7 +75,6 @@ public class AnexoCriteria implements Serializable, Criteria {
         this.itemChecklistId = other.itemChecklistId == null ? null : other.itemChecklistId.copy();
         this.itemPlanoAuditoriaId = other.itemPlanoAuditoriaId == null ? null : other.itemPlanoAuditoriaId.copy();
         this.naoConformidadeId = other.naoConformidadeId == null ? null : other.naoConformidadeId.copy();
-        this.normaId = other.normaId == null ? null : other.normaId.copy();
         this.processoId = other.processoId == null ? null : other.processoId.copy();
         this.produtoId = other.produtoId == null ? null : other.produtoId.copy();
         this.planoAuditoriaId = other.planoAuditoriaId == null ? null : other.planoAuditoriaId.copy();
@@ -180,14 +177,6 @@ public class AnexoCriteria implements Serializable, Criteria {
         this.naoConformidadeId = naoConformidadeId;
     }
 
-    public LongFilter getNormaId() {
-        return normaId;
-    }
-
-    public void setNormaId(LongFilter normaId) {
-        this.normaId = normaId;
-    }
-
     public LongFilter getProcessoId() {
         return processoId;
     }
@@ -266,7 +255,6 @@ public class AnexoCriteria implements Serializable, Criteria {
             Objects.equals(itemChecklistId, that.itemChecklistId) &&
             Objects.equals(itemPlanoAuditoriaId, that.itemPlanoAuditoriaId) &&
             Objects.equals(naoConformidadeId, that.naoConformidadeId) &&
-            Objects.equals(normaId, that.normaId) &&
             Objects.equals(processoId, that.processoId) &&
             Objects.equals(produtoId, that.produtoId) &&
             Objects.equals(planoAuditoriaId, that.planoAuditoriaId) &&
@@ -290,7 +278,6 @@ public class AnexoCriteria implements Serializable, Criteria {
         itemChecklistId,
         itemPlanoAuditoriaId,
         naoConformidadeId,
-        normaId,
         processoId,
         produtoId,
         planoAuditoriaId,
@@ -315,7 +302,6 @@ public class AnexoCriteria implements Serializable, Criteria {
                 (itemChecklistId != null ? "itemChecklistId=" + itemChecklistId + ", " : "") +
                 (itemPlanoAuditoriaId != null ? "itemPlanoAuditoriaId=" + itemPlanoAuditoriaId + ", " : "") +
                 (naoConformidadeId != null ? "naoConformidadeId=" + naoConformidadeId + ", " : "") +
-                (normaId != null ? "normaId=" + normaId + ", " : "") +
                 (processoId != null ? "processoId=" + processoId + ", " : "") +
                 (produtoId != null ? "produtoId=" + produtoId + ", " : "") +
                 (planoAuditoriaId != null ? "planoAuditoriaId=" + planoAuditoriaId + ", " : "") +

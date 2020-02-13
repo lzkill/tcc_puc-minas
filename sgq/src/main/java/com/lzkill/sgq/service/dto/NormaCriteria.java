@@ -39,9 +39,9 @@ public class NormaCriteria implements Serializable, Criteria {
 
     private InstantFilter dataInicioValidade;
 
-    private LongFilter anexoId;
+    private StringFilter categoria;
 
-    private LongFilter categoriaId;
+    private StringFilter urlDownload;
 
     public NormaCriteria(){
     }
@@ -54,8 +54,8 @@ public class NormaCriteria implements Serializable, Criteria {
         this.numeroEdicao = other.numeroEdicao == null ? null : other.numeroEdicao.copy();
         this.dataEdicao = other.dataEdicao == null ? null : other.dataEdicao.copy();
         this.dataInicioValidade = other.dataInicioValidade == null ? null : other.dataInicioValidade.copy();
-        this.anexoId = other.anexoId == null ? null : other.anexoId.copy();
-        this.categoriaId = other.categoriaId == null ? null : other.categoriaId.copy();
+        this.categoria = other.categoria == null ? null : other.categoria.copy();
+        this.urlDownload = other.urlDownload == null ? null : other.urlDownload.copy();
     }
 
     @Override
@@ -119,20 +119,20 @@ public class NormaCriteria implements Serializable, Criteria {
         this.dataInicioValidade = dataInicioValidade;
     }
 
-    public LongFilter getAnexoId() {
-        return anexoId;
+    public StringFilter getCategoria() {
+        return categoria;
     }
 
-    public void setAnexoId(LongFilter anexoId) {
-        this.anexoId = anexoId;
+    public void setCategoria(StringFilter categoria) {
+        this.categoria = categoria;
     }
 
-    public LongFilter getCategoriaId() {
-        return categoriaId;
+    public StringFilter getUrlDownload() {
+        return urlDownload;
     }
 
-    public void setCategoriaId(LongFilter categoriaId) {
-        this.categoriaId = categoriaId;
+    public void setUrlDownload(StringFilter urlDownload) {
+        this.urlDownload = urlDownload;
     }
 
 
@@ -153,8 +153,8 @@ public class NormaCriteria implements Serializable, Criteria {
             Objects.equals(numeroEdicao, that.numeroEdicao) &&
             Objects.equals(dataEdicao, that.dataEdicao) &&
             Objects.equals(dataInicioValidade, that.dataInicioValidade) &&
-            Objects.equals(anexoId, that.anexoId) &&
-            Objects.equals(categoriaId, that.categoriaId);
+            Objects.equals(categoria, that.categoria) &&
+            Objects.equals(urlDownload, that.urlDownload);
     }
 
     @Override
@@ -167,8 +167,8 @@ public class NormaCriteria implements Serializable, Criteria {
         numeroEdicao,
         dataEdicao,
         dataInicioValidade,
-        anexoId,
-        categoriaId
+        categoria,
+        urlDownload
         );
     }
 
@@ -182,8 +182,8 @@ public class NormaCriteria implements Serializable, Criteria {
                 (numeroEdicao != null ? "numeroEdicao=" + numeroEdicao + ", " : "") +
                 (dataEdicao != null ? "dataEdicao=" + dataEdicao + ", " : "") +
                 (dataInicioValidade != null ? "dataInicioValidade=" + dataInicioValidade + ", " : "") +
-                (anexoId != null ? "anexoId=" + anexoId + ", " : "") +
-                (categoriaId != null ? "categoriaId=" + categoriaId + ", " : "") +
+                (categoria != null ? "categoria=" + categoria + ", " : "") +
+                (urlDownload != null ? "urlDownload=" + urlDownload + ", " : "") +
             "}";
     }
 

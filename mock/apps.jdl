@@ -18,6 +18,7 @@ application {
     serviceDiscoveryType no
     skipClient true
   }
+  entities Norma
 }
 
 application {
@@ -41,6 +42,36 @@ application {
     skipClient true
   }
 }
+
+entity Norma {
+  orgao OrgaoNormativo required
+  titulo String required minlength(1) maxlength(100)
+  descricao TextBlob
+  versao String minlength(1) maxlength(10)
+  numeroEdicao Integer
+  dataEdicao Instant
+  dataInicioValidade Instant
+  categoria CategoriaNorma required minlength(1) maxlength(50)
+  urlDownload String required
+}
+
+enum OrgaoNormativo {
+  ABNT/ISO,
+  IEEE,
+  ASTM
+}
+
+enum CategoriaNorma {
+  QUALIDADE,
+  AMBIENTAL,
+  SEGURANCA
+}
+
+filter *
+
+paginate * with pagination
+
+microservice Norma with normas
 
 deployment {
   deploymentType docker-compose

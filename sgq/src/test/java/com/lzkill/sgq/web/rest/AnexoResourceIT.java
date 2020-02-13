@@ -11,7 +11,6 @@ import com.lzkill.sgq.domain.EventoOperacional;
 import com.lzkill.sgq.domain.ItemChecklist;
 import com.lzkill.sgq.domain.ItemPlanoAuditoria;
 import com.lzkill.sgq.domain.NaoConformidade;
-import com.lzkill.sgq.domain.Norma;
 import com.lzkill.sgq.domain.Processo;
 import com.lzkill.sgq.domain.Produto;
 import com.lzkill.sgq.domain.PlanoAuditoria;
@@ -499,26 +498,6 @@ public class AnexoResourceIT {
 
         // Get all the anexoList where naoConformidade equals to naoConformidadeId + 1
         defaultAnexoShouldNotBeFound("naoConformidadeId.equals=" + (naoConformidadeId + 1));
-    }
-
-
-    @Test
-    @Transactional
-    public void getAllAnexosByNormaIsEqualToSomething() throws Exception {
-        // Initialize the database
-        anexoRepository.saveAndFlush(anexo);
-        Norma norma = NormaResourceIT.createEntity(em);
-        em.persist(norma);
-        em.flush();
-        anexo.setNorma(norma);
-        anexoRepository.saveAndFlush(anexo);
-        Long normaId = norma.getId();
-
-        // Get all the anexoList where norma equals to normaId
-        defaultAnexoShouldBeFound("normaId.equals=" + normaId);
-
-        // Get all the anexoList where norma equals to normaId + 1
-        defaultAnexoShouldNotBeFound("normaId.equals=" + (normaId + 1));
     }
 
 

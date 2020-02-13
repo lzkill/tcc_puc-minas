@@ -4,10 +4,7 @@
     "gatewayType": "zuul",
     "monitoring": "elk",
     "directoryPath": "../",
-    "appsFolders": [
-      "gateway",
-      "sgq"
-    ],
+    "appsFolders": ["gateway", "sgq"],
     "clusteredDbApps": [],
     "consoleOptions": [],
     "serviceDiscoveryType": "eureka",

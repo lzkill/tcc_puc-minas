@@ -28,8 +28,6 @@ import { IItemPlanoAuditoria } from 'app/shared/model/sgq/item-plano-auditoria.m
 import { ItemPlanoAuditoriaService } from 'app/entities/sgq/item-plano-auditoria/item-plano-auditoria.service';
 import { INaoConformidade } from 'app/shared/model/sgq/nao-conformidade.model';
 import { NaoConformidadeService } from 'app/entities/sgq/nao-conformidade/nao-conformidade.service';
-import { INorma } from 'app/shared/model/sgq/norma.model';
-import { NormaService } from 'app/entities/sgq/norma/norma.service';
 import { IProcesso } from 'app/shared/model/sgq/processo.model';
 import { ProcessoService } from 'app/entities/sgq/processo/processo.service';
 import { IProduto } from 'app/shared/model/sgq/produto.model';
@@ -55,7 +53,6 @@ type SelectableEntity =
   | IItemChecklist
   | IItemPlanoAuditoria
   | INaoConformidade
-  | INorma
   | IProcesso
   | IProduto
   | IPlanoAuditoria
@@ -89,8 +86,6 @@ export class AnexoUpdateComponent implements OnInit {
 
   naoconformidades: INaoConformidade[] = [];
 
-  normas: INorma[] = [];
-
   processos: IProcesso[] = [];
 
   produtos: IProduto[] = [];
@@ -119,7 +114,6 @@ export class AnexoUpdateComponent implements OnInit {
     itemChecklist: [],
     itemPlanoAuditoria: [],
     naoConformidade: [],
-    norma: [],
     processo: [],
     produto: [],
     planoAuditoria: [],
@@ -142,7 +136,6 @@ export class AnexoUpdateComponent implements OnInit {
     protected itemChecklistService: ItemChecklistService,
     protected itemPlanoAuditoriaService: ItemPlanoAuditoriaService,
     protected naoConformidadeService: NaoConformidadeService,
-    protected normaService: NormaService,
     protected processoService: ProcessoService,
     protected produtoService: ProdutoService,
     protected planoAuditoriaService: PlanoAuditoriaService,
@@ -239,15 +232,6 @@ export class AnexoUpdateComponent implements OnInit {
         )
         .subscribe((resBody: INaoConformidade[]) => (this.naoconformidades = resBody));
 
-      this.normaService
-        .query()
-        .pipe(
-          map((res: HttpResponse<INorma[]>) => {
-            return res.body ? res.body : [];
-          })
-        )
-        .subscribe((resBody: INorma[]) => (this.normas = resBody));
-
       this.processoService
         .query()
         .pipe(
@@ -328,7 +312,6 @@ export class AnexoUpdateComponent implements OnInit {
       itemChecklist: anexo.itemChecklist,
       itemPlanoAuditoria: anexo.itemPlanoAuditoria,
       naoConformidade: anexo.naoConformidade,
-      norma: anexo.norma,
       processo: anexo.processo,
       produto: anexo.produto,
       planoAuditoria: anexo.planoAuditoria,
@@ -385,7 +368,6 @@ export class AnexoUpdateComponent implements OnInit {
       itemChecklist: this.editForm.get(['itemChecklist'])!.value,
       itemPlanoAuditoria: this.editForm.get(['itemPlanoAuditoria'])!.value,
       naoConformidade: this.editForm.get(['naoConformidade'])!.value,
-      norma: this.editForm.get(['norma'])!.value,
       processo: this.editForm.get(['processo'])!.value,
       produto: this.editForm.get(['produto'])!.value,
       planoAuditoria: this.editForm.get(['planoAuditoria'])!.value,

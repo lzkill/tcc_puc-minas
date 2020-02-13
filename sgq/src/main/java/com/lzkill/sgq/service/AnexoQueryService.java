@@ -124,10 +124,6 @@ public class AnexoQueryService extends QueryService<Anexo> {
                 specification = specification.and(buildSpecification(criteria.getNaoConformidadeId(),
                     root -> root.join(Anexo_.naoConformidade, JoinType.LEFT).get(NaoConformidade_.id)));
             }
-            if (criteria.getNormaId() != null) {
-                specification = specification.and(buildSpecification(criteria.getNormaId(),
-                    root -> root.join(Anexo_.norma, JoinType.LEFT).get(Norma_.id)));
-            }
             if (criteria.getProcessoId() != null) {
                 specification = specification.and(buildSpecification(criteria.getProcessoId(),
                     root -> root.join(Anexo_.processo, JoinType.LEFT).get(Processo_.id)));

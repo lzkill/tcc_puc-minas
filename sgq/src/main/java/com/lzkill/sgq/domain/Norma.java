@@ -4,12 +4,9 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
-import javax.validation.constraints.*;
 
 import java.io.Serializable;
 import java.time.Instant;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * Do trecho\n\n<i>\"O repositório de normas está disponível em nuvem como um serviço (SaaS)...\"</i>\n\nentende-se que a aplicação deve consumir uma API cuja interface é definida\npela empresa fornecedora de SaaS.
@@ -48,17 +45,11 @@ public class Norma implements Serializable {
     @Column(name = "data_inicio_validade")
     private Instant dataInicioValidade;
 
-    @OneToMany(mappedBy = "norma")
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<Anexo> anexos = new HashSet<>();
+    @Column(name = "categoria")
+    private String categoria;
 
-    @ManyToMany
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    @NotNull
-    @JoinTable(name = "norma_categoria",
-               joinColumns = @JoinColumn(name = "norma_id", referencedColumnName = "id"),
-               inverseJoinColumns = @JoinColumn(name = "categoria_id", referencedColumnName = "id"))
-    private Set<CategoriaNorma> categorias = new HashSet<>();
+    @Column(name = "url_download")
+    private String urlDownload;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -160,54 +151,30 @@ public class Norma implements Serializable {
         this.dataInicioValidade = dataInicioValidade;
     }
 
-    public Set<Anexo> getAnexos() {
-        return anexos;
+    public String getCategoria() {
+        return categoria;
     }
 
-    public Norma anexos(Set<Anexo> anexos) {
-        this.anexos = anexos;
+    public Norma categoria(String categoria) {
+        this.categoria = categoria;
         return this;
     }
 
-    public Norma addAnexo(Anexo anexo) {
-        this.anexos.add(anexo);
-        anexo.setNorma(this);
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
+    }
+
+    public String getUrlDownload() {
+        return urlDownload;
+    }
+
+    public Norma urlDownload(String urlDownload) {
+        this.urlDownload = urlDownload;
         return this;
     }
 
-    public Norma removeAnexo(Anexo anexo) {
-        this.anexos.remove(anexo);
-        anexo.setNorma(null);
-        return this;
-    }
-
-    public void setAnexos(Set<Anexo> anexos) {
-        this.anexos = anexos;
-    }
-
-    public Set<CategoriaNorma> getCategorias() {
-        return categorias;
-    }
-
-    public Norma categorias(Set<CategoriaNorma> categoriaNormas) {
-        this.categorias = categoriaNormas;
-        return this;
-    }
-
-    public Norma addCategoria(CategoriaNorma categoriaNorma) {
-        this.categorias.add(categoriaNorma);
-        categoriaNorma.getNormas().add(this);
-        return this;
-    }
-
-    public Norma removeCategoria(CategoriaNorma categoriaNorma) {
-        this.categorias.remove(categoriaNorma);
-        categoriaNorma.getNormas().remove(this);
-        return this;
-    }
-
-    public void setCategorias(Set<CategoriaNorma> categoriaNormas) {
-        this.categorias = categoriaNormas;
+    public void setUrlDownload(String urlDownload) {
+        this.urlDownload = urlDownload;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
@@ -238,6 +205,8 @@ public class Norma implements Serializable {
             ", numeroEdicao=" + getNumeroEdicao() +
             ", dataEdicao='" + getDataEdicao() + "'" +
             ", dataInicioValidade='" + getDataInicioValidade() + "'" +
+            ", categoria='" + getCategoria() + "'" +
+            ", urlDownload='" + getUrlDownload() + "'" +
             "}";
     }
 }
