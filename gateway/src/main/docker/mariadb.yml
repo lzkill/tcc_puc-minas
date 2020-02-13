@@ -2,8 +2,8 @@ version: '2'
 services:
   gateway-mariadb:
     image: mariadb:10.4.10
-    volumes:
-      - ~/volumes/jhipster/gateway/mysql/:/var/lib/mysql/
+    #volumes:
+    #- ~/volumes/jhipster/gateway/mysql/:/var/lib/mysql/
     environment:
       - MYSQL_USER=root
       - MYSQL_ALLOW_EMPTY_PASSWORD=yes

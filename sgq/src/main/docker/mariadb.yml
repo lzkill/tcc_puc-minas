@@ -2,8 +2,8 @@ version: '2'
 services:
   sgq-mariadb:
     image: mariadb:10.4.10
-    volumes:
-      - ~/volumes/jhipster/sgq/mysql/:/var/lib/mysql/
+    #volumes:
+      #- ~/volumes/jhipster/sgq/mysql/:/var/lib/mysql/
     environment:
       - MYSQL_USER=root
       - MYSQL_ALLOW_EMPTY_PASSWORD=yes
