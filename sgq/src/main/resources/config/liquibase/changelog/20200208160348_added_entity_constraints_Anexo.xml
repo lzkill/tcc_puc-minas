@@ -62,12 +62,6 @@
                                  referencedColumnNames="id"
                                  referencedTableName="nao_conformidade"/>
 
-        <addForeignKeyConstraint baseColumnNames="norma_id"
-                                 baseTableName="anexo"
-                                 constraintName="fk_anexo_norma_id"
-                                 referencedColumnNames="id"
-                                 referencedTableName="norma"/>
-
         <addForeignKeyConstraint baseColumnNames="processo_id"
                                  baseTableName="anexo"
                                  constraintName="fk_anexo_processo_id"

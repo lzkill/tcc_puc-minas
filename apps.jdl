@@ -348,13 +348,8 @@ entity Norma {
   numeroEdicao Integer
   dataEdicao Instant
   dataInicioValidade Instant
-}
-
-@service(serviceClass)
-@readOnly
-entity CategoriaNorma {
-  titulo String
-  descricao TextBlob
+  categoria String
+  urlDownload String
 }
 // <<<<<<<<<< compliance
 
@@ -376,7 +371,6 @@ relationship OneToMany {
   ItemChecklist{anexo(nomeArquivo)} to Anexo{itemChecklist}
   ItemPlanoAuditoria{anexo(nomeArquivo)} to Anexo{itemPlanoAuditoria}
   NaoConformidade{anexo(nomeArquivo)} to Anexo{naoConformidade}
-  Norma{anexo(nomeArquivo)} to Anexo{norma}
   Processo{anexo(nomeArquivo)} to Anexo{processo}
   Produto{anexo(nomeArquivo)} to Anexo{produto}
   PlanoAuditoria{anexo(nomeArquivo)} to Anexo{planoAuditoria}
@@ -430,7 +424,6 @@ relationship ManyToOne {
 
 relationship ManyToMany {
   BoletimInformativo{categoria(titulo) required} to CategoriaPublicacao{boletim(titulo)}
-  Norma{categoria(titulo) required} to CategoriaNorma{norma(titulo)}
   PublicacaoFeed{categoria(titulo) required} to CategoriaPublicacao{publicacao(titulo)}
 }
 

@@ -103,13 +103,11 @@ public class NormaQueryService extends QueryService<Norma> {
             if (criteria.getDataInicioValidade() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getDataInicioValidade(), Norma_.dataInicioValidade));
             }
-            if (criteria.getAnexoId() != null) {
-                specification = specification.and(buildSpecification(criteria.getAnexoId(),
-                    root -> root.join(Norma_.anexos, JoinType.LEFT).get(Anexo_.id)));
+            if (criteria.getCategoria() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getCategoria(), Norma_.categoria));
             }
-            if (criteria.getCategoriaId() != null) {
-                specification = specification.and(buildSpecification(criteria.getCategoriaId(),
-                    root -> root.join(Norma_.categorias, JoinType.LEFT).get(CategoriaNorma_.id)));
+            if (criteria.getUrlDownload() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getUrlDownload(), Norma_.urlDownload));
             }
         }
         return specification;

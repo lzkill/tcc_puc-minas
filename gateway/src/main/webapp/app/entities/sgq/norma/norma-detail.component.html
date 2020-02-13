@@ -35,9 +35,11 @@
                 </dd>
                 <dt><span jhiTranslate="gatewayApp.sgqNorma.categoria">Categoria</span></dt>
                 <dd>
-                    <span *ngFor="let categoria of norma.categorias; let last = last">
-                        <a [routerLink]="['/categoria-norma', categoria?.id, 'view' ]">{{categoria.titulo}}</a>{{last ? '' : ', '}}
-                    </span>
+                    <span>{{norma.categoria}}</span>
+                </dd>
+                <dt><span jhiTranslate="gatewayApp.sgqNorma.urlDownload">Url Download</span></dt>
+                <dd>
+                    <span>{{norma.urlDownload}}</span>
                 </dd>
             </dl>
 

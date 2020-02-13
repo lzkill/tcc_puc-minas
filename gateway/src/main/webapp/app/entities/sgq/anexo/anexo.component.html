@@ -30,7 +30,6 @@
             <th scope="col"  jhiSortBy="itemChecklist.id"><span jhiTranslate="gatewayApp.sgqAnexo.itemChecklist">Item Checklist</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="itemPlanoAuditoria.id"><span jhiTranslate="gatewayApp.sgqAnexo.itemPlanoAuditoria">Item Plano Auditoria</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="naoConformidade.id"><span jhiTranslate="gatewayApp.sgqAnexo.naoConformidade">Nao Conformidade</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  jhiSortBy="norma.id"><span jhiTranslate="gatewayApp.sgqAnexo.norma">Norma</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="processo.id"><span jhiTranslate="gatewayApp.sgqAnexo.processo">Processo</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="produto.id"><span jhiTranslate="gatewayApp.sgqAnexo.produto">Produto</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="planoAuditoria.id"><span jhiTranslate="gatewayApp.sgqAnexo.planoAuditoria">Plano Auditoria</span> <fa-icon [icon]="'sort'"></fa-icon></th>
@@ -92,11 +91,6 @@
                 <td>
                     <div *ngIf="anexo.naoConformidade">
                         <a [routerLink]="['/nao-conformidade', anexo.naoConformidade?.id, 'view' ]" >{{anexo.naoConformidade?.id}}</a>
-                    </div>
-                </td>
-                <td>
-                    <div *ngIf="anexo.norma">
-                        <a [routerLink]="['/norma', anexo.norma?.id, 'view' ]" >{{anexo.norma?.id}}</a>
                     </div>
                 </td>
                 <td>

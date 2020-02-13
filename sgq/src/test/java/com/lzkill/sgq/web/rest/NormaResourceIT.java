@@ -2,8 +2,6 @@ package com.lzkill.sgq.web.rest;
 
 import com.lzkill.sgq.SgqApp;
 import com.lzkill.sgq.domain.Norma;
-import com.lzkill.sgq.domain.Anexo;
-import com.lzkill.sgq.domain.CategoriaNorma;
 import com.lzkill.sgq.repository.NormaRepository;
 import com.lzkill.sgq.service.NormaService;
 import com.lzkill.sgq.web.rest.errors.ExceptionTranslator;
@@ -12,12 +10,9 @@ import com.lzkill.sgq.service.NormaQueryService;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -30,13 +25,11 @@ import org.springframework.validation.Validator;
 import javax.persistence.EntityManager;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
 import java.util.List;
 
 import static com.lzkill.sgq.web.rest.TestUtil.createFormattingConversionService;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
-import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -68,14 +61,14 @@ public class NormaResourceIT {
     private static final Instant DEFAULT_DATA_INICIO_VALIDADE = Instant.ofEpochMilli(0L);
     private static final Instant UPDATED_DATA_INICIO_VALIDADE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
+    private static final String DEFAULT_CATEGORIA = "AAAAAAAAAA";
+    private static final String UPDATED_CATEGORIA = "BBBBBBBBBB";
+
+    private static final String DEFAULT_URL_DOWNLOAD = "AAAAAAAAAA";
+    private static final String UPDATED_URL_DOWNLOAD = "BBBBBBBBBB";
+
     @Autowired
     private NormaRepository normaRepository;
-
-    @Mock
-    private NormaRepository normaRepositoryMock;
-
-    @Mock
-    private NormaService normaServiceMock;
 
     @Autowired
     private NormaService normaService;
@@ -128,17 +121,9 @@ public class NormaResourceIT {
             .versao(DEFAULT_VERSAO)
             .numeroEdicao(DEFAULT_NUMERO_EDICAO)
             .dataEdicao(DEFAULT_DATA_EDICAO)
-            .dataInicioValidade(DEFAULT_DATA_INICIO_VALIDADE);
-        // Add required entity
-        CategoriaNorma categoriaNorma;
-        if (TestUtil.findAll(em, CategoriaNorma.class).isEmpty()) {
-            categoriaNorma = CategoriaNormaResourceIT.createEntity(em);
-            em.persist(categoriaNorma);
-            em.flush();
-        } else {
-            categoriaNorma = TestUtil.findAll(em, CategoriaNorma.class).get(0);
-        }
-        norma.getCategorias().add(categoriaNorma);
+            .dataInicioValidade(DEFAULT_DATA_INICIO_VALIDADE)
+            .categoria(DEFAULT_CATEGORIA)
+            .urlDownload(DEFAULT_URL_DOWNLOAD);
         return norma;
     }
     /**
@@ -155,17 +140,9 @@ public class NormaResourceIT {
             .versao(UPDATED_VERSAO)
             .numeroEdicao(UPDATED_NUMERO_EDICAO)
             .dataEdicao(UPDATED_DATA_EDICAO)
-            .dataInicioValidade(UPDATED_DATA_INICIO_VALIDADE);
-        // Add required entity
-        CategoriaNorma categoriaNorma;
-        if (TestUtil.findAll(em, CategoriaNorma.class).isEmpty()) {
-            categoriaNorma = CategoriaNormaResourceIT.createUpdatedEntity(em);
-            em.persist(categoriaNorma);
-            em.flush();
-        } else {
-            categoriaNorma = TestUtil.findAll(em, CategoriaNorma.class).get(0);
-        }
-        norma.getCategorias().add(categoriaNorma);
+            .dataInicioValidade(UPDATED_DATA_INICIO_VALIDADE)
+            .categoria(UPDATED_CATEGORIA)
+            .urlDownload(UPDATED_URL_DOWNLOAD);
         return norma;
     }
 
@@ -191,42 +168,11 @@ public class NormaResourceIT {
             .andExpect(jsonPath("$.[*].versao").value(hasItem(DEFAULT_VERSAO)))
             .andExpect(jsonPath("$.[*].numeroEdicao").value(hasItem(DEFAULT_NUMERO_EDICAO)))
             .andExpect(jsonPath("$.[*].dataEdicao").value(hasItem(DEFAULT_DATA_EDICAO.toString())))
-            .andExpect(jsonPath("$.[*].dataInicioValidade").value(hasItem(DEFAULT_DATA_INICIO_VALIDADE.toString())));
+            .andExpect(jsonPath("$.[*].dataInicioValidade").value(hasItem(DEFAULT_DATA_INICIO_VALIDADE.toString())))
+            .andExpect(jsonPath("$.[*].categoria").value(hasItem(DEFAULT_CATEGORIA)))
+            .andExpect(jsonPath("$.[*].urlDownload").value(hasItem(DEFAULT_URL_DOWNLOAD)));
     }
-
-    @SuppressWarnings({"unchecked"})
-    public void getAllNormasWithEagerRelationshipsIsEnabled() throws Exception {
-        NormaResource normaResource = new NormaResource(normaServiceMock, normaQueryService);
-        when(normaServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
-
-        MockMvc restNormaMockMvc = MockMvcBuilders.standaloneSetup(normaResource)
-            .setCustomArgumentResolvers(pageableArgumentResolver)
-            .setControllerAdvice(exceptionTranslator)
-            .setConversionService(createFormattingConversionService())
-            .setMessageConverters(jacksonMessageConverter).build();
-
-        restNormaMockMvc.perform(get("/api/normas?eagerload=true"))
-        .andExpect(status().isOk());
-
-        verify(normaServiceMock, times(1)).findAllWithEagerRelationships(any());
-    }
-
-    @SuppressWarnings({"unchecked"})
-    public void getAllNormasWithEagerRelationshipsIsNotEnabled() throws Exception {
-        NormaResource normaResource = new NormaResource(normaServiceMock, normaQueryService);
-            when(normaServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
-            MockMvc restNormaMockMvc = MockMvcBuilders.standaloneSetup(normaResource)
-            .setCustomArgumentResolvers(pageableArgumentResolver)
-            .setControllerAdvice(exceptionTranslator)
-            .setConversionService(createFormattingConversionService())
-            .setMessageConverters(jacksonMessageConverter).build();
-
-        restNormaMockMvc.perform(get("/api/normas?eagerload=true"))
-        .andExpect(status().isOk());
-
-            verify(normaServiceMock, times(1)).findAllWithEagerRelationships(any());
-    }
-
+    
     @Test
     @Transactional
     public void getNorma() throws Exception {
@@ -244,7 +190,9 @@ public class NormaResourceIT {
             .andExpect(jsonPath("$.versao").value(DEFAULT_VERSAO))
             .andExpect(jsonPath("$.numeroEdicao").value(DEFAULT_NUMERO_EDICAO))
             .andExpect(jsonPath("$.dataEdicao").value(DEFAULT_DATA_EDICAO.toString()))
-            .andExpect(jsonPath("$.dataInicioValidade").value(DEFAULT_DATA_INICIO_VALIDADE.toString()));
+            .andExpect(jsonPath("$.dataInicioValidade").value(DEFAULT_DATA_INICIO_VALIDADE.toString()))
+            .andExpect(jsonPath("$.categoria").value(DEFAULT_CATEGORIA))
+            .andExpect(jsonPath("$.urlDownload").value(DEFAULT_URL_DOWNLOAD));
     }
 
 
@@ -712,39 +660,158 @@ public class NormaResourceIT {
 
     @Test
     @Transactional
-    public void getAllNormasByAnexoIsEqualToSomething() throws Exception {
+    public void getAllNormasByCategoriaIsEqualToSomething() throws Exception {
         // Initialize the database
         normaRepository.saveAndFlush(norma);
-        Anexo anexo = AnexoResourceIT.createEntity(em);
-        em.persist(anexo);
-        em.flush();
-        norma.addAnexo(anexo);
-        normaRepository.saveAndFlush(norma);
-        Long anexoId = anexo.getId();
 
-        // Get all the normaList where anexo equals to anexoId
-        defaultNormaShouldBeFound("anexoId.equals=" + anexoId);
+        // Get all the normaList where categoria equals to DEFAULT_CATEGORIA
+        defaultNormaShouldBeFound("categoria.equals=" + DEFAULT_CATEGORIA);
 
-        // Get all the normaList where anexo equals to anexoId + 1
-        defaultNormaShouldNotBeFound("anexoId.equals=" + (anexoId + 1));
+        // Get all the normaList where categoria equals to UPDATED_CATEGORIA
+        defaultNormaShouldNotBeFound("categoria.equals=" + UPDATED_CATEGORIA);
     }
 
-/*
     @Test
     @Transactional
-    public void getAllNormasByCategoriaIsEqualToSomething() throws Exception {
-        // Get already existing entity
-        CategoriaNorma categoria = norma.getCategoria();
+    public void getAllNormasByCategoriaIsNotEqualToSomething() throws Exception {
+        // Initialize the database
         normaRepository.saveAndFlush(norma);
-        Long categoriaId = categoria.getId();
 
-        // Get all the normaList where categoria equals to categoriaId
-        defaultNormaShouldBeFound("categoriaId.equals=" + categoriaId);
+        // Get all the normaList where categoria not equals to DEFAULT_CATEGORIA
+        defaultNormaShouldNotBeFound("categoria.notEquals=" + DEFAULT_CATEGORIA);
 
-        // Get all the normaList where categoria equals to categoriaId + 1
-        defaultNormaShouldNotBeFound("categoriaId.equals=" + (categoriaId + 1));
+        // Get all the normaList where categoria not equals to UPDATED_CATEGORIA
+        defaultNormaShouldBeFound("categoria.notEquals=" + UPDATED_CATEGORIA);
     }
-*/
+
+    @Test
+    @Transactional
+    public void getAllNormasByCategoriaIsInShouldWork() throws Exception {
+        // Initialize the database
+        normaRepository.saveAndFlush(norma);
+
+        // Get all the normaList where categoria in DEFAULT_CATEGORIA or UPDATED_CATEGORIA
+        defaultNormaShouldBeFound("categoria.in=" + DEFAULT_CATEGORIA + "," + UPDATED_CATEGORIA);
+
+        // Get all the normaList where categoria equals to UPDATED_CATEGORIA
+        defaultNormaShouldNotBeFound("categoria.in=" + UPDATED_CATEGORIA);
+    }
+
+    @Test
+    @Transactional
+    public void getAllNormasByCategoriaIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        normaRepository.saveAndFlush(norma);
+
+        // Get all the normaList where categoria is not null
+        defaultNormaShouldBeFound("categoria.specified=true");
+
+        // Get all the normaList where categoria is null
+        defaultNormaShouldNotBeFound("categoria.specified=false");
+    }
+                @Test
+    @Transactional
+    public void getAllNormasByCategoriaContainsSomething() throws Exception {
+        // Initialize the database
+        normaRepository.saveAndFlush(norma);
+
+        // Get all the normaList where categoria contains DEFAULT_CATEGORIA
+        defaultNormaShouldBeFound("categoria.contains=" + DEFAULT_CATEGORIA);
+
+        // Get all the normaList where categoria contains UPDATED_CATEGORIA
+        defaultNormaShouldNotBeFound("categoria.contains=" + UPDATED_CATEGORIA);
+    }
+
+    @Test
+    @Transactional
+    public void getAllNormasByCategoriaNotContainsSomething() throws Exception {
+        // Initialize the database
+        normaRepository.saveAndFlush(norma);
+
+        // Get all the normaList where categoria does not contain DEFAULT_CATEGORIA
+        defaultNormaShouldNotBeFound("categoria.doesNotContain=" + DEFAULT_CATEGORIA);
+
+        // Get all the normaList where categoria does not contain UPDATED_CATEGORIA
+        defaultNormaShouldBeFound("categoria.doesNotContain=" + UPDATED_CATEGORIA);
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllNormasByUrlDownloadIsEqualToSomething() throws Exception {
+        // Initialize the database
+        normaRepository.saveAndFlush(norma);
+
+        // Get all the normaList where urlDownload equals to DEFAULT_URL_DOWNLOAD
+        defaultNormaShouldBeFound("urlDownload.equals=" + DEFAULT_URL_DOWNLOAD);
+
+        // Get all the normaList where urlDownload equals to UPDATED_URL_DOWNLOAD
+        defaultNormaShouldNotBeFound("urlDownload.equals=" + UPDATED_URL_DOWNLOAD);
+    }
+
+    @Test
+    @Transactional
+    public void getAllNormasByUrlDownloadIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        normaRepository.saveAndFlush(norma);
+
+        // Get all the normaList where urlDownload not equals to DEFAULT_URL_DOWNLOAD
+        defaultNormaShouldNotBeFound("urlDownload.notEquals=" + DEFAULT_URL_DOWNLOAD);
+
+        // Get all the normaList where urlDownload not equals to UPDATED_URL_DOWNLOAD
+        defaultNormaShouldBeFound("urlDownload.notEquals=" + UPDATED_URL_DOWNLOAD);
+    }
+
+    @Test
+    @Transactional
+    public void getAllNormasByUrlDownloadIsInShouldWork() throws Exception {
+        // Initialize the database
+        normaRepository.saveAndFlush(norma);
+
+        // Get all the normaList where urlDownload in DEFAULT_URL_DOWNLOAD or UPDATED_URL_DOWNLOAD
+        defaultNormaShouldBeFound("urlDownload.in=" + DEFAULT_URL_DOWNLOAD + "," + UPDATED_URL_DOWNLOAD);
+
+        // Get all the normaList where urlDownload equals to UPDATED_URL_DOWNLOAD
+        defaultNormaShouldNotBeFound("urlDownload.in=" + UPDATED_URL_DOWNLOAD);
+    }
+
+    @Test
+    @Transactional
+    public void getAllNormasByUrlDownloadIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        normaRepository.saveAndFlush(norma);
+
+        // Get all the normaList where urlDownload is not null
+        defaultNormaShouldBeFound("urlDownload.specified=true");
+
+        // Get all the normaList where urlDownload is null
+        defaultNormaShouldNotBeFound("urlDownload.specified=false");
+    }
+                @Test
+    @Transactional
+    public void getAllNormasByUrlDownloadContainsSomething() throws Exception {
+        // Initialize the database
+        normaRepository.saveAndFlush(norma);
+
+        // Get all the normaList where urlDownload contains DEFAULT_URL_DOWNLOAD
+        defaultNormaShouldBeFound("urlDownload.contains=" + DEFAULT_URL_DOWNLOAD);
+
+        // Get all the normaList where urlDownload contains UPDATED_URL_DOWNLOAD
+        defaultNormaShouldNotBeFound("urlDownload.contains=" + UPDATED_URL_DOWNLOAD);
+    }
+
+    @Test
+    @Transactional
+    public void getAllNormasByUrlDownloadNotContainsSomething() throws Exception {
+        // Initialize the database
+        normaRepository.saveAndFlush(norma);
+
+        // Get all the normaList where urlDownload does not contain DEFAULT_URL_DOWNLOAD
+        defaultNormaShouldNotBeFound("urlDownload.doesNotContain=" + DEFAULT_URL_DOWNLOAD);
+
+        // Get all the normaList where urlDownload does not contain UPDATED_URL_DOWNLOAD
+        defaultNormaShouldBeFound("urlDownload.doesNotContain=" + UPDATED_URL_DOWNLOAD);
+    }
 
     /**
      * Executes the search, and checks that the default entity is returned.
@@ -760,7 +827,9 @@ public class NormaResourceIT {
             .andExpect(jsonPath("$.[*].versao").value(hasItem(DEFAULT_VERSAO)))
             .andExpect(jsonPath("$.[*].numeroEdicao").value(hasItem(DEFAULT_NUMERO_EDICAO)))
             .andExpect(jsonPath("$.[*].dataEdicao").value(hasItem(DEFAULT_DATA_EDICAO.toString())))
-            .andExpect(jsonPath("$.[*].dataInicioValidade").value(hasItem(DEFAULT_DATA_INICIO_VALIDADE.toString())));
+            .andExpect(jsonPath("$.[*].dataInicioValidade").value(hasItem(DEFAULT_DATA_INICIO_VALIDADE.toString())))
+            .andExpect(jsonPath("$.[*].categoria").value(hasItem(DEFAULT_CATEGORIA)))
+            .andExpect(jsonPath("$.[*].urlDownload").value(hasItem(DEFAULT_URL_DOWNLOAD)));
 
         // Check, that the count call also returns 1
         restNormaMockMvc.perform(get("/api/normas/count?sort=id,desc&" + filter))

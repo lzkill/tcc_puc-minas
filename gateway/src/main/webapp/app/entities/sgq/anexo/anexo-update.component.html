@@ -113,13 +113,6 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="gatewayApp.sgqAnexo.norma" for="field_norma">Norma</label>
-                    <select class="form-control" id="field_norma" name="norma" formControlName="norma">
-                        <option [ngValue]="null"></option>
-                        <option [ngValue]="normaOption.id === editForm.get('norma')!.value?.id ? editForm.get('norma')!.value : normaOption" *ngFor="let normaOption of normas; trackBy: trackById">{{normaOption.id}}</option>
-                    </select>
-                </div>
-                <div class="form-group">
                     <label class="form-control-label" jhiTranslate="gatewayApp.sgqAnexo.processo" for="field_processo">Processo</label>
                     <select class="form-control" id="field_processo" name="processo" formControlName="processo">
                         <option [ngValue]="null"></option>

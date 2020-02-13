@@ -7,7 +7,6 @@ import { IEventoOperacional } from 'app/shared/model/sgq/evento-operacional.mode
 import { IItemChecklist } from 'app/shared/model/sgq/item-checklist.model';
 import { IItemPlanoAuditoria } from 'app/shared/model/sgq/item-plano-auditoria.model';
 import { INaoConformidade } from 'app/shared/model/sgq/nao-conformidade.model';
-import { INorma } from 'app/shared/model/sgq/norma.model';
 import { IProcesso } from 'app/shared/model/sgq/processo.model';
 import { IProduto } from 'app/shared/model/sgq/produto.model';
 import { IPlanoAuditoria } from 'app/shared/model/sgq/plano-auditoria.model';
@@ -30,7 +29,6 @@ export interface IAnexo {
   itemChecklist?: IItemChecklist;
   itemPlanoAuditoria?: IItemPlanoAuditoria;
   naoConformidade?: INaoConformidade;
-  norma?: INorma;
   processo?: IProcesso;
   produto?: IProduto;
   planoAuditoria?: IPlanoAuditoria;
@@ -55,7 +53,6 @@ export class Anexo implements IAnexo {
     public itemChecklist?: IItemChecklist,
     public itemPlanoAuditoria?: IItemPlanoAuditoria,
     public naoConformidade?: INaoConformidade,
-    public norma?: INorma,
     public processo?: IProcesso,
     public produto?: IProduto,
     public planoAuditoria?: IPlanoAuditoria,

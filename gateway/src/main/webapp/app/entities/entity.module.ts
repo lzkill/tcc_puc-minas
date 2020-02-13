@@ -102,10 +102,6 @@ import { RouterModule } from '@angular/router';
         loadChildren: () => import('./sgq/norma/norma.module').then(m => m.SgqNormaModule)
       },
       {
-        path: 'categoria-norma',
-        loadChildren: () => import('./sgq/categoria-norma/categoria-norma.module').then(m => m.SgqCategoriaNormaModule)
-      },
-      {
         path: 'analise-consultoria',
         loadChildren: () => import('./sgq/analise-consultoria/analise-consultoria.module').then(m => m.SgqAnaliseConsultoriaModule)
       },

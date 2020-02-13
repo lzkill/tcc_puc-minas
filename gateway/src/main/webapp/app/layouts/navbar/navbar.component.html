@@ -202,8 +202,8 @@
                             <span jhiTranslate="global.menu.entities.sgqResultadoAuditoria">Resultados de
                                 auditoria</span>
                         </a>
+                        <hr />
                     </li>
-                    <hr />
                     <li>
                         <a class="dropdown-item" routerLink="evento-operacional" routerLinkActive="active"
                             [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
@@ -259,19 +259,6 @@
                 routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
                 <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="entity-menu">
                     <span>
-                        <fa-icon icon="compass"></fa-icon>
-                        <span jhiTranslate="sgq.menu.inteligenciaNegocio.main">
-                            Inteligência de negócio
-                        </span>
-                    </span>
-                </a>
-                <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="inteligencia-negocio-menu">
-                </ul>
-            </li>
-            <li *jhiHasAnyAuthority="'ROLE_SGQ'" ngbDropdown class="nav-item dropdown pointer" display="dynamic"
-                routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
-                <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="entity-menu">
-                    <span>
                         <fa-icon icon="plug"></fa-icon>
                         <span jhiTranslate="sgq.menu.compliance.main">
                             Compliance
@@ -294,6 +281,19 @@
                             <span jhiTranslate="global.menu.entities.sgqNorma">Normas</span>
                         </a>
                     </li>
+                </ul>
+            </li>
+            <li *jhiHasAnyAuthority="'ROLE_SGQ'" ngbDropdown class="nav-item dropdown pointer" display="dynamic"
+            routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="entity-menu">
+                    <span>
+                        <fa-icon icon="compass"></fa-icon>
+                        <span jhiTranslate="sgq.menu.inteligenciaNegocio.main">
+                            Inteligência de negócio
+                        </span>
+                    </span>
+                </a>
+                <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="inteligencia-negocio-menu">
                 </ul>
             </li>
             <li *jhiHasAnyAuthority="'ROLE_SGQ'" ngbDropdown class="nav-item dropdown pointer" display="dynamic"

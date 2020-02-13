@@ -70,12 +70,6 @@
                         <a [routerLink]="['/nao-conformidade', anexo.naoConformidade?.id, 'view']">{{anexo.naoConformidade?.id}}</a>
                     </div>
                 </dd>
-                <dt><span jhiTranslate="gatewayApp.sgqAnexo.norma">Norma</span></dt>
-                <dd>
-                    <div *ngIf="anexo.norma">
-                        <a [routerLink]="['/norma', anexo.norma?.id, 'view']">{{anexo.norma?.id}}</a>
-                    </div>
-                </dd>
                 <dt><span jhiTranslate="gatewayApp.sgqAnexo.processo">Processo</span></dt>
                 <dd>
                     <div *ngIf="anexo.processo">

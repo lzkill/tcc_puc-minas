@@ -1,6 +1,4 @@
 import { Moment } from 'moment';
-import { IAnexo } from 'app/shared/model/sgq/anexo.model';
-import { ICategoriaNorma } from 'app/shared/model/sgq/categoria-norma.model';
 
 export interface INorma {
   id?: number;
@@ -11,8 +9,8 @@ export interface INorma {
   numeroEdicao?: number;
   dataEdicao?: Moment;
   dataInicioValidade?: Moment;
-  anexos?: IAnexo[];
-  categorias?: ICategoriaNorma[];
+  categoria?: string;
+  urlDownload?: string;
 }
 
 export class Norma implements INorma {
@@ -25,7 +23,7 @@ export class Norma implements INorma {
     public numeroEdicao?: number,
     public dataEdicao?: Moment,
     public dataInicioValidade?: Moment,
-    public anexos?: IAnexo[],
-    public categorias?: ICategoriaNorma[]
+    public categoria?: string,
+    public urlDownload?: string
   ) {}
 }

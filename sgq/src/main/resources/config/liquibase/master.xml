@@ -38,7 +38,6 @@
     <include file="config/liquibase/changelog/20200208160405_added_entity_CategoriaPublicacao.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20200208160406_added_entity_EmpresaConsultoria.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20200208160407_added_entity_Norma.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20200208160408_added_entity_CategoriaNorma.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20200208160409_added_entity_AnaliseConsultoria.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20200211184801_added_entity_ResultadoAuditoria.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
@@ -59,7 +58,6 @@
     <include file="config/liquibase/changelog/20200208160400_added_entity_constraints_CampanhaRecall.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20200208160401_added_entity_constraints_BoletimInformativo.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20200208160404_added_entity_constraints_PublicacaoFeed.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20200208160407_added_entity_constraints_Norma.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20200208160409_added_entity_constraints_AnaliseConsultoria.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20200211184801_added_entity_constraints_ResultadoAuditoria.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->

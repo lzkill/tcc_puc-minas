@@ -60,7 +60,6 @@
     "PublicacaoFeed",
     "EmpresaConsultoria",
     "AnaliseConsultoria",
-    "Norma",
-    "CategoriaNorma"
+    "Norma"
   ]
 }

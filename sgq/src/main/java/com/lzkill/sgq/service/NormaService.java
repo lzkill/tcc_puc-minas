@@ -50,15 +50,6 @@ public class NormaService {
         return normaRepository.findAll(pageable);
     }
 
-    /**
-     * Get all the normas with eager load of many-to-many relationships.
-     *
-     * @return the list of entities.
-     */
-    public Page<Norma> findAllWithEagerRelationships(Pageable pageable) {
-        return normaRepository.findAllWithEagerRelationships(pageable);
-    }
-    
 
     /**
      * Get one norma by id.
@@ -69,7 +60,7 @@ public class NormaService {
     @Transactional(readOnly = true)
     public Optional<Norma> findOne(Long id) {
         log.debug("Request to get Norma : {}", id);
-        return normaRepository.findOneWithEagerRelationships(id);
+        return normaRepository.findById(id);
     }
 
     /**

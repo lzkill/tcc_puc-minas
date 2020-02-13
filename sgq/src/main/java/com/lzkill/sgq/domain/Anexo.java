@@ -72,10 +72,6 @@ public class Anexo implements Serializable {
 
     @ManyToOne
     @JsonIgnoreProperties("anexos")
-    private Norma norma;
-
-    @ManyToOne
-    @JsonIgnoreProperties("anexos")
     private Processo processo;
 
     @ManyToOne
@@ -265,19 +261,6 @@ public class Anexo implements Serializable {
 
     public void setNaoConformidade(NaoConformidade naoConformidade) {
         this.naoConformidade = naoConformidade;
-    }
-
-    public Norma getNorma() {
-        return norma;
-    }
-
-    public Anexo norma(Norma norma) {
-        this.norma = norma;
-        return this;
-    }
-
-    public void setNorma(Norma norma) {
-        this.norma = norma;
     }
 
     public Processo getProcesso() {

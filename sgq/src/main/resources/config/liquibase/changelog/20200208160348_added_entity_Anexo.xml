@@ -52,9 +52,6 @@
             <column name="nao_conformidade_id" type="bigint">
                 <constraints nullable="true" />
             </column>
-            <column name="norma_id" type="bigint">
-                <constraints nullable="true" />
-            </column>
             <column name="processo_id" type="bigint">
                 <constraints nullable="true" />
             </column>
