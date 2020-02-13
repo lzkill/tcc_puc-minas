@@ -3,19 +3,19 @@
     "sgqAuditoria": {
       "home": {
         "title": "Auditorias",
-        "createLabel": "Criar novo Auditoria",
-        "createOrEditLabel": "Criar ou editar Auditoria",
-        "notFound": "Nenhum Auditoria encontrado"
+        "createLabel": "Criar nova auditoria",
+        "createOrEditLabel": "Criar ou editar auditoria",
+        "notFound": "Nenhuma auditoria encontrada"
       },
       "delete": {
-        "question": "Tem certeza de que deseja excluir Auditoria {{ id }}?"
+        "question": "Tem certeza de que deseja excluir a auditoria {{ id }}?"
       },
       "detail": {
         "title": "Auditoria"
       },
       "tipo": "Tipo",
-      "titulo": "Titulo",
-      "descricao": "Descricao",
+      "titulo": "Título",
+      "descricao": "Descrição",
       "processo": "Processo",
       "help": {
         "descricao": "Requisitos abordados, objetivos, etc"
@@ -24,9 +24,9 @@
   },
   "sgqApp": {
     "sgqAuditoria": {
-      "created": "Um novo Auditoria foi criado com o identificador {{ param }}",
-      "updated": "Um Auditoria foi atualizado com o identificador {{ param }}",
-      "deleted": "Um Auditoria foi excluído com o identificador {{ param }}"
+      "created": "Uma nova auditoria foi criada com o identificador {{ param }}",
+      "updated": "Uma auditoria foi atualizada com o identificador {{ param }}",
+      "deleted": "Uma auditoria foi excluída com o identificador {{ param }}"
     }
   }
 }
