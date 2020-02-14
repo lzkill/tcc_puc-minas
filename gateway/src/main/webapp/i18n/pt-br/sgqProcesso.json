@@ -1,29 +1,29 @@
 {
   "gatewayApp": {
-    "sgqProcesso": {
+    "sgqprocesso": {
       "home": {
         "title": "Processos",
-        "createLabel": "Criar novo Processo",
-        "createOrEditLabel": "Criar ou editar Processo",
-        "notFound": "Nenhum Processo encontrado"
+        "createLabel": "Criar novo processo",
+        "createOrEditLabel": "Criar ou editar processo",
+        "notFound": "Nenhum processo encontrado"
       },
       "delete": {
-        "question": "Tem certeza de que deseja excluir Processo {{ id }}?"
+        "question": "Tem certeza de que deseja excluir o processo {{ id }}?"
       },
       "detail": {
         "title": "Processo"
       },
-      "titulo": "Titulo",
-      "descricao": "Descricao",
+      "titulo": "Título",
+      "descricao": "Descrição",
       "anexo": "Anexo",
       "setor": "Setor"
     }
   },
   "sgqApp": {
-    "sgqProcesso": {
-      "created": "Um novo Processo foi criado com o identificador {{ param }}",
-      "updated": "Um Processo foi atualizado com o identificador {{ param }}",
-      "deleted": "Um Processo foi excluído com o identificador {{ param }}"
+    "sgqprocesso": {
+      "created": "Um novo processo foi criado com o identificador {{ param }}",
+      "updated": "Um processo foi atualizado com o identificador {{ param }}",
+      "deleted": "Um processo foi excluído com o identificador {{ param }}"
     }
   }
 }

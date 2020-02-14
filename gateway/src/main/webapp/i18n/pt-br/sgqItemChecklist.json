@@ -2,29 +2,29 @@
   "gatewayApp": {
     "sgqItemChecklist": {
       "home": {
-        "title": "Item Checklists",
-        "createLabel": "Criar novo Item Checklist",
-        "createOrEditLabel": "Criar ou editar Item Checklist",
-        "notFound": "Nenhum Item Checklist encontrado"
+        "title": "Itens de checklist",
+        "createLabel": "Criar novo item de checklist",
+        "createOrEditLabel": "Criar ou editar item de checklist",
+        "notFound": "Nenhum item de checklist encontrado"
       },
       "delete": {
-        "question": "Tem certeza de que deseja excluir Item Checklist {{ id }}?"
+        "question": "Tem certeza de que deseja excluir o item de checklist {{ id }}?"
       },
       "detail": {
-        "title": "Item Checklist"
+        "title": "Item de checklist"
       },
       "ordem": "Ordem",
-      "titulo": "Titulo",
-      "descricao": "Descricao",
+      "titulo": "Título",
+      "descricao": "Descrição",
       "anexo": "Anexo",
       "checklist": "Checklist"
     }
   },
   "sgqApp": {
     "sgqItemChecklist": {
-      "created": "Um novo Item Checklist foi criado com o identificador {{ param }}",
-      "updated": "Um Item Checklist foi atualizado com o identificador {{ param }}",
-      "deleted": "Um Item Checklist foi excluído com o identificador {{ param }}"
+      "created": "Um novo item de checklist foi criado com o identificador {{ param }}",
+      "updated": "Um item de checklist foi atualizado com o identificador {{ param }}",
+      "deleted": "Um item de checklist foi excluído com o identificador {{ param }}"
     }
   }
 }

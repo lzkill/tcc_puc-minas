@@ -2,33 +2,33 @@
   "gatewayApp": {
     "sgqNaoConformidade": {
       "home": {
-        "title": "Nao Conformidades",
-        "createLabel": "Criar novo Nao Conformidade",
-        "createOrEditLabel": "Criar ou editar Nao Conformidade",
-        "notFound": "Nenhum Nao Conformidade encontrado"
+        "title": "Não conformidades",
+        "createLabel": "Criar nova não conformidade",
+        "createOrEditLabel": "Criar ou editar não conformidade",
+        "notFound": "Nenhum não conformidade encontrada"
       },
       "delete": {
-        "question": "Tem certeza de que deseja excluir Nao Conformidade {{ id }}?"
+        "question": "Tem certeza de que deseja excluir a não conformidade {{ id }}?"
       },
       "detail": {
-        "title": "Nao Conformidade"
+        "title": "Não conformidade"
       },
-      "idUsuarioRegistro": "Id Usuario Registro",
-      "idUsuarioResponsavel": "Id Usuario Responsavel",
-      "titulo": "Titulo",
+      "idUsuarioRegistro": "Usuário de registro",
+      "idUsuarioResponsavel": "Usuário responsável",
+      "titulo": "Título",
       "fato": "Fato",
       "procedente": "Procedente",
       "causa": "Causa",
-      "prazoConclusao": "Prazo Conclusao",
-      "novoPrazoConclusao": "Novo Prazo Conclusao",
-      "dataRegistro": "Data Registro",
-      "dataConclusao": "Data Conclusao",
-      "analiseFinal": "Analise Final",
+      "prazoConclusao": "Prazo de conclusão",
+      "novaPrazoConclusao": "Novo prazo de conclusão",
+      "dataRegistro": "Data de registro",
+      "dataConclusao": "Data de conclusao",
+      "analiseFinal": "Análise final",
       "statusSGQ": "Status SGQ",
       "anexo": "Anexo",
-      "acaoSGQ": "Acao SGQ",
-      "resultadoAuditoria": "Resultado Auditoria",
-      "resultadoItemChecklist": "Resultado Item Checklist",
+      "acaoSGQ": "Ação SGQ",
+      "resultadoAuditoria": "Resultado de auditoria",
+      "resultadoItemChecklist": "Resultado de item de checklist",
       "help": {
         "procedente": "O fato descrito implica de fato uma NC",
         "causa": "O fechamento da NC só é possível se houver identificação de causa",
@@ -38,9 +38,9 @@
   },
   "sgqApp": {
     "sgqNaoConformidade": {
-      "created": "Um novo Nao Conformidade foi criado com o identificador {{ param }}",
-      "updated": "Um Nao Conformidade foi atualizado com o identificador {{ param }}",
-      "deleted": "Um Nao Conformidade foi excluído com o identificador {{ param }}"
+      "created": "Uma nova não conformidade foi criada com o identificador {{ param }}",
+      "updated": "Uma não conformidade foi atualizada com o identificador {{ param }}",
+      "deleted": "Uma não conformidade foi excluída com o identificador {{ param }}"
     }
   }
 }

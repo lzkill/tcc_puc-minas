@@ -2,31 +2,31 @@
   "gatewayApp": {
     "sgqResultadoItemChecklist": {
       "home": {
-        "title": "Resultado Item Checklists",
-        "createLabel": "Criar novo Resultado Item Checklist",
-        "createOrEditLabel": "Criar ou editar Resultado Item Checklist",
-        "notFound": "Nenhum Resultado Item Checklist encontrado"
+        "title": "Resultados de item de checklist",
+        "createLabel": "Criar novo resultado de item de checklist",
+        "createOrEditLabel": "Criar ou editar resultado de item de checklist",
+        "notFound": "Nenhum resultado de item de checklist encontrado"
       },
       "delete": {
-        "question": "Tem certeza de que deseja excluir Resultado Item Checklist {{ id }}?"
+        "question": "Tem certeza de que deseja excluir o resultado de item de checklist {{ id }}?"
       },
       "detail": {
-        "title": "Resultado Item Checklist"
+        "title": "Resultado de item de checklist"
       },
       "conforme": "Conforme",
-      "descricao": "Descricao",
+      "descricao": "Descrição",
       "anexo": "Anexo",
-      "naoConformidade": "Nao Conformidade",
-      "produtoNaoConforme": "Produto Nao Conforme",
+      "naoConformidade": "Não conformidade",
+      "produtoNaoConforme": "Produto não conforme",
       "item": "Item",
       "resultado": "Resultado"
     }
   },
   "sgqApp": {
     "sgqResultadoItemChecklist": {
-      "created": "Um novo Resultado Item Checklist foi criado com o identificador {{ param }}",
-      "updated": "Um Resultado Item Checklist foi atualizado com o identificador {{ param }}",
-      "deleted": "Um Resultado Item Checklist foi excluído com o identificador {{ param }}"
+      "created": "Um novo resultado de item de checklist foi criado com o identificador {{ param }}",
+      "updated": "Um resultado de item de checklist foi atualizado com o identificador {{ param }}",
+      "deleted": "Um resultado de item de checklist foi excluído com o identificador {{ param }}"
     }
   }
 }

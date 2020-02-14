@@ -1,34 +1,34 @@
 {
   "gatewayApp": {
-    "sgqNorma": {
+    "sgqnorma": {
       "home": {
         "title": "Normas",
-        "createLabel": "Criar novo Norma",
-        "createOrEditLabel": "Criar ou editar Norma",
-        "notFound": "Nenhum Norma encontrado"
+        "createLabel": "Criar novo norma",
+        "createOrEditLabel": "Criar ou editar norma",
+        "notFound": "Nenhuma norma encontrada"
       },
       "delete": {
-        "question": "Tem certeza de que deseja excluir Norma {{ id }}?"
+        "question": "Tem certeza de que deseja excluir a norma {{ id }}?"
       },
       "detail": {
         "title": "Norma"
       },
-      "orgao": "Orgao",
-      "titulo": "Titulo",
-      "descricao": "Descricao",
-      "versao": "Versao",
-      "numeroEdicao": "Numero Edicao",
-      "dataEdicao": "Data Edicao",
-      "dataInicioValidade": "Data Inicio Validade",
+      "orgao": "Órgão",
+      "titulo": "Título",
+      "descricao": "Descrição",
+      "versao": "Versão",
+      "numeroEdicao": "Número da edição",
+      "dataEdicao": "Data da edição",
+      "dataInicioValidade": "Data de início de validade",
       "categoria": "Categoria",
-      "urlDownload": "Url Download"
+      "urlDownload": "URL de download"
     }
   },
   "sgqApp": {
-    "sgqNorma": {
-      "created": "Um novo Norma foi criado com o identificador {{ param }}",
-      "updated": "Um Norma foi atualizado com o identificador {{ param }}",
-      "deleted": "Um Norma foi excluído com o identificador {{ param }}"
+    "sgqnorma": {
+      "created": "Uma nova norma foi criada com o identificador {{ param }}",
+      "updated": "Uma norma foi atualizada com o identificador {{ param }}",
+      "deleted": "Uma norma foi excluída com o identificador {{ param }}"
     }
   }
 }
