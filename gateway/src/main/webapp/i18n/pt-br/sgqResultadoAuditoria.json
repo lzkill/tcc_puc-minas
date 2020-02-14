@@ -3,7 +3,7 @@
     "sgqResultadoAuditoria": {
       "home": {
         "title": "Resultados de auditoria",
-        "createLabel": "Criar novo resultado de auditoria",
+        "createLabel": "Adicionar",
         "createOrEditLabel": "Criar ou editar resultado de auditoria",
         "notFound": "Nenhum resultado de auditoria encontrado"
       },

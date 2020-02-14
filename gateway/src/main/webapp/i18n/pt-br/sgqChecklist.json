@@ -3,7 +3,7 @@
     "sgqChecklist": {
       "home": {
         "title": "Checklists",
-        "createLabel": "Criar novo checklist",
+        "createLabel": "Adicionar",
         "createOrEditLabel": "Criar ou editar checklist",
         "notFound": "Nenhum checklist encontrado"
       },

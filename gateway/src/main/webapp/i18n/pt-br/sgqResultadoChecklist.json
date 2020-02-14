@@ -3,7 +3,7 @@
     "sgqResultadoChecklist": {
       "home": {
         "title": "Resultados de checklist",
-        "createLabel": "Criar novo resultado de checklist",
+        "createLabel": "Adicionar",
         "createOrEditLabel": "Criar ou editar resultado de checklist",
         "notFound": "Nenhum resultado de checklist encontrado"
       },

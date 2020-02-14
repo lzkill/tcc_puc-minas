@@ -3,7 +3,7 @@
     "sgqAuditoria": {
       "home": {
         "title": "Auditorias",
-        "createLabel": "Criar nova auditoria",
+        "createLabel": "Adicionar",
         "createOrEditLabel": "Criar ou editar auditoria",
         "notFound": "Nenhuma auditoria encontrada"
       },

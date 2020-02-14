@@ -3,7 +3,7 @@
     "sgqNaoConformidade": {
       "home": {
         "title": "Não conformidades",
-        "createLabel": "Criar nova não conformidade",
+        "createLabel": "Adicionar",
         "createOrEditLabel": "Criar ou editar não conformidade",
         "notFound": "Nenhum não conformidade encontrada"
       },
@@ -20,7 +20,7 @@
       "procedente": "Procedente",
       "causa": "Causa",
       "prazoConclusao": "Prazo de conclusão",
-      "novaPrazoConclusao": "Novo prazo de conclusão",
+      "novoPrazoConclusao": "Novo prazo de conclusão",
       "dataRegistro": "Data de registro",
       "dataConclusao": "Data de conclusao",
       "analiseFinal": "Análise final",

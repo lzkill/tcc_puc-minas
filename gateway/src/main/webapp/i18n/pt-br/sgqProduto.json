@@ -1,9 +1,9 @@
 {
   "gatewayApp": {
-    "sgqproduto": {
+    "sgqProduto": {
       "home": {
         "title": "Produtos",
-        "createLabel": "Criar novo produto",
+        "createLabel": "Adicionar",
         "createOrEditLabel": "Criar ou editar produto",
         "notFound": "Nenhum produto encontrado"
       },

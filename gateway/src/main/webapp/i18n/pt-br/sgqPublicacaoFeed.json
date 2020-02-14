@@ -3,7 +3,7 @@
     "sgqPublicacaoFeed": {
       "home": {
         "title": "Publicações de feed",
-        "createLabel": "Criar nova publicação de feed",
+        "createLabel": "Adicionar",
         "createOrEditLabel": "Criar ou editar publicação de feed",
         "notFound": "Nenhuma publicação de feed encontrada"
       },

@@ -3,7 +3,7 @@
     "sgqEventoOperacional": {
       "home": {
         "title": "Evento operacionais",
-        "createLabel": "Criar novo evento operacional",
+        "createLabel": "Adicionar",
         "createOrEditLabel": "Criar ou editar evento operacional",
         "notFound": "Nenhum evento operacional encontrado"
       },

@@ -1,9 +1,9 @@
 {
   "gatewayApp": {
-    "sgqnorma": {
+    "sgqNorma": {
       "home": {
         "title": "Normas",
-        "createLabel": "Criar novo norma",
+        "createLabel": "Adicionar",
         "createOrEditLabel": "Criar ou editar norma",
         "notFound": "Nenhuma norma encontrada"
       },

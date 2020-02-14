@@ -25,11 +25,11 @@
         "sgqEventoOperacional": "Eventos operacionais",
         "sgqCampanhaRecall": "Campanhas de recall",
         "sgqBoletimInformativo": "Boletins informativos",
-        "sgqPublicoAlvo": "Publicos alvo",
+        "sgqPublicoAlvo": "Públicos alvo",
         "sgqFeed": "Feeds",
         "sgqPublicacaoFeed": "Publicações de feed",
         "sgqCategoriaPublicacao": "Categorias de publicação",
-        "sgqEmpresaConsultoria": "Empresas de consultoria",
+        "sgqEmpresaConsultoria": "Consultorias",
         "sgqNorma": "Normas",
         "sgqAnaliseConsultoria": "Análises de consultoria",
         "sgqResultadoAuditoria": "Resultados de auditoria",
@@ -163,5 +163,5 @@
       "not.image": "File was expected to be an image but was found to be \"{{ fileType }}\""
     }
   },
-  "footer": "Este é o rodapé da página"
+  "footer": ""
 }

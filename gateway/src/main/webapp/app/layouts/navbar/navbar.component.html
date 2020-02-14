@@ -72,30 +72,6 @@
                     </li>
                     <hr />
                     <li *jhiHasAnyAuthority="'ROLE_ADMIN_SGQ'">
-                        <a class="dropdown-item" routerLink="empresa-consultoria" routerLinkActive="active"
-                            [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
-                            <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
-                            <span jhiTranslate="global.menu.entities.sgqEmpresaConsultoria">Empresas de
-                                consultoria</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item" routerLink="categoria-publicacao" routerLinkActive="active"
-                            [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
-                            <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
-                            <span jhiTranslate="global.menu.entities.sgqCategoriaPublicacao">Categorias de
-                                publicação</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item" routerLink="publico-alvo" routerLinkActive="active"
-                            [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
-                            <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
-                            <span jhiTranslate="global.menu.entities.sgqPublicoAlvo">Públicos alvo</span>
-                        </a>
-                    </li>
-                    <hr />
-                    <li *jhiHasAnyAuthority="'ROLE_ADMIN_SGQ'">
                         <a class="dropdown-item" routerLink="auditoria" routerLinkActive="active"
                             [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                             <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
@@ -129,6 +105,30 @@
                             [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                             <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
                             <span jhiTranslate="global.menu.entities.sgqItemChecklist">Itens de checklist</span>
+                        </a>
+                    </li>
+                    <hr/>
+                    <li *jhiHasAnyAuthority="'ROLE_ADMIN_SGQ'">
+                        <a class="dropdown-item" routerLink="empresa-consultoria" routerLinkActive="active"
+                            [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                            <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
+                            <span jhiTranslate="global.menu.entities.sgqEmpresaConsultoria">Empresas de
+                                consultoria</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" routerLink="publico-alvo" routerLinkActive="active"
+                            [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                            <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
+                            <span jhiTranslate="global.menu.entities.sgqPublicoAlvo">Públicos alvo</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" routerLink="categoria-publicacao" routerLinkActive="active"
+                            [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                            <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
+                            <span jhiTranslate="global.menu.entities.sgqCategoriaPublicacao">Categorias de
+                                publicação</span>
                         </a>
                     </li>
                 </ul>
@@ -266,19 +266,19 @@
                     </span>
                 </a>
                 <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="compliance-menu">
+                    <li>
+                        <a class="dropdown-item" routerLink="norma" routerLinkActive="active"
+                            [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                            <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
+                            <span jhiTranslate="global.menu.entities.sgqNorma">Normas</span>
+                        </a>
+                    </li>
                     <li *jhiHasAnyAuthority="'ROLE_ADMIN_SGQ'">
                         <a class="dropdown-item" routerLink="analise-consultoria" routerLinkActive="active"
                             [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                             <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
                             <span jhiTranslate="global.menu.entities.sgqAnaliseConsultoria">Análises de
                                 consultoria</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item" routerLink="norma" routerLinkActive="active"
-                            [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
-                            <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
-                            <span jhiTranslate="global.menu.entities.sgqNorma">Normas</span>
                         </a>
                     </li>
                 </ul>

@@ -3,7 +3,7 @@
     "sgqProdutoNaoConforme": {
       "home": {
         "title": "Produtos não conformes",
-        "createLabel": "Criar novo produto não conforme",
+        "createLabel": "Adicionar",
         "createOrEditLabel": "Criar ou editar produto não conforme",
         "notFound": "Nenhum produto não conforme encontrado"
       },

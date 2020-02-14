@@ -1,9 +1,9 @@
 {
   "gatewayApp": {
-    "sgqfeed": {
+    "sgqFeed": {
       "home": {
         "title": "Feeds",
-        "createLabel": "Criar novo feed",
+        "createLabel": "Adicionar",
         "createOrEditLabel": "Criar ou editar feed",
         "notFound": "Nenhum feed encontrado"
       },

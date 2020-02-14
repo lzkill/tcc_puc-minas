@@ -3,7 +3,7 @@
     "sgqEmpresaConsultoria": {
       "home": {
         "title": "Empresas de consultoria",
-        "createLabel": "Criar nova empresa de consultoria",
+        "createLabel": "Adicionar",
         "createOrEditLabel": "Criar ou editar empresa de consultoria",
         "notFound": "Nenhuma empresa de consultoria encontrada"
       },
@@ -14,7 +14,7 @@
         "title": "Empresa de consultoria"
       },
       "nome": "Nome",
-      "urlIntegracao": "Url de integração",
+      "urlIntegracao": "URL de integração",
       "tokenAcesso": "Token de acesso",
       "help": {
         "tokenAcesso": "Token JWT"

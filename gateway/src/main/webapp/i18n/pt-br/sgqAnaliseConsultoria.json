@@ -3,7 +3,7 @@
     "sgqAnaliseConsultoria": {
       "home": {
         "title": "Análises de consultoria",
-        "createLabel": "Criar nova análise de consultoria",
+        "createLabel": "Adicionar",
         "createOrEditLabel": "Criar ou editar análise de consultoria",
         "notFound": "Nenhuma análise de consultoria encontrada"
       },

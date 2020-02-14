@@ -3,7 +3,7 @@
     "sgqCategoriaPublicacao": {
       "home": {
         "title": "Categorias de publicação",
-        "createLabel": "Criar nova categoria de publicacao",
+        "createLabel": "Adicionar",
         "createOrEditLabel": "Criar ou editar categoria de publicação",
         "notFound": "Nenhuma categoria de publicação encontrada"
       },

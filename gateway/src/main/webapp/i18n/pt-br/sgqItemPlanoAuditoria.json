@@ -3,7 +3,7 @@
     "sgqItemPlanoAuditoria": {
       "home": {
         "title": "Itens de plano de auditoria",
-        "createLabel": "Criar novo item de plano de auditoria",
+        "createLabel": "Adicionar",
         "createOrEditLabel": "Criar ou editar item de plano de auditoria",
         "notFound": "Nenhum item de plano de auditoria encontrado"
       },

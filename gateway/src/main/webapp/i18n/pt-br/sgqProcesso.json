@@ -1,9 +1,9 @@
 {
   "gatewayApp": {
-    "sgqprocesso": {
+    "sgqProcesso": {
       "home": {
         "title": "Processos",
-        "createLabel": "Criar novo processo",
+        "createLabel": "Adicionar",
         "createOrEditLabel": "Criar ou editar processo",
         "notFound": "Nenhum processo encontrado"
       },

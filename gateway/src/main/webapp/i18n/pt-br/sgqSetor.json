@@ -3,7 +3,7 @@
     "sgqSetor": {
       "home": {
         "title": "Setores",
-        "createLabel": "Criar novo setor",
+        "createLabel": "Adicionar",
         "createOrEditLabel": "Criar ou editar setor",
         "notFound": "Nenhum setor encontrado"
       },

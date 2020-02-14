@@ -3,7 +3,7 @@
     "sgqCampanhaRecall": {
       "home": {
         "title": "Campanhas de recall",
-        "createLabel": "Criar nova campanha de recall",
+        "createLabel": "Adicionar",
         "createOrEditLabel": "Criar ou editar campanha de recall",
         "notFound": "Nenhuma campanha recall encontrada"
       },
