@@ -1,6 +1,6 @@
 {
   "global": {
-    "title": "Gateway",
+    "title": "SGQ",
     "browsehappy": "Você está usando um navegador <strong>desatualizado</strong>. Favor <a href=\"http://browsehappy.com/?locale=pt_BR\">atualize o seu navegador</a> para ter uma experiência melhor.",
     "menu": {
       "home": "Início",
@@ -11,28 +11,28 @@
         "sgqSetor": "Setores",
         "sgqProcesso": "Processos",
         "sgqProduto": "Produtos",
-        "sgqAnexo": "Anexo",
-        "sgqAcaoSgq": "Ações do SGQ",
+        "sgqAnexo": "Anexos",
+        "sgqAcaoSgq": "Ações SGQ",
         "sgqNaoConformidade": "Não conformidades",
-        "sgqProdutoNaoConforme": "Produtos não conforme",
+        "sgqProdutoNaoConforme": "Produtos não conformes",
         "sgqAuditoria": "Auditorias",
         "sgqPlanoAuditoria": "Planos de auditorias",
-        "sgqItemPlanoAuditoria": "Itens de plano",
+        "sgqItemPlanoAuditoria": "Itens de planos de auditorias",
         "sgqChecklist": "Checklists",
-        "sgqItemChecklist": "Itens de checklist",
-        "sgqResultadoChecklist": "Resultados de checklist",
-        "sgqResultadoItemChecklist": "Resultados de item",
+        "sgqItemChecklist": "Itens de checklists",
+        "sgqResultadoChecklist": "Resultados de checklists",
+        "sgqResultadoItemChecklist": "Resultados de itens de checklists",
         "sgqEventoOperacional": "Eventos operacionais",
         "sgqCampanhaRecall": "Campanhas de recall",
         "sgqBoletimInformativo": "Boletins informativos",
         "sgqPublicoAlvo": "Publicos alvo",
         "sgqFeed": "Feeds",
         "sgqPublicacaoFeed": "Publicações de feed",
-        "sgqCategoriaPublicacao": "Categorias",
-        "sgqEmpresaConsultoria": "Consultorias",
+        "sgqCategoriaPublicacao": "Categorias de publicações",
+        "sgqEmpresaConsultoria": "Empresas de consultoria",
         "sgqNorma": "Normas",
         "sgqAnaliseConsultoria": "Análises de consultoria",
-        "sgqResultadoAuditoria": "Resultados de auditoria",
+        "sgqResultadoAuditoria": "Resultados de auditorias",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
       "account": {
@@ -77,7 +77,7 @@
         "authenticated": {
           "prefix": "Se deseja ",
           "link": "entrar",
-          "suffix": ", utilize as seguintes contas padrões:<br/>- Administrador (usuário=\"admin\" and senha=\"admin\") <br/>- Usuário (usuário=\"user\" e senha=\"user\")."
+          "suffix": ", utilize as seguintes contas padrões:<br/>- Administrador (usuário=\"admin\" e senha=\"admin\") <br/>- Gestor SGQ (login=\"sgq\" e senha=\"admin\" )<br/>- Usuário (usuário=\"user\" e senha=\"user\")."
         },
         "register": {
           "noaccount": "Não possui uma conta ainda?",
