@@ -160,7 +160,7 @@ export class ProdutoNaoConformeUpdateComponent implements OnInit {
         )
         .subscribe((resBody: IUser[]) =>
           resBody.forEach(item => {
-            if (!item.isAdmin()) this.usuarios.push(item);
+            if (!this.userService.isAdmin(item)) this.usuarios.push(item);
           })
         );
     });

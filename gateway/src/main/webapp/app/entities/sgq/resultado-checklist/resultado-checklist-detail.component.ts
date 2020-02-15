@@ -32,7 +32,7 @@ export class ResultadoChecklistDetailComponent implements OnInit {
         )
         .subscribe((resBody: IUser[]) =>
           resBody.forEach(item => {
-            if (!item.isAdmin()) this.usuarios.set(item.id, item);
+            if (!this.userService.isAdmin(item)) this.usuarios.set(item.id, item);
           })
         );
     });

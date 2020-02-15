@@ -36,4 +36,9 @@ export class UserService {
   authorities(): Observable<string[]> {
     return this.http.get<string[]>(SERVER_API_URL + 'api/users/authorities');
   }
+
+  // TODO: provavelmente esse teste ficaria melhor em outro lugar
+  isAdmin(user: IUser): boolean {
+    return user.authorities ? user.authorities.includes('ROLE_ADMIN') : false;
+  }
 }
