@@ -16,6 +16,7 @@ import { IResultadoAuditoria } from 'app/shared/model/sgq/resultado-auditoria.mo
 import { ResultadoAuditoriaService } from 'app/entities/sgq/resultado-auditoria/resultado-auditoria.service';
 import { IResultadoItemChecklist } from 'app/shared/model/sgq/resultado-item-checklist.model';
 import { ResultadoItemChecklistService } from 'app/entities/sgq/resultado-item-checklist/resultado-item-checklist.service';
+
 import { IUser } from 'app/core/user/user.model';
 import { UserService } from 'app/core/user/user.service';
 
@@ -57,8 +58,8 @@ export class NaoConformidadeUpdateComponent implements OnInit {
     protected resultadoAuditoriaService: ResultadoAuditoriaService,
     protected resultadoItemChecklistService: ResultadoItemChecklistService,
     protected activatedRoute: ActivatedRoute,
-    private fb: FormBuilder,
-    protected userService: UserService
+    protected userService: UserService,
+    private fb: FormBuilder
   ) {}
 
   ngOnInit(): void {

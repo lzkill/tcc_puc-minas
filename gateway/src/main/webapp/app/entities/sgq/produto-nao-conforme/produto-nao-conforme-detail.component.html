@@ -5,14 +5,14 @@
             <hr>
             <jhi-alert-error></jhi-alert-error>
             <dl class="row-md jh-entity-details">
-                <dt><span jhiTranslate="gatewayApp.sgqProdutoNaoConforme.idUsuarioRegistro">Id Usuario Registro</span></dt>
-                <dd>
-                    <span>{{produtoNaoConforme.idUsuarioRegistro}}</span>
-                </dd>
-                <dt><span jhiTranslate="gatewayApp.sgqProdutoNaoConforme.idUsuarioResponsavel">Id Usuario Responsavel</span></dt>
-                <dd>
-                    <span>{{produtoNaoConforme.idUsuarioResponsavel}}</span>
-                </dd>
+              <dt><span jhiTranslate="gatewayApp.sgqNaoConformidade.idUsuarioRegistro">Id Usuario Registro</span></dt>
+              <dd>
+                  <span>{{usuarios.has(produtoNaoConforme.idUsuarioRegistro) ? usuarios.get(produtoNaoConforme.idUsuarioRegistro).login : ""}}</span>
+              </dd>
+              <dt><span jhiTranslate="gatewayApp.sgqNaoConformidade.idUsuarioResponsavel">Id Usuario Responsavel</span></dt>
+              <dd>
+                  <span>{{usuarios.has(produtoNaoConforme.idUsuarioResponsavel) ? usuarios.get(produtoNaoConforme.idUsuarioResponsavel).login : ""}}</span>
+              </dd>
                 <dt><span jhiTranslate="gatewayApp.sgqProdutoNaoConforme.titulo">Titulo</span></dt>
                 <dd>
                     <span>{{produtoNaoConforme.titulo}}</span>

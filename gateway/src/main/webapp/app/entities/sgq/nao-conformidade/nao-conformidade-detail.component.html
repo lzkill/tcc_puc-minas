@@ -7,11 +7,11 @@
             <dl class="row-md jh-entity-details">
                 <dt><span jhiTranslate="gatewayApp.sgqNaoConformidade.idUsuarioRegistro">Id Usuario Registro</span></dt>
                 <dd>
-                    <span>{{naoConformidade.idUsuarioRegistro}}</span>
+                    <span>{{usuarios.has(naoConformidade.idUsuarioRegistro) ? usuarios.get(naoConformidade.idUsuarioRegistro).login : ""}}</span>
                 </dd>
                 <dt><span jhiTranslate="gatewayApp.sgqNaoConformidade.idUsuarioResponsavel">Id Usuario Responsavel</span></dt>
                 <dd>
-                    <span>{{naoConformidade.idUsuarioResponsavel}}</span>
+                    <span>{{usuarios.has(naoConformidade.idUsuarioResponsavel) ? usuarios.get(naoConformidade.idUsuarioResponsavel).login : ""}}</span>
                 </dd>
                 <dt><span jhiTranslate="gatewayApp.sgqNaoConformidade.titulo">Titulo</span></dt>
                 <dd>
