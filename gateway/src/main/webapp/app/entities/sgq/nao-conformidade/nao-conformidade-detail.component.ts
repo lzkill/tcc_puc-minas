@@ -31,7 +31,11 @@ export class NaoConformidadeDetailComponent implements OnInit {
             return res.body ? res.body : [];
           })
         )
-        .subscribe((resBody: IUser[]) => resBody.forEach(item => this.usuarios.set(item.id, item)));
+        .subscribe((resBody: IUser[]) =>
+          resBody.forEach(item => {
+            if (!item.isAdmin()) this.usuarios.set(item.id, item);
+          })
+        );
     });
   }
 

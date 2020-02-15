@@ -15,6 +15,9 @@ import { AlertError } from 'app/shared/alert/alert-error.model';
 import { INaoConformidade } from 'app/shared/model/sgq/nao-conformidade.model';
 import { NaoConformidadeService } from 'app/entities/sgq/nao-conformidade/nao-conformidade.service';
 
+import { IUser } from 'app/core/user/user.model';
+import { UserService } from 'app/core/user/user.service';
+
 @Component({
   selector: 'jhi-acao-sgq-update',
   templateUrl: './acao-sgq-update.component.html'
@@ -23,6 +26,7 @@ export class AcaoSGQUpdateComponent implements OnInit {
   isSaving = false;
 
   naoconformidades: INaoConformidade[] = [];
+  usuarios: IUser[] = [];
 
   editForm = this.fb.group({
     id: [],
@@ -46,6 +50,7 @@ export class AcaoSGQUpdateComponent implements OnInit {
     protected acaoSGQService: AcaoSGQService,
     protected naoConformidadeService: NaoConformidadeService,
     protected activatedRoute: ActivatedRoute,
+    protected userService: UserService,
     private fb: FormBuilder
   ) {}
 
@@ -61,6 +66,19 @@ export class AcaoSGQUpdateComponent implements OnInit {
           })
         )
         .subscribe((resBody: INaoConformidade[]) => (this.naoconformidades = resBody));
+
+      this.userService
+        .query()
+        .pipe(
+          map((res: HttpResponse<IUser[]>) => {
+            return res.body ? res.body : [];
+          })
+        )
+        .subscribe((resBody: IUser[]) =>
+          resBody.forEach(item => {
+            if (!item.isAdmin()) this.usuarios.push(item);
+          })
+        );
     });
   }
 

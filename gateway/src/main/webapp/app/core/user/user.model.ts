@@ -12,6 +12,8 @@ export interface IUser {
   lastModifiedBy?: string;
   lastModifiedDate?: Date;
   password?: string;
+
+  isAdmin(): boolean;
 }
 
 export class User implements IUser {
@@ -30,4 +32,8 @@ export class User implements IUser {
     public lastModifiedDate?: Date,
     public password?: string
   ) {}
+
+  isAdmin(): boolean {
+    return this.authorities ? this.authorities.indexOf('ROLE_ADMIN') > -1 : false;
+  }
 }

@@ -13,6 +13,9 @@ import { ResultadoChecklistService } from './resultado-checklist.service';
 import { IChecklist } from 'app/shared/model/sgq/checklist.model';
 import { ChecklistService } from 'app/entities/sgq/checklist/checklist.service';
 
+import { IUser } from 'app/core/user/user.model';
+import { UserService } from 'app/core/user/user.service';
+
 @Component({
   selector: 'jhi-resultado-checklist-update',
   templateUrl: './resultado-checklist-update.component.html'
@@ -21,6 +24,7 @@ export class ResultadoChecklistUpdateComponent implements OnInit {
   isSaving = false;
 
   checklists: IChecklist[] = [];
+  usuarios: IUser[] = [];
 
   editForm = this.fb.group({
     id: [],
@@ -34,6 +38,7 @@ export class ResultadoChecklistUpdateComponent implements OnInit {
     protected resultadoChecklistService: ResultadoChecklistService,
     protected checklistService: ChecklistService,
     protected activatedRoute: ActivatedRoute,
+    protected userService: UserService,
     private fb: FormBuilder
   ) {}
 
@@ -49,6 +54,19 @@ export class ResultadoChecklistUpdateComponent implements OnInit {
           })
         )
         .subscribe((resBody: IChecklist[]) => (this.checklists = resBody));
+
+      this.userService
+        .query()
+        .pipe(
+          map((res: HttpResponse<IUser[]>) => {
+            return res.body ? res.body : [];
+          })
+        )
+        .subscribe((resBody: IUser[]) =>
+          resBody.forEach(item => {
+            if (!item.isAdmin()) this.usuarios.push(item);
+          })
+        );
     });
   }
 

@@ -14,7 +14,7 @@
                     <select class="form-control" id="field_idUsuarioRegistro" name="idUsuarioRegistro" formControlName="idUsuarioRegistro">
                       <option [ngValue]="null"></option>
                       <option [ngValue]="usuarioRegistroOption.id === editForm.get('idUsuarioRegistro')!.value?.id ? editForm.get('idUsuarioRegistro')!.value : usuarioRegistroOption.id" *ngFor="let usuarioRegistroOption of usuarios; trackBy: trackById">{{usuarioRegistroOption.firstName}} {{usuarioRegistroOption.lastName}}</option>
-                  </select>
+                    </select>
                     <div *ngIf="editForm.get('idUsuarioRegistro')!.invalid && (editForm.get('idUsuarioRegistro')!.dirty || editForm.get('idUsuarioRegistro')!.touched)">
                         <small class="form-text text-danger"
                                *ngIf="editForm.get('idUsuarioRegistro')?.errors?.required" jhiTranslate="entity.validation.required">
@@ -27,7 +27,7 @@
                     <select class="form-control" id="field_idUsuarioResponsavel" name="idUsuarioResponsavel" formControlName="idUsuarioResponsavel">
                       <option [ngValue]="null"></option>
                       <option [ngValue]="usuarioResponsavelOption.id === editForm.get('idUsuarioResponsavel')!.value?.id ? editForm.get('idUsuarioResponsavel')!.value : usuarioResponsavelOption.id" *ngFor="let usuarioResponsavelOption of usuarios; trackBy: trackById">{{usuarioResponsavelOption.firstName}} {{usuarioResponsavelOption.lastName}}</option>
-                  </select>
+                    </select>
                     <div *ngIf="editForm.get('idUsuarioResponsavel')!.invalid && (editForm.get('idUsuarioResponsavel')!.dirty || editForm.get('idUsuarioResponsavel')!.touched)">
                         <small class="form-text text-danger"
                                *ngIf="editForm.get('idUsuarioResponsavel')?.errors?.required" jhiTranslate="entity.validation.required">

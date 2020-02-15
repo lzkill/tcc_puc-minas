@@ -4,6 +4,11 @@ import { JhiDataUtils } from 'ng-jhipster';
 
 import { IBoletimInformativo } from 'app/shared/model/sgq/boletim-informativo.model';
 
+import { IUser } from 'app/core/user/user.model';
+import { UserService } from 'app/core/user/user.service';
+import { map } from 'rxjs/operators';
+import { HttpResponse } from '@angular/common/http';
+
 @Component({
   selector: 'jhi-boletim-informativo-detail',
   templateUrl: './boletim-informativo-detail.component.html'
@@ -11,11 +16,26 @@ import { IBoletimInformativo } from 'app/shared/model/sgq/boletim-informativo.mo
 export class BoletimInformativoDetailComponent implements OnInit {
   boletimInformativo: IBoletimInformativo | null = null;
 
-  constructor(protected dataUtils: JhiDataUtils, protected activatedRoute: ActivatedRoute) {}
+  usuarios: Map<any, IUser> = new Map<any, IUser>();
+
+  constructor(protected dataUtils: JhiDataUtils, protected activatedRoute: ActivatedRoute, protected userService: UserService) {}
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ boletimInformativo }) => {
       this.boletimInformativo = boletimInformativo;
+
+      this.userService
+        .query()
+        .pipe(
+          map((res: HttpResponse<IUser[]>) => {
+            return res.body ? res.body : [];
+          })
+        )
+        .subscribe((resBody: IUser[]) =>
+          resBody.forEach(item => {
+            if (!item.isAdmin()) this.usuarios.set(item.id, item);
+          })
+        );
     });
   }
 

@@ -11,16 +11,14 @@
                 </div>
                 <div class="form-group">
                     <label class="form-control-label" jhiTranslate="gatewayApp.sgqFeed.idUsuarioRegistro" for="field_idUsuarioRegistro">Id Usuario Registro</label>
-                    <input type="number" class="form-control" name="idUsuarioRegistro" id="field_idUsuarioRegistro"
-                           formControlName="idUsuarioRegistro"/>
+                    <select class="form-control" id="field_idUsuarioRegistro" name="idUsuarioRegistro" formControlName="idUsuarioRegistro">
+                      <option [ngValue]="null"></option>
+                      <option [ngValue]="usuarioRegistroOption.id === editForm.get('idUsuarioRegistro')!.value?.id ? editForm.get('idUsuarioRegistro')!.value : usuarioRegistroOption.id" *ngFor="let usuarioRegistroOption of usuarios; trackBy: trackById">{{usuarioRegistroOption.firstName}} {{usuarioRegistroOption.lastName}}</option>
+                    </select>
                     <div *ngIf="editForm.get('idUsuarioRegistro')!.invalid && (editForm.get('idUsuarioRegistro')!.dirty || editForm.get('idUsuarioRegistro')!.touched)">
                         <small class="form-text text-danger"
                                *ngIf="editForm.get('idUsuarioRegistro')?.errors?.required" jhiTranslate="entity.validation.required">
                         This field is required.
-                        </small>
-                        <small class="form-text text-danger"
-                            [hidden]="!editForm.get('idUsuarioRegistro')?.errors?.number" jhiTranslate="entity.validation.number">
-                            This field should be a number.
                         </small>
                     </div>
                 </div>

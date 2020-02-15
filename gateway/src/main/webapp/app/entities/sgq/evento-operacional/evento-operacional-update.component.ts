@@ -15,6 +15,9 @@ import { AlertError } from 'app/shared/alert/alert-error.model';
 import { IProcesso } from 'app/shared/model/sgq/processo.model';
 import { ProcessoService } from 'app/entities/sgq/processo/processo.service';
 
+import { IUser } from 'app/core/user/user.model';
+import { UserService } from 'app/core/user/user.service';
+
 @Component({
   selector: 'jhi-evento-operacional-update',
   templateUrl: './evento-operacional-update.component.html'
@@ -23,6 +26,7 @@ export class EventoOperacionalUpdateComponent implements OnInit {
   isSaving = false;
 
   processos: IProcesso[] = [];
+  usuarios: IUser[] = [];
 
   editForm = this.fb.group({
     id: [],
@@ -42,6 +46,7 @@ export class EventoOperacionalUpdateComponent implements OnInit {
     protected eventoOperacionalService: EventoOperacionalService,
     protected processoService: ProcessoService,
     protected activatedRoute: ActivatedRoute,
+    protected userService: UserService,
     private fb: FormBuilder
   ) {}
 
@@ -57,6 +62,19 @@ export class EventoOperacionalUpdateComponent implements OnInit {
           })
         )
         .subscribe((resBody: IProcesso[]) => (this.processos = resBody));
+
+      this.userService
+        .query()
+        .pipe(
+          map((res: HttpResponse<IUser[]>) => {
+            return res.body ? res.body : [];
+          })
+        )
+        .subscribe((resBody: IUser[]) =>
+          resBody.forEach(item => {
+            if (!item.isAdmin()) this.usuarios.push(item);
+          })
+        );
     });
   }
 

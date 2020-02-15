@@ -158,7 +158,11 @@ export class ProdutoNaoConformeUpdateComponent implements OnInit {
             return res.body ? res.body : [];
           })
         )
-        .subscribe((resBody: IUser[]) => (this.usuarios = resBody));
+        .subscribe((resBody: IUser[]) =>
+          resBody.forEach(item => {
+            if (!item.isAdmin()) this.usuarios.push(item);
+          })
+        );
     });
   }
 

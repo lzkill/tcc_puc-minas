@@ -37,7 +37,7 @@
             <tbody>
             <tr *ngFor="let publicacaoFeed of publicacaoFeeds ;trackBy: trackId">
                 <td><a [routerLink]="['/publicacao-feed', publicacaoFeed.id, 'view' ]">{{publicacaoFeed.id}}</a></td>
-                <td>{{publicacaoFeed.idUsuarioRegistro}}</td>
+                <td>{{usuarios.has(publicacaoFeed.idUsuarioRegistro) ? usuarios.get(publicacaoFeed.idUsuarioRegistro).login : ""}}</td>
                 <td>{{publicacaoFeed.titulo}}</td>
                 <td>{{publicacaoFeed.autor}}</td>
                 <td>{{publicacaoFeed.uri}}</td>
