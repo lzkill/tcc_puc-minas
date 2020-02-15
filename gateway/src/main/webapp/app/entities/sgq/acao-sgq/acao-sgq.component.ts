@@ -11,6 +11,10 @@ import { ITEMS_PER_PAGE } from 'app/shared/constants/pagination.constants';
 import { AcaoSGQService } from './acao-sgq.service';
 import { AcaoSGQDeleteDialogComponent } from './acao-sgq-delete-dialog.component';
 
+import { IUser } from 'app/core/user/user.model';
+import { UserService } from 'app/core/user/user.service';
+import { map } from 'rxjs/operators';
+
 @Component({
   selector: 'jhi-acao-sgq',
   templateUrl: './acao-sgq.component.html'
@@ -25,13 +29,16 @@ export class AcaoSGQComponent implements OnInit, OnDestroy {
   ascending!: boolean;
   ngbPaginationPage = 1;
 
+  usuarios: Map<any, IUser> = new Map<any, IUser>();
+
   constructor(
     protected acaoSGQService: AcaoSGQService,
     protected activatedRoute: ActivatedRoute,
     protected dataUtils: JhiDataUtils,
     protected router: Router,
     protected eventManager: JhiEventManager,
-    protected modalService: NgbModal
+    protected modalService: NgbModal,
+    protected userService: UserService
   ) {}
 
   loadPage(page?: number): void {
@@ -54,6 +61,16 @@ export class AcaoSGQComponent implements OnInit, OnDestroy {
       this.ascending = data.pagingParams.ascending;
       this.predicate = data.pagingParams.predicate;
       this.ngbPaginationPage = data.pagingParams.page;
+
+      this.userService
+        .query()
+        .pipe(
+          map((res: HttpResponse<IUser[]>) => {
+            return res.body ? res.body : [];
+          })
+        )
+        .subscribe((resBody: IUser[]) => resBody.forEach(item => this.usuarios.set(item.id, item)));
+
       this.loadPage();
     });
     this.registerChangeInAcaoSGQS();

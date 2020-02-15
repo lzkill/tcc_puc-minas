@@ -32,7 +32,7 @@
             <tbody>
             <tr *ngFor="let boletimInformativo of boletimInformativos ;trackBy: trackId">
                 <td><a [routerLink]="['/boletim-informativo', boletimInformativo.id, 'view' ]">{{boletimInformativo.id}}</a></td>
-                <td>{{boletimInformativo.idUsuarioRegistro}}</td>
+                <td>{{usuarios.has(boletimInformativo.idUsuarioRegistro) ? usuarios.get(boletimInformativo.idUsuarioRegistro).login : ""}}</td>
                 <td>{{boletimInformativo.titulo}}</td>
                 <td>{{boletimInformativo.descricao}}</td>
                 <td>{{boletimInformativo.dataRegistro | date:'medium'}}</td>

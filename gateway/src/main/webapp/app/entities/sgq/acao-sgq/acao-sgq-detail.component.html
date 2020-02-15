@@ -7,11 +7,11 @@
             <dl class="row-md jh-entity-details">
                 <dt><span jhiTranslate="gatewayApp.sgqAcaoSgq.idUsuarioRegistro">Id Usuario Registro</span></dt>
                 <dd>
-                    <span>{{acaoSGQ.idUsuarioRegistro}}</span>
+                  <span>{{usuarios.has(acaoSGQ.idUsuarioRegistro) ? usuarios.get(acaoSGQ.idUsuarioRegistro).firstName + " " + usuarios.get(acaoSGQ.idUsuarioRegistro).lastName : ""}}</span>
                 </dd>
                 <dt><span jhiTranslate="gatewayApp.sgqAcaoSgq.idUsuarioResponsavel">Id Usuario Responsavel</span></dt>
                 <dd>
-                    <span>{{acaoSGQ.idUsuarioResponsavel}}</span>
+                    <span>{{usuarios.has(acaoSGQ.idUsuarioResponsavel) ? usuarios.get(acaoSGQ.idUsuarioResponsavel).firstName + " " +usuarios.get(acaoSGQ.idUsuarioResponsavel).lastName : ""}}</span>
                 </dd>
                 <dt><span jhiTranslate="gatewayApp.sgqAcaoSgq.tipo">Tipo</span></dt>
                 <dd>

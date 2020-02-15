@@ -33,7 +33,7 @@
             <tbody>
             <tr *ngFor="let eventoOperacional of eventoOperacionals ;trackBy: trackId">
                 <td><a [routerLink]="['/evento-operacional', eventoOperacional.id, 'view' ]">{{eventoOperacional.id}}</a></td>
-                <td>{{eventoOperacional.idUsuarioRegistro}}</td>
+                <td>{{usuarios.has(eventoOperacional.idUsuarioRegistro) ? usuarios.get(eventoOperacional.idUsuarioRegistro).login : ""}}</td>
                 <td jhiTranslate="{{'gatewayApp.TipoEventoOperacional.' + eventoOperacional.tipo}}">{{eventoOperacional.tipo}}</td>
                 <td>{{eventoOperacional.titulo}}</td>
                 <td>{{eventoOperacional.descricao}}</td>

@@ -15,6 +15,9 @@ import { AlertError } from 'app/shared/alert/alert-error.model';
 import { IAuditoria } from 'app/shared/model/sgq/auditoria.model';
 import { AuditoriaService } from 'app/entities/sgq/auditoria/auditoria.service';
 
+import { IUser } from 'app/core/user/user.model';
+import { UserService } from 'app/core/user/user.service';
+
 @Component({
   selector: 'jhi-resultado-auditoria-update',
   templateUrl: './resultado-auditoria-update.component.html'
@@ -23,6 +26,7 @@ export class ResultadoAuditoriaUpdateComponent implements OnInit {
   isSaving = false;
 
   auditorias: IAuditoria[] = [];
+  usuarios: IUser[] = [];
 
   editForm = this.fb.group({
     id: [],
@@ -39,6 +43,7 @@ export class ResultadoAuditoriaUpdateComponent implements OnInit {
     protected resultadoAuditoriaService: ResultadoAuditoriaService,
     protected auditoriaService: AuditoriaService,
     protected activatedRoute: ActivatedRoute,
+    protected userService: UserService,
     private fb: FormBuilder
   ) {}
 
@@ -54,6 +59,19 @@ export class ResultadoAuditoriaUpdateComponent implements OnInit {
           })
         )
         .subscribe((resBody: IAuditoria[]) => (this.auditorias = resBody));
+
+      this.userService
+        .query()
+        .pipe(
+          map((res: HttpResponse<IUser[]>) => {
+            return res.body ? res.body : [];
+          })
+        )
+        .subscribe((resBody: IUser[]) =>
+          resBody.forEach(item => {
+            if (!item.isAdmin()) this.usuarios.push(item);
+          })
+        );
     });
   }
 

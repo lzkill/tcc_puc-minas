@@ -23,6 +23,9 @@ import { ResultadoAuditoriaService } from 'app/entities/sgq/resultado-auditoria/
 import { IResultadoItemChecklist } from 'app/shared/model/sgq/resultado-item-checklist.model';
 import { ResultadoItemChecklistService } from 'app/entities/sgq/resultado-item-checklist/resultado-item-checklist.service';
 
+import { IUser } from 'app/core/user/user.model';
+import { UserService } from 'app/core/user/user.service';
+
 type SelectableEntity = IAcaoSGQ | INaoConformidade | IProduto | IResultadoAuditoria | IResultadoItemChecklist;
 
 @Component({
@@ -31,16 +34,12 @@ type SelectableEntity = IAcaoSGQ | INaoConformidade | IProduto | IResultadoAudit
 })
 export class ProdutoNaoConformeUpdateComponent implements OnInit {
   isSaving = false;
-
   acaos: IAcaoSGQ[] = [];
-
   naoconformidades: INaoConformidade[] = [];
-
   produtos: IProduto[] = [];
-
   resultadoauditorias: IResultadoAuditoria[] = [];
-
   resultadoitemchecklists: IResultadoItemChecklist[] = [];
+  usuarios: IUser[] = [];
 
   editForm = this.fb.group({
     id: [],
@@ -69,6 +68,7 @@ export class ProdutoNaoConformeUpdateComponent implements OnInit {
     protected resultadoAuditoriaService: ResultadoAuditoriaService,
     protected resultadoItemChecklistService: ResultadoItemChecklistService,
     protected activatedRoute: ActivatedRoute,
+    protected userService: UserService,
     private fb: FormBuilder
   ) {}
 
@@ -150,6 +150,19 @@ export class ProdutoNaoConformeUpdateComponent implements OnInit {
           })
         )
         .subscribe((resBody: IResultadoItemChecklist[]) => (this.resultadoitemchecklists = resBody));
+
+      this.userService
+        .query()
+        .pipe(
+          map((res: HttpResponse<IUser[]>) => {
+            return res.body ? res.body : [];
+          })
+        )
+        .subscribe((resBody: IUser[]) =>
+          resBody.forEach(item => {
+            if (!item.isAdmin()) this.usuarios.push(item);
+          })
+        );
     });
   }
 

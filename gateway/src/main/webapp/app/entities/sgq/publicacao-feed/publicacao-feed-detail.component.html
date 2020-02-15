@@ -7,8 +7,8 @@
             <dl class="row-md jh-entity-details">
                 <dt><span jhiTranslate="gatewayApp.sgqPublicacaoFeed.idUsuarioRegistro">Id Usuario Registro</span></dt>
                 <dd>
-                    <span>{{publicacaoFeed.idUsuarioRegistro}}</span>
-                </dd>
+                  <span>{{usuarios.has(publicacaoFeed.idUsuarioRegistro) ? usuarios.get(publicacaoFeed.idUsuarioRegistro).firstName + " " + usuarios.get(publicacaoFeed.idUsuarioRegistro).lastName : ""}}</span>
+              </dd>
                 <dt><span jhiTranslate="gatewayApp.sgqPublicacaoFeed.titulo">Titulo</span></dt>
                 <dd>
                     <span>{{publicacaoFeed.titulo}}</span>

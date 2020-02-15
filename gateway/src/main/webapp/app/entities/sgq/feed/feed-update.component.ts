@@ -4,11 +4,15 @@ import { HttpResponse } from '@angular/common/http';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import * as moment from 'moment';
 import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 
 import { IFeed, Feed } from 'app/shared/model/sgq/feed.model';
 import { FeedService } from './feed.service';
+
+import { IUser } from 'app/core/user/user.model';
+import { UserService } from 'app/core/user/user.service';
 
 @Component({
   selector: 'jhi-feed-update',
@@ -16,6 +20,8 @@ import { FeedService } from './feed.service';
 })
 export class FeedUpdateComponent implements OnInit {
   isSaving = false;
+
+  usuarios: IUser[] = [];
 
   editForm = this.fb.group({
     id: [],
@@ -33,10 +39,28 @@ export class FeedUpdateComponent implements OnInit {
     status: [null, [Validators.required]]
   });
 
-  constructor(protected feedService: FeedService, protected activatedRoute: ActivatedRoute, private fb: FormBuilder) {}
+  constructor(
+    protected feedService: FeedService,
+    protected activatedRoute: ActivatedRoute,
+    protected userService: UserService,
+    private fb: FormBuilder
+  ) {}
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ feed }) => {
+      this.userService
+        .query()
+        .pipe(
+          map((res: HttpResponse<IUser[]>) => {
+            return res.body ? res.body : [];
+          })
+        )
+        .subscribe((resBody: IUser[]) =>
+          resBody.forEach(item => {
+            if (!item.isAdmin()) this.usuarios.push(item);
+          })
+        );
+
       this.updateForm(feed);
     });
   }

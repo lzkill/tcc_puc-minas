@@ -17,6 +17,9 @@ import { PublicoAlvoService } from 'app/entities/sgq/publico-alvo/publico-alvo.s
 import { ICategoriaPublicacao } from 'app/shared/model/sgq/categoria-publicacao.model';
 import { CategoriaPublicacaoService } from 'app/entities/sgq/categoria-publicacao/categoria-publicacao.service';
 
+import { IUser } from 'app/core/user/user.model';
+import { UserService } from 'app/core/user/user.service';
+
 type SelectableEntity = IPublicoAlvo | ICategoriaPublicacao;
 
 @Component({
@@ -27,8 +30,8 @@ export class BoletimInformativoUpdateComponent implements OnInit {
   isSaving = false;
 
   publicoalvos: IPublicoAlvo[] = [];
-
   categoriapublicacaos: ICategoriaPublicacao[] = [];
+  usuarios: IUser[] = [];
 
   editForm = this.fb.group({
     id: [],
@@ -49,6 +52,7 @@ export class BoletimInformativoUpdateComponent implements OnInit {
     protected publicoAlvoService: PublicoAlvoService,
     protected categoriaPublicacaoService: CategoriaPublicacaoService,
     protected activatedRoute: ActivatedRoute,
+    protected userService: UserService,
     private fb: FormBuilder
   ) {}
 
@@ -73,6 +77,19 @@ export class BoletimInformativoUpdateComponent implements OnInit {
           })
         )
         .subscribe((resBody: ICategoriaPublicacao[]) => (this.categoriapublicacaos = resBody));
+
+      this.userService
+        .query()
+        .pipe(
+          map((res: HttpResponse<IUser[]>) => {
+            return res.body ? res.body : [];
+          })
+        )
+        .subscribe((resBody: IUser[]) =>
+          resBody.forEach(item => {
+            if (!item.isAdmin()) this.usuarios.push(item);
+          })
+        );
     });
   }
 
