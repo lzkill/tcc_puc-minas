@@ -3,35 +3,35 @@
     "sgqFeed": {
       "home": {
         "title": "Feeds",
-        "createLabel": "Criar novo Feed",
-        "createOrEditLabel": "Criar ou editar Feed",
-        "notFound": "Nenhum Feed encontrado"
+        "createLabel": "Adicionar",
+        "createOrEditLabel": "Criar ou editar feed",
+        "notFound": "Nenhum feed encontrado"
       },
       "delete": {
-        "question": "Tem certeza de que deseja excluir Feed {{ id }}?"
+        "question": "Tem certeza de que deseja excluir o feed {{ id }}?"
       },
       "detail": {
         "title": "Feed"
       },
-      "idUsuarioRegistro": "Id Usuario Registro",
+      "idUsuarioRegistro": "Usuário de registro",
       "tipo": "Tipo",
-      "titulo": "Titulo",
-      "descricao": "Descricao",
-      "uri": "Uri",
+      "titulo": "Título",
+      "descricao": "Descrição",
+      "uri": "URI",
       "link": "Link",
-      "urlImagem": "Url Imagem",
-      "tituloImagem": "Titulo Imagem",
-      "alturaImagem": "Altura Imagem",
-      "larguraImagem": "Largura Imagem",
-      "dataRegistro": "Data Registro",
+      "urlImagem": "Url da imagem",
+      "tituloImagem": "Título da imagem",
+      "alturaImagem": "Altura da imagem",
+      "larguraImagem": "Largura da imagem",
+      "dataRegistro": "Data de registro",
       "status": "Status"
     }
   },
   "sgqApp": {
-    "sgqFeed": {
-      "created": "Um novo Feed foi criado com o identificador {{ param }}",
-      "updated": "Um Feed foi atualizado com o identificador {{ param }}",
-      "deleted": "Um Feed foi excluído com o identificador {{ param }}"
+    "sgqfeed": {
+      "created": "Um novo feed foi criado com o identificador {{ param }}",
+      "updated": "Um feed foi atualizado com o identificador {{ param }}",
+      "deleted": "Um feed foi excluído com o identificador {{ param }}"
     }
   }
 }

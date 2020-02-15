@@ -3,7 +3,7 @@
     "sgqBoletimInformativo": {
       "home": {
         "title": "Boletins informativos",
-        "createLabel": "Criar novo boletim informativo",
+        "createLabel": "Adicionar",
         "createOrEditLabel": "Criar ou editar boletim informativo",
         "notFound": "Nenhum boletim informativo encontrado"
       },

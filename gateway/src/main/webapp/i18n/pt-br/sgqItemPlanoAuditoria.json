@@ -2,19 +2,19 @@
   "gatewayApp": {
     "sgqItemPlanoAuditoria": {
       "home": {
-        "title": "Item Plano Auditorias",
-        "createLabel": "Criar novo Item Plano Auditoria",
-        "createOrEditLabel": "Criar ou editar Item Plano Auditoria",
-        "notFound": "Nenhum Item Plano Auditoria encontrado"
+        "title": "Itens de plano de auditoria",
+        "createLabel": "Adicionar",
+        "createOrEditLabel": "Criar ou editar item de plano de auditoria",
+        "notFound": "Nenhum item de plano de auditoria encontrado"
       },
       "delete": {
-        "question": "Tem certeza de que deseja excluir Item Plano Auditoria {{ id }}?"
+        "question": "Tem certeza de que deseja excluir o item de plano de auditoria {{ id }}?"
       },
       "detail": {
-        "title": "Item Plano Auditoria"
+        "title": "Item de plano de auditoria"
       },
-      "dataInicioPrevisto": "Data Inicio Previsto",
-      "dataFimPrevisto": "Data Fim Previsto",
+      "dataInicioPrevisto": "Data de início previsto",
+      "dataFimPrevisto": "Data de fim previsto",
       "anexo": "Anexo",
       "auditoria": "Auditoria",
       "plano": "Plano"
@@ -22,9 +22,9 @@
   },
   "sgqApp": {
     "sgqItemPlanoAuditoria": {
-      "created": "Um novo Item Plano Auditoria foi criado com o identificador {{ param }}",
-      "updated": "Um Item Plano Auditoria foi atualizado com o identificador {{ param }}",
-      "deleted": "Um Item Plano Auditoria foi excluído com o identificador {{ param }}"
+      "created": "Um novo item de plano de auditoria foi criado com o identificador {{ param }}",
+      "updated": "Um item de plano de auditoria foi atualizado com o identificador {{ param }}",
+      "deleted": "Um item de plano de auditoria foi excluído com o identificador {{ param }}"
     }
   }
 }

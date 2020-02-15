@@ -3,7 +3,7 @@
     "sgqAnexo": {
       "home": {
         "title": "Anexos",
-        "createLabel": "Criar novo anexo",
+        "createLabel": "Adicionar",
         "createOrEditLabel": "Criar ou editar anexo",
         "notFound": "Nenhum anexo encontrado"
       },

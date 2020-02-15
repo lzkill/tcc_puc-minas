@@ -1,6 +1,6 @@
 {
   "global": {
-    "title": "Gateway",
+    "title": "SGQ",
     "browsehappy": "Você está usando um navegador <strong>desatualizado</strong>. Favor <a href=\"http://browsehappy.com/?locale=pt_BR\">atualize o seu navegador</a> para ter uma experiência melhor.",
     "menu": {
       "home": "Início",
@@ -11,24 +11,24 @@
         "sgqSetor": "Setores",
         "sgqProcesso": "Processos",
         "sgqProduto": "Produtos",
-        "sgqAnexo": "Anexo",
-        "sgqAcaoSgq": "Ações do SGQ",
+        "sgqAnexo": "Anexos",
+        "sgqAcaoSgq": "Ações SGQ",
         "sgqNaoConformidade": "Não conformidades",
-        "sgqProdutoNaoConforme": "Produtos não conforme",
+        "sgqProdutoNaoConforme": "Produtos não conformes",
         "sgqAuditoria": "Auditorias",
-        "sgqPlanoAuditoria": "Planos de auditorias",
-        "sgqItemPlanoAuditoria": "Itens de plano",
+        "sgqPlanoAuditoria": "Planos de auditoria",
+        "sgqItemPlanoAuditoria": "Itens de planos de auditoria",
         "sgqChecklist": "Checklists",
         "sgqItemChecklist": "Itens de checklist",
         "sgqResultadoChecklist": "Resultados de checklist",
-        "sgqResultadoItemChecklist": "Resultados de item",
+        "sgqResultadoItemChecklist": "Resultados de itens de checklist",
         "sgqEventoOperacional": "Eventos operacionais",
         "sgqCampanhaRecall": "Campanhas de recall",
         "sgqBoletimInformativo": "Boletins informativos",
-        "sgqPublicoAlvo": "Publicos alvo",
+        "sgqPublicoAlvo": "Públicos alvo",
         "sgqFeed": "Feeds",
         "sgqPublicacaoFeed": "Publicações de feed",
-        "sgqCategoriaPublicacao": "Categorias",
+        "sgqCategoriaPublicacao": "Categorias de publicação",
         "sgqEmpresaConsultoria": "Consultorias",
         "sgqNorma": "Normas",
         "sgqAnaliseConsultoria": "Análises de consultoria",
@@ -77,7 +77,7 @@
         "authenticated": {
           "prefix": "Se deseja ",
           "link": "entrar",
-          "suffix": ", utilize as seguintes contas padrões:<br/>- Administrador (usuário=\"admin\" and senha=\"admin\") <br/>- Usuário (usuário=\"user\" e senha=\"user\")."
+          "suffix": ", utilize as seguintes contas padrões:<br/><br/>- Administrador (usuário=\"admin\" e senha=\"admin\") <br/>- Gestor SGQ (login=\"sgq\" e senha=\"admin\" )<br/>- Usuário (usuário=\"user\" e senha=\"user\")."
         },
         "register": {
           "noaccount": "Não possui uma conta ainda?",
@@ -163,5 +163,5 @@
       "not.image": "File was expected to be an image but was found to be \"{{ fileType }}\""
     }
   },
-  "footer": "Este é o rodapé da página"
+  "footer": ""
 }

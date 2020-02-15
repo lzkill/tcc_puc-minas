@@ -3,7 +3,7 @@
     "sgqAcaoSgq": {
       "home": {
         "title": "Ações SGQ",
-        "createLabel": "Criar nova ação",
+        "createLabel": "Adicionar",
         "createOrEditLabel": "Criar ou editar ação",
         "notFound": "Nenhuma ação encontrada"
       },
