@@ -77,7 +77,7 @@
         "authenticated": {
           "prefix": "Se deseja ",
           "link": "entrar",
-          "suffix": ", utilize as seguintes contas padrões:<br/>- Administrador (usuário=\"admin\" e senha=\"admin\") <br/>- Gestor SGQ (login=\"sgq\" e senha=\"admin\" )<br/>- Usuário (usuário=\"user\" e senha=\"user\")."
+          "suffix": ", utilize as seguintes contas padrões:<br/><br/>- Administrador (usuário=\"admin\" e senha=\"admin\") <br/>- Gestor SGQ (login=\"sgq\" e senha=\"admin\" )<br/>- Usuário (usuário=\"user\" e senha=\"user\")."
         },
         "register": {
           "noaccount": "Não possui uma conta ainda?",
