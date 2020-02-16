@@ -7,6 +7,7 @@ import { GatewayCoreModule } from 'app/core/core.module';
 import { GatewayAppRoutingModule } from './app-routing.module';
 import { GatewayHomeModule } from './home/home.module';
 import { GatewayEntityModule } from './entities/entity.module';
+import { GatewayReportModule } from './reports/report.module';
 // jhipster-needle-angular-add-module-import JHipster will add new module here
 import { MainComponent } from './layouts/main/main.component';
 import { NavbarComponent } from './layouts/navbar/navbar.component';
@@ -23,6 +24,7 @@ import { ErrorComponent } from './layouts/error/error.component';
     GatewayHomeModule,
     // jhipster-needle-angular-add-module JHipster will add new module here
     GatewayEntityModule,
+    GatewayReportModule,
     GatewayAppRoutingModule
   ],
   declarations: [MainComponent, NavbarComponent, ErrorComponent, PageRibbonComponent, ActiveMenuDirective, FooterComponent],

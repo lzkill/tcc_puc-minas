@@ -28,7 +28,7 @@
                     <span>
                         &nbsp;
                         <fa-icon icon="bars"></fa-icon>
-                        <span jhiTranslate="sgq.menu.cadastrosBasicos.main">
+                        <span jhiTranslate="global.menu.cadastrosBasicos.main">
                             Cadastros básicos
                         </span>
                     </span>
@@ -138,7 +138,7 @@
                 <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="entity-menu">
                     <span>
                         <fa-icon icon="exclamation-triangle"></fa-icon>
-                        <span jhiTranslate="sgq.menu.incidentesProblemas.main">
+                        <span jhiTranslate="global.menu.incidentesProblemas.main">
                             Incidentes e problemas
                         </span>
                     </span>
@@ -172,7 +172,7 @@
                 <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="entity-menu">
                     <span>
                         <fa-icon icon="clipboard"></fa-icon>
-                        <span jhiTranslate="sgq.menu.controleProcessos.main">
+                        <span jhiTranslate="global.menu.controleProcessos.main">
                             Controle de processos
                         </span>
                     </span>
@@ -217,7 +217,7 @@
                 <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="entity-menu">
                     <span>
                         <fa-icon icon="bullhorn"></fa-icon>
-                        <span jhiTranslate="sgq.menu.divulgacaoTransparencia.main">
+                        <span jhiTranslate="global.menu.divulgacaoTransparencia.main">
                             Divulgação e transparência
                         </span>
                     </span>
@@ -259,7 +259,7 @@
                 <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="entity-menu">
                     <span>
                         <fa-icon icon="plug"></fa-icon>
-                        <span jhiTranslate="sgq.menu.compliance.main">
+                        <span jhiTranslate="global.menu.compliance.main">
                             Compliance
                         </span>
                     </span>
@@ -287,26 +287,20 @@
                 <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="entity-menu">
                     <span>
                         <fa-icon icon="compass"></fa-icon>
-                        <span jhiTranslate="sgq.menu.inteligenciaNegocio.main">
+                        <span jhiTranslate="global.menu.inteligenciaNegocio.main">
                             Inteligência de negócio
                         </span>
                     </span>
-                </a>
-                <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="inteligencia-negocio-menu">
-                </ul>
             </li>
-            <li *jhiHasAnyAuthority="'ROLE_SGQ'" ngbDropdown class="nav-item dropdown pointer" display="dynamic"
-                routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
-                <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="entity-menu">
-                    <span>
-                        <fa-icon icon="chart-area"></fa-icon>
-                        <span jhiTranslate="sgq.menu.relatorios.main">
-                            Relatórios
-                        </span>
+            <li *jhiHasAnyAuthority="'ROLE_USER'" class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+              <a class="nav-link" routerLink="relatorio" (click)="collapseNavbar()">
+                  <span>
+                    <fa-icon icon="chart-area"></fa-icon>
+                    <span jhiTranslate="global.menu.relatorios.main">
+                        Relatórios
                     </span>
-                </a>
-                <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="relatorios-menu">
-                </ul>
+                  </span>
+              </a>
             </li>
 
             <!-- jhipster-needle-add-entity-to-menu - JHipster will add entities to the menu here -->
