@@ -291,22 +291,16 @@
                             Inteligência de negócio
                         </span>
                     </span>
-                </a>
-                <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="inteligencia-negocio-menu">
-                </ul>
             </li>
-            <li *jhiHasAnyAuthority="'ROLE_SGQ'" ngbDropdown class="nav-item dropdown pointer" display="dynamic"
-                routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
-                <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="entity-menu">
-                    <span>
-                        <fa-icon icon="chart-area"></fa-icon>
-                        <span jhiTranslate="sgq.menu.relatorios.main">
-                            Relatórios
-                        </span>
+            <li *jhiHasAnyAuthority="'ROLE_USER'" class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+              <a class="nav-link" routerLink="relatorio" (click)="collapseNavbar()">
+                  <span>
+                    <fa-icon icon="chart-area"></fa-icon>
+                    <span jhiTranslate="sgq.menu.relatorios.main">
+                        Relatórios
                     </span>
-                </a>
-                <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="relatorios-menu">
-                </ul>
+                  </span>
+              </a>
             </li>
 
             <!-- jhipster-needle-add-entity-to-menu - JHipster will add entities to the menu here -->
