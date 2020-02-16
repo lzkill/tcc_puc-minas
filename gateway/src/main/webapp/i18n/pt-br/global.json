@@ -58,6 +58,27 @@
         "database": "Banco de dados",
         "jhipster-needle-menu-add-admin-element": "JHipster will add additional menu entries here (do not translate!)"
       },
+      "cadastrosBasicos": {
+        "main": "Configuração"
+      },
+      "incidentesProblemas": {
+        "main": "Ocorrências"
+      },
+      "controleProcessos": {
+        "main": "Controle"
+      },
+      "divulgacaoTransparencia": {
+        "main": "Divulgação"
+      },
+      "inteligenciaNegocio": {
+        "main": "Inteligência"
+      },
+      "compliance": {
+        "main": "Compliance"
+      },
+      "relatorios": {
+        "main": "Relatórios"
+      },
       "language": "Idioma"
     },
     "form": {

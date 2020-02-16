@@ -1,5 +1,9 @@
 {
-  "report": {
-    "title": "Relatórios"
+  "gatewayApp": {
+    "sgqRelatorio": {
+      "home": {
+        "title": "Relatórios"
+      }
+    }
   }
 }
