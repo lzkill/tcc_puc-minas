@@ -1,0 +1,30 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.852
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{F14B399A-7131-4C87-9E4B-1186C45EF12D}") = "sgq", "sgq\sgq.rptproj", "{4E71F8DD-99DE-4738-9B07-1B746F7FA36D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Default = Debug|Default
+		DebugLocal|Default = DebugLocal|Default
+		Release|Default = Release|Default
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4E71F8DD-99DE-4738-9B07-1B746F7FA36D}.Debug|Default.ActiveCfg = Debug
+		{4E71F8DD-99DE-4738-9B07-1B746F7FA36D}.Debug|Default.Build.0 = Debug
+		{4E71F8DD-99DE-4738-9B07-1B746F7FA36D}.Debug|Default.Deploy.0 = Debug
+		{4E71F8DD-99DE-4738-9B07-1B746F7FA36D}.DebugLocal|Default.ActiveCfg = DebugLocal
+		{4E71F8DD-99DE-4738-9B07-1B746F7FA36D}.DebugLocal|Default.Build.0 = DebugLocal
+		{4E71F8DD-99DE-4738-9B07-1B746F7FA36D}.Release|Default.ActiveCfg = Release
+		{4E71F8DD-99DE-4738-9B07-1B746F7FA36D}.Release|Default.Build.0 = Release
+		{4E71F8DD-99DE-4738-9B07-1B746F7FA36D}.Release|Default.Deploy.0 = Release
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {961CBB72-11A0-49FB-AE94-8720BECF2406}
+	EndGlobalSection
+EndGlobal
