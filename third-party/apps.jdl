@@ -44,19 +44,19 @@ application {
 }
 
 entity Norma {
-  orgao OrgaoNormativo required
+  orgao OrgaoNorma required
   titulo String required minlength(1) maxlength(100)
   descricao TextBlob
   versao String minlength(1) maxlength(10)
   numeroEdicao Integer
   dataEdicao Instant
   dataInicioValidade Instant
-  categoria CategoriaNorma required minlength(1) maxlength(50)
+  categoria CategoriaNorma
   urlDownload String required
 }
 
-enum OrgaoNormativo {
-  ABNT/ISO,
+enum OrgaoNorma {
+  ABNT_ISO,
   IEEE,
   ASTM
 }
