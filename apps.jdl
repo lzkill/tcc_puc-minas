@@ -431,8 +431,6 @@ filter *
 
 paginate * with pagination
 
-microservice * with sgq
-
 deployment {
   deploymentType docker-compose
   dockerRepositoryName "jmicro"

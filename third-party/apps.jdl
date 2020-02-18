@@ -71,8 +71,6 @@ filter *
 
 paginate * with pagination
 
-microservice Norma with normas
-
 deployment {
   deploymentType docker-compose
   dockerRepositoryName "jmicro"
