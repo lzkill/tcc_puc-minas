@@ -45,8 +45,8 @@ export const itemPlanoAuditoriaRoute: Routes = [
       authorities: ['ROLE_USER'],
       defaultSort: 'id,asc',
       pageTitle: 'gatewayApp.sgqItemPlanoAuditoria.home.title'
-    },
-    canActivate: [UserRouteAccessService]
+    }
+    // canActivate: [UserRouteAccessService]
   },
   {
     path: ':id/view',

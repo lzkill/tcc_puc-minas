@@ -2,6 +2,7 @@
   "home": {
     "title": "Bem vindo ao SGQ!",
     "subtitle": "Sistema de Gestão da Qualidade",
+    "calendarioAuditorias": "Calendário de auditorias",
     "logged": {
       "message": "Você está logado como \"{{username}}\"."
     },

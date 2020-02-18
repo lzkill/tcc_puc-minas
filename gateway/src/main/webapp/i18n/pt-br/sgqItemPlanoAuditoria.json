@@ -13,8 +13,8 @@
       "detail": {
         "title": "Item de plano de auditoria"
       },
-      "dataInicioPrevisto": "Data de início previsto",
-      "dataFimPrevisto": "Data de fim previsto",
+      "dataInicioPrevisto": "Início previsto",
+      "dataFimPrevisto": "Fim previsto",
       "anexo": "Anexo",
       "auditoria": "Auditoria",
       "plano": "Plano"
