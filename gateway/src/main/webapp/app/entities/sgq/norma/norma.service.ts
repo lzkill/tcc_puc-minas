@@ -6,7 +6,7 @@ import * as moment from 'moment';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { DATE_FORMAT } from 'app/shared/constants/input.constants';
-import { SERVER_API_URL } from 'app/app.constants';
+import { NORMAS_SERVER_API_URL } from 'app/app.constants';
 import { createRequestOption } from 'app/shared/util/request-util';
 import { INorma } from 'app/shared/model/sgq/norma.model';
 
@@ -15,7 +15,7 @@ type EntityArrayResponseType = HttpResponse<INorma[]>;
 
 @Injectable({ providedIn: 'root' })
 export class NormaService {
-  public resourceUrl = SERVER_API_URL + 'services/sgq/api/normas';
+  public resourceUrl = NORMAS_SERVER_API_URL + 'services/normas/api/normas';
 
   constructor(protected http: HttpClient) {}
 

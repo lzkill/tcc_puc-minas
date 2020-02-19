@@ -1,0 +1,32 @@
+application {
+  config {
+    applicationType microservice
+    authenticationType jwt
+    baseName consultoria
+    buildTool maven
+    cacheProvider no
+    databaseType sql
+    devDatabaseType mariadb
+    enableHibernateCache false
+    enableSwaggerCodegen true
+    enableTranslation false
+    languages [en]
+    nativeLanguage en
+    packageName com.xpto.consultoria
+    prodDatabaseType mariadb
+    serverPort 8083
+    serviceDiscoveryType no
+    skipClient true
+  }
+}
+
+filter *
+
+paginate * with pagination
+
+deployment {
+  deploymentType docker-compose
+  dockerRepositoryName "jmicro"
+  appsFolders [consultoria]
+  serviceDiscoveryType no
+}

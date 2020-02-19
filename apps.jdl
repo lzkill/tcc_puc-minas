@@ -43,7 +43,7 @@ application {
     serviceDiscoveryType eureka
     skipClient true
   }
-  entities *
+  entities * except Norma
 }
 
 // >>>>>>>>>> cadastros_basicos
@@ -338,7 +338,6 @@ enum StatusAnaliseExterna {
 * entende-se que a aplicação deve consumir uma API cuja interface é definida
 * pela empresa fornecedora de SaaS.
 */
-@service(serviceClass)
 @readOnly
 entity Norma {
   orgao String
