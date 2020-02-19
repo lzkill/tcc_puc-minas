@@ -43,7 +43,7 @@ application {
     serviceDiscoveryType eureka
     skipClient true
   }
-  entities *
+  entities * except Norma
 }
 
 // >>>>>>>>>> cadastros_basicos

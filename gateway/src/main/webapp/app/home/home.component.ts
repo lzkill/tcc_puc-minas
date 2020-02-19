@@ -42,16 +42,18 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   loadPage(): void {
-    this.itemPlanoAuditoriaService
-      .query({
-        'dataInicioPrevisto.greaterThan': this.moment.utc().format('YYYY-MM-DD[T]HH:mm:ss[Z]'),
-        size: this.numberOfItensPlanoAuditoria,
-        sort: this.sort()
-      })
-      .subscribe(
-        (res: HttpResponse<IItemPlanoAuditoria[]>) => this.onSuccess(res.body),
-        () => this.onError()
-      );
+    if (!this.isAuthenticated()) {
+      this.itemPlanoAuditoriaService
+        .query({
+          'dataInicioPrevisto.greaterThan': this.moment.utc().format('YYYY-MM-DD[T]HH:mm:ss[Z]'),
+          size: this.numberOfItensPlanoAuditoria,
+          sort: this.sort()
+        })
+        .subscribe(
+          (res: HttpResponse<IItemPlanoAuditoria[]>) => this.onSuccess(res.body),
+          () => this.onError()
+        );
+    }
   }
 
   sort(): string[] {
