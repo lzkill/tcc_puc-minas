@@ -1,0 +1,57 @@
+application {
+  config {
+    applicationType microservice
+    authenticationType jwt
+    baseName normas
+    buildTool maven
+    cacheProvider no
+    databaseType sql
+    devDatabaseType mariadb
+    enableHibernateCache false
+    enableSwaggerCodegen true
+    enableTranslation false
+    languages [en]
+    nativeLanguage en
+    packageName com.acme.normas
+    prodDatabaseType mariadb
+    serverPort 8082
+    serviceDiscoveryType no
+    skipClient true
+  }
+  entities Norma
+}
+
+entity Norma {
+  orgao OrgaoNorma required
+  titulo String required minlength(1) maxlength(100)
+  descricao TextBlob
+  versao String minlength(1) maxlength(10)
+  numeroEdicao Integer
+  dataEdicao Instant
+  dataInicioValidade Instant
+  categoria CategoriaNorma
+  urlDownload String required
+}
+
+enum OrgaoNorma {
+  ABNT_ISO,
+  IEEE,
+  ASTM
+}
+
+enum CategoriaNorma {
+  QUALIDADE,
+  AMBIENTAL,
+  SEGURANCA
+}
+
+filter *
+
+paginate * with pagination
+
+deployment {
+  deploymentType docker-compose
+  dockerRepositoryName "jmicro"
+  appsFolders [normas]
+  serviceDiscoveryType no
+}
