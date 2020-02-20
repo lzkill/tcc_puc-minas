@@ -4,7 +4,7 @@ application {
     authenticationType jwt
     baseName gateway
     buildTool maven
-    cacheProvider ehcache
+    cacheProvider hazelcast
     clientFramework angularX
     clientTheme none
     databaseType sql
