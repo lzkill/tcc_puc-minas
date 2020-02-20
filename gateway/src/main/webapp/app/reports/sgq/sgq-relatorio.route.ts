@@ -8,7 +8,7 @@ export const reportRoute: Routes = [
     path: '',
     component: SgqRelatorioComponent,
     data: {
-      authorities: ['ROLE_USER'],
+      authorities: ['ROLE_SGQ'],
       pageTitle: 'gatewayApp.sgqRelatorio.home.title'
     },
     canActivate: [UserRouteAccessService]
