@@ -42,10 +42,10 @@
                 <td jhiTranslate="{{'gatewayApp.TipoAcaoSGQ.' + acaoSGQ.tipo}}">{{acaoSGQ.tipo}}</td>
                 <td>{{acaoSGQ.titulo}}</td>
                 <td>{{acaoSGQ.descricao}}</td>
-                <td>{{acaoSGQ.prazoConclusao | date:'medium'}}</td>
-                <td>{{acaoSGQ.novoPrazoConclusao | date:'medium'}}</td>
-                <td>{{acaoSGQ.dataRegistro | date:'medium'}}</td>
-                <td>{{acaoSGQ.dataConclusao | date:'medium'}}</td>
+                <td>{{acaoSGQ.prazoConclusao | date:'shortDate'}}</td>
+                <td>{{acaoSGQ.novoPrazoConclusao | date:'shortDate'}}</td>
+                <td>{{acaoSGQ.dataRegistro | date:'shortDate'}}</td>
+                <td>{{acaoSGQ.dataConclusao | date:'shortDate'}}</td>
                 <td>{{acaoSGQ.resultado}}</td>
                 <td jhiTranslate="{{'gatewayApp.StatusSGQ.' + acaoSGQ.statusSGQ}}">{{acaoSGQ.statusSGQ}}</td>
                 <td>
