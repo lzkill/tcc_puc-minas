@@ -21,7 +21,6 @@
             <th scope="col"  jhiSortBy="dataEdicao"><span jhiTranslate="gatewayApp.sgqNorma.dataEdicao">Data Edicao</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="dataInicioValidade"><span jhiTranslate="gatewayApp.sgqNorma.dataInicioValidade">Data Inicio Validade</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="categoria"><span jhiTranslate="gatewayApp.sgqNorma.categoria">Categoria</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  jhiSortBy="urlDownload"><span jhiTranslate="gatewayApp.sgqNorma.urlDownload">Url Download</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"></th>
             </tr>
             </thead>
@@ -36,7 +35,6 @@
                 <td>{{norma.dataEdicao | date:'medium'}}</td>
                 <td>{{norma.dataInicioValidade | date:'medium'}}</td>
                 <td>{{norma.categoria}}</td>
-                <td>{{norma.urlDownload}}</td>
                 <td class="text-right">
                     <div class="btn-group">
                         <button type="submit"
@@ -44,6 +42,11 @@
                                 class="btn btn-info btn-sm">
                             <fa-icon [icon]="'eye'"></fa-icon>
                             <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                        </button>
+                        <button type="submit"
+                                class="btn btn-primary btn-sm" (click)="download(norma.urlDownload)">
+                            <fa-icon [icon]="'download'"></fa-icon>
+                            <span class="d-none d-md-inline" jhiTranslate="gatewayApp.sgqNorma.download.title">Download</span>
                         </button>
                     </div>
                 </td>

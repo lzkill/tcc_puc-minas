@@ -38,9 +38,6 @@
                     <span>{{norma.categoria}}</span>
                 </dd>
                 <dt><span jhiTranslate="gatewayApp.sgqNorma.urlDownload">Url Download</span></dt>
-                <dd>
-                    <span>{{norma.urlDownload}}</span>
-                </dd>
             </dl>
 
             <button type="submit"
@@ -49,6 +46,11 @@
                 <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
             </button>
 
+            <button type="submit"
+                    class="btn btn-primary" (click)="download(norma.urlDownload)">
+                <fa-icon [icon]="'download'"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="gatewayApp.sgqNorma.download.title">Download</span>
+            </button>
         </div>
     </div>
 </div>
