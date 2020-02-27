@@ -10,7 +10,7 @@ application {
     databaseType sql
     devDatabaseType mariadb
     enableHibernateCache true
-    enableSwaggerCodegen true
+    enableSwaggerCodegen false
     enableTranslation true
     languages [pt-br]
     nativeLanguage pt-br
@@ -35,8 +35,8 @@ application {
     enableHibernateCache true
     enableSwaggerCodegen true
     enableTranslation false
-    languages [en]
-    nativeLanguage en
+    languages [pt-br]
+    nativeLanguage pt-br
     packageName com.lzkill.sgq
     prodDatabaseType mariadb
     serverPort 8081
@@ -53,78 +53,53 @@ entity Empresa {
 
 entity Setor {
   nome String required minlength(1) maxlength(100)
+  habilitado Boolean required
 }
 
 entity Processo {
   titulo String required minlength(1) maxlength(100)
   descricao TextBlob
+  habilitado Boolean required
 }
 
 entity Produto {
   nome String required minlength(1) maxlength(100)
   descricao TextBlob
+  habilitado Boolean required
 }
 
 entity PublicoAlvo {
   nome String required minlength(1) maxlength(100)
   descricao TextBlob
+  habilitado Boolean required
 }
 
 entity CategoriaPublicacao {
   titulo String required minlength(1) maxlength(100)
   descricao TextBlob
+  habilitado Boolean required
 }
 
 entity Anexo {
+  idUsuarioRegistro Integer required
+  dataRegistro Instant required
   nomeArquivo String required
   conteudo AnyBlob required maxbytes(10485760) // 10 MB
 }
 // <<<<<<<<<< cadastros_basicos
 
 // >>>>>>>>>> incidentes_problemas
-entity AcaoSGQ {
-  idUsuarioRegistro Integer required
-  idUsuarioResponsavel Integer required
-  tipo TipoAcaoSGQ required
-  titulo String required minlength(1) maxlength(100)
-  descricao TextBlob required
-  prazoConclusao Instant required
-  novoPrazoConclusao Instant
-  dataRegistro Instant required
-  dataConclusao Instant
-  resultado TextBlob
-  statusSGQ StatusSGQ required
-}
-
-/**
-* Ações corretivas aplicam-se a NCs, enquanto
-* correções pontuais aplicam-se a PNCs
-*/
-enum TipoAcaoSGQ {
-  ACAO_CORRETIVA,
-  ACAO_PREVENTIVA,
-  CORRECAO_PONTUAL
-}
-
-enum StatusSGQ {
-  REGISTRADO,
-  PENDENTE,
-  CONCLUIDO,
-  SUSPENSO,
-  CANCELADO
-}
-
 /**
 * Representa a violação de algum requisito regulamentar (normas,
 * procedimentos internos, definições de processos, etc)
 */
 entity NaoConformidade {
   idUsuarioRegistro Integer required
-  idUsuarioResponsavel Integer required
+  idUsuarioResponsavel Integer
   titulo String required minlength(1) maxlength(100)
   fato TextBlob required
-  /** O fato descrito implica de fato uma NC */
-  procedente Boolean required
+  /** O fato descrito implica de fato uma NC? */
+  procedente Boolean
   /** O fechamento da NC só é possível se houver identificação de causa */
   causa TextBlob
   prazoConclusao Instant required
@@ -141,62 +116,98 @@ entity NaoConformidade {
 */
 entity ProdutoNaoConforme {
   idUsuarioRegistro Integer required
-  idUsuarioResponsavel Integer required
+  idUsuarioResponsavel Integer
   titulo String required minlength(1) maxlength(100)
   descricao TextBlob required
-  /** O fato descrito configura de fato um PNC */
-  procedente Boolean required
+  /** O fato descrito configura de fato um PNC? */
+  procedente Boolean
   dataRegistro Instant required
   /** Análise de eficácia */
   analiseFinal TextBlob
   statusSGQ StatusSGQ required
 }
+
+entity AcaoSGQ {
+  idUsuarioRegistro Integer required
+  idUsuarioResponsavel Integer
+  tipo TipoAcaoSGQ required
+  titulo String required minlength(1) maxlength(100)
+  descricao TextBlob required
+  prazoConclusao Instant required
+  novoPrazoConclusao Instant
+  dataRegistro Instant required
+  dataConclusao Instant
+  resultado TextBlob
+  statusSGQ StatusSGQ required
+}
+
+/**
+* Ações corretivas aplicam-se a NCs, enquanto
+* correções pontuais aplicam-se a PNCs
+*/
+enum TipoAcaoSGQ {
+  ACAO_CORRETIVA (Ação corretiva),
+  ACAO_PREVENTIVA (Ação preventiva),
+  CORRECAO_PONTUAL (Correção pontual)
+}
+
+enum StatusSGQ {
+  REGISTRADO (Registrado),
+  PENDENTE (Pendente),
+  CONCLUIDO (Concluído),
+  SUSPENSO (Suspenso),
+  CANCELADO (Cancelado)
+}
 // <<<<<<<<<< incidentes_problemas
 
 // >>>>>>>>>> controle_processos_automotivos
-entity Auditoria {
-  tipo TipoAuditoria required
-  titulo String required minlength(1) maxlength(100)
-  /** Requisitos abordados, objetivos, etc */
-  descricao TextBlob
-}
-
-enum TipoAuditoria {
-  INTERNA,
-  EXTERNA
-}
-
 entity PlanoAuditoria {
   titulo String required minlength(1) maxlength(100)
   descricao TextBlob
+  habilitado Boolean required
 }
 
 entity ItemPlanoAuditoria {
-  dataInicioPrevisto Instant
+  modalidade ModalidadeAuditoria required
+  dataInicioPrevisto Instant required
   dataFimPrevisto Instant
 }
 
-entity ResultadoAuditoria {
-  idUsuarioResponsavel Integer required
+enum ModalidadeAuditoria {
+  INTERNA (Interna),
+  EXTERNA (Externa)
+}
+
+entity ItemAuditoria {
+  titulo String required minlength(1) maxlength(100)
+  /** Requisitos abordados, objetivos, etc */
+  descricao TextBlob
+  habilitado Boolean required
+}
+
+entity Auditoria {
+  idUsuarioRegistro Integer required
+  dataRegistro Instant required
   dataInicio Instant required
   dataFim Instant required
-  descricao TextBlob required
+  resultado TextBlob
 }
 
 entity Checklist {
   titulo String required minlength(1) maxlength(100)
   periodicidade Periodicidade
+  habilitado Boolean required
 }
 
 enum Periodicidade {
-  DIARIO,
-  SEMANAL,
-  QUINZENAL,
-  MENSAL,
-  BIMESTRAL,
-  TRIMESTRAL,
-  SEMESTRAL,
-  ANUAL
+  DIARIA (Diária),
+  SEMANAL (Semanal),
+  QUINZENAL (Quinzenal),
+  MENSAL (Mensal),
+  BIMESTRAL (Bimestral),
+  TRIMESTRAL (Trimestral),
+  SEMESTRAL (Semestral),
+  ANUAL (Anual)
 }
 
 entity ItemChecklist {
@@ -207,7 +218,7 @@ entity ItemChecklist {
 
 entity ResultadoChecklist {
   idUsuarioRegistro Integer required
-  titulo String required minlength(1) maxlength(100)
+  dataRegistro Instant required
   dataVerificacao Instant required
 }
 
@@ -221,14 +232,16 @@ entity EventoOperacional {
   tipo TipoEventoOperacional required
   titulo String required minlength(1) maxlength(100)
   descricao TextBlob required
+  dataRegistro Instant required
   dataEvento Instant required
   duracao Duration
   houveParadaProducao Boolean required
 }
 
 enum TipoEventoOperacional {
-  PROGRAMADO,
-  NAO_PROGRAMADO
+  FALHA_EQUIPAMENTO (Falha de equipamento),
+  FALHA_INFRA_ESTRUTURA (Falha de infra-estrutura),
+  FALHA_PROCESSO (Falha de processo)
 }
 // <<<<<<<<<< controle_processos_automotivos
 
@@ -240,7 +253,8 @@ entity CampanhaRecall {
   dataRegistro Instant required
   dataInicio Instant
   dataFim Instant
-  resultado TextBlob
+  dataPublicacao Instant
+  status StatusPublicacao required
 }
 
 entity BoletimInformativo {
@@ -264,17 +278,12 @@ entity Feed {
   alturaImagem Integer min(32) max(1024)
   larguraImagem Integer min(32) max(1024)
   dataRegistro Instant required
-  status StatusFeed required
+  habilitado Boolean required
 }
 
 enum TipoFeed {
-  RSS,
-  ATOM
-}
-
-enum StatusFeed {
-  ATIVO,
-  INATIVO
+  RSS (RSS 2.0),
+  ATOM (Atom 1.0)
 }
 
 entity PublicacaoFeed {
@@ -285,12 +294,14 @@ entity PublicacaoFeed {
   link String minlength(1) maxlength(150)
   conteudo TextBlob required
   dataRegistro Instant required
-  dataPublicacao Instant required
+  dataPublicacao Instant
   status StatusPublicacao required
 }
 
 enum StatusPublicacao {
-  RASCUNHO, PUBLICADO
+  RASCUNHO (Rascunho),
+  APROVADO (Aprovado),
+  PUBLICADO (Publicado)
 }
 // <<<<<<<<<< divulgacao_transparencia
 
@@ -305,29 +316,46 @@ enum StatusPublicacao {
 * entende-se que a prestadora de serviço deve disponibilizar alguns serviços
 * através de API cuja interface é definida pela empresa dona do SGQ.
 */
-entity EmpresaConsultoria {
+entity Consultoria {
   nome String required minlength(1) maxlength(100)
   urlIntegracao String required minlength(1) maxlength(150)
   /** Token JWT */
   tokenAcesso String required minlength(1)
+  /** Habilitada para integração */
+  habilitado Boolean required
 }
 
 /**
-* Os itens do plano de ação podem ser analisados pela consultoria antes da
+* Os planos de ação das NCs podem ser analisados pela consultoria antes da
 * implementação na prática
 */
-entity AnaliseConsultoria {
-  dataSolicitacaoAnalise Instant required
-  dataAnalise Instant
-  descricao TextBlob required
-  responsavelAnalise String required minlength(1) maxlength(100)
-  status StatusAnaliseExterna required
+entity SolicitacaoAnalise {
+    idUsuarioRegistro Integer required
+    dataRegistro Instant required
+    /** Data em que a solicitação foi recebida pela consultoria */
+    dataSolicitacao Instant
+    /** ID retornado pela consultoria para acompanhamento */
+    uuid String unique
+    status StatusSolicitacaoAnalise required
 }
 
-enum StatusAnaliseExterna {
-  PENDENTE,
-  APROVADO,
-  REPROVADO
+enum StatusSolicitacaoAnalise {
+  REGISTRADO (Registrado),
+  PENDENTE (Pendente)
+  CONCLUIDO (Concluído)
+}
+
+entity AnaliseConsultoria {
+  dataAnalise Instant required
+  descricao TextBlob required
+  responsavel String required minlength(1) maxlength(100)
+  status StatusAprovacao required
+}
+
+enum StatusAprovacao {
+  APROVADO (Aprovado),
+  APROVADO_PARCIALMENTE (Aprovado parcialmente),
+  REPROVADO (Reprovado)
 }
 
 /**
@@ -353,20 +381,23 @@ entity Norma {
 // <<<<<<<<<< compliance
 
 relationship OneToOne {
-  AnaliseConsultoria{acao(titulo) required} to AcaoSGQ
   /** PNCs são tratados com ações únicas e pontuais */
-  ProdutoNaoConforme{acao(titulo) required} to AcaoSGQ
+  ProdutoNaoConforme{acao(titulo)} to AcaoSGQ
   /** Quando o problema identificado é sistêmico deve-se abrir uma NC */
   ProdutoNaoConforme{naoConformidade(titulo)} to NaoConformidade
+  SolicitacaoAnalise{naoConformidade(titulo) required} to NaoConformidade
+  SolicitacaoAnalise{analiseConsultoria} To AnaliseConsultoria{solicitacaoAnalise required}
 }
 
 relationship OneToMany {
   AcaoSGQ{anexo(nomeArquivo)} to Anexo{acaoSGQ}
-  AnaliseConsultoria{anexo(nomeArquivo)} to Anexo{analiseConsultoria}
-  Checklist{anexo(nomeArquivo)} to Anexo{checklist}
+  Auditoria{anexo(nomeArquivo)} to Anexo{auditoria}
+  #AnaliseConsultoria{anexo(nomeArquivo)} to Anexo{analiseConsultoria}
   BoletimInformativo{anexo(nomeArquivo)} to Anexo{boletimInformativo}
   CampanhaRecall{anexo(nomeArquivo)} to Anexo{campanhaRecall}
+  Checklist{anexo(nomeArquivo)} to Anexo{checklist}
   EventoOperacional{anexo(nomeArquivo)} to Anexo{eventoOperacional}
+  ItemAuditoria{anexo(nomeArquivo)} to Anexo{itemAuditoria}
   ItemChecklist{anexo(nomeArquivo)} to Anexo{itemChecklist}
   ItemPlanoAuditoria{anexo(nomeArquivo)} to Anexo{itemPlanoAuditoria}
   NaoConformidade{anexo(nomeArquivo)} to Anexo{naoConformidade}
@@ -378,47 +409,32 @@ relationship OneToMany {
   ResultadoChecklist{anexo(nomeArquivo)} to Anexo{resultadoChecklist}
   ResultadoItemChecklist{anexo(nomeArquivo)} to Anexo{resultadoItemChecklist}
 
+  Auditoria{naoConformidade(titulo)} to NaoConformidade{auditoria}
   Checklist{item(titulo)} to ItemChecklist{checklist(titulo) required}
   Empresa{produto(nome)} to Produto{empresa(nome) required}
   Empresa{setor(nome)} to Setor{empresa(nome) required}
-  NaoConformidade{acaoSGQ(titulo) required} to AcaoSGQ{naoConformidade(titulo)}
+  NaoConformidade{acaoSGQ(titulo)} to AcaoSGQ{naoConformidade(titulo)}
   PlanoAuditoria{item} to ItemPlanoAuditoria{plano(titulo) required}
-  ResultadoAuditoria{naoConformidade(titulo)} to NaoConformidade{resultadoAuditoria}
-  ResultadoAuditoria{produtoNaoConforme(titulo)} to ProdutoNaoConforme{resultadoAuditoria}
   ResultadoChecklist{resultadoItem} to ResultadoItemChecklist{resultado(titulo) required}
-  ResultadoItemChecklist{naoConformidade(titulo)} to NaoConformidade{resultadoItemChecklist}
-  ResultadoItemChecklist{produtoNaoConforme(titulo)} to ProdutoNaoConforme{resultadoItemChecklist}
+  ResultadoChecklist{naoConformidade(titulo)} to NaoConformidade{resultadoChecklist}
+  ResultadoChecklist{produtoNaoConforme(titulo)} to ProdutoNaoConforme{resultadoChecklist}
   Setor{checklist(titulo)} to Checklist{setor(nome) required}
   Setor{processo(titulo)} to Processo{setor(nome) required}
 }
 
 relationship ManyToOne {
-  AnaliseConsultoria{empresa(nome) required} to EmpresaConsultoria
-  Auditoria{processo(titulo)} to Processo
+  Auditoria{itemAuditoria(titulo)} to ItemAuditoria
   BoletimInformativo{publicoAlvo(nome) required} to PublicoAlvo
   CampanhaRecall{produto(nome) required} to Produto
   CampanhaRecall{setorResponsavel(nome) required} to Setor
   EventoOperacional{processo(titulo)} to Processo
-  ItemPlanoAuditoria{auditoria(titulo) required} to Auditoria
+  ItemAuditoria{processo(titulo)} to Processo
+  ItemPlanoAuditoria{itemAuditoria(titulo) required} to ItemAuditoria
   ProdutoNaoConforme{produto(nome) required} to Produto
   PublicacaoFeed{feed(titulo) required} to Feed
-  ResultadoAuditoria{auditoria(titulo)} to Auditoria
   ResultadoChecklist{checklist(titulo) required} to Checklist
   ResultadoItemChecklist{item(titulo) required} to ItemChecklist
-
-  //AcaoSGQ{usuarioRegistro(login) required} to User
-  //AcaoSGQ{usuarioResponsavel(login) required} to User
-  //BoletimInformativo{usuarioRegistro(login) required} to User
-  //CampanhaRecall{usuarioRegistro(login) required} to User
-  //EventoOperacional{usuarioRegistro(login) required} to User
-  //Feed{usuarioRegistro(login) required} to User
-  //ItemPlanoAuditoria{usuarioResponsavel(login) required} to User
-  //NaoConformidade{usuarioRegistro(login) required} to User
-  //NaoConformidade{usuarioResponsavel(login) required} to User
-  //ProdutoNaoConforme{usuarioRegistro(login) required} to User
-  //ProdutoNaoConforme{usuarioResponsavel(login) required} to User
-  //PublicacaoFeed{usuarioRegistro(login) required} to User
-  //ResultadoChecklist{usuarioRegistro(login) required} to User
+  SolicitacaoAnalise{consultoria(nome) required} to Consultoria
 }
 
 relationship ManyToMany {

@@ -18,7 +18,7 @@ application {
     serviceDiscoveryType no
     skipClient true
   }
-  entities Norma
+  entities *
 }
 
 entity Norma {
@@ -34,15 +34,15 @@ entity Norma {
 }
 
 enum OrgaoNorma {
-  ABNT_ISO,
-  IEEE,
-  ASTM
+  ABNT_ISO (ABNT/ISO),
+  IEEE (IEEE),
+  ASTM (ASTM)
 }
 
 enum CategoriaNorma {
-  QUALIDADE,
-  AMBIENTAL,
-  SEGURANCA
+  QUALIDADE (Qualidade),
+  AMBIENTAL (Ambiental),
+  SEGURANCA (Segurança)
 }
 
 filter *

@@ -18,6 +18,68 @@ application {
     serviceDiscoveryType no
     skipClient true
   }
+  entities *
+}
+
+entity NaoConformidade {
+  titulo String required minlength(1) maxlength(100)
+  fato TextBlob required
+  procedente Boolean
+  causa TextBlob
+  prazoConclusao Instant required
+  novoPrazoConclusao Instant
+  dataRegistro Instant required
+}
+
+entity AcaoSGQ {
+  tipo TipoAcaoSGQ required
+  titulo String required minlength(1) maxlength(100)
+  descricao TextBlob required
+  prazoConclusao Instant required
+  novoPrazoConclusao Instant
+  dataRegistro Instant required
+}
+
+/**
+* Os planos de ação das NCs podem ser analisados pela consultoria antes da
+* implementação na prática
+*/
+entity SolicitacaoAnalise {
+    idUsuarioRegistro Integer required
+    dataRegistro Instant required
+    /** Data em que a solicitação foi recebida pela consultoria */
+    dataSolicitacao Instant
+    /** ID retornado pela consultoria para acompanhamento */
+    uuid String unique
+    status StatusSolicitacaoAnalise required
+}
+
+enum StatusSolicitacaoAnalise {
+  REGISTRADO (Registrado),
+  PENDENTE (Pendente)
+  CONCLUIDO (Concluído)
+}
+
+entity AnaliseConsultoria {
+  dataAnalise Instant required
+  descricao TextBlob required
+  responsavel String required minlength(1) maxlength(100)
+  status StatusAprovacao required
+}
+
+enum StatusAprovacao {
+  APROVADO (Aprovado),
+  APROVADO_PARCIALMENTE (Aprovado parcialmente),
+  REPROVADO (Reprovado)
+}
+
+relationship OneToOne {
+  SolicitacaoAnalise{analiseConsultoria} To AnaliseConsultoria{solicitacaoAnalise required}
+  SolicitacaoAnalise{naoConformidade(titulo) required} to NaoConformidade
+}
+
+relationship OneToMany {
+  NaoConformidade{acaoSGQ(titulo)} to AcaoSGQ{naoConformidade(titulo)}
 }
 
 filter *
