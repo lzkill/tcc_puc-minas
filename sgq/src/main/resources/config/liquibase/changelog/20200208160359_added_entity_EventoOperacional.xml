@@ -28,6 +28,9 @@
             <column name="descricao" type="${clobType}">
                 <constraints nullable="false" />
             </column>
+            <column name="data_registro" type="datetime">
+                <constraints nullable="false" />
+            </column>
             <column name="data_evento" type="datetime">
                 <constraints nullable="false" />
             </column>
@@ -42,11 +45,23 @@
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
         </createTable>
+        <dropDefaultValue tableName="evento_operacional" columnName="data_registro" columnDataType="datetime"/>
         <dropDefaultValue tableName="evento_operacional" columnName="data_evento" columnDataType="datetime"/>
     </changeSet>
 
     <changeSet id="20200208160359-1-relations" author="jhipster">
 
+        <createTable tableName="evento_operacional_anexo">
+            <column name="anexo_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="evento_operacional_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addPrimaryKey columnNames="evento_operacional_id, anexo_id" tableName="evento_operacional_anexo"/>
+        
     </changeSet>
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here, do not remove-->
 
@@ -68,6 +83,7 @@
             <column name="tipo" type="string"/>
             <column name="titulo" type="string"/>
             <column name="descricao" type="clob"/>
+            <column name="data_registro" type="datetime"/>
             <column name="data_evento" type="datetime"/>
             <column name="duracao" type="numeric"/>
             <column name="houve_parada_producao" type="boolean"/>

@@ -50,6 +50,15 @@ public class EventoOperacionalService {
         return eventoOperacionalRepository.findAll(pageable);
     }
 
+    /**
+     * Get all the eventoOperacionals with eager load of many-to-many relationships.
+     *
+     * @return the list of entities.
+     */
+    public Page<EventoOperacional> findAllWithEagerRelationships(Pageable pageable) {
+        return eventoOperacionalRepository.findAllWithEagerRelationships(pageable);
+    }
+    
 
     /**
      * Get one eventoOperacional by id.
@@ -60,7 +69,7 @@ public class EventoOperacionalService {
     @Transactional(readOnly = true)
     public Optional<EventoOperacional> findOne(Long id) {
         log.debug("Request to get EventoOperacional : {}", id);
-        return eventoOperacionalRepository.findById(id);
+        return eventoOperacionalRepository.findOneWithEagerRelationships(id);
     }
 
     /**

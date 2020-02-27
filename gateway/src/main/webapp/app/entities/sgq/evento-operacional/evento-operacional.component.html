@@ -23,6 +23,7 @@
             <th scope="col"  jhiSortBy="tipo"><span jhiTranslate="gatewayApp.sgqEventoOperacional.tipo">Tipo</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="titulo"><span jhiTranslate="gatewayApp.sgqEventoOperacional.titulo">Titulo</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="descricao"><span jhiTranslate="gatewayApp.sgqEventoOperacional.descricao">Descricao</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="dataRegistro"><span jhiTranslate="gatewayApp.sgqEventoOperacional.dataRegistro">Data Registro</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="dataEvento"><span jhiTranslate="gatewayApp.sgqEventoOperacional.dataEvento">Data Evento</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="duracao"><span jhiTranslate="gatewayApp.sgqEventoOperacional.duracao">Duracao</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="houveParadaProducao"><span jhiTranslate="gatewayApp.sgqEventoOperacional.houveParadaProducao">Houve Parada Producao</span> <fa-icon [icon]="'sort'"></fa-icon></th>
@@ -37,6 +38,7 @@
                 <td jhiTranslate="{{'gatewayApp.TipoEventoOperacional.' + eventoOperacional.tipo}}">{{eventoOperacional.tipo}}</td>
                 <td>{{eventoOperacional.titulo}}</td>
                 <td>{{eventoOperacional.descricao}}</td>
+                <td>{{eventoOperacional.dataRegistro | date:'medium'}}</td>
                 <td>{{eventoOperacional.dataEvento | date:'medium'}}</td>
                 <td>{{eventoOperacional.duracao}}</td>
                 <td>{{eventoOperacional.houveParadaProducao}}</td>

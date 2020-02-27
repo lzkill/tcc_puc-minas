@@ -59,18 +59,13 @@ public class PublicacaoFeed implements Serializable {
     @Column(name = "data_registro", nullable = false)
     private Instant dataRegistro;
 
-    @NotNull
-    @Column(name = "data_publicacao", nullable = false)
+    @Column(name = "data_publicacao")
     private Instant dataPublicacao;
 
     @NotNull
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
     private StatusPublicacao status;
-
-    @OneToMany(mappedBy = "publicacaoFeed")
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<Anexo> anexos = new HashSet<>();
 
     @ManyToOne(optional = false)
     @NotNull
@@ -84,6 +79,13 @@ public class PublicacaoFeed implements Serializable {
                joinColumns = @JoinColumn(name = "publicacao_feed_id", referencedColumnName = "id"),
                inverseJoinColumns = @JoinColumn(name = "categoria_id", referencedColumnName = "id"))
     private Set<CategoriaPublicacao> categorias = new HashSet<>();
+
+    @ManyToMany
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    @JoinTable(name = "publicacao_feed_anexo",
+               joinColumns = @JoinColumn(name = "publicacao_feed_id", referencedColumnName = "id"),
+               inverseJoinColumns = @JoinColumn(name = "anexo_id", referencedColumnName = "id"))
+    private Set<Anexo> anexos = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -211,31 +213,6 @@ public class PublicacaoFeed implements Serializable {
         this.status = status;
     }
 
-    public Set<Anexo> getAnexos() {
-        return anexos;
-    }
-
-    public PublicacaoFeed anexos(Set<Anexo> anexos) {
-        this.anexos = anexos;
-        return this;
-    }
-
-    public PublicacaoFeed addAnexo(Anexo anexo) {
-        this.anexos.add(anexo);
-        anexo.setPublicacaoFeed(this);
-        return this;
-    }
-
-    public PublicacaoFeed removeAnexo(Anexo anexo) {
-        this.anexos.remove(anexo);
-        anexo.setPublicacaoFeed(null);
-        return this;
-    }
-
-    public void setAnexos(Set<Anexo> anexos) {
-        this.anexos = anexos;
-    }
-
     public Feed getFeed() {
         return feed;
     }
@@ -272,6 +249,31 @@ public class PublicacaoFeed implements Serializable {
 
     public void setCategorias(Set<CategoriaPublicacao> categoriaPublicacaos) {
         this.categorias = categoriaPublicacaos;
+    }
+
+    public Set<Anexo> getAnexos() {
+        return anexos;
+    }
+
+    public PublicacaoFeed anexos(Set<Anexo> anexos) {
+        this.anexos = anexos;
+        return this;
+    }
+
+    public PublicacaoFeed addAnexo(Anexo anexo) {
+        this.anexos.add(anexo);
+        anexo.getPublicacaoFeeds().add(this);
+        return this;
+    }
+
+    public PublicacaoFeed removeAnexo(Anexo anexo) {
+        this.anexos.remove(anexo);
+        anexo.getPublicacaoFeeds().remove(this);
+        return this;
+    }
+
+    public void setAnexos(Set<Anexo> anexos) {
+        this.anexos = anexos;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 

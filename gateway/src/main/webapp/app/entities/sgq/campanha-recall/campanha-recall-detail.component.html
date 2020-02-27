@@ -29,9 +29,13 @@
                 <dd>
                     <span>{{campanhaRecall.dataFim}}</span>
                 </dd>
-                <dt><span jhiTranslate="gatewayApp.sgqCampanhaRecall.resultado">Resultado</span></dt>
+                <dt><span jhiTranslate="gatewayApp.sgqCampanhaRecall.dataPublicacao">Data Publicacao</span></dt>
                 <dd>
-                    <span>{{campanhaRecall.resultado}}</span>
+                    <span>{{campanhaRecall.dataPublicacao}}</span>
+                </dd>
+                <dt><span jhiTranslate="gatewayApp.sgqCampanhaRecall.status">Status</span></dt>
+                <dd>
+                    <span jhiTranslate="{{'gatewayApp.StatusPublicacao.' + campanhaRecall.status}}">{{campanhaRecall.status}}</span>
                 </dd>
                 <dt><span jhiTranslate="gatewayApp.sgqCampanhaRecall.produto">Produto</span></dt>
                 <dd>
@@ -44,6 +48,12 @@
                     <div *ngIf="campanhaRecall.setorResponsavel">
                         <a [routerLink]="['/setor', campanhaRecall.setorResponsavel?.id, 'view']">{{campanhaRecall.setorResponsavel?.nome}}</a>
                     </div>
+                </dd>
+                <dt><span jhiTranslate="gatewayApp.sgqCampanhaRecall.anexo">Anexo</span></dt>
+                <dd>
+                    <span *ngFor="let anexo of campanhaRecall.anexos; let last = last">
+                        <a [routerLink]="['/anexo', anexo?.id, 'view' ]">{{anexo.nomeArquivo}}</a>{{last ? '' : ', '}}
+                    </span>
                 </dd>
             </dl>
 

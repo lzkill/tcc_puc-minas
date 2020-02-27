@@ -8,6 +8,18 @@
     -->
     <changeSet id="20200208160346-2" author="jhipster">
         
+        <addForeignKeyConstraint baseColumnNames="processo_id"
+                                 baseTableName="processo_anexo"
+                                 constraintName="fk_processo_anexo_processo_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="processo"/>
+
+        <addForeignKeyConstraint baseColumnNames="anexo_id"
+                                 baseTableName="processo_anexo"
+                                 constraintName="fk_processo_anexo_anexo_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="anexo"/>
+        
         <addForeignKeyConstraint baseColumnNames="setor_id"
                                  baseTableName="processo"
                                  constraintName="fk_processo_setor_id"

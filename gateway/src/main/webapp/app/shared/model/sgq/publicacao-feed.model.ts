@@ -1,7 +1,7 @@
 import { Moment } from 'moment';
-import { IAnexo } from 'app/shared/model/sgq/anexo.model';
 import { IFeed } from 'app/shared/model/sgq/feed.model';
 import { ICategoriaPublicacao } from 'app/shared/model/sgq/categoria-publicacao.model';
+import { IAnexo } from 'app/shared/model/sgq/anexo.model';
 import { StatusPublicacao } from 'app/shared/model/enumerations/status-publicacao.model';
 
 export interface IPublicacaoFeed {
@@ -15,9 +15,9 @@ export interface IPublicacaoFeed {
   dataRegistro?: Moment;
   dataPublicacao?: Moment;
   status?: StatusPublicacao;
-  anexos?: IAnexo[];
   feed?: IFeed;
   categorias?: ICategoriaPublicacao[];
+  anexos?: IAnexo[];
 }
 
 export class PublicacaoFeed implements IPublicacaoFeed {
@@ -32,8 +32,8 @@ export class PublicacaoFeed implements IPublicacaoFeed {
     public dataRegistro?: Moment,
     public dataPublicacao?: Moment,
     public status?: StatusPublicacao,
-    public anexos?: IAnexo[],
     public feed?: IFeed,
-    public categorias?: ICategoriaPublicacao[]
+    public categorias?: ICategoriaPublicacao[],
+    public anexos?: IAnexo[]
   ) {}
 }

@@ -88,6 +88,9 @@ public class CategoriaPublicacaoQueryService extends QueryService<CategoriaPubli
             if (criteria.getTitulo() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getTitulo(), CategoriaPublicacao_.titulo));
             }
+            if (criteria.getHabilitado() != null) {
+                specification = specification.and(buildSpecification(criteria.getHabilitado(), CategoriaPublicacao_.habilitado));
+            }
             if (criteria.getBoletimId() != null) {
                 specification = specification.and(buildSpecification(criteria.getBoletimId(),
                     root -> root.join(CategoriaPublicacao_.boletims, JoinType.LEFT).get(BoletimInformativo_.id)));

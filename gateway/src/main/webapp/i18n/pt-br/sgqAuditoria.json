@@ -3,30 +3,32 @@
     "sgqAuditoria": {
       "home": {
         "title": "Auditorias",
-        "createLabel": "Adicionar",
-        "createOrEditLabel": "Criar ou editar auditoria",
-        "notFound": "Nenhuma auditoria encontrada"
+        "createLabel": "Criar novo Auditoria",
+        "createOrEditLabel": "Criar ou editar Auditoria",
+        "notFound": "Nenhum Auditoria encontrado"
       },
       "delete": {
-        "question": "Tem certeza de que deseja excluir a auditoria {{ id }}?"
+        "question": "Tem certeza de que deseja excluir Auditoria {{ id }}?"
       },
       "detail": {
         "title": "Auditoria"
       },
-      "tipo": "Tipo",
-      "titulo": "Título",
-      "descricao": "Descrição",
-      "processo": "Processo",
-      "help": {
-        "descricao": "Requisitos abordados, objetivos, etc"
-      }
+      "idUsuarioRegistro": "Id Usuario Registro",
+      "titulo": "Titulo",
+      "descricao": "Descricao",
+      "dataRegistro": "Data Registro",
+      "dataInicio": "Data Inicio",
+      "dataFim": "Data Fim",
+      "naoConformidade": "Nao Conformidade",
+      "itemAuditoria": "Item Auditoria",
+      "anexo": "Anexo"
     }
   },
   "sgqApp": {
     "sgqAuditoria": {
-      "created": "Uma nova auditoria foi criada com o identificador {{ param }}",
-      "updated": "Uma auditoria foi atualizada com o identificador {{ param }}",
-      "deleted": "Uma auditoria foi excluída com o identificador {{ param }}"
+      "created": "Um novo Auditoria foi criado com o identificador {{ param }}",
+      "updated": "Um Auditoria foi atualizado com o identificador {{ param }}",
+      "deleted": "Um Auditoria foi excluído com o identificador {{ param }}"
     }
   }
 }

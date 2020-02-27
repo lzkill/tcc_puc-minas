@@ -11,6 +11,8 @@ import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.lzkill.sgq.domain.enumeration.StatusPublicacao;
+
 /**
  * A CampanhaRecall.
  */
@@ -48,13 +50,13 @@ public class CampanhaRecall implements Serializable {
     @Column(name = "data_fim")
     private Instant dataFim;
 
-    @Lob
-    @Column(name = "resultado")
-    private String resultado;
+    @Column(name = "data_publicacao")
+    private Instant dataPublicacao;
 
-    @OneToMany(mappedBy = "campanhaRecall")
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<Anexo> anexos = new HashSet<>();
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false)
+    private StatusPublicacao status;
 
     @ManyToOne(optional = false)
     @NotNull
@@ -65,6 +67,13 @@ public class CampanhaRecall implements Serializable {
     @NotNull
     @JsonIgnoreProperties("campanhaRecalls")
     private Setor setorResponsavel;
+
+    @ManyToMany
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    @JoinTable(name = "campanha_recall_anexo",
+               joinColumns = @JoinColumn(name = "campanha_recall_id", referencedColumnName = "id"),
+               inverseJoinColumns = @JoinColumn(name = "anexo_id", referencedColumnName = "id"))
+    private Set<Anexo> anexos = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -153,42 +162,30 @@ public class CampanhaRecall implements Serializable {
         this.dataFim = dataFim;
     }
 
-    public String getResultado() {
-        return resultado;
+    public Instant getDataPublicacao() {
+        return dataPublicacao;
     }
 
-    public CampanhaRecall resultado(String resultado) {
-        this.resultado = resultado;
+    public CampanhaRecall dataPublicacao(Instant dataPublicacao) {
+        this.dataPublicacao = dataPublicacao;
         return this;
     }
 
-    public void setResultado(String resultado) {
-        this.resultado = resultado;
+    public void setDataPublicacao(Instant dataPublicacao) {
+        this.dataPublicacao = dataPublicacao;
     }
 
-    public Set<Anexo> getAnexos() {
-        return anexos;
+    public StatusPublicacao getStatus() {
+        return status;
     }
 
-    public CampanhaRecall anexos(Set<Anexo> anexos) {
-        this.anexos = anexos;
+    public CampanhaRecall status(StatusPublicacao status) {
+        this.status = status;
         return this;
     }
 
-    public CampanhaRecall addAnexo(Anexo anexo) {
-        this.anexos.add(anexo);
-        anexo.setCampanhaRecall(this);
-        return this;
-    }
-
-    public CampanhaRecall removeAnexo(Anexo anexo) {
-        this.anexos.remove(anexo);
-        anexo.setCampanhaRecall(null);
-        return this;
-    }
-
-    public void setAnexos(Set<Anexo> anexos) {
-        this.anexos = anexos;
+    public void setStatus(StatusPublicacao status) {
+        this.status = status;
     }
 
     public Produto getProduto() {
@@ -215,6 +212,31 @@ public class CampanhaRecall implements Serializable {
 
     public void setSetorResponsavel(Setor setor) {
         this.setorResponsavel = setor;
+    }
+
+    public Set<Anexo> getAnexos() {
+        return anexos;
+    }
+
+    public CampanhaRecall anexos(Set<Anexo> anexos) {
+        this.anexos = anexos;
+        return this;
+    }
+
+    public CampanhaRecall addAnexo(Anexo anexo) {
+        this.anexos.add(anexo);
+        anexo.getCampanhaRecalls().add(this);
+        return this;
+    }
+
+    public CampanhaRecall removeAnexo(Anexo anexo) {
+        this.anexos.remove(anexo);
+        anexo.getCampanhaRecalls().remove(this);
+        return this;
+    }
+
+    public void setAnexos(Set<Anexo> anexos) {
+        this.anexos = anexos;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
@@ -244,7 +266,8 @@ public class CampanhaRecall implements Serializable {
             ", dataRegistro='" + getDataRegistro() + "'" +
             ", dataInicio='" + getDataInicio() + "'" +
             ", dataFim='" + getDataFim() + "'" +
-            ", resultado='" + getResultado() + "'" +
+            ", dataPublicacao='" + getDataPublicacao() + "'" +
+            ", status='" + getStatus() + "'" +
             "}";
     }
 }

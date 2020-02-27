@@ -4,11 +4,14 @@ import { HttpResponse } from '@angular/common/http';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { JhiDataUtils, JhiFileLoadError, JhiEventManager, JhiEventWithContent } from 'ng-jhipster';
 
 import { IPlanoAuditoria, PlanoAuditoria } from 'app/shared/model/sgq/plano-auditoria.model';
 import { PlanoAuditoriaService } from './plano-auditoria.service';
 import { AlertError } from 'app/shared/alert/alert-error.model';
+import { IAnexo } from 'app/shared/model/sgq/anexo.model';
+import { AnexoService } from 'app/entities/sgq/anexo/anexo.service';
 
 @Component({
   selector: 'jhi-plano-auditoria-update',
@@ -17,16 +20,21 @@ import { AlertError } from 'app/shared/alert/alert-error.model';
 export class PlanoAuditoriaUpdateComponent implements OnInit {
   isSaving = false;
 
+  anexos: IAnexo[] = [];
+
   editForm = this.fb.group({
     id: [],
     titulo: [null, [Validators.required, Validators.minLength(1), Validators.maxLength(100)]],
-    descricao: []
+    descricao: [],
+    habilitado: [null, [Validators.required]],
+    anexos: []
   });
 
   constructor(
     protected dataUtils: JhiDataUtils,
     protected eventManager: JhiEventManager,
     protected planoAuditoriaService: PlanoAuditoriaService,
+    protected anexoService: AnexoService,
     protected activatedRoute: ActivatedRoute,
     private fb: FormBuilder
   ) {}
@@ -34,6 +42,15 @@ export class PlanoAuditoriaUpdateComponent implements OnInit {
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ planoAuditoria }) => {
       this.updateForm(planoAuditoria);
+
+      this.anexoService
+        .query()
+        .pipe(
+          map((res: HttpResponse<IAnexo[]>) => {
+            return res.body ? res.body : [];
+          })
+        )
+        .subscribe((resBody: IAnexo[]) => (this.anexos = resBody));
     });
   }
 
@@ -41,7 +58,9 @@ export class PlanoAuditoriaUpdateComponent implements OnInit {
     this.editForm.patchValue({
       id: planoAuditoria.id,
       titulo: planoAuditoria.titulo,
-      descricao: planoAuditoria.descricao
+      descricao: planoAuditoria.descricao,
+      habilitado: planoAuditoria.habilitado,
+      anexos: planoAuditoria.anexos
     });
   }
 
@@ -80,7 +99,9 @@ export class PlanoAuditoriaUpdateComponent implements OnInit {
       ...new PlanoAuditoria(),
       id: this.editForm.get(['id'])!.value,
       titulo: this.editForm.get(['titulo'])!.value,
-      descricao: this.editForm.get(['descricao'])!.value
+      descricao: this.editForm.get(['descricao'])!.value,
+      habilitado: this.editForm.get(['habilitado'])!.value,
+      anexos: this.editForm.get(['anexos'])!.value
     };
   }
 
@@ -98,5 +119,20 @@ export class PlanoAuditoriaUpdateComponent implements OnInit {
 
   protected onSaveError(): void {
     this.isSaving = false;
+  }
+
+  trackById(index: number, item: IAnexo): any {
+    return item.id;
+  }
+
+  getSelected(selectedVals: IAnexo[], option: IAnexo): IAnexo {
+    if (selectedVals) {
+      for (let i = 0; i < selectedVals.length; i++) {
+        if (option.id === selectedVals[i].id) {
+          return selectedVals[i];
+        }
+      }
+    }
+    return option;
   }
 }

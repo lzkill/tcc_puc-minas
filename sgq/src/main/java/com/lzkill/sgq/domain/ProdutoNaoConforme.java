@@ -34,8 +34,7 @@ public class ProdutoNaoConforme implements Serializable {
     @Column(name = "id_usuario_registro", nullable = false)
     private Integer idUsuarioRegistro;
 
-    @NotNull
-    @Column(name = "id_usuario_responsavel", nullable = false)
+    @Column(name = "id_usuario_responsavel")
     private Integer idUsuarioResponsavel;
 
     @NotNull
@@ -49,11 +48,10 @@ public class ProdutoNaoConforme implements Serializable {
     private String descricao;
 
     /**
-     * O fato descrito configura de fato um PNC
+     * O fato descrito configura de fato um PNC?
      */
-    @NotNull
-    @ApiModelProperty(value = "O fato descrito configura de fato um PNC", required = true)
-    @Column(name = "procedente", nullable = false)
+    @ApiModelProperty(value = "O fato descrito configura de fato um PNC?")
+    @Column(name = "procedente")
     private Boolean procedente;
 
     @NotNull
@@ -77,35 +75,33 @@ public class ProdutoNaoConforme implements Serializable {
      * PNCs são tratados com ações únicas e pontuais
      */
     @ApiModelProperty(value = "PNCs são tratados com ações únicas e pontuais")
-    @OneToOne(optional = false)
-    @NotNull
+    @OneToOne
     @JoinColumn(unique = true)
     private AcaoSGQ acao;
 
     /**
-     * Quando o problema identificado é sistêmico deve-se abrir uma NC
+     * Quando o problema identificado é sistêmico pode-se abrir uma NC
      */
-    @ApiModelProperty(value = "Quando o problema identificado é sistêmico deve-se abrir uma NC")
+    @ApiModelProperty(value = "Quando o problema identificado é sistêmico pode-se abrir uma NC")
     @OneToOne
     @JoinColumn(unique = true)
     private NaoConformidade naoConformidade;
-
-    @OneToMany(mappedBy = "produtoNaoConforme")
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<Anexo> anexos = new HashSet<>();
 
     @ManyToOne(optional = false)
     @NotNull
     @JsonIgnoreProperties("produtoNaoConformes")
     private Produto produto;
 
-    @ManyToOne
-    @JsonIgnoreProperties("produtoNaoConformes")
-    private ResultadoAuditoria resultadoAuditoria;
+    @ManyToMany
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    @JoinTable(name = "produto_nao_conforme_anexo",
+               joinColumns = @JoinColumn(name = "produto_nao_conforme_id", referencedColumnName = "id"),
+               inverseJoinColumns = @JoinColumn(name = "anexo_id", referencedColumnName = "id"))
+    private Set<Anexo> anexos = new HashSet<>();
 
     @ManyToOne
     @JsonIgnoreProperties("produtoNaoConformes")
-    private ResultadoItemChecklist resultadoItemChecklist;
+    private ResultadoChecklist resultadoChecklist;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -246,31 +242,6 @@ public class ProdutoNaoConforme implements Serializable {
         this.naoConformidade = naoConformidade;
     }
 
-    public Set<Anexo> getAnexos() {
-        return anexos;
-    }
-
-    public ProdutoNaoConforme anexos(Set<Anexo> anexos) {
-        this.anexos = anexos;
-        return this;
-    }
-
-    public ProdutoNaoConforme addAnexo(Anexo anexo) {
-        this.anexos.add(anexo);
-        anexo.setProdutoNaoConforme(this);
-        return this;
-    }
-
-    public ProdutoNaoConforme removeAnexo(Anexo anexo) {
-        this.anexos.remove(anexo);
-        anexo.setProdutoNaoConforme(null);
-        return this;
-    }
-
-    public void setAnexos(Set<Anexo> anexos) {
-        this.anexos = anexos;
-    }
-
     public Produto getProduto() {
         return produto;
     }
@@ -284,30 +255,42 @@ public class ProdutoNaoConforme implements Serializable {
         this.produto = produto;
     }
 
-    public ResultadoAuditoria getResultadoAuditoria() {
-        return resultadoAuditoria;
+    public Set<Anexo> getAnexos() {
+        return anexos;
     }
 
-    public ProdutoNaoConforme resultadoAuditoria(ResultadoAuditoria resultadoAuditoria) {
-        this.resultadoAuditoria = resultadoAuditoria;
+    public ProdutoNaoConforme anexos(Set<Anexo> anexos) {
+        this.anexos = anexos;
         return this;
     }
 
-    public void setResultadoAuditoria(ResultadoAuditoria resultadoAuditoria) {
-        this.resultadoAuditoria = resultadoAuditoria;
-    }
-
-    public ResultadoItemChecklist getResultadoItemChecklist() {
-        return resultadoItemChecklist;
-    }
-
-    public ProdutoNaoConforme resultadoItemChecklist(ResultadoItemChecklist resultadoItemChecklist) {
-        this.resultadoItemChecklist = resultadoItemChecklist;
+    public ProdutoNaoConforme addAnexo(Anexo anexo) {
+        this.anexos.add(anexo);
+        anexo.getProdutoNaoConformes().add(this);
         return this;
     }
 
-    public void setResultadoItemChecklist(ResultadoItemChecklist resultadoItemChecklist) {
-        this.resultadoItemChecklist = resultadoItemChecklist;
+    public ProdutoNaoConforme removeAnexo(Anexo anexo) {
+        this.anexos.remove(anexo);
+        anexo.getProdutoNaoConformes().remove(this);
+        return this;
+    }
+
+    public void setAnexos(Set<Anexo> anexos) {
+        this.anexos = anexos;
+    }
+
+    public ResultadoChecklist getResultadoChecklist() {
+        return resultadoChecklist;
+    }
+
+    public ProdutoNaoConforme resultadoChecklist(ResultadoChecklist resultadoChecklist) {
+        this.resultadoChecklist = resultadoChecklist;
+        return this;
+    }
+
+    public void setResultadoChecklist(ResultadoChecklist resultadoChecklist) {
+        this.resultadoChecklist = resultadoChecklist;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 

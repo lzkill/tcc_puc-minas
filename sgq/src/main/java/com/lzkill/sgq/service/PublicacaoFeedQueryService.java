@@ -109,10 +109,6 @@ public class PublicacaoFeedQueryService extends QueryService<PublicacaoFeed> {
             if (criteria.getStatus() != null) {
                 specification = specification.and(buildSpecification(criteria.getStatus(), PublicacaoFeed_.status));
             }
-            if (criteria.getAnexoId() != null) {
-                specification = specification.and(buildSpecification(criteria.getAnexoId(),
-                    root -> root.join(PublicacaoFeed_.anexos, JoinType.LEFT).get(Anexo_.id)));
-            }
             if (criteria.getFeedId() != null) {
                 specification = specification.and(buildSpecification(criteria.getFeedId(),
                     root -> root.join(PublicacaoFeed_.feed, JoinType.LEFT).get(Feed_.id)));
@@ -120,6 +116,10 @@ public class PublicacaoFeedQueryService extends QueryService<PublicacaoFeed> {
             if (criteria.getCategoriaId() != null) {
                 specification = specification.and(buildSpecification(criteria.getCategoriaId(),
                     root -> root.join(PublicacaoFeed_.categorias, JoinType.LEFT).get(CategoriaPublicacao_.id)));
+            }
+            if (criteria.getAnexoId() != null) {
+                specification = specification.and(buildSpecification(criteria.getAnexoId(),
+                    root -> root.join(PublicacaoFeed_.anexos, JoinType.LEFT).get(Anexo_.id)));
             }
         }
         return specification;

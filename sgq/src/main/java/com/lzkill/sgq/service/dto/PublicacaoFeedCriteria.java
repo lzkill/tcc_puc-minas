@@ -62,11 +62,11 @@ public class PublicacaoFeedCriteria implements Serializable, Criteria {
 
     private StatusPublicacaoFilter status;
 
-    private LongFilter anexoId;
-
     private LongFilter feedId;
 
     private LongFilter categoriaId;
+
+    private LongFilter anexoId;
 
     public PublicacaoFeedCriteria(){
     }
@@ -81,9 +81,9 @@ public class PublicacaoFeedCriteria implements Serializable, Criteria {
         this.dataRegistro = other.dataRegistro == null ? null : other.dataRegistro.copy();
         this.dataPublicacao = other.dataPublicacao == null ? null : other.dataPublicacao.copy();
         this.status = other.status == null ? null : other.status.copy();
-        this.anexoId = other.anexoId == null ? null : other.anexoId.copy();
         this.feedId = other.feedId == null ? null : other.feedId.copy();
         this.categoriaId = other.categoriaId == null ? null : other.categoriaId.copy();
+        this.anexoId = other.anexoId == null ? null : other.anexoId.copy();
     }
 
     @Override
@@ -163,14 +163,6 @@ public class PublicacaoFeedCriteria implements Serializable, Criteria {
         this.status = status;
     }
 
-    public LongFilter getAnexoId() {
-        return anexoId;
-    }
-
-    public void setAnexoId(LongFilter anexoId) {
-        this.anexoId = anexoId;
-    }
-
     public LongFilter getFeedId() {
         return feedId;
     }
@@ -185,6 +177,14 @@ public class PublicacaoFeedCriteria implements Serializable, Criteria {
 
     public void setCategoriaId(LongFilter categoriaId) {
         this.categoriaId = categoriaId;
+    }
+
+    public LongFilter getAnexoId() {
+        return anexoId;
+    }
+
+    public void setAnexoId(LongFilter anexoId) {
+        this.anexoId = anexoId;
     }
 
 
@@ -207,9 +207,9 @@ public class PublicacaoFeedCriteria implements Serializable, Criteria {
             Objects.equals(dataRegistro, that.dataRegistro) &&
             Objects.equals(dataPublicacao, that.dataPublicacao) &&
             Objects.equals(status, that.status) &&
-            Objects.equals(anexoId, that.anexoId) &&
             Objects.equals(feedId, that.feedId) &&
-            Objects.equals(categoriaId, that.categoriaId);
+            Objects.equals(categoriaId, that.categoriaId) &&
+            Objects.equals(anexoId, that.anexoId);
     }
 
     @Override
@@ -224,9 +224,9 @@ public class PublicacaoFeedCriteria implements Serializable, Criteria {
         dataRegistro,
         dataPublicacao,
         status,
-        anexoId,
         feedId,
-        categoriaId
+        categoriaId,
+        anexoId
         );
     }
 
@@ -242,9 +242,9 @@ public class PublicacaoFeedCriteria implements Serializable, Criteria {
                 (dataRegistro != null ? "dataRegistro=" + dataRegistro + ", " : "") +
                 (dataPublicacao != null ? "dataPublicacao=" + dataPublicacao + ", " : "") +
                 (status != null ? "status=" + status + ", " : "") +
-                (anexoId != null ? "anexoId=" + anexoId + ", " : "") +
                 (feedId != null ? "feedId=" + feedId + ", " : "") +
                 (categoriaId != null ? "categoriaId=" + categoriaId + ", " : "") +
+                (anexoId != null ? "anexoId=" + anexoId + ", " : "") +
             "}";
     }
 

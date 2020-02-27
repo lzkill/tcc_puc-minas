@@ -2,7 +2,9 @@ package com.lzkill.sgq.web.rest;
 
 import com.lzkill.sgq.SgqApp;
 import com.lzkill.sgq.domain.Auditoria;
-import com.lzkill.sgq.domain.Processo;
+import com.lzkill.sgq.domain.NaoConformidade;
+import com.lzkill.sgq.domain.ItemAuditoria;
+import com.lzkill.sgq.domain.Anexo;
 import com.lzkill.sgq.repository.AuditoriaRepository;
 import com.lzkill.sgq.service.AuditoriaService;
 import com.lzkill.sgq.web.rest.errors.ExceptionTranslator;
@@ -11,9 +13,12 @@ import com.lzkill.sgq.service.AuditoriaQueryService;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -24,23 +29,27 @@ import org.springframework.util.Base64Utils;
 import org.springframework.validation.Validator;
 
 import javax.persistence.EntityManager;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.lzkill.sgq.web.rest.TestUtil.createFormattingConversionService;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-import com.lzkill.sgq.domain.enumeration.TipoAuditoria;
 /**
  * Integration tests for the {@link AuditoriaResource} REST controller.
  */
 @SpringBootTest(classes = SgqApp.class)
 public class AuditoriaResourceIT {
 
-    private static final TipoAuditoria DEFAULT_TIPO = TipoAuditoria.INTERNA;
-    private static final TipoAuditoria UPDATED_TIPO = TipoAuditoria.EXTERNA;
+    private static final Integer DEFAULT_ID_USUARIO_REGISTRO = 1;
+    private static final Integer UPDATED_ID_USUARIO_REGISTRO = 2;
+    private static final Integer SMALLER_ID_USUARIO_REGISTRO = 1 - 1;
 
     private static final String DEFAULT_TITULO = "AAAAAAAAAA";
     private static final String UPDATED_TITULO = "BBBBBBBBBB";
@@ -48,8 +57,23 @@ public class AuditoriaResourceIT {
     private static final String DEFAULT_DESCRICAO = "AAAAAAAAAA";
     private static final String UPDATED_DESCRICAO = "BBBBBBBBBB";
 
+    private static final Instant DEFAULT_DATA_REGISTRO = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_DATA_REGISTRO = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+
+    private static final Instant DEFAULT_DATA_INICIO = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_DATA_INICIO = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+
+    private static final Instant DEFAULT_DATA_FIM = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_DATA_FIM = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+
     @Autowired
     private AuditoriaRepository auditoriaRepository;
+
+    @Mock
+    private AuditoriaRepository auditoriaRepositoryMock;
+
+    @Mock
+    private AuditoriaService auditoriaServiceMock;
 
     @Autowired
     private AuditoriaService auditoriaService;
@@ -96,9 +120,12 @@ public class AuditoriaResourceIT {
      */
     public static Auditoria createEntity(EntityManager em) {
         Auditoria auditoria = new Auditoria()
-            .tipo(DEFAULT_TIPO)
+            .idUsuarioRegistro(DEFAULT_ID_USUARIO_REGISTRO)
             .titulo(DEFAULT_TITULO)
-            .descricao(DEFAULT_DESCRICAO);
+            .descricao(DEFAULT_DESCRICAO)
+            .dataRegistro(DEFAULT_DATA_REGISTRO)
+            .dataInicio(DEFAULT_DATA_INICIO)
+            .dataFim(DEFAULT_DATA_FIM);
         return auditoria;
     }
     /**
@@ -109,9 +136,12 @@ public class AuditoriaResourceIT {
      */
     public static Auditoria createUpdatedEntity(EntityManager em) {
         Auditoria auditoria = new Auditoria()
-            .tipo(UPDATED_TIPO)
+            .idUsuarioRegistro(UPDATED_ID_USUARIO_REGISTRO)
             .titulo(UPDATED_TITULO)
-            .descricao(UPDATED_DESCRICAO);
+            .descricao(UPDATED_DESCRICAO)
+            .dataRegistro(UPDATED_DATA_REGISTRO)
+            .dataInicio(UPDATED_DATA_INICIO)
+            .dataFim(UPDATED_DATA_FIM);
         return auditoria;
     }
 
@@ -135,9 +165,12 @@ public class AuditoriaResourceIT {
         List<Auditoria> auditoriaList = auditoriaRepository.findAll();
         assertThat(auditoriaList).hasSize(databaseSizeBeforeCreate + 1);
         Auditoria testAuditoria = auditoriaList.get(auditoriaList.size() - 1);
-        assertThat(testAuditoria.getTipo()).isEqualTo(DEFAULT_TIPO);
+        assertThat(testAuditoria.getIdUsuarioRegistro()).isEqualTo(DEFAULT_ID_USUARIO_REGISTRO);
         assertThat(testAuditoria.getTitulo()).isEqualTo(DEFAULT_TITULO);
         assertThat(testAuditoria.getDescricao()).isEqualTo(DEFAULT_DESCRICAO);
+        assertThat(testAuditoria.getDataRegistro()).isEqualTo(DEFAULT_DATA_REGISTRO);
+        assertThat(testAuditoria.getDataInicio()).isEqualTo(DEFAULT_DATA_INICIO);
+        assertThat(testAuditoria.getDataFim()).isEqualTo(DEFAULT_DATA_FIM);
     }
 
     @Test
@@ -162,10 +195,10 @@ public class AuditoriaResourceIT {
 
     @Test
     @Transactional
-    public void checkTipoIsRequired() throws Exception {
+    public void checkIdUsuarioRegistroIsRequired() throws Exception {
         int databaseSizeBeforeTest = auditoriaRepository.findAll().size();
         // set the field null
-        auditoria.setTipo(null);
+        auditoria.setIdUsuarioRegistro(null);
 
         // Create the Auditoria, which fails.
 
@@ -198,6 +231,24 @@ public class AuditoriaResourceIT {
 
     @Test
     @Transactional
+    public void checkDataRegistroIsRequired() throws Exception {
+        int databaseSizeBeforeTest = auditoriaRepository.findAll().size();
+        // set the field null
+        auditoria.setDataRegistro(null);
+
+        // Create the Auditoria, which fails.
+
+        restAuditoriaMockMvc.perform(post("/api/auditorias")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(auditoria)))
+            .andExpect(status().isBadRequest());
+
+        List<Auditoria> auditoriaList = auditoriaRepository.findAll();
+        assertThat(auditoriaList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     public void getAllAuditorias() throws Exception {
         // Initialize the database
         auditoriaRepository.saveAndFlush(auditoria);
@@ -207,11 +258,47 @@ public class AuditoriaResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(auditoria.getId().intValue())))
-            .andExpect(jsonPath("$.[*].tipo").value(hasItem(DEFAULT_TIPO.toString())))
+            .andExpect(jsonPath("$.[*].idUsuarioRegistro").value(hasItem(DEFAULT_ID_USUARIO_REGISTRO)))
             .andExpect(jsonPath("$.[*].titulo").value(hasItem(DEFAULT_TITULO)))
-            .andExpect(jsonPath("$.[*].descricao").value(hasItem(DEFAULT_DESCRICAO.toString())));
+            .andExpect(jsonPath("$.[*].descricao").value(hasItem(DEFAULT_DESCRICAO.toString())))
+            .andExpect(jsonPath("$.[*].dataRegistro").value(hasItem(DEFAULT_DATA_REGISTRO.toString())))
+            .andExpect(jsonPath("$.[*].dataInicio").value(hasItem(DEFAULT_DATA_INICIO.toString())))
+            .andExpect(jsonPath("$.[*].dataFim").value(hasItem(DEFAULT_DATA_FIM.toString())));
     }
     
+    @SuppressWarnings({"unchecked"})
+    public void getAllAuditoriasWithEagerRelationshipsIsEnabled() throws Exception {
+        AuditoriaResource auditoriaResource = new AuditoriaResource(auditoriaServiceMock, auditoriaQueryService);
+        when(auditoriaServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+
+        MockMvc restAuditoriaMockMvc = MockMvcBuilders.standaloneSetup(auditoriaResource)
+            .setCustomArgumentResolvers(pageableArgumentResolver)
+            .setControllerAdvice(exceptionTranslator)
+            .setConversionService(createFormattingConversionService())
+            .setMessageConverters(jacksonMessageConverter).build();
+
+        restAuditoriaMockMvc.perform(get("/api/auditorias?eagerload=true"))
+        .andExpect(status().isOk());
+
+        verify(auditoriaServiceMock, times(1)).findAllWithEagerRelationships(any());
+    }
+
+    @SuppressWarnings({"unchecked"})
+    public void getAllAuditoriasWithEagerRelationshipsIsNotEnabled() throws Exception {
+        AuditoriaResource auditoriaResource = new AuditoriaResource(auditoriaServiceMock, auditoriaQueryService);
+            when(auditoriaServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+            MockMvc restAuditoriaMockMvc = MockMvcBuilders.standaloneSetup(auditoriaResource)
+            .setCustomArgumentResolvers(pageableArgumentResolver)
+            .setControllerAdvice(exceptionTranslator)
+            .setConversionService(createFormattingConversionService())
+            .setMessageConverters(jacksonMessageConverter).build();
+
+        restAuditoriaMockMvc.perform(get("/api/auditorias?eagerload=true"))
+        .andExpect(status().isOk());
+
+            verify(auditoriaServiceMock, times(1)).findAllWithEagerRelationships(any());
+    }
+
     @Test
     @Transactional
     public void getAuditoria() throws Exception {
@@ -223,9 +310,12 @@ public class AuditoriaResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(auditoria.getId().intValue()))
-            .andExpect(jsonPath("$.tipo").value(DEFAULT_TIPO.toString()))
+            .andExpect(jsonPath("$.idUsuarioRegistro").value(DEFAULT_ID_USUARIO_REGISTRO))
             .andExpect(jsonPath("$.titulo").value(DEFAULT_TITULO))
-            .andExpect(jsonPath("$.descricao").value(DEFAULT_DESCRICAO.toString()));
+            .andExpect(jsonPath("$.descricao").value(DEFAULT_DESCRICAO.toString()))
+            .andExpect(jsonPath("$.dataRegistro").value(DEFAULT_DATA_REGISTRO.toString()))
+            .andExpect(jsonPath("$.dataInicio").value(DEFAULT_DATA_INICIO.toString()))
+            .andExpect(jsonPath("$.dataFim").value(DEFAULT_DATA_FIM.toString()));
     }
 
 
@@ -250,55 +340,108 @@ public class AuditoriaResourceIT {
 
     @Test
     @Transactional
-    public void getAllAuditoriasByTipoIsEqualToSomething() throws Exception {
+    public void getAllAuditoriasByIdUsuarioRegistroIsEqualToSomething() throws Exception {
         // Initialize the database
         auditoriaRepository.saveAndFlush(auditoria);
 
-        // Get all the auditoriaList where tipo equals to DEFAULT_TIPO
-        defaultAuditoriaShouldBeFound("tipo.equals=" + DEFAULT_TIPO);
+        // Get all the auditoriaList where idUsuarioRegistro equals to DEFAULT_ID_USUARIO_REGISTRO
+        defaultAuditoriaShouldBeFound("idUsuarioRegistro.equals=" + DEFAULT_ID_USUARIO_REGISTRO);
 
-        // Get all the auditoriaList where tipo equals to UPDATED_TIPO
-        defaultAuditoriaShouldNotBeFound("tipo.equals=" + UPDATED_TIPO);
+        // Get all the auditoriaList where idUsuarioRegistro equals to UPDATED_ID_USUARIO_REGISTRO
+        defaultAuditoriaShouldNotBeFound("idUsuarioRegistro.equals=" + UPDATED_ID_USUARIO_REGISTRO);
     }
 
     @Test
     @Transactional
-    public void getAllAuditoriasByTipoIsNotEqualToSomething() throws Exception {
+    public void getAllAuditoriasByIdUsuarioRegistroIsNotEqualToSomething() throws Exception {
         // Initialize the database
         auditoriaRepository.saveAndFlush(auditoria);
 
-        // Get all the auditoriaList where tipo not equals to DEFAULT_TIPO
-        defaultAuditoriaShouldNotBeFound("tipo.notEquals=" + DEFAULT_TIPO);
+        // Get all the auditoriaList where idUsuarioRegistro not equals to DEFAULT_ID_USUARIO_REGISTRO
+        defaultAuditoriaShouldNotBeFound("idUsuarioRegistro.notEquals=" + DEFAULT_ID_USUARIO_REGISTRO);
 
-        // Get all the auditoriaList where tipo not equals to UPDATED_TIPO
-        defaultAuditoriaShouldBeFound("tipo.notEquals=" + UPDATED_TIPO);
+        // Get all the auditoriaList where idUsuarioRegistro not equals to UPDATED_ID_USUARIO_REGISTRO
+        defaultAuditoriaShouldBeFound("idUsuarioRegistro.notEquals=" + UPDATED_ID_USUARIO_REGISTRO);
     }
 
     @Test
     @Transactional
-    public void getAllAuditoriasByTipoIsInShouldWork() throws Exception {
+    public void getAllAuditoriasByIdUsuarioRegistroIsInShouldWork() throws Exception {
         // Initialize the database
         auditoriaRepository.saveAndFlush(auditoria);
 
-        // Get all the auditoriaList where tipo in DEFAULT_TIPO or UPDATED_TIPO
-        defaultAuditoriaShouldBeFound("tipo.in=" + DEFAULT_TIPO + "," + UPDATED_TIPO);
+        // Get all the auditoriaList where idUsuarioRegistro in DEFAULT_ID_USUARIO_REGISTRO or UPDATED_ID_USUARIO_REGISTRO
+        defaultAuditoriaShouldBeFound("idUsuarioRegistro.in=" + DEFAULT_ID_USUARIO_REGISTRO + "," + UPDATED_ID_USUARIO_REGISTRO);
 
-        // Get all the auditoriaList where tipo equals to UPDATED_TIPO
-        defaultAuditoriaShouldNotBeFound("tipo.in=" + UPDATED_TIPO);
+        // Get all the auditoriaList where idUsuarioRegistro equals to UPDATED_ID_USUARIO_REGISTRO
+        defaultAuditoriaShouldNotBeFound("idUsuarioRegistro.in=" + UPDATED_ID_USUARIO_REGISTRO);
     }
 
     @Test
     @Transactional
-    public void getAllAuditoriasByTipoIsNullOrNotNull() throws Exception {
+    public void getAllAuditoriasByIdUsuarioRegistroIsNullOrNotNull() throws Exception {
         // Initialize the database
         auditoriaRepository.saveAndFlush(auditoria);
 
-        // Get all the auditoriaList where tipo is not null
-        defaultAuditoriaShouldBeFound("tipo.specified=true");
+        // Get all the auditoriaList where idUsuarioRegistro is not null
+        defaultAuditoriaShouldBeFound("idUsuarioRegistro.specified=true");
 
-        // Get all the auditoriaList where tipo is null
-        defaultAuditoriaShouldNotBeFound("tipo.specified=false");
+        // Get all the auditoriaList where idUsuarioRegistro is null
+        defaultAuditoriaShouldNotBeFound("idUsuarioRegistro.specified=false");
     }
+
+    @Test
+    @Transactional
+    public void getAllAuditoriasByIdUsuarioRegistroIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        auditoriaRepository.saveAndFlush(auditoria);
+
+        // Get all the auditoriaList where idUsuarioRegistro is greater than or equal to DEFAULT_ID_USUARIO_REGISTRO
+        defaultAuditoriaShouldBeFound("idUsuarioRegistro.greaterThanOrEqual=" + DEFAULT_ID_USUARIO_REGISTRO);
+
+        // Get all the auditoriaList where idUsuarioRegistro is greater than or equal to UPDATED_ID_USUARIO_REGISTRO
+        defaultAuditoriaShouldNotBeFound("idUsuarioRegistro.greaterThanOrEqual=" + UPDATED_ID_USUARIO_REGISTRO);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAuditoriasByIdUsuarioRegistroIsLessThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        auditoriaRepository.saveAndFlush(auditoria);
+
+        // Get all the auditoriaList where idUsuarioRegistro is less than or equal to DEFAULT_ID_USUARIO_REGISTRO
+        defaultAuditoriaShouldBeFound("idUsuarioRegistro.lessThanOrEqual=" + DEFAULT_ID_USUARIO_REGISTRO);
+
+        // Get all the auditoriaList where idUsuarioRegistro is less than or equal to SMALLER_ID_USUARIO_REGISTRO
+        defaultAuditoriaShouldNotBeFound("idUsuarioRegistro.lessThanOrEqual=" + SMALLER_ID_USUARIO_REGISTRO);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAuditoriasByIdUsuarioRegistroIsLessThanSomething() throws Exception {
+        // Initialize the database
+        auditoriaRepository.saveAndFlush(auditoria);
+
+        // Get all the auditoriaList where idUsuarioRegistro is less than DEFAULT_ID_USUARIO_REGISTRO
+        defaultAuditoriaShouldNotBeFound("idUsuarioRegistro.lessThan=" + DEFAULT_ID_USUARIO_REGISTRO);
+
+        // Get all the auditoriaList where idUsuarioRegistro is less than UPDATED_ID_USUARIO_REGISTRO
+        defaultAuditoriaShouldBeFound("idUsuarioRegistro.lessThan=" + UPDATED_ID_USUARIO_REGISTRO);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAuditoriasByIdUsuarioRegistroIsGreaterThanSomething() throws Exception {
+        // Initialize the database
+        auditoriaRepository.saveAndFlush(auditoria);
+
+        // Get all the auditoriaList where idUsuarioRegistro is greater than DEFAULT_ID_USUARIO_REGISTRO
+        defaultAuditoriaShouldNotBeFound("idUsuarioRegistro.greaterThan=" + DEFAULT_ID_USUARIO_REGISTRO);
+
+        // Get all the auditoriaList where idUsuarioRegistro is greater than SMALLER_ID_USUARIO_REGISTRO
+        defaultAuditoriaShouldBeFound("idUsuarioRegistro.greaterThan=" + SMALLER_ID_USUARIO_REGISTRO);
+    }
+
 
     @Test
     @Transactional
@@ -380,21 +523,217 @@ public class AuditoriaResourceIT {
 
     @Test
     @Transactional
-    public void getAllAuditoriasByProcessoIsEqualToSomething() throws Exception {
+    public void getAllAuditoriasByDataRegistroIsEqualToSomething() throws Exception {
         // Initialize the database
         auditoriaRepository.saveAndFlush(auditoria);
-        Processo processo = ProcessoResourceIT.createEntity(em);
-        em.persist(processo);
-        em.flush();
-        auditoria.setProcesso(processo);
+
+        // Get all the auditoriaList where dataRegistro equals to DEFAULT_DATA_REGISTRO
+        defaultAuditoriaShouldBeFound("dataRegistro.equals=" + DEFAULT_DATA_REGISTRO);
+
+        // Get all the auditoriaList where dataRegistro equals to UPDATED_DATA_REGISTRO
+        defaultAuditoriaShouldNotBeFound("dataRegistro.equals=" + UPDATED_DATA_REGISTRO);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAuditoriasByDataRegistroIsNotEqualToSomething() throws Exception {
+        // Initialize the database
         auditoriaRepository.saveAndFlush(auditoria);
-        Long processoId = processo.getId();
 
-        // Get all the auditoriaList where processo equals to processoId
-        defaultAuditoriaShouldBeFound("processoId.equals=" + processoId);
+        // Get all the auditoriaList where dataRegistro not equals to DEFAULT_DATA_REGISTRO
+        defaultAuditoriaShouldNotBeFound("dataRegistro.notEquals=" + DEFAULT_DATA_REGISTRO);
 
-        // Get all the auditoriaList where processo equals to processoId + 1
-        defaultAuditoriaShouldNotBeFound("processoId.equals=" + (processoId + 1));
+        // Get all the auditoriaList where dataRegistro not equals to UPDATED_DATA_REGISTRO
+        defaultAuditoriaShouldBeFound("dataRegistro.notEquals=" + UPDATED_DATA_REGISTRO);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAuditoriasByDataRegistroIsInShouldWork() throws Exception {
+        // Initialize the database
+        auditoriaRepository.saveAndFlush(auditoria);
+
+        // Get all the auditoriaList where dataRegistro in DEFAULT_DATA_REGISTRO or UPDATED_DATA_REGISTRO
+        defaultAuditoriaShouldBeFound("dataRegistro.in=" + DEFAULT_DATA_REGISTRO + "," + UPDATED_DATA_REGISTRO);
+
+        // Get all the auditoriaList where dataRegistro equals to UPDATED_DATA_REGISTRO
+        defaultAuditoriaShouldNotBeFound("dataRegistro.in=" + UPDATED_DATA_REGISTRO);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAuditoriasByDataRegistroIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        auditoriaRepository.saveAndFlush(auditoria);
+
+        // Get all the auditoriaList where dataRegistro is not null
+        defaultAuditoriaShouldBeFound("dataRegistro.specified=true");
+
+        // Get all the auditoriaList where dataRegistro is null
+        defaultAuditoriaShouldNotBeFound("dataRegistro.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllAuditoriasByDataInicioIsEqualToSomething() throws Exception {
+        // Initialize the database
+        auditoriaRepository.saveAndFlush(auditoria);
+
+        // Get all the auditoriaList where dataInicio equals to DEFAULT_DATA_INICIO
+        defaultAuditoriaShouldBeFound("dataInicio.equals=" + DEFAULT_DATA_INICIO);
+
+        // Get all the auditoriaList where dataInicio equals to UPDATED_DATA_INICIO
+        defaultAuditoriaShouldNotBeFound("dataInicio.equals=" + UPDATED_DATA_INICIO);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAuditoriasByDataInicioIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        auditoriaRepository.saveAndFlush(auditoria);
+
+        // Get all the auditoriaList where dataInicio not equals to DEFAULT_DATA_INICIO
+        defaultAuditoriaShouldNotBeFound("dataInicio.notEquals=" + DEFAULT_DATA_INICIO);
+
+        // Get all the auditoriaList where dataInicio not equals to UPDATED_DATA_INICIO
+        defaultAuditoriaShouldBeFound("dataInicio.notEquals=" + UPDATED_DATA_INICIO);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAuditoriasByDataInicioIsInShouldWork() throws Exception {
+        // Initialize the database
+        auditoriaRepository.saveAndFlush(auditoria);
+
+        // Get all the auditoriaList where dataInicio in DEFAULT_DATA_INICIO or UPDATED_DATA_INICIO
+        defaultAuditoriaShouldBeFound("dataInicio.in=" + DEFAULT_DATA_INICIO + "," + UPDATED_DATA_INICIO);
+
+        // Get all the auditoriaList where dataInicio equals to UPDATED_DATA_INICIO
+        defaultAuditoriaShouldNotBeFound("dataInicio.in=" + UPDATED_DATA_INICIO);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAuditoriasByDataInicioIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        auditoriaRepository.saveAndFlush(auditoria);
+
+        // Get all the auditoriaList where dataInicio is not null
+        defaultAuditoriaShouldBeFound("dataInicio.specified=true");
+
+        // Get all the auditoriaList where dataInicio is null
+        defaultAuditoriaShouldNotBeFound("dataInicio.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllAuditoriasByDataFimIsEqualToSomething() throws Exception {
+        // Initialize the database
+        auditoriaRepository.saveAndFlush(auditoria);
+
+        // Get all the auditoriaList where dataFim equals to DEFAULT_DATA_FIM
+        defaultAuditoriaShouldBeFound("dataFim.equals=" + DEFAULT_DATA_FIM);
+
+        // Get all the auditoriaList where dataFim equals to UPDATED_DATA_FIM
+        defaultAuditoriaShouldNotBeFound("dataFim.equals=" + UPDATED_DATA_FIM);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAuditoriasByDataFimIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        auditoriaRepository.saveAndFlush(auditoria);
+
+        // Get all the auditoriaList where dataFim not equals to DEFAULT_DATA_FIM
+        defaultAuditoriaShouldNotBeFound("dataFim.notEquals=" + DEFAULT_DATA_FIM);
+
+        // Get all the auditoriaList where dataFim not equals to UPDATED_DATA_FIM
+        defaultAuditoriaShouldBeFound("dataFim.notEquals=" + UPDATED_DATA_FIM);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAuditoriasByDataFimIsInShouldWork() throws Exception {
+        // Initialize the database
+        auditoriaRepository.saveAndFlush(auditoria);
+
+        // Get all the auditoriaList where dataFim in DEFAULT_DATA_FIM or UPDATED_DATA_FIM
+        defaultAuditoriaShouldBeFound("dataFim.in=" + DEFAULT_DATA_FIM + "," + UPDATED_DATA_FIM);
+
+        // Get all the auditoriaList where dataFim equals to UPDATED_DATA_FIM
+        defaultAuditoriaShouldNotBeFound("dataFim.in=" + UPDATED_DATA_FIM);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAuditoriasByDataFimIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        auditoriaRepository.saveAndFlush(auditoria);
+
+        // Get all the auditoriaList where dataFim is not null
+        defaultAuditoriaShouldBeFound("dataFim.specified=true");
+
+        // Get all the auditoriaList where dataFim is null
+        defaultAuditoriaShouldNotBeFound("dataFim.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllAuditoriasByNaoConformidadeIsEqualToSomething() throws Exception {
+        // Initialize the database
+        auditoriaRepository.saveAndFlush(auditoria);
+        NaoConformidade naoConformidade = NaoConformidadeResourceIT.createEntity(em);
+        em.persist(naoConformidade);
+        em.flush();
+        auditoria.addNaoConformidade(naoConformidade);
+        auditoriaRepository.saveAndFlush(auditoria);
+        Long naoConformidadeId = naoConformidade.getId();
+
+        // Get all the auditoriaList where naoConformidade equals to naoConformidadeId
+        defaultAuditoriaShouldBeFound("naoConformidadeId.equals=" + naoConformidadeId);
+
+        // Get all the auditoriaList where naoConformidade equals to naoConformidadeId + 1
+        defaultAuditoriaShouldNotBeFound("naoConformidadeId.equals=" + (naoConformidadeId + 1));
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllAuditoriasByItemAuditoriaIsEqualToSomething() throws Exception {
+        // Initialize the database
+        auditoriaRepository.saveAndFlush(auditoria);
+        ItemAuditoria itemAuditoria = ItemAuditoriaResourceIT.createEntity(em);
+        em.persist(itemAuditoria);
+        em.flush();
+        auditoria.addItemAuditoria(itemAuditoria);
+        auditoriaRepository.saveAndFlush(auditoria);
+        Long itemAuditoriaId = itemAuditoria.getId();
+
+        // Get all the auditoriaList where itemAuditoria equals to itemAuditoriaId
+        defaultAuditoriaShouldBeFound("itemAuditoriaId.equals=" + itemAuditoriaId);
+
+        // Get all the auditoriaList where itemAuditoria equals to itemAuditoriaId + 1
+        defaultAuditoriaShouldNotBeFound("itemAuditoriaId.equals=" + (itemAuditoriaId + 1));
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllAuditoriasByAnexoIsEqualToSomething() throws Exception {
+        // Initialize the database
+        auditoriaRepository.saveAndFlush(auditoria);
+        Anexo anexo = AnexoResourceIT.createEntity(em);
+        em.persist(anexo);
+        em.flush();
+        auditoria.addAnexo(anexo);
+        auditoriaRepository.saveAndFlush(auditoria);
+        Long anexoId = anexo.getId();
+
+        // Get all the auditoriaList where anexo equals to anexoId
+        defaultAuditoriaShouldBeFound("anexoId.equals=" + anexoId);
+
+        // Get all the auditoriaList where anexo equals to anexoId + 1
+        defaultAuditoriaShouldNotBeFound("anexoId.equals=" + (anexoId + 1));
     }
 
     /**
@@ -405,9 +744,12 @@ public class AuditoriaResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(auditoria.getId().intValue())))
-            .andExpect(jsonPath("$.[*].tipo").value(hasItem(DEFAULT_TIPO.toString())))
+            .andExpect(jsonPath("$.[*].idUsuarioRegistro").value(hasItem(DEFAULT_ID_USUARIO_REGISTRO)))
             .andExpect(jsonPath("$.[*].titulo").value(hasItem(DEFAULT_TITULO)))
-            .andExpect(jsonPath("$.[*].descricao").value(hasItem(DEFAULT_DESCRICAO.toString())));
+            .andExpect(jsonPath("$.[*].descricao").value(hasItem(DEFAULT_DESCRICAO.toString())))
+            .andExpect(jsonPath("$.[*].dataRegistro").value(hasItem(DEFAULT_DATA_REGISTRO.toString())))
+            .andExpect(jsonPath("$.[*].dataInicio").value(hasItem(DEFAULT_DATA_INICIO.toString())))
+            .andExpect(jsonPath("$.[*].dataFim").value(hasItem(DEFAULT_DATA_FIM.toString())));
 
         // Check, that the count call also returns 1
         restAuditoriaMockMvc.perform(get("/api/auditorias/count?sort=id,desc&" + filter))
@@ -455,9 +797,12 @@ public class AuditoriaResourceIT {
         // Disconnect from session so that the updates on updatedAuditoria are not directly saved in db
         em.detach(updatedAuditoria);
         updatedAuditoria
-            .tipo(UPDATED_TIPO)
+            .idUsuarioRegistro(UPDATED_ID_USUARIO_REGISTRO)
             .titulo(UPDATED_TITULO)
-            .descricao(UPDATED_DESCRICAO);
+            .descricao(UPDATED_DESCRICAO)
+            .dataRegistro(UPDATED_DATA_REGISTRO)
+            .dataInicio(UPDATED_DATA_INICIO)
+            .dataFim(UPDATED_DATA_FIM);
 
         restAuditoriaMockMvc.perform(put("/api/auditorias")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -468,9 +813,12 @@ public class AuditoriaResourceIT {
         List<Auditoria> auditoriaList = auditoriaRepository.findAll();
         assertThat(auditoriaList).hasSize(databaseSizeBeforeUpdate);
         Auditoria testAuditoria = auditoriaList.get(auditoriaList.size() - 1);
-        assertThat(testAuditoria.getTipo()).isEqualTo(UPDATED_TIPO);
+        assertThat(testAuditoria.getIdUsuarioRegistro()).isEqualTo(UPDATED_ID_USUARIO_REGISTRO);
         assertThat(testAuditoria.getTitulo()).isEqualTo(UPDATED_TITULO);
         assertThat(testAuditoria.getDescricao()).isEqualTo(UPDATED_DESCRICAO);
+        assertThat(testAuditoria.getDataRegistro()).isEqualTo(UPDATED_DATA_REGISTRO);
+        assertThat(testAuditoria.getDataInicio()).isEqualTo(UPDATED_DATA_INICIO);
+        assertThat(testAuditoria.getDataFim()).isEqualTo(UPDATED_DATA_FIM);
     }
 
     @Test

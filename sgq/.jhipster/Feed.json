@@ -108,9 +108,8 @@
             ]
         },
         {
-            "fieldName": "status",
-            "fieldType": "StatusFeed",
-            "fieldValues": "ATIVO,INATIVO",
+            "fieldName": "habilitado",
+            "fieldType": "Boolean",
             "fieldValidateRules": [
                 "required"
             ]

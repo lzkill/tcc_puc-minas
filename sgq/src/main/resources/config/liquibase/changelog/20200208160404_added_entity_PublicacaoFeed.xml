@@ -38,7 +38,7 @@
                 <constraints nullable="false" />
             </column>
             <column name="data_publicacao" type="datetime">
-                <constraints nullable="false" />
+                <constraints nullable="true" />
             </column>
             <column name="status" type="varchar(255)">
                 <constraints nullable="false" />
@@ -64,6 +64,17 @@
         </createTable>
 
         <addPrimaryKey columnNames="publicacao_feed_id, categoria_id" tableName="publicacao_feed_categoria"/>
+        
+        <createTable tableName="publicacao_feed_anexo">
+            <column name="anexo_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="publicacao_feed_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addPrimaryKey columnNames="publicacao_feed_id, anexo_id" tableName="publicacao_feed_anexo"/>
         
     </changeSet>
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here, do not remove-->

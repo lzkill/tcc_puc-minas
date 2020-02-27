@@ -11,6 +11,13 @@
             ],
             "fieldValidateRulesMinlength": 1,
             "fieldValidateRulesMaxlength": 100
+        },
+        {
+            "fieldName": "habilitado",
+            "fieldType": "Boolean",
+            "fieldValidateRules": [
+                "required"
+            ]
         }
     ],
     "relationships": [

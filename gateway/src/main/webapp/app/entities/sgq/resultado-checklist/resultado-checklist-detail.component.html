@@ -9,9 +9,9 @@
                 <dd>
                   <span>{{usuarios.has(resultadoChecklist.idUsuarioRegistro) ? usuarios.get(resultadoChecklist.idUsuarioRegistro).firstName + " " + usuarios.get(resultadoChecklist.idUsuarioRegistro).lastName : ""}}</span>
               </dd>
-                <dt><span jhiTranslate="gatewayApp.sgqResultadoChecklist.titulo">Titulo</span></dt>
+                <dt><span jhiTranslate="gatewayApp.sgqResultadoChecklist.dataRegistro">Data Registro</span></dt>
                 <dd>
-                    <span>{{resultadoChecklist.titulo}}</span>
+                    <span>{{resultadoChecklist.dataRegistro}}</span>
                 </dd>
                 <dt><span jhiTranslate="gatewayApp.sgqResultadoChecklist.dataVerificacao">Data Verificacao</span></dt>
                 <dd>
@@ -22,6 +22,12 @@
                     <div *ngIf="resultadoChecklist.checklist">
                         <a [routerLink]="['/checklist', resultadoChecklist.checklist?.id, 'view']">{{resultadoChecklist.checklist?.titulo}}</a>
                     </div>
+                </dd>
+                <dt><span jhiTranslate="gatewayApp.sgqResultadoChecklist.anexo">Anexo</span></dt>
+                <dd>
+                    <span *ngFor="let anexo of resultadoChecklist.anexos; let last = last">
+                        <a [routerLink]="['/anexo', anexo?.id, 'view' ]">{{anexo.nomeArquivo}}</a>{{last ? '' : ', '}}
+                    </span>
                 </dd>
             </dl>
 

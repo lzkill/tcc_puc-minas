@@ -1,11 +1,11 @@
-id;nome;descricao
-1;full-range navigating;../fake-data/blob/hipster.txt
-2;deposit Future heuristic;../fake-data/blob/hipster.txt
-3;Latvia Home;../fake-data/blob/hipster.txt
-4;Soft Cambridgeshire;../fake-data/blob/hipster.txt
-5;digital Infrastructure Compatible;../fake-data/blob/hipster.txt
-6;architectures Intelligent;../fake-data/blob/hipster.txt
-7;Shirt;../fake-data/blob/hipster.txt
-8;feed Bedfordshire;../fake-data/blob/hipster.txt
-9;Customer-focused AGP Fantastic Frozen Shoes;../fake-data/blob/hipster.txt
-10;Incredible Wooden Car Ergonomic Island;../fake-data/blob/hipster.txt
+id;nome;descricao;habilitado
+1;full-range navigating;../fake-data/blob/hipster.txt;true
+2;Total directional;../fake-data/blob/hipster.txt;false
+3;Latvia Home;../fake-data/blob/hipster.txt;true
+4;online;../fake-data/blob/hipster.txt;true
+5;digital Infrastructure Compatible;../fake-data/blob/hipster.txt;false
+6;California Assimilated;../fake-data/blob/hipster.txt;false
+7;payment Denar;../fake-data/blob/hipster.txt;false
+8;Customer-focused AGP Fantastic Frozen Shoes;../fake-data/blob/hipster.txt;true
+9;archive;../fake-data/blob/hipster.txt;false
+10;Practical;../fake-data/blob/hipster.txt;false

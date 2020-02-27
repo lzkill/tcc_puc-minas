@@ -15,21 +15,30 @@
         {
             "fieldName": "periodicidade",
             "fieldType": "Periodicidade",
-            "fieldValues": "DIARIO,SEMANAL,QUINZENAL,MENSAL,BIMESTRAL,TRIMESTRAL,SEMESTRAL,ANUAL"
+            "fieldValues": "DIARIA,SEMANAL,QUINZENAL,MENSAL,BIMESTRAL,TRIMESTRAL,SEMESTRAL,ANUAL"
+        },
+        {
+            "fieldName": "habilitado",
+            "fieldType": "Boolean",
+            "fieldValidateRules": [
+                "required"
+            ]
         }
     ],
     "relationships": [
         {
             "relationshipType": "one-to-many",
-            "otherEntityName": "anexo",
-            "otherEntityRelationshipName": "checklist",
-            "relationshipName": "anexo"
-        },
-        {
-            "relationshipType": "one-to-many",
             "otherEntityName": "itemChecklist",
             "otherEntityRelationshipName": "checklist",
             "relationshipName": "item"
+        },
+        {
+            "relationshipType": "many-to-many",
+            "otherEntityName": "anexo",
+            "otherEntityRelationshipName": "checklist",
+            "relationshipName": "anexo",
+            "otherEntityField": "nomeArquivo",
+            "ownerSide": true
         },
         {
             "relationshipType": "many-to-one",

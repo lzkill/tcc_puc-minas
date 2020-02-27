@@ -91,13 +91,16 @@ public class ChecklistQueryService extends QueryService<Checklist> {
             if (criteria.getPeriodicidade() != null) {
                 specification = specification.and(buildSpecification(criteria.getPeriodicidade(), Checklist_.periodicidade));
             }
-            if (criteria.getAnexoId() != null) {
-                specification = specification.and(buildSpecification(criteria.getAnexoId(),
-                    root -> root.join(Checklist_.anexos, JoinType.LEFT).get(Anexo_.id)));
+            if (criteria.getHabilitado() != null) {
+                specification = specification.and(buildSpecification(criteria.getHabilitado(), Checklist_.habilitado));
             }
             if (criteria.getItemId() != null) {
                 specification = specification.and(buildSpecification(criteria.getItemId(),
                     root -> root.join(Checklist_.items, JoinType.LEFT).get(ItemChecklist_.id)));
+            }
+            if (criteria.getAnexoId() != null) {
+                specification = specification.and(buildSpecification(criteria.getAnexoId(),
+                    root -> root.join(Checklist_.anexos, JoinType.LEFT).get(Anexo_.id)));
             }
             if (criteria.getSetorId() != null) {
                 specification = specification.and(buildSpecification(criteria.getSetorId(),

@@ -26,17 +26,23 @@
                                  referencedColumnNames="id"
                                  referencedTableName="produto"/>
 
-        <addForeignKeyConstraint baseColumnNames="resultado_auditoria_id"
-                                 baseTableName="produto_nao_conforme"
-                                 constraintName="fk_produto_nao_conforme_resultado_auditoria_id"
+        <addForeignKeyConstraint baseColumnNames="produto_nao_conforme_id"
+                                 baseTableName="produto_nao_conforme_anexo"
+                                 constraintName="fk_produto_nao_conforme_anexo_produto_nao_conforme_id"
                                  referencedColumnNames="id"
-                                 referencedTableName="resultado_auditoria"/>
+                                 referencedTableName="produto_nao_conforme"/>
 
-        <addForeignKeyConstraint baseColumnNames="resultado_item_checklist_id"
-                                 baseTableName="produto_nao_conforme"
-                                 constraintName="fk_produto_nao_conforme_resultado_item_checklist_id"
+        <addForeignKeyConstraint baseColumnNames="anexo_id"
+                                 baseTableName="produto_nao_conforme_anexo"
+                                 constraintName="fk_produto_nao_conforme_anexo_anexo_id"
                                  referencedColumnNames="id"
-                                 referencedTableName="resultado_item_checklist"/>
+                                 referencedTableName="anexo"/>
+        
+        <addForeignKeyConstraint baseColumnNames="resultado_checklist_id"
+                                 baseTableName="produto_nao_conforme"
+                                 constraintName="fk_produto_nao_conforme_resultado_checklist_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="resultado_checklist"/>
 
     </changeSet>
 </databaseChangeLog>

@@ -112,21 +112,21 @@ public class NaoConformidadeQueryService extends QueryService<NaoConformidade> {
             if (criteria.getStatusSGQ() != null) {
                 specification = specification.and(buildSpecification(criteria.getStatusSGQ(), NaoConformidade_.statusSGQ));
             }
-            if (criteria.getAnexoId() != null) {
-                specification = specification.and(buildSpecification(criteria.getAnexoId(),
-                    root -> root.join(NaoConformidade_.anexos, JoinType.LEFT).get(Anexo_.id)));
-            }
             if (criteria.getAcaoSGQId() != null) {
                 specification = specification.and(buildSpecification(criteria.getAcaoSGQId(),
                     root -> root.join(NaoConformidade_.acaoSGQS, JoinType.LEFT).get(AcaoSGQ_.id)));
             }
-            if (criteria.getResultadoAuditoriaId() != null) {
-                specification = specification.and(buildSpecification(criteria.getResultadoAuditoriaId(),
-                    root -> root.join(NaoConformidade_.resultadoAuditoria, JoinType.LEFT).get(ResultadoAuditoria_.id)));
+            if (criteria.getAnexoId() != null) {
+                specification = specification.and(buildSpecification(criteria.getAnexoId(),
+                    root -> root.join(NaoConformidade_.anexos, JoinType.LEFT).get(Anexo_.id)));
             }
-            if (criteria.getResultadoItemChecklistId() != null) {
-                specification = specification.and(buildSpecification(criteria.getResultadoItemChecklistId(),
-                    root -> root.join(NaoConformidade_.resultadoItemChecklist, JoinType.LEFT).get(ResultadoItemChecklist_.id)));
+            if (criteria.getAuditoriaId() != null) {
+                specification = specification.and(buildSpecification(criteria.getAuditoriaId(),
+                    root -> root.join(NaoConformidade_.auditoria, JoinType.LEFT).get(Auditoria_.id)));
+            }
+            if (criteria.getResultadoChecklistId() != null) {
+                specification = specification.and(buildSpecification(criteria.getResultadoChecklistId(),
+                    root -> root.join(NaoConformidade_.resultadoChecklist, JoinType.LEFT).get(ResultadoChecklist_.id)));
             }
         }
         return specification;

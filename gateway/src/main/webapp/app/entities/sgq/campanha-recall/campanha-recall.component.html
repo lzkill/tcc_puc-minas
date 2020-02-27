@@ -1,7 +1,7 @@
 <div>
     <h2 id="page-heading">
         <span jhiTranslate="gatewayApp.sgqCampanhaRecall.home.title">Campanha Recalls</span>
-        <button *jhiHasAnyAuthority="'ROLE_ADMIN_SGQ'" id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-campanha-recall" [routerLink]="['/campanha-recall/new']">
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-campanha-recall" [routerLink]="['/campanha-recall/new']">
             <fa-icon [icon]="'plus'"></fa-icon>
             <span  jhiTranslate="gatewayApp.sgqCampanhaRecall.home.createLabel">
             Create a new Campanha Recall
@@ -25,7 +25,8 @@
             <th scope="col"  jhiSortBy="dataRegistro"><span jhiTranslate="gatewayApp.sgqCampanhaRecall.dataRegistro">Data Registro</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="dataInicio"><span jhiTranslate="gatewayApp.sgqCampanhaRecall.dataInicio">Data Inicio</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="dataFim"><span jhiTranslate="gatewayApp.sgqCampanhaRecall.dataFim">Data Fim</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  jhiSortBy="resultado"><span jhiTranslate="gatewayApp.sgqCampanhaRecall.resultado">Resultado</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="dataPublicacao"><span jhiTranslate="gatewayApp.sgqCampanhaRecall.dataPublicacao">Data Publicacao</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="status"><span jhiTranslate="gatewayApp.sgqCampanhaRecall.status">Status</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="produto.nome"><span jhiTranslate="gatewayApp.sgqCampanhaRecall.produto">Produto</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="setorResponsavel.nome"><span jhiTranslate="gatewayApp.sgqCampanhaRecall.setorResponsavel">Setor Responsavel</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"></th>
@@ -40,7 +41,8 @@
                 <td>{{campanhaRecall.dataRegistro | date:'medium'}}</td>
                 <td>{{campanhaRecall.dataInicio | date:'medium'}}</td>
                 <td>{{campanhaRecall.dataFim | date:'medium'}}</td>
-                <td>{{campanhaRecall.resultado}}</td>
+                <td>{{campanhaRecall.dataPublicacao | date:'medium'}}</td>
+                <td jhiTranslate="{{'gatewayApp.StatusPublicacao.' + campanhaRecall.status}}">{{campanhaRecall.status}}</td>
                 <td>
                     <div *ngIf="campanhaRecall.produto">
                         <a [routerLink]="['/produto', campanhaRecall.produto?.id, 'view' ]" >{{campanhaRecall.produto?.nome}}</a>

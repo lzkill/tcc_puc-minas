@@ -12,9 +12,12 @@ import com.lzkill.sgq.service.ProdutoQueryService;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -25,11 +28,13 @@ import org.springframework.util.Base64Utils;
 import org.springframework.validation.Validator;
 
 import javax.persistence.EntityManager;
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.lzkill.sgq.web.rest.TestUtil.createFormattingConversionService;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -45,8 +50,17 @@ public class ProdutoResourceIT {
     private static final String DEFAULT_DESCRICAO = "AAAAAAAAAA";
     private static final String UPDATED_DESCRICAO = "BBBBBBBBBB";
 
+    private static final Boolean DEFAULT_HABILITADO = false;
+    private static final Boolean UPDATED_HABILITADO = true;
+
     @Autowired
     private ProdutoRepository produtoRepository;
+
+    @Mock
+    private ProdutoRepository produtoRepositoryMock;
+
+    @Mock
+    private ProdutoService produtoServiceMock;
 
     @Autowired
     private ProdutoService produtoService;
@@ -94,7 +108,8 @@ public class ProdutoResourceIT {
     public static Produto createEntity(EntityManager em) {
         Produto produto = new Produto()
             .nome(DEFAULT_NOME)
-            .descricao(DEFAULT_DESCRICAO);
+            .descricao(DEFAULT_DESCRICAO)
+            .habilitado(DEFAULT_HABILITADO);
         // Add required entity
         Empresa empresa;
         if (TestUtil.findAll(em, Empresa.class).isEmpty()) {
@@ -116,7 +131,8 @@ public class ProdutoResourceIT {
     public static Produto createUpdatedEntity(EntityManager em) {
         Produto produto = new Produto()
             .nome(UPDATED_NOME)
-            .descricao(UPDATED_DESCRICAO);
+            .descricao(UPDATED_DESCRICAO)
+            .habilitado(UPDATED_HABILITADO);
         // Add required entity
         Empresa empresa;
         if (TestUtil.findAll(em, Empresa.class).isEmpty()) {
@@ -152,6 +168,7 @@ public class ProdutoResourceIT {
         Produto testProduto = produtoList.get(produtoList.size() - 1);
         assertThat(testProduto.getNome()).isEqualTo(DEFAULT_NOME);
         assertThat(testProduto.getDescricao()).isEqualTo(DEFAULT_DESCRICAO);
+        assertThat(testProduto.isHabilitado()).isEqualTo(DEFAULT_HABILITADO);
     }
 
     @Test
@@ -194,6 +211,24 @@ public class ProdutoResourceIT {
 
     @Test
     @Transactional
+    public void checkHabilitadoIsRequired() throws Exception {
+        int databaseSizeBeforeTest = produtoRepository.findAll().size();
+        // set the field null
+        produto.setHabilitado(null);
+
+        // Create the Produto, which fails.
+
+        restProdutoMockMvc.perform(post("/api/produtos")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(produto)))
+            .andExpect(status().isBadRequest());
+
+        List<Produto> produtoList = produtoRepository.findAll();
+        assertThat(produtoList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     public void getAllProdutos() throws Exception {
         // Initialize the database
         produtoRepository.saveAndFlush(produto);
@@ -204,9 +239,43 @@ public class ProdutoResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(produto.getId().intValue())))
             .andExpect(jsonPath("$.[*].nome").value(hasItem(DEFAULT_NOME)))
-            .andExpect(jsonPath("$.[*].descricao").value(hasItem(DEFAULT_DESCRICAO.toString())));
+            .andExpect(jsonPath("$.[*].descricao").value(hasItem(DEFAULT_DESCRICAO.toString())))
+            .andExpect(jsonPath("$.[*].habilitado").value(hasItem(DEFAULT_HABILITADO.booleanValue())));
     }
     
+    @SuppressWarnings({"unchecked"})
+    public void getAllProdutosWithEagerRelationshipsIsEnabled() throws Exception {
+        ProdutoResource produtoResource = new ProdutoResource(produtoServiceMock, produtoQueryService);
+        when(produtoServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+
+        MockMvc restProdutoMockMvc = MockMvcBuilders.standaloneSetup(produtoResource)
+            .setCustomArgumentResolvers(pageableArgumentResolver)
+            .setControllerAdvice(exceptionTranslator)
+            .setConversionService(createFormattingConversionService())
+            .setMessageConverters(jacksonMessageConverter).build();
+
+        restProdutoMockMvc.perform(get("/api/produtos?eagerload=true"))
+        .andExpect(status().isOk());
+
+        verify(produtoServiceMock, times(1)).findAllWithEagerRelationships(any());
+    }
+
+    @SuppressWarnings({"unchecked"})
+    public void getAllProdutosWithEagerRelationshipsIsNotEnabled() throws Exception {
+        ProdutoResource produtoResource = new ProdutoResource(produtoServiceMock, produtoQueryService);
+            when(produtoServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+            MockMvc restProdutoMockMvc = MockMvcBuilders.standaloneSetup(produtoResource)
+            .setCustomArgumentResolvers(pageableArgumentResolver)
+            .setControllerAdvice(exceptionTranslator)
+            .setConversionService(createFormattingConversionService())
+            .setMessageConverters(jacksonMessageConverter).build();
+
+        restProdutoMockMvc.perform(get("/api/produtos?eagerload=true"))
+        .andExpect(status().isOk());
+
+            verify(produtoServiceMock, times(1)).findAllWithEagerRelationships(any());
+    }
+
     @Test
     @Transactional
     public void getProduto() throws Exception {
@@ -219,7 +288,8 @@ public class ProdutoResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(produto.getId().intValue()))
             .andExpect(jsonPath("$.nome").value(DEFAULT_NOME))
-            .andExpect(jsonPath("$.descricao").value(DEFAULT_DESCRICAO.toString()));
+            .andExpect(jsonPath("$.descricao").value(DEFAULT_DESCRICAO.toString()))
+            .andExpect(jsonPath("$.habilitado").value(DEFAULT_HABILITADO.booleanValue()));
     }
 
 
@@ -322,6 +392,58 @@ public class ProdutoResourceIT {
 
     @Test
     @Transactional
+    public void getAllProdutosByHabilitadoIsEqualToSomething() throws Exception {
+        // Initialize the database
+        produtoRepository.saveAndFlush(produto);
+
+        // Get all the produtoList where habilitado equals to DEFAULT_HABILITADO
+        defaultProdutoShouldBeFound("habilitado.equals=" + DEFAULT_HABILITADO);
+
+        // Get all the produtoList where habilitado equals to UPDATED_HABILITADO
+        defaultProdutoShouldNotBeFound("habilitado.equals=" + UPDATED_HABILITADO);
+    }
+
+    @Test
+    @Transactional
+    public void getAllProdutosByHabilitadoIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        produtoRepository.saveAndFlush(produto);
+
+        // Get all the produtoList where habilitado not equals to DEFAULT_HABILITADO
+        defaultProdutoShouldNotBeFound("habilitado.notEquals=" + DEFAULT_HABILITADO);
+
+        // Get all the produtoList where habilitado not equals to UPDATED_HABILITADO
+        defaultProdutoShouldBeFound("habilitado.notEquals=" + UPDATED_HABILITADO);
+    }
+
+    @Test
+    @Transactional
+    public void getAllProdutosByHabilitadoIsInShouldWork() throws Exception {
+        // Initialize the database
+        produtoRepository.saveAndFlush(produto);
+
+        // Get all the produtoList where habilitado in DEFAULT_HABILITADO or UPDATED_HABILITADO
+        defaultProdutoShouldBeFound("habilitado.in=" + DEFAULT_HABILITADO + "," + UPDATED_HABILITADO);
+
+        // Get all the produtoList where habilitado equals to UPDATED_HABILITADO
+        defaultProdutoShouldNotBeFound("habilitado.in=" + UPDATED_HABILITADO);
+    }
+
+    @Test
+    @Transactional
+    public void getAllProdutosByHabilitadoIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        produtoRepository.saveAndFlush(produto);
+
+        // Get all the produtoList where habilitado is not null
+        defaultProdutoShouldBeFound("habilitado.specified=true");
+
+        // Get all the produtoList where habilitado is null
+        defaultProdutoShouldNotBeFound("habilitado.specified=false");
+    }
+
+    @Test
+    @Transactional
     public void getAllProdutosByAnexoIsEqualToSomething() throws Exception {
         // Initialize the database
         produtoRepository.saveAndFlush(produto);
@@ -364,7 +486,8 @@ public class ProdutoResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(produto.getId().intValue())))
             .andExpect(jsonPath("$.[*].nome").value(hasItem(DEFAULT_NOME)))
-            .andExpect(jsonPath("$.[*].descricao").value(hasItem(DEFAULT_DESCRICAO.toString())));
+            .andExpect(jsonPath("$.[*].descricao").value(hasItem(DEFAULT_DESCRICAO.toString())))
+            .andExpect(jsonPath("$.[*].habilitado").value(hasItem(DEFAULT_HABILITADO.booleanValue())));
 
         // Check, that the count call also returns 1
         restProdutoMockMvc.perform(get("/api/produtos/count?sort=id,desc&" + filter))
@@ -413,7 +536,8 @@ public class ProdutoResourceIT {
         em.detach(updatedProduto);
         updatedProduto
             .nome(UPDATED_NOME)
-            .descricao(UPDATED_DESCRICAO);
+            .descricao(UPDATED_DESCRICAO)
+            .habilitado(UPDATED_HABILITADO);
 
         restProdutoMockMvc.perform(put("/api/produtos")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -426,6 +550,7 @@ public class ProdutoResourceIT {
         Produto testProduto = produtoList.get(produtoList.size() - 1);
         assertThat(testProduto.getNome()).isEqualTo(UPDATED_NOME);
         assertThat(testProduto.getDescricao()).isEqualTo(UPDATED_DESCRICAO);
+        assertThat(testProduto.isHabilitado()).isEqualTo(UPDATED_HABILITADO);
     }
 
     @Test

@@ -28,6 +28,10 @@ public class Empresa implements Serializable {
     @Column(name = "nome", length = 100, nullable = false)
     private String nome;
 
+    @NotNull
+    @Column(name = "habilitado", nullable = false)
+    private Boolean habilitado;
+
     @OneToMany(mappedBy = "empresa")
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Produto> produtos = new HashSet<>();
@@ -56,6 +60,19 @@ public class Empresa implements Serializable {
 
     public void setNome(String nome) {
         this.nome = nome;
+    }
+
+    public Boolean isHabilitado() {
+        return habilitado;
+    }
+
+    public Empresa habilitado(Boolean habilitado) {
+        this.habilitado = habilitado;
+        return this;
+    }
+
+    public void setHabilitado(Boolean habilitado) {
+        this.habilitado = habilitado;
     }
 
     public Set<Produto> getProdutos() {
@@ -130,6 +147,7 @@ public class Empresa implements Serializable {
         return "Empresa{" +
             "id=" + getId() +
             ", nome='" + getNome() + "'" +
+            ", habilitado='" + isHabilitado() + "'" +
             "}";
     }
 }

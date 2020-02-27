@@ -3,26 +3,27 @@
     "sgqEmpresa": {
       "home": {
         "title": "Empresas",
-        "createLabel": "Adicionar",
-        "createOrEditLabel": "Criar ou editar empresa",
-        "notFound": "Nenhuma empresa encontrada"
+        "createLabel": "Criar novo Empresa",
+        "createOrEditLabel": "Criar ou editar Empresa",
+        "notFound": "Nenhum Empresa encontrado"
       },
       "delete": {
-        "question": "Tem certeza de que deseja excluir a empresa {{ id }}?"
+        "question": "Tem certeza de que deseja excluir Empresa {{ id }}?"
       },
       "detail": {
         "title": "Empresa"
       },
       "nome": "Nome",
+      "habilitado": "Habilitado",
       "produto": "Produto",
       "setor": "Setor"
     }
   },
   "sgqApp": {
     "sgqEmpresa": {
-      "created": "Uma nova empresa foi criado com o identificador {{ param }}",
-      "updated": "Uma empresa foi atualizado com o identificador {{ param }}",
-      "deleted": "Uma empresa foi excluído com o identificador {{ param }}"
+      "created": "Um novo Empresa foi criado com o identificador {{ param }}",
+      "updated": "Um Empresa foi atualizado com o identificador {{ param }}",
+      "deleted": "Um Empresa foi excluído com o identificador {{ param }}"
     }
   }
 }

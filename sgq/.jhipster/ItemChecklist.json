@@ -29,10 +29,12 @@
     ],
     "relationships": [
         {
-            "relationshipType": "one-to-many",
+            "relationshipType": "many-to-many",
             "otherEntityName": "anexo",
             "otherEntityRelationshipName": "itemChecklist",
-            "relationshipName": "anexo"
+            "relationshipName": "anexo",
+            "otherEntityField": "nomeArquivo",
+            "ownerSide": true
         },
         {
             "relationshipType": "many-to-one",

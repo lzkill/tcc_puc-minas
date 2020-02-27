@@ -29,6 +29,10 @@ public class Setor implements Serializable {
     @Column(name = "nome", length = 100, nullable = false)
     private String nome;
 
+    @NotNull
+    @Column(name = "habilitado", nullable = false)
+    private Boolean habilitado;
+
     @OneToMany(mappedBy = "setor")
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Checklist> checklists = new HashSet<>();
@@ -62,6 +66,19 @@ public class Setor implements Serializable {
 
     public void setNome(String nome) {
         this.nome = nome;
+    }
+
+    public Boolean isHabilitado() {
+        return habilitado;
+    }
+
+    public Setor habilitado(Boolean habilitado) {
+        this.habilitado = habilitado;
+        return this;
+    }
+
+    public void setHabilitado(Boolean habilitado) {
+        this.habilitado = habilitado;
     }
 
     public Set<Checklist> getChecklists() {
@@ -149,6 +166,7 @@ public class Setor implements Serializable {
         return "Setor{" +
             "id=" + getId() +
             ", nome='" + getNome() + "'" +
+            ", habilitado='" + isHabilitado() + "'" +
             "}";
     }
 }

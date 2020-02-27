@@ -1,0 +1,70 @@
+{
+    "name": "SolicitacaoAnalise",
+    "fields": [
+        {
+            "fieldName": "idUsuarioRegistro",
+            "fieldType": "Integer",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "dataRegistro",
+            "fieldType": "Instant",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "dataSolicitacao",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "uuid",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "unique"
+            ]
+        },
+        {
+            "fieldName": "status",
+            "fieldType": "StatusSolicitacaoAnalise",
+            "fieldValues": "REGISTRADO,PENDENTE,CONCLUIDO",
+            "fieldValidateRules": [
+                "required"
+            ]
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "one-to-one",
+            "otherEntityName": "analiseConsultoria",
+            "otherEntityRelationshipName": "solicitacaoAnalise",
+            "relationshipName": "analiseConsultoria",
+            "otherEntityField": "id",
+            "ownerSide": true
+        },
+        {
+            "relationshipType": "one-to-one",
+            "otherEntityName": "naoConformidade",
+            "otherEntityRelationshipName": "solicitacaoAnalise",
+            "relationshipValidateRules": "required",
+            "relationshipName": "naoConformidade",
+            "otherEntityField": "titulo",
+            "ownerSide": true
+        }
+    ],
+    "changelogDate": "20200227165230",
+    "entityTableName": "solicitacao_analise",
+    "dto": "no",
+    "pagination": "pagination",
+    "service": "serviceClass",
+    "jpaMetamodelFiltering": true,
+    "fluentMethods": true,
+    "readOnly": false,
+    "clientRootFolder": "",
+    "applications": [
+        "consultoria"
+    ],
+    "microserviceName": "consultoria"
+}

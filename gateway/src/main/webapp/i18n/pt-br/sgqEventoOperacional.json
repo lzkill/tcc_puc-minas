@@ -2,33 +2,34 @@
   "gatewayApp": {
     "sgqEventoOperacional": {
       "home": {
-        "title": "Evento operacionais",
-        "createLabel": "Adicionar",
-        "createOrEditLabel": "Criar ou editar evento operacional",
-        "notFound": "Nenhum evento operacional encontrado"
+        "title": "Evento Operacionals",
+        "createLabel": "Criar novo Evento Operacional",
+        "createOrEditLabel": "Criar ou editar Evento Operacional",
+        "notFound": "Nenhum Evento Operacional encontrado"
       },
       "delete": {
-        "question": "Tem certeza de que deseja excluir o evento operacional {{ id }}?"
+        "question": "Tem certeza de que deseja excluir Evento Operacional {{ id }}?"
       },
       "detail": {
-        "title": "Evento operacional"
+        "title": "Evento Operacional"
       },
-      "idUsuarioRegistro": "Usuário de registro",
+      "idUsuarioRegistro": "Id Usuario Registro",
       "tipo": "Tipo",
-      "titulo": "Título",
-      "descricao": "Descrição",
-      "dataEvento": "Data do evento",
-      "duracao": "Duração",
-      "houveParadaProducao": "Houve parada de produção",
-      "anexo": "Anexo",
-      "processo": "Processo"
+      "titulo": "Titulo",
+      "descricao": "Descricao",
+      "dataRegistro": "Data Registro",
+      "dataEvento": "Data Evento",
+      "duracao": "Duracao",
+      "houveParadaProducao": "Houve Parada Producao",
+      "processo": "Processo",
+      "anexo": "Anexo"
     }
   },
   "sgqApp": {
     "sgqEventoOperacional": {
-      "created": "Um novo evento operacional foi criado com o identificador {{ param }}",
-      "updated": "Um evento operacional foi atualizado com o identificador {{ param }}",
-      "deleted": "Um evento operacional foi excluído com o identificador {{ param }}"
+      "created": "Um novo Evento Operacional foi criado com o identificador {{ param }}",
+      "updated": "Um Evento Operacional foi atualizado com o identificador {{ param }}",
+      "deleted": "Um Evento Operacional foi excluído com o identificador {{ param }}"
     }
   }
 }

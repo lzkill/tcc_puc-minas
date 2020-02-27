@@ -2,9 +2,9 @@ package com.lzkill.sgq.web.rest;
 
 import com.lzkill.sgq.SgqApp;
 import com.lzkill.sgq.domain.PublicacaoFeed;
-import com.lzkill.sgq.domain.Anexo;
 import com.lzkill.sgq.domain.Feed;
 import com.lzkill.sgq.domain.CategoriaPublicacao;
+import com.lzkill.sgq.domain.Anexo;
 import com.lzkill.sgq.repository.PublicacaoFeedRepository;
 import com.lzkill.sgq.service.PublicacaoFeedService;
 import com.lzkill.sgq.web.rest.errors.ExceptionTranslator;
@@ -74,7 +74,7 @@ public class PublicacaoFeedResourceIT {
     private static final Instant UPDATED_DATA_PUBLICACAO = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
     private static final StatusPublicacao DEFAULT_STATUS = StatusPublicacao.RASCUNHO;
-    private static final StatusPublicacao UPDATED_STATUS = StatusPublicacao.PUBLICADO;
+    private static final StatusPublicacao UPDATED_STATUS = StatusPublicacao.APROVADO;
 
     @Autowired
     private PublicacaoFeedRepository publicacaoFeedRepository;
@@ -344,24 +344,6 @@ public class PublicacaoFeedResourceIT {
 
     @Test
     @Transactional
-    public void checkDataPublicacaoIsRequired() throws Exception {
-        int databaseSizeBeforeTest = publicacaoFeedRepository.findAll().size();
-        // set the field null
-        publicacaoFeed.setDataPublicacao(null);
-
-        // Create the PublicacaoFeed, which fails.
-
-        restPublicacaoFeedMockMvc.perform(post("/api/publicacao-feeds")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(publicacaoFeed)))
-            .andExpect(status().isBadRequest());
-
-        List<PublicacaoFeed> publicacaoFeedList = publicacaoFeedRepository.findAll();
-        assertThat(publicacaoFeedList).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
     public void checkStatusIsRequired() throws Exception {
         int databaseSizeBeforeTest = publicacaoFeedRepository.findAll().size();
         // set the field null
@@ -399,7 +381,7 @@ public class PublicacaoFeedResourceIT {
             .andExpect(jsonPath("$.[*].dataPublicacao").value(hasItem(DEFAULT_DATA_PUBLICACAO.toString())))
             .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())));
     }
-
+    
     @SuppressWarnings({"unchecked"})
     public void getAllPublicacaoFeedsWithEagerRelationshipsIsEnabled() throws Exception {
         PublicacaoFeedResource publicacaoFeedResource = new PublicacaoFeedResource(publicacaoFeedServiceMock, publicacaoFeedQueryService);
@@ -1050,6 +1032,38 @@ public class PublicacaoFeedResourceIT {
 
     @Test
     @Transactional
+    public void getAllPublicacaoFeedsByFeedIsEqualToSomething() throws Exception {
+        // Get already existing entity
+        Feed feed = publicacaoFeed.getFeed();
+        publicacaoFeedRepository.saveAndFlush(publicacaoFeed);
+        Long feedId = feed.getId();
+
+        // Get all the publicacaoFeedList where feed equals to feedId
+        defaultPublicacaoFeedShouldBeFound("feedId.equals=" + feedId);
+
+        // Get all the publicacaoFeedList where feed equals to feedId + 1
+        defaultPublicacaoFeedShouldNotBeFound("feedId.equals=" + (feedId + 1));
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllPublicacaoFeedsByCategoriaIsEqualToSomething() throws Exception {
+        // Get already existing entity
+        CategoriaPublicacao categoria = publicacaoFeed.getCategoria();
+        publicacaoFeedRepository.saveAndFlush(publicacaoFeed);
+        Long categoriaId = categoria.getId();
+
+        // Get all the publicacaoFeedList where categoria equals to categoriaId
+        defaultPublicacaoFeedShouldBeFound("categoriaId.equals=" + categoriaId);
+
+        // Get all the publicacaoFeedList where categoria equals to categoriaId + 1
+        defaultPublicacaoFeedShouldNotBeFound("categoriaId.equals=" + (categoriaId + 1));
+    }
+
+
+    @Test
+    @Transactional
     public void getAllPublicacaoFeedsByAnexoIsEqualToSomething() throws Exception {
         // Initialize the database
         publicacaoFeedRepository.saveAndFlush(publicacaoFeed);
@@ -1066,39 +1080,6 @@ public class PublicacaoFeedResourceIT {
         // Get all the publicacaoFeedList where anexo equals to anexoId + 1
         defaultPublicacaoFeedShouldNotBeFound("anexoId.equals=" + (anexoId + 1));
     }
-
-
-    @Test
-    @Transactional
-    public void getAllPublicacaoFeedsByFeedIsEqualToSomething() throws Exception {
-        // Get already existing entity
-        Feed feed = publicacaoFeed.getFeed();
-        publicacaoFeedRepository.saveAndFlush(publicacaoFeed);
-        Long feedId = feed.getId();
-
-        // Get all the publicacaoFeedList where feed equals to feedId
-        defaultPublicacaoFeedShouldBeFound("feedId.equals=" + feedId);
-
-        // Get all the publicacaoFeedList where feed equals to feedId + 1
-        defaultPublicacaoFeedShouldNotBeFound("feedId.equals=" + (feedId + 1));
-    }
-
-/*
-    @Test
-    @Transactional
-    public void getAllPublicacaoFeedsByCategoriaIsEqualToSomething() throws Exception {
-        // Get already existing entity
-        CategoriaPublicacao categoria = publicacaoFeed.getCategoria();
-        publicacaoFeedRepository.saveAndFlush(publicacaoFeed);
-        Long categoriaId = categoria.getId();
-
-        // Get all the publicacaoFeedList where categoria equals to categoriaId
-        defaultPublicacaoFeedShouldBeFound("categoriaId.equals=" + categoriaId);
-
-        // Get all the publicacaoFeedList where categoria equals to categoriaId + 1
-        defaultPublicacaoFeedShouldNotBeFound("categoriaId.equals=" + (categoriaId + 1));
-    }
-*/
 
     /**
      * Executes the search, and checks that the default entity is returned.

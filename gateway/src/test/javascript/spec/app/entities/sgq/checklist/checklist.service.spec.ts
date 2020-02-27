@@ -21,7 +21,7 @@ describe('Service Tests', () => {
       service = injector.get(ChecklistService);
       httpMock = injector.get(HttpTestingController);
 
-      elemDefault = new Checklist(0, 'AAAAAAA', Periodicidade.DIARIO);
+      elemDefault = new Checklist(0, 'AAAAAAA', Periodicidade.DIARIA, false);
     });
 
     describe('Service methods', () => {
@@ -58,7 +58,8 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             titulo: 'BBBBBB',
-            periodicidade: 'BBBBBB'
+            periodicidade: 'BBBBBB',
+            habilitado: true
           },
           elemDefault
         );
@@ -77,7 +78,8 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             titulo: 'BBBBBB',
-            periodicidade: 'BBBBBB'
+            periodicidade: 'BBBBBB',
+            habilitado: true
           },
           elemDefault
         );

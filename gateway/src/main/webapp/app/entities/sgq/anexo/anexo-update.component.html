@@ -10,6 +10,37 @@
                         readonly />
                 </div>
                 <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="gatewayApp.sgqAnexo.idUsuarioRegistro" for="field_idUsuarioRegistro">Id Usuario Registro</label>
+                    <input type="number" class="form-control" name="idUsuarioRegistro" id="field_idUsuarioRegistro"
+                           formControlName="idUsuarioRegistro"/>
+                    <div *ngIf="editForm.get('idUsuarioRegistro')!.invalid && (editForm.get('idUsuarioRegistro')!.dirty || editForm.get('idUsuarioRegistro')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('idUsuarioRegistro')?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.get('idUsuarioRegistro')?.errors?.number" jhiTranslate="entity.validation.number">
+                            This field should be a number.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="gatewayApp.sgqAnexo.dataRegistro" for="field_dataRegistro">Data Registro</label>
+                    <div class="d-flex">
+                        <input id="field_dataRegistro" type="datetime-local" class="form-control" name="dataRegistro" formControlName="dataRegistro" placeholder="YYYY-MM-DD HH:mm"/>
+                    </div>
+                    <div *ngIf="editForm.get('dataRegistro')!.invalid && (editForm.get('dataRegistro')!.dirty || editForm.get('dataRegistro')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('dataRegistro')?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.get('dataRegistro')?.errors?.ZonedDateTimelocal" jhiTranslate="entity.validation.ZonedDateTimelocal">
+                            This field should be a date and time.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
                     <label class="form-control-label" jhiTranslate="gatewayApp.sgqAnexo.nomeArquivo" for="field_nomeArquivo">Nome Arquivo</label>
                     <input type="text" class="form-control" name="nomeArquivo" id="field_nomeArquivo"
                            formControlName="nomeArquivo"/>
@@ -49,118 +80,6 @@
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="gatewayApp.sgqAnexo.acaoSGQ" for="field_acaoSGQ">Acao SGQ</label>
-                    <select class="form-control" id="field_acaoSGQ" name="acaoSGQ" formControlName="acaoSGQ">
-                        <option [ngValue]="null"></option>
-                        <option [ngValue]="acaoSGQOption.id === editForm.get('acaoSGQ')!.value?.id ? editForm.get('acaoSGQ')!.value : acaoSGQOption" *ngFor="let acaoSGQOption of acaosgqs; trackBy: trackById">{{acaoSGQOption.id}}</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="gatewayApp.sgqAnexo.analiseConsultoria" for="field_analiseConsultoria">Analise Consultoria</label>
-                    <select class="form-control" id="field_analiseConsultoria" name="analiseConsultoria" formControlName="analiseConsultoria">
-                        <option [ngValue]="null"></option>
-                        <option [ngValue]="analiseConsultoriaOption.id === editForm.get('analiseConsultoria')!.value?.id ? editForm.get('analiseConsultoria')!.value : analiseConsultoriaOption" *ngFor="let analiseConsultoriaOption of analiseconsultorias; trackBy: trackById">{{analiseConsultoriaOption.id}}</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="gatewayApp.sgqAnexo.checklist" for="field_checklist">Checklist</label>
-                    <select class="form-control" id="field_checklist" name="checklist" formControlName="checklist">
-                        <option [ngValue]="null"></option>
-                        <option [ngValue]="checklistOption.id === editForm.get('checklist')!.value?.id ? editForm.get('checklist')!.value : checklistOption" *ngFor="let checklistOption of checklists; trackBy: trackById">{{checklistOption.id}}</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="gatewayApp.sgqAnexo.boletimInformativo" for="field_boletimInformativo">Boletim Informativo</label>
-                    <select class="form-control" id="field_boletimInformativo" name="boletimInformativo" formControlName="boletimInformativo">
-                        <option [ngValue]="null"></option>
-                        <option [ngValue]="boletimInformativoOption.id === editForm.get('boletimInformativo')!.value?.id ? editForm.get('boletimInformativo')!.value : boletimInformativoOption" *ngFor="let boletimInformativoOption of boletiminformativos; trackBy: trackById">{{boletimInformativoOption.id}}</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="gatewayApp.sgqAnexo.campanhaRecall" for="field_campanhaRecall">Campanha Recall</label>
-                    <select class="form-control" id="field_campanhaRecall" name="campanhaRecall" formControlName="campanhaRecall">
-                        <option [ngValue]="null"></option>
-                        <option [ngValue]="campanhaRecallOption.id === editForm.get('campanhaRecall')!.value?.id ? editForm.get('campanhaRecall')!.value : campanhaRecallOption" *ngFor="let campanhaRecallOption of campanharecalls; trackBy: trackById">{{campanhaRecallOption.id}}</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="gatewayApp.sgqAnexo.eventoOperacional" for="field_eventoOperacional">Evento Operacional</label>
-                    <select class="form-control" id="field_eventoOperacional" name="eventoOperacional" formControlName="eventoOperacional">
-                        <option [ngValue]="null"></option>
-                        <option [ngValue]="eventoOperacionalOption.id === editForm.get('eventoOperacional')!.value?.id ? editForm.get('eventoOperacional')!.value : eventoOperacionalOption" *ngFor="let eventoOperacionalOption of eventooperacionals; trackBy: trackById">{{eventoOperacionalOption.id}}</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="gatewayApp.sgqAnexo.itemChecklist" for="field_itemChecklist">Item Checklist</label>
-                    <select class="form-control" id="field_itemChecklist" name="itemChecklist" formControlName="itemChecklist">
-                        <option [ngValue]="null"></option>
-                        <option [ngValue]="itemChecklistOption.id === editForm.get('itemChecklist')!.value?.id ? editForm.get('itemChecklist')!.value : itemChecklistOption" *ngFor="let itemChecklistOption of itemchecklists; trackBy: trackById">{{itemChecklistOption.id}}</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="gatewayApp.sgqAnexo.itemPlanoAuditoria" for="field_itemPlanoAuditoria">Item Plano Auditoria</label>
-                    <select class="form-control" id="field_itemPlanoAuditoria" name="itemPlanoAuditoria" formControlName="itemPlanoAuditoria">
-                        <option [ngValue]="null"></option>
-                        <option [ngValue]="itemPlanoAuditoriaOption.id === editForm.get('itemPlanoAuditoria')!.value?.id ? editForm.get('itemPlanoAuditoria')!.value : itemPlanoAuditoriaOption" *ngFor="let itemPlanoAuditoriaOption of itemplanoauditorias; trackBy: trackById">{{itemPlanoAuditoriaOption.id}}</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="gatewayApp.sgqAnexo.naoConformidade" for="field_naoConformidade">Nao Conformidade</label>
-                    <select class="form-control" id="field_naoConformidade" name="naoConformidade" formControlName="naoConformidade">
-                        <option [ngValue]="null"></option>
-                        <option [ngValue]="naoConformidadeOption.id === editForm.get('naoConformidade')!.value?.id ? editForm.get('naoConformidade')!.value : naoConformidadeOption" *ngFor="let naoConformidadeOption of naoconformidades; trackBy: trackById">{{naoConformidadeOption.id}}</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="gatewayApp.sgqAnexo.processo" for="field_processo">Processo</label>
-                    <select class="form-control" id="field_processo" name="processo" formControlName="processo">
-                        <option [ngValue]="null"></option>
-                        <option [ngValue]="processoOption.id === editForm.get('processo')!.value?.id ? editForm.get('processo')!.value : processoOption" *ngFor="let processoOption of processos; trackBy: trackById">{{processoOption.id}}</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="gatewayApp.sgqAnexo.produto" for="field_produto">Produto</label>
-                    <select class="form-control" id="field_produto" name="produto" formControlName="produto">
-                        <option [ngValue]="null"></option>
-                        <option [ngValue]="produtoOption.id === editForm.get('produto')!.value?.id ? editForm.get('produto')!.value : produtoOption" *ngFor="let produtoOption of produtos; trackBy: trackById">{{produtoOption.id}}</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="gatewayApp.sgqAnexo.planoAuditoria" for="field_planoAuditoria">Plano Auditoria</label>
-                    <select class="form-control" id="field_planoAuditoria" name="planoAuditoria" formControlName="planoAuditoria">
-                        <option [ngValue]="null"></option>
-                        <option [ngValue]="planoAuditoriaOption.id === editForm.get('planoAuditoria')!.value?.id ? editForm.get('planoAuditoria')!.value : planoAuditoriaOption" *ngFor="let planoAuditoriaOption of planoauditorias; trackBy: trackById">{{planoAuditoriaOption.id}}</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="gatewayApp.sgqAnexo.produtoNaoConforme" for="field_produtoNaoConforme">Produto Nao Conforme</label>
-                    <select class="form-control" id="field_produtoNaoConforme" name="produtoNaoConforme" formControlName="produtoNaoConforme">
-                        <option [ngValue]="null"></option>
-                        <option [ngValue]="produtoNaoConformeOption.id === editForm.get('produtoNaoConforme')!.value?.id ? editForm.get('produtoNaoConforme')!.value : produtoNaoConformeOption" *ngFor="let produtoNaoConformeOption of produtonaoconformes; trackBy: trackById">{{produtoNaoConformeOption.id}}</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="gatewayApp.sgqAnexo.publicacaoFeed" for="field_publicacaoFeed">Publicacao Feed</label>
-                    <select class="form-control" id="field_publicacaoFeed" name="publicacaoFeed" formControlName="publicacaoFeed">
-                        <option [ngValue]="null"></option>
-                        <option [ngValue]="publicacaoFeedOption.id === editForm.get('publicacaoFeed')!.value?.id ? editForm.get('publicacaoFeed')!.value : publicacaoFeedOption" *ngFor="let publicacaoFeedOption of publicacaofeeds; trackBy: trackById">{{publicacaoFeedOption.id}}</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="gatewayApp.sgqAnexo.resultadoChecklist" for="field_resultadoChecklist">Resultado Checklist</label>
-                    <select class="form-control" id="field_resultadoChecklist" name="resultadoChecklist" formControlName="resultadoChecklist">
-                        <option [ngValue]="null"></option>
-                        <option [ngValue]="resultadoChecklistOption.id === editForm.get('resultadoChecklist')!.value?.id ? editForm.get('resultadoChecklist')!.value : resultadoChecklistOption" *ngFor="let resultadoChecklistOption of resultadochecklists; trackBy: trackById">{{resultadoChecklistOption.id}}</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="gatewayApp.sgqAnexo.resultadoItemChecklist" for="field_resultadoItemChecklist">Resultado Item Checklist</label>
-                    <select class="form-control" id="field_resultadoItemChecklist" name="resultadoItemChecklist" formControlName="resultadoItemChecklist">
-                        <option [ngValue]="null"></option>
-                        <option [ngValue]="resultadoItemChecklistOption.id === editForm.get('resultadoItemChecklist')!.value?.id ? editForm.get('resultadoItemChecklist')!.value : resultadoItemChecklistOption" *ngFor="let resultadoItemChecklistOption of resultadoitemchecklists; trackBy: trackById">{{resultadoItemChecklistOption.id}}</option>
-                    </select>
-                </div>
             </div>
             <div>
                 <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">

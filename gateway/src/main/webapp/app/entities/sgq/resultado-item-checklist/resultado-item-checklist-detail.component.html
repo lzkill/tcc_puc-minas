@@ -19,6 +19,12 @@
                         <a [routerLink]="['/item-checklist', resultadoItemChecklist.item?.id, 'view']">{{resultadoItemChecklist.item?.titulo}}</a>
                     </div>
                 </dd>
+                <dt><span jhiTranslate="gatewayApp.sgqResultadoItemChecklist.anexo">Anexo</span></dt>
+                <dd>
+                    <span *ngFor="let anexo of resultadoItemChecklist.anexos; let last = last">
+                        <a [routerLink]="['/anexo', anexo?.id, 'view' ]">{{anexo.nomeArquivo}}</a>{{last ? '' : ', '}}
+                    </span>
+                </dd>
                 <dt><span jhiTranslate="gatewayApp.sgqResultadoItemChecklist.resultado">Resultado</span></dt>
                 <dd>
                     <div *ngIf="resultadoItemChecklist.resultado">

@@ -54,7 +54,9 @@ export class CampanhaRecallService {
     const copy: ICampanhaRecall = Object.assign({}, campanhaRecall, {
       dataRegistro: campanhaRecall.dataRegistro && campanhaRecall.dataRegistro.isValid() ? campanhaRecall.dataRegistro.toJSON() : undefined,
       dataInicio: campanhaRecall.dataInicio && campanhaRecall.dataInicio.isValid() ? campanhaRecall.dataInicio.toJSON() : undefined,
-      dataFim: campanhaRecall.dataFim && campanhaRecall.dataFim.isValid() ? campanhaRecall.dataFim.toJSON() : undefined
+      dataFim: campanhaRecall.dataFim && campanhaRecall.dataFim.isValid() ? campanhaRecall.dataFim.toJSON() : undefined,
+      dataPublicacao:
+        campanhaRecall.dataPublicacao && campanhaRecall.dataPublicacao.isValid() ? campanhaRecall.dataPublicacao.toJSON() : undefined
     });
     return copy;
   }
@@ -64,6 +66,7 @@ export class CampanhaRecallService {
       res.body.dataRegistro = res.body.dataRegistro ? moment(res.body.dataRegistro) : undefined;
       res.body.dataInicio = res.body.dataInicio ? moment(res.body.dataInicio) : undefined;
       res.body.dataFim = res.body.dataFim ? moment(res.body.dataFim) : undefined;
+      res.body.dataPublicacao = res.body.dataPublicacao ? moment(res.body.dataPublicacao) : undefined;
     }
     return res;
   }
@@ -74,6 +77,7 @@ export class CampanhaRecallService {
         campanhaRecall.dataRegistro = campanhaRecall.dataRegistro ? moment(campanhaRecall.dataRegistro) : undefined;
         campanhaRecall.dataInicio = campanhaRecall.dataInicio ? moment(campanhaRecall.dataInicio) : undefined;
         campanhaRecall.dataFim = campanhaRecall.dataFim ? moment(campanhaRecall.dataFim) : undefined;
+        campanhaRecall.dataPublicacao = campanhaRecall.dataPublicacao ? moment(campanhaRecall.dataPublicacao) : undefined;
       });
     }
     return res;

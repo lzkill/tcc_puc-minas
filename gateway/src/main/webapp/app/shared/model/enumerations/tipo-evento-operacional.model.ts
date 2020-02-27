@@ -1,4 +1,5 @@
 export const enum TipoEventoOperacional {
-  PROGRAMADO,
-  NAO_PROGRAMADO
+  FALHA_EQUIPAMENTO,
+  FALHA_INFRA_ESTRUTURA,
+  FALHA_PROCESSO
 }

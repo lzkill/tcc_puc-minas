@@ -38,19 +38,13 @@
         {
             "fieldName": "status",
             "fieldType": "StatusPublicacao",
-            "fieldValues": "RASCUNHO,PUBLICADO",
+            "fieldValues": "RASCUNHO,APROVADO,PUBLICADO",
             "fieldValidateRules": [
                 "required"
             ]
         }
     ],
     "relationships": [
-        {
-            "relationshipType": "one-to-many",
-            "otherEntityName": "anexo",
-            "otherEntityRelationshipName": "boletimInformativo",
-            "relationshipName": "anexo"
-        },
         {
             "relationshipType": "many-to-one",
             "otherEntityName": "publicoAlvo",
@@ -66,6 +60,14 @@
             "relationshipValidateRules": "required",
             "relationshipName": "categoria",
             "otherEntityField": "titulo",
+            "ownerSide": true
+        },
+        {
+            "relationshipType": "many-to-many",
+            "otherEntityName": "anexo",
+            "otherEntityRelationshipName": "boletimInformativo",
+            "relationshipName": "anexo",
+            "otherEntityField": "nomeArquivo",
             "ownerSide": true
         }
     ],

@@ -10,8 +10,12 @@ import { JhiDataUtils, JhiFileLoadError, JhiEventManager, JhiEventWithContent } 
 import { IItemChecklist, ItemChecklist } from 'app/shared/model/sgq/item-checklist.model';
 import { ItemChecklistService } from './item-checklist.service';
 import { AlertError } from 'app/shared/alert/alert-error.model';
+import { IAnexo } from 'app/shared/model/sgq/anexo.model';
+import { AnexoService } from 'app/entities/sgq/anexo/anexo.service';
 import { IChecklist } from 'app/shared/model/sgq/checklist.model';
 import { ChecklistService } from 'app/entities/sgq/checklist/checklist.service';
+
+type SelectableEntity = IAnexo | IChecklist;
 
 @Component({
   selector: 'jhi-item-checklist-update',
@@ -20,6 +24,8 @@ import { ChecklistService } from 'app/entities/sgq/checklist/checklist.service';
 export class ItemChecklistUpdateComponent implements OnInit {
   isSaving = false;
 
+  anexos: IAnexo[] = [];
+
   checklists: IChecklist[] = [];
 
   editForm = this.fb.group({
@@ -27,6 +33,7 @@ export class ItemChecklistUpdateComponent implements OnInit {
     ordem: [null, [Validators.required, Validators.min(1)]],
     titulo: [null, [Validators.required, Validators.minLength(1), Validators.maxLength(100)]],
     descricao: [],
+    anexos: [],
     checklist: [null, Validators.required]
   });
 
@@ -34,6 +41,7 @@ export class ItemChecklistUpdateComponent implements OnInit {
     protected dataUtils: JhiDataUtils,
     protected eventManager: JhiEventManager,
     protected itemChecklistService: ItemChecklistService,
+    protected anexoService: AnexoService,
     protected checklistService: ChecklistService,
     protected activatedRoute: ActivatedRoute,
     private fb: FormBuilder
@@ -42,6 +50,15 @@ export class ItemChecklistUpdateComponent implements OnInit {
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ itemChecklist }) => {
       this.updateForm(itemChecklist);
+
+      this.anexoService
+        .query()
+        .pipe(
+          map((res: HttpResponse<IAnexo[]>) => {
+            return res.body ? res.body : [];
+          })
+        )
+        .subscribe((resBody: IAnexo[]) => (this.anexos = resBody));
 
       this.checklistService
         .query()
@@ -60,6 +77,7 @@ export class ItemChecklistUpdateComponent implements OnInit {
       ordem: itemChecklist.ordem,
       titulo: itemChecklist.titulo,
       descricao: itemChecklist.descricao,
+      anexos: itemChecklist.anexos,
       checklist: itemChecklist.checklist
     });
   }
@@ -101,6 +119,7 @@ export class ItemChecklistUpdateComponent implements OnInit {
       ordem: this.editForm.get(['ordem'])!.value,
       titulo: this.editForm.get(['titulo'])!.value,
       descricao: this.editForm.get(['descricao'])!.value,
+      anexos: this.editForm.get(['anexos'])!.value,
       checklist: this.editForm.get(['checklist'])!.value
     };
   }
@@ -121,7 +140,18 @@ export class ItemChecklistUpdateComponent implements OnInit {
     this.isSaving = false;
   }
 
-  trackById(index: number, item: IChecklist): any {
+  trackById(index: number, item: SelectableEntity): any {
     return item.id;
+  }
+
+  getSelected(selectedVals: IAnexo[], option: IAnexo): IAnexo {
+    if (selectedVals) {
+      for (let i = 0; i < selectedVals.length; i++) {
+        if (option.id === selectedVals[i].id) {
+          return selectedVals[i];
+        }
+      }
+    }
+    return option;
   }
 }

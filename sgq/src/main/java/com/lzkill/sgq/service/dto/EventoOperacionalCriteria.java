@@ -53,15 +53,17 @@ public class EventoOperacionalCriteria implements Serializable, Criteria {
 
     private StringFilter titulo;
 
+    private InstantFilter dataRegistro;
+
     private InstantFilter dataEvento;
 
     private DurationFilter duracao;
 
     private BooleanFilter houveParadaProducao;
 
-    private LongFilter anexoId;
-
     private LongFilter processoId;
+
+    private LongFilter anexoId;
 
     public EventoOperacionalCriteria(){
     }
@@ -71,11 +73,12 @@ public class EventoOperacionalCriteria implements Serializable, Criteria {
         this.idUsuarioRegistro = other.idUsuarioRegistro == null ? null : other.idUsuarioRegistro.copy();
         this.tipo = other.tipo == null ? null : other.tipo.copy();
         this.titulo = other.titulo == null ? null : other.titulo.copy();
+        this.dataRegistro = other.dataRegistro == null ? null : other.dataRegistro.copy();
         this.dataEvento = other.dataEvento == null ? null : other.dataEvento.copy();
         this.duracao = other.duracao == null ? null : other.duracao.copy();
         this.houveParadaProducao = other.houveParadaProducao == null ? null : other.houveParadaProducao.copy();
-        this.anexoId = other.anexoId == null ? null : other.anexoId.copy();
         this.processoId = other.processoId == null ? null : other.processoId.copy();
+        this.anexoId = other.anexoId == null ? null : other.anexoId.copy();
     }
 
     @Override
@@ -115,6 +118,14 @@ public class EventoOperacionalCriteria implements Serializable, Criteria {
         this.titulo = titulo;
     }
 
+    public InstantFilter getDataRegistro() {
+        return dataRegistro;
+    }
+
+    public void setDataRegistro(InstantFilter dataRegistro) {
+        this.dataRegistro = dataRegistro;
+    }
+
     public InstantFilter getDataEvento() {
         return dataEvento;
     }
@@ -139,20 +150,20 @@ public class EventoOperacionalCriteria implements Serializable, Criteria {
         this.houveParadaProducao = houveParadaProducao;
     }
 
-    public LongFilter getAnexoId() {
-        return anexoId;
-    }
-
-    public void setAnexoId(LongFilter anexoId) {
-        this.anexoId = anexoId;
-    }
-
     public LongFilter getProcessoId() {
         return processoId;
     }
 
     public void setProcessoId(LongFilter processoId) {
         this.processoId = processoId;
+    }
+
+    public LongFilter getAnexoId() {
+        return anexoId;
+    }
+
+    public void setAnexoId(LongFilter anexoId) {
+        this.anexoId = anexoId;
     }
 
 
@@ -170,11 +181,12 @@ public class EventoOperacionalCriteria implements Serializable, Criteria {
             Objects.equals(idUsuarioRegistro, that.idUsuarioRegistro) &&
             Objects.equals(tipo, that.tipo) &&
             Objects.equals(titulo, that.titulo) &&
+            Objects.equals(dataRegistro, that.dataRegistro) &&
             Objects.equals(dataEvento, that.dataEvento) &&
             Objects.equals(duracao, that.duracao) &&
             Objects.equals(houveParadaProducao, that.houveParadaProducao) &&
-            Objects.equals(anexoId, that.anexoId) &&
-            Objects.equals(processoId, that.processoId);
+            Objects.equals(processoId, that.processoId) &&
+            Objects.equals(anexoId, that.anexoId);
     }
 
     @Override
@@ -184,11 +196,12 @@ public class EventoOperacionalCriteria implements Serializable, Criteria {
         idUsuarioRegistro,
         tipo,
         titulo,
+        dataRegistro,
         dataEvento,
         duracao,
         houveParadaProducao,
-        anexoId,
-        processoId
+        processoId,
+        anexoId
         );
     }
 
@@ -199,11 +212,12 @@ public class EventoOperacionalCriteria implements Serializable, Criteria {
                 (idUsuarioRegistro != null ? "idUsuarioRegistro=" + idUsuarioRegistro + ", " : "") +
                 (tipo != null ? "tipo=" + tipo + ", " : "") +
                 (titulo != null ? "titulo=" + titulo + ", " : "") +
+                (dataRegistro != null ? "dataRegistro=" + dataRegistro + ", " : "") +
                 (dataEvento != null ? "dataEvento=" + dataEvento + ", " : "") +
                 (duracao != null ? "duracao=" + duracao + ", " : "") +
                 (houveParadaProducao != null ? "houveParadaProducao=" + houveParadaProducao + ", " : "") +
-                (anexoId != null ? "anexoId=" + anexoId + ", " : "") +
                 (processoId != null ? "processoId=" + processoId + ", " : "") +
+                (anexoId != null ? "anexoId=" + anexoId + ", " : "") +
             "}";
     }
 

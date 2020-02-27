@@ -16,11 +16,15 @@ import { IPublicoAlvo } from 'app/shared/model/sgq/publico-alvo.model';
 import { PublicoAlvoService } from 'app/entities/sgq/publico-alvo/publico-alvo.service';
 import { ICategoriaPublicacao } from 'app/shared/model/sgq/categoria-publicacao.model';
 import { CategoriaPublicacaoService } from 'app/entities/sgq/categoria-publicacao/categoria-publicacao.service';
+import { IAnexo } from 'app/shared/model/sgq/anexo.model';
+import { AnexoService } from 'app/entities/sgq/anexo/anexo.service';
 
 import { IUser } from 'app/core/user/user.model';
 import { UserService } from 'app/core/user/user.service';
 
-type SelectableEntity = IPublicoAlvo | ICategoriaPublicacao;
+type SelectableEntity = IPublicoAlvo | ICategoriaPublicacao | IAnexo;
+
+type SelectableManyToManyEntity = ICategoriaPublicacao | IAnexo;
 
 @Component({
   selector: 'jhi-boletim-informativo-update',
@@ -30,8 +34,11 @@ export class BoletimInformativoUpdateComponent implements OnInit {
   isSaving = false;
 
   publicoalvos: IPublicoAlvo[] = [];
+
   categoriapublicacaos: ICategoriaPublicacao[] = [];
   usuarios: IUser[] = [];
+
+  anexos: IAnexo[] = [];
 
   editForm = this.fb.group({
     id: [],
@@ -42,7 +49,8 @@ export class BoletimInformativoUpdateComponent implements OnInit {
     dataPublicacao: [],
     status: [null, [Validators.required]],
     publicoAlvo: [null, Validators.required],
-    categorias: [null, Validators.required]
+    categorias: [null, Validators.required],
+    anexos: []
   });
 
   constructor(
@@ -51,6 +59,7 @@ export class BoletimInformativoUpdateComponent implements OnInit {
     protected boletimInformativoService: BoletimInformativoService,
     protected publicoAlvoService: PublicoAlvoService,
     protected categoriaPublicacaoService: CategoriaPublicacaoService,
+    protected anexoService: AnexoService,
     protected activatedRoute: ActivatedRoute,
     protected userService: UserService,
     private fb: FormBuilder
@@ -78,6 +87,15 @@ export class BoletimInformativoUpdateComponent implements OnInit {
         )
         .subscribe((resBody: ICategoriaPublicacao[]) => (this.categoriapublicacaos = resBody));
 
+      this.anexoService
+        .query()
+        .pipe(
+          map((res: HttpResponse<IAnexo[]>) => {
+            return res.body ? res.body : [];
+          })
+        )
+        .subscribe((resBody: IAnexo[]) => (this.anexos = resBody));
+
       this.userService
         .query()
         .pipe(
@@ -103,7 +121,8 @@ export class BoletimInformativoUpdateComponent implements OnInit {
       dataPublicacao: boletimInformativo.dataPublicacao != null ? boletimInformativo.dataPublicacao.format(DATE_TIME_FORMAT) : null,
       status: boletimInformativo.status,
       publicoAlvo: boletimInformativo.publicoAlvo,
-      categorias: boletimInformativo.categorias
+      categorias: boletimInformativo.categorias,
+      anexos: boletimInformativo.anexos
     });
   }
 
@@ -154,7 +173,8 @@ export class BoletimInformativoUpdateComponent implements OnInit {
           : undefined,
       status: this.editForm.get(['status'])!.value,
       publicoAlvo: this.editForm.get(['publicoAlvo'])!.value,
-      categorias: this.editForm.get(['categorias'])!.value
+      categorias: this.editForm.get(['categorias'])!.value,
+      anexos: this.editForm.get(['anexos'])!.value
     };
   }
 
@@ -178,7 +198,7 @@ export class BoletimInformativoUpdateComponent implements OnInit {
     return item.id;
   }
 
-  getSelected(selectedVals: ICategoriaPublicacao[], option: ICategoriaPublicacao): ICategoriaPublicacao {
+  getSelected(selectedVals: SelectableManyToManyEntity[], option: SelectableManyToManyEntity): SelectableManyToManyEntity {
     if (selectedVals) {
       for (let i = 0; i < selectedVals.length; i++) {
         if (option.id === selectedVals[i].id) {

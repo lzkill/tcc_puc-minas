@@ -2,9 +2,8 @@ package com.lzkill.sgq.web.rest;
 
 import com.lzkill.sgq.SgqApp;
 import com.lzkill.sgq.domain.AnaliseConsultoria;
-import com.lzkill.sgq.domain.AcaoSGQ;
 import com.lzkill.sgq.domain.Anexo;
-import com.lzkill.sgq.domain.EmpresaConsultoria;
+import com.lzkill.sgq.domain.SolicitacaoAnalise;
 import com.lzkill.sgq.repository.AnaliseConsultoriaRepository;
 import com.lzkill.sgq.service.AnaliseConsultoriaService;
 import com.lzkill.sgq.web.rest.errors.ExceptionTranslator;
@@ -13,9 +12,12 @@ import com.lzkill.sgq.service.AnaliseConsultoriaQueryService;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -28,38 +30,43 @@ import org.springframework.validation.Validator;
 import javax.persistence.EntityManager;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.lzkill.sgq.web.rest.TestUtil.createFormattingConversionService;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-import com.lzkill.sgq.domain.enumeration.StatusAnaliseExterna;
+import com.lzkill.sgq.domain.enumeration.StatusAprovacao;
 /**
  * Integration tests for the {@link AnaliseConsultoriaResource} REST controller.
  */
 @SpringBootTest(classes = SgqApp.class)
 public class AnaliseConsultoriaResourceIT {
 
-    private static final Instant DEFAULT_DATA_SOLICITACAO_ANALISE = Instant.ofEpochMilli(0L);
-    private static final Instant UPDATED_DATA_SOLICITACAO_ANALISE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
-
     private static final Instant DEFAULT_DATA_ANALISE = Instant.ofEpochMilli(0L);
     private static final Instant UPDATED_DATA_ANALISE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
-    private static final String DEFAULT_DESCRICAO = "AAAAAAAAAA";
-    private static final String UPDATED_DESCRICAO = "BBBBBBBBBB";
+    private static final String DEFAULT_CONTEUDO = "AAAAAAAAAA";
+    private static final String UPDATED_CONTEUDO = "BBBBBBBBBB";
 
-    private static final String DEFAULT_RESPONSAVEL_ANALISE = "AAAAAAAAAA";
-    private static final String UPDATED_RESPONSAVEL_ANALISE = "BBBBBBBBBB";
+    private static final String DEFAULT_RESPONSAVEL = "AAAAAAAAAA";
+    private static final String UPDATED_RESPONSAVEL = "BBBBBBBBBB";
 
-    private static final StatusAnaliseExterna DEFAULT_STATUS = StatusAnaliseExterna.PENDENTE;
-    private static final StatusAnaliseExterna UPDATED_STATUS = StatusAnaliseExterna.APROVADO;
+    private static final StatusAprovacao DEFAULT_STATUS = StatusAprovacao.APROVADO;
+    private static final StatusAprovacao UPDATED_STATUS = StatusAprovacao.APROVADO_PARCIALMENTE;
 
     @Autowired
     private AnaliseConsultoriaRepository analiseConsultoriaRepository;
+
+    @Mock
+    private AnaliseConsultoriaRepository analiseConsultoriaRepositoryMock;
+
+    @Mock
+    private AnaliseConsultoriaService analiseConsultoriaServiceMock;
 
     @Autowired
     private AnaliseConsultoriaService analiseConsultoriaService;
@@ -106,31 +113,20 @@ public class AnaliseConsultoriaResourceIT {
      */
     public static AnaliseConsultoria createEntity(EntityManager em) {
         AnaliseConsultoria analiseConsultoria = new AnaliseConsultoria()
-            .dataSolicitacaoAnalise(DEFAULT_DATA_SOLICITACAO_ANALISE)
             .dataAnalise(DEFAULT_DATA_ANALISE)
-            .descricao(DEFAULT_DESCRICAO)
-            .responsavelAnalise(DEFAULT_RESPONSAVEL_ANALISE)
+            .conteudo(DEFAULT_CONTEUDO)
+            .responsavel(DEFAULT_RESPONSAVEL)
             .status(DEFAULT_STATUS);
         // Add required entity
-        AcaoSGQ acaoSGQ;
-        if (TestUtil.findAll(em, AcaoSGQ.class).isEmpty()) {
-            acaoSGQ = AcaoSGQResourceIT.createEntity(em);
-            em.persist(acaoSGQ);
+        SolicitacaoAnalise solicitacaoAnalise;
+        if (TestUtil.findAll(em, SolicitacaoAnalise.class).isEmpty()) {
+            solicitacaoAnalise = SolicitacaoAnaliseResourceIT.createEntity(em);
+            em.persist(solicitacaoAnalise);
             em.flush();
         } else {
-            acaoSGQ = TestUtil.findAll(em, AcaoSGQ.class).get(0);
+            solicitacaoAnalise = TestUtil.findAll(em, SolicitacaoAnalise.class).get(0);
         }
-        analiseConsultoria.setAcao(acaoSGQ);
-        // Add required entity
-        EmpresaConsultoria empresaConsultoria;
-        if (TestUtil.findAll(em, EmpresaConsultoria.class).isEmpty()) {
-            empresaConsultoria = EmpresaConsultoriaResourceIT.createEntity(em);
-            em.persist(empresaConsultoria);
-            em.flush();
-        } else {
-            empresaConsultoria = TestUtil.findAll(em, EmpresaConsultoria.class).get(0);
-        }
-        analiseConsultoria.setEmpresa(empresaConsultoria);
+        analiseConsultoria.setSolicitacaoAnalise(solicitacaoAnalise);
         return analiseConsultoria;
     }
     /**
@@ -141,31 +137,20 @@ public class AnaliseConsultoriaResourceIT {
      */
     public static AnaliseConsultoria createUpdatedEntity(EntityManager em) {
         AnaliseConsultoria analiseConsultoria = new AnaliseConsultoria()
-            .dataSolicitacaoAnalise(UPDATED_DATA_SOLICITACAO_ANALISE)
             .dataAnalise(UPDATED_DATA_ANALISE)
-            .descricao(UPDATED_DESCRICAO)
-            .responsavelAnalise(UPDATED_RESPONSAVEL_ANALISE)
+            .conteudo(UPDATED_CONTEUDO)
+            .responsavel(UPDATED_RESPONSAVEL)
             .status(UPDATED_STATUS);
         // Add required entity
-        AcaoSGQ acaoSGQ;
-        if (TestUtil.findAll(em, AcaoSGQ.class).isEmpty()) {
-            acaoSGQ = AcaoSGQResourceIT.createUpdatedEntity(em);
-            em.persist(acaoSGQ);
+        SolicitacaoAnalise solicitacaoAnalise;
+        if (TestUtil.findAll(em, SolicitacaoAnalise.class).isEmpty()) {
+            solicitacaoAnalise = SolicitacaoAnaliseResourceIT.createUpdatedEntity(em);
+            em.persist(solicitacaoAnalise);
             em.flush();
         } else {
-            acaoSGQ = TestUtil.findAll(em, AcaoSGQ.class).get(0);
+            solicitacaoAnalise = TestUtil.findAll(em, SolicitacaoAnalise.class).get(0);
         }
-        analiseConsultoria.setAcao(acaoSGQ);
-        // Add required entity
-        EmpresaConsultoria empresaConsultoria;
-        if (TestUtil.findAll(em, EmpresaConsultoria.class).isEmpty()) {
-            empresaConsultoria = EmpresaConsultoriaResourceIT.createUpdatedEntity(em);
-            em.persist(empresaConsultoria);
-            em.flush();
-        } else {
-            empresaConsultoria = TestUtil.findAll(em, EmpresaConsultoria.class).get(0);
-        }
-        analiseConsultoria.setEmpresa(empresaConsultoria);
+        analiseConsultoria.setSolicitacaoAnalise(solicitacaoAnalise);
         return analiseConsultoria;
     }
 
@@ -189,10 +174,9 @@ public class AnaliseConsultoriaResourceIT {
         List<AnaliseConsultoria> analiseConsultoriaList = analiseConsultoriaRepository.findAll();
         assertThat(analiseConsultoriaList).hasSize(databaseSizeBeforeCreate + 1);
         AnaliseConsultoria testAnaliseConsultoria = analiseConsultoriaList.get(analiseConsultoriaList.size() - 1);
-        assertThat(testAnaliseConsultoria.getDataSolicitacaoAnalise()).isEqualTo(DEFAULT_DATA_SOLICITACAO_ANALISE);
         assertThat(testAnaliseConsultoria.getDataAnalise()).isEqualTo(DEFAULT_DATA_ANALISE);
-        assertThat(testAnaliseConsultoria.getDescricao()).isEqualTo(DEFAULT_DESCRICAO);
-        assertThat(testAnaliseConsultoria.getResponsavelAnalise()).isEqualTo(DEFAULT_RESPONSAVEL_ANALISE);
+        assertThat(testAnaliseConsultoria.getConteudo()).isEqualTo(DEFAULT_CONTEUDO);
+        assertThat(testAnaliseConsultoria.getResponsavel()).isEqualTo(DEFAULT_RESPONSAVEL);
         assertThat(testAnaliseConsultoria.getStatus()).isEqualTo(DEFAULT_STATUS);
     }
 
@@ -218,10 +202,10 @@ public class AnaliseConsultoriaResourceIT {
 
     @Test
     @Transactional
-    public void checkDataSolicitacaoAnaliseIsRequired() throws Exception {
+    public void checkDataAnaliseIsRequired() throws Exception {
         int databaseSizeBeforeTest = analiseConsultoriaRepository.findAll().size();
         // set the field null
-        analiseConsultoria.setDataSolicitacaoAnalise(null);
+        analiseConsultoria.setDataAnalise(null);
 
         // Create the AnaliseConsultoria, which fails.
 
@@ -236,10 +220,10 @@ public class AnaliseConsultoriaResourceIT {
 
     @Test
     @Transactional
-    public void checkResponsavelAnaliseIsRequired() throws Exception {
+    public void checkResponsavelIsRequired() throws Exception {
         int databaseSizeBeforeTest = analiseConsultoriaRepository.findAll().size();
         // set the field null
-        analiseConsultoria.setResponsavelAnalise(null);
+        analiseConsultoria.setResponsavel(null);
 
         // Create the AnaliseConsultoria, which fails.
 
@@ -281,13 +265,45 @@ public class AnaliseConsultoriaResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(analiseConsultoria.getId().intValue())))
-            .andExpect(jsonPath("$.[*].dataSolicitacaoAnalise").value(hasItem(DEFAULT_DATA_SOLICITACAO_ANALISE.toString())))
             .andExpect(jsonPath("$.[*].dataAnalise").value(hasItem(DEFAULT_DATA_ANALISE.toString())))
-            .andExpect(jsonPath("$.[*].descricao").value(hasItem(DEFAULT_DESCRICAO.toString())))
-            .andExpect(jsonPath("$.[*].responsavelAnalise").value(hasItem(DEFAULT_RESPONSAVEL_ANALISE)))
+            .andExpect(jsonPath("$.[*].conteudo").value(hasItem(DEFAULT_CONTEUDO.toString())))
+            .andExpect(jsonPath("$.[*].responsavel").value(hasItem(DEFAULT_RESPONSAVEL)))
             .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())));
     }
     
+    @SuppressWarnings({"unchecked"})
+    public void getAllAnaliseConsultoriasWithEagerRelationshipsIsEnabled() throws Exception {
+        AnaliseConsultoriaResource analiseConsultoriaResource = new AnaliseConsultoriaResource(analiseConsultoriaServiceMock, analiseConsultoriaQueryService);
+        when(analiseConsultoriaServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+
+        MockMvc restAnaliseConsultoriaMockMvc = MockMvcBuilders.standaloneSetup(analiseConsultoriaResource)
+            .setCustomArgumentResolvers(pageableArgumentResolver)
+            .setControllerAdvice(exceptionTranslator)
+            .setConversionService(createFormattingConversionService())
+            .setMessageConverters(jacksonMessageConverter).build();
+
+        restAnaliseConsultoriaMockMvc.perform(get("/api/analise-consultorias?eagerload=true"))
+        .andExpect(status().isOk());
+
+        verify(analiseConsultoriaServiceMock, times(1)).findAllWithEagerRelationships(any());
+    }
+
+    @SuppressWarnings({"unchecked"})
+    public void getAllAnaliseConsultoriasWithEagerRelationshipsIsNotEnabled() throws Exception {
+        AnaliseConsultoriaResource analiseConsultoriaResource = new AnaliseConsultoriaResource(analiseConsultoriaServiceMock, analiseConsultoriaQueryService);
+            when(analiseConsultoriaServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+            MockMvc restAnaliseConsultoriaMockMvc = MockMvcBuilders.standaloneSetup(analiseConsultoriaResource)
+            .setCustomArgumentResolvers(pageableArgumentResolver)
+            .setControllerAdvice(exceptionTranslator)
+            .setConversionService(createFormattingConversionService())
+            .setMessageConverters(jacksonMessageConverter).build();
+
+        restAnaliseConsultoriaMockMvc.perform(get("/api/analise-consultorias?eagerload=true"))
+        .andExpect(status().isOk());
+
+            verify(analiseConsultoriaServiceMock, times(1)).findAllWithEagerRelationships(any());
+    }
+
     @Test
     @Transactional
     public void getAnaliseConsultoria() throws Exception {
@@ -299,10 +315,9 @@ public class AnaliseConsultoriaResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(analiseConsultoria.getId().intValue()))
-            .andExpect(jsonPath("$.dataSolicitacaoAnalise").value(DEFAULT_DATA_SOLICITACAO_ANALISE.toString()))
             .andExpect(jsonPath("$.dataAnalise").value(DEFAULT_DATA_ANALISE.toString()))
-            .andExpect(jsonPath("$.descricao").value(DEFAULT_DESCRICAO.toString()))
-            .andExpect(jsonPath("$.responsavelAnalise").value(DEFAULT_RESPONSAVEL_ANALISE))
+            .andExpect(jsonPath("$.conteudo").value(DEFAULT_CONTEUDO.toString()))
+            .andExpect(jsonPath("$.responsavel").value(DEFAULT_RESPONSAVEL))
             .andExpect(jsonPath("$.status").value(DEFAULT_STATUS.toString()));
     }
 
@@ -325,58 +340,6 @@ public class AnaliseConsultoriaResourceIT {
         defaultAnaliseConsultoriaShouldNotBeFound("id.lessThan=" + id);
     }
 
-
-    @Test
-    @Transactional
-    public void getAllAnaliseConsultoriasByDataSolicitacaoAnaliseIsEqualToSomething() throws Exception {
-        // Initialize the database
-        analiseConsultoriaRepository.saveAndFlush(analiseConsultoria);
-
-        // Get all the analiseConsultoriaList where dataSolicitacaoAnalise equals to DEFAULT_DATA_SOLICITACAO_ANALISE
-        defaultAnaliseConsultoriaShouldBeFound("dataSolicitacaoAnalise.equals=" + DEFAULT_DATA_SOLICITACAO_ANALISE);
-
-        // Get all the analiseConsultoriaList where dataSolicitacaoAnalise equals to UPDATED_DATA_SOLICITACAO_ANALISE
-        defaultAnaliseConsultoriaShouldNotBeFound("dataSolicitacaoAnalise.equals=" + UPDATED_DATA_SOLICITACAO_ANALISE);
-    }
-
-    @Test
-    @Transactional
-    public void getAllAnaliseConsultoriasByDataSolicitacaoAnaliseIsNotEqualToSomething() throws Exception {
-        // Initialize the database
-        analiseConsultoriaRepository.saveAndFlush(analiseConsultoria);
-
-        // Get all the analiseConsultoriaList where dataSolicitacaoAnalise not equals to DEFAULT_DATA_SOLICITACAO_ANALISE
-        defaultAnaliseConsultoriaShouldNotBeFound("dataSolicitacaoAnalise.notEquals=" + DEFAULT_DATA_SOLICITACAO_ANALISE);
-
-        // Get all the analiseConsultoriaList where dataSolicitacaoAnalise not equals to UPDATED_DATA_SOLICITACAO_ANALISE
-        defaultAnaliseConsultoriaShouldBeFound("dataSolicitacaoAnalise.notEquals=" + UPDATED_DATA_SOLICITACAO_ANALISE);
-    }
-
-    @Test
-    @Transactional
-    public void getAllAnaliseConsultoriasByDataSolicitacaoAnaliseIsInShouldWork() throws Exception {
-        // Initialize the database
-        analiseConsultoriaRepository.saveAndFlush(analiseConsultoria);
-
-        // Get all the analiseConsultoriaList where dataSolicitacaoAnalise in DEFAULT_DATA_SOLICITACAO_ANALISE or UPDATED_DATA_SOLICITACAO_ANALISE
-        defaultAnaliseConsultoriaShouldBeFound("dataSolicitacaoAnalise.in=" + DEFAULT_DATA_SOLICITACAO_ANALISE + "," + UPDATED_DATA_SOLICITACAO_ANALISE);
-
-        // Get all the analiseConsultoriaList where dataSolicitacaoAnalise equals to UPDATED_DATA_SOLICITACAO_ANALISE
-        defaultAnaliseConsultoriaShouldNotBeFound("dataSolicitacaoAnalise.in=" + UPDATED_DATA_SOLICITACAO_ANALISE);
-    }
-
-    @Test
-    @Transactional
-    public void getAllAnaliseConsultoriasByDataSolicitacaoAnaliseIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        analiseConsultoriaRepository.saveAndFlush(analiseConsultoria);
-
-        // Get all the analiseConsultoriaList where dataSolicitacaoAnalise is not null
-        defaultAnaliseConsultoriaShouldBeFound("dataSolicitacaoAnalise.specified=true");
-
-        // Get all the analiseConsultoriaList where dataSolicitacaoAnalise is null
-        defaultAnaliseConsultoriaShouldNotBeFound("dataSolicitacaoAnalise.specified=false");
-    }
 
     @Test
     @Transactional
@@ -432,79 +395,79 @@ public class AnaliseConsultoriaResourceIT {
 
     @Test
     @Transactional
-    public void getAllAnaliseConsultoriasByResponsavelAnaliseIsEqualToSomething() throws Exception {
+    public void getAllAnaliseConsultoriasByResponsavelIsEqualToSomething() throws Exception {
         // Initialize the database
         analiseConsultoriaRepository.saveAndFlush(analiseConsultoria);
 
-        // Get all the analiseConsultoriaList where responsavelAnalise equals to DEFAULT_RESPONSAVEL_ANALISE
-        defaultAnaliseConsultoriaShouldBeFound("responsavelAnalise.equals=" + DEFAULT_RESPONSAVEL_ANALISE);
+        // Get all the analiseConsultoriaList where responsavel equals to DEFAULT_RESPONSAVEL
+        defaultAnaliseConsultoriaShouldBeFound("responsavel.equals=" + DEFAULT_RESPONSAVEL);
 
-        // Get all the analiseConsultoriaList where responsavelAnalise equals to UPDATED_RESPONSAVEL_ANALISE
-        defaultAnaliseConsultoriaShouldNotBeFound("responsavelAnalise.equals=" + UPDATED_RESPONSAVEL_ANALISE);
+        // Get all the analiseConsultoriaList where responsavel equals to UPDATED_RESPONSAVEL
+        defaultAnaliseConsultoriaShouldNotBeFound("responsavel.equals=" + UPDATED_RESPONSAVEL);
     }
 
     @Test
     @Transactional
-    public void getAllAnaliseConsultoriasByResponsavelAnaliseIsNotEqualToSomething() throws Exception {
+    public void getAllAnaliseConsultoriasByResponsavelIsNotEqualToSomething() throws Exception {
         // Initialize the database
         analiseConsultoriaRepository.saveAndFlush(analiseConsultoria);
 
-        // Get all the analiseConsultoriaList where responsavelAnalise not equals to DEFAULT_RESPONSAVEL_ANALISE
-        defaultAnaliseConsultoriaShouldNotBeFound("responsavelAnalise.notEquals=" + DEFAULT_RESPONSAVEL_ANALISE);
+        // Get all the analiseConsultoriaList where responsavel not equals to DEFAULT_RESPONSAVEL
+        defaultAnaliseConsultoriaShouldNotBeFound("responsavel.notEquals=" + DEFAULT_RESPONSAVEL);
 
-        // Get all the analiseConsultoriaList where responsavelAnalise not equals to UPDATED_RESPONSAVEL_ANALISE
-        defaultAnaliseConsultoriaShouldBeFound("responsavelAnalise.notEquals=" + UPDATED_RESPONSAVEL_ANALISE);
+        // Get all the analiseConsultoriaList where responsavel not equals to UPDATED_RESPONSAVEL
+        defaultAnaliseConsultoriaShouldBeFound("responsavel.notEquals=" + UPDATED_RESPONSAVEL);
     }
 
     @Test
     @Transactional
-    public void getAllAnaliseConsultoriasByResponsavelAnaliseIsInShouldWork() throws Exception {
+    public void getAllAnaliseConsultoriasByResponsavelIsInShouldWork() throws Exception {
         // Initialize the database
         analiseConsultoriaRepository.saveAndFlush(analiseConsultoria);
 
-        // Get all the analiseConsultoriaList where responsavelAnalise in DEFAULT_RESPONSAVEL_ANALISE or UPDATED_RESPONSAVEL_ANALISE
-        defaultAnaliseConsultoriaShouldBeFound("responsavelAnalise.in=" + DEFAULT_RESPONSAVEL_ANALISE + "," + UPDATED_RESPONSAVEL_ANALISE);
+        // Get all the analiseConsultoriaList where responsavel in DEFAULT_RESPONSAVEL or UPDATED_RESPONSAVEL
+        defaultAnaliseConsultoriaShouldBeFound("responsavel.in=" + DEFAULT_RESPONSAVEL + "," + UPDATED_RESPONSAVEL);
 
-        // Get all the analiseConsultoriaList where responsavelAnalise equals to UPDATED_RESPONSAVEL_ANALISE
-        defaultAnaliseConsultoriaShouldNotBeFound("responsavelAnalise.in=" + UPDATED_RESPONSAVEL_ANALISE);
+        // Get all the analiseConsultoriaList where responsavel equals to UPDATED_RESPONSAVEL
+        defaultAnaliseConsultoriaShouldNotBeFound("responsavel.in=" + UPDATED_RESPONSAVEL);
     }
 
     @Test
     @Transactional
-    public void getAllAnaliseConsultoriasByResponsavelAnaliseIsNullOrNotNull() throws Exception {
+    public void getAllAnaliseConsultoriasByResponsavelIsNullOrNotNull() throws Exception {
         // Initialize the database
         analiseConsultoriaRepository.saveAndFlush(analiseConsultoria);
 
-        // Get all the analiseConsultoriaList where responsavelAnalise is not null
-        defaultAnaliseConsultoriaShouldBeFound("responsavelAnalise.specified=true");
+        // Get all the analiseConsultoriaList where responsavel is not null
+        defaultAnaliseConsultoriaShouldBeFound("responsavel.specified=true");
 
-        // Get all the analiseConsultoriaList where responsavelAnalise is null
-        defaultAnaliseConsultoriaShouldNotBeFound("responsavelAnalise.specified=false");
+        // Get all the analiseConsultoriaList where responsavel is null
+        defaultAnaliseConsultoriaShouldNotBeFound("responsavel.specified=false");
     }
                 @Test
     @Transactional
-    public void getAllAnaliseConsultoriasByResponsavelAnaliseContainsSomething() throws Exception {
+    public void getAllAnaliseConsultoriasByResponsavelContainsSomething() throws Exception {
         // Initialize the database
         analiseConsultoriaRepository.saveAndFlush(analiseConsultoria);
 
-        // Get all the analiseConsultoriaList where responsavelAnalise contains DEFAULT_RESPONSAVEL_ANALISE
-        defaultAnaliseConsultoriaShouldBeFound("responsavelAnalise.contains=" + DEFAULT_RESPONSAVEL_ANALISE);
+        // Get all the analiseConsultoriaList where responsavel contains DEFAULT_RESPONSAVEL
+        defaultAnaliseConsultoriaShouldBeFound("responsavel.contains=" + DEFAULT_RESPONSAVEL);
 
-        // Get all the analiseConsultoriaList where responsavelAnalise contains UPDATED_RESPONSAVEL_ANALISE
-        defaultAnaliseConsultoriaShouldNotBeFound("responsavelAnalise.contains=" + UPDATED_RESPONSAVEL_ANALISE);
+        // Get all the analiseConsultoriaList where responsavel contains UPDATED_RESPONSAVEL
+        defaultAnaliseConsultoriaShouldNotBeFound("responsavel.contains=" + UPDATED_RESPONSAVEL);
     }
 
     @Test
     @Transactional
-    public void getAllAnaliseConsultoriasByResponsavelAnaliseNotContainsSomething() throws Exception {
+    public void getAllAnaliseConsultoriasByResponsavelNotContainsSomething() throws Exception {
         // Initialize the database
         analiseConsultoriaRepository.saveAndFlush(analiseConsultoria);
 
-        // Get all the analiseConsultoriaList where responsavelAnalise does not contain DEFAULT_RESPONSAVEL_ANALISE
-        defaultAnaliseConsultoriaShouldNotBeFound("responsavelAnalise.doesNotContain=" + DEFAULT_RESPONSAVEL_ANALISE);
+        // Get all the analiseConsultoriaList where responsavel does not contain DEFAULT_RESPONSAVEL
+        defaultAnaliseConsultoriaShouldNotBeFound("responsavel.doesNotContain=" + DEFAULT_RESPONSAVEL);
 
-        // Get all the analiseConsultoriaList where responsavelAnalise does not contain UPDATED_RESPONSAVEL_ANALISE
-        defaultAnaliseConsultoriaShouldBeFound("responsavelAnalise.doesNotContain=" + UPDATED_RESPONSAVEL_ANALISE);
+        // Get all the analiseConsultoriaList where responsavel does not contain UPDATED_RESPONSAVEL
+        defaultAnaliseConsultoriaShouldBeFound("responsavel.doesNotContain=" + UPDATED_RESPONSAVEL);
     }
 
 
@@ -562,22 +525,6 @@ public class AnaliseConsultoriaResourceIT {
 
     @Test
     @Transactional
-    public void getAllAnaliseConsultoriasByAcaoIsEqualToSomething() throws Exception {
-        // Get already existing entity
-        AcaoSGQ acao = analiseConsultoria.getAcao();
-        analiseConsultoriaRepository.saveAndFlush(analiseConsultoria);
-        Long acaoId = acao.getId();
-
-        // Get all the analiseConsultoriaList where acao equals to acaoId
-        defaultAnaliseConsultoriaShouldBeFound("acaoId.equals=" + acaoId);
-
-        // Get all the analiseConsultoriaList where acao equals to acaoId + 1
-        defaultAnaliseConsultoriaShouldNotBeFound("acaoId.equals=" + (acaoId + 1));
-    }
-
-
-    @Test
-    @Transactional
     public void getAllAnaliseConsultoriasByAnexoIsEqualToSomething() throws Exception {
         // Initialize the database
         analiseConsultoriaRepository.saveAndFlush(analiseConsultoria);
@@ -598,17 +545,17 @@ public class AnaliseConsultoriaResourceIT {
 
     @Test
     @Transactional
-    public void getAllAnaliseConsultoriasByEmpresaIsEqualToSomething() throws Exception {
+    public void getAllAnaliseConsultoriasBySolicitacaoAnaliseIsEqualToSomething() throws Exception {
         // Get already existing entity
-        EmpresaConsultoria empresa = analiseConsultoria.getEmpresa();
+        SolicitacaoAnalise solicitacaoAnalise = analiseConsultoria.getSolicitacaoAnalise();
         analiseConsultoriaRepository.saveAndFlush(analiseConsultoria);
-        Long empresaId = empresa.getId();
+        Long solicitacaoAnaliseId = solicitacaoAnalise.getId();
 
-        // Get all the analiseConsultoriaList where empresa equals to empresaId
-        defaultAnaliseConsultoriaShouldBeFound("empresaId.equals=" + empresaId);
+        // Get all the analiseConsultoriaList where solicitacaoAnalise equals to solicitacaoAnaliseId
+        defaultAnaliseConsultoriaShouldBeFound("solicitacaoAnaliseId.equals=" + solicitacaoAnaliseId);
 
-        // Get all the analiseConsultoriaList where empresa equals to empresaId + 1
-        defaultAnaliseConsultoriaShouldNotBeFound("empresaId.equals=" + (empresaId + 1));
+        // Get all the analiseConsultoriaList where solicitacaoAnalise equals to solicitacaoAnaliseId + 1
+        defaultAnaliseConsultoriaShouldNotBeFound("solicitacaoAnaliseId.equals=" + (solicitacaoAnaliseId + 1));
     }
 
     /**
@@ -619,10 +566,9 @@ public class AnaliseConsultoriaResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(analiseConsultoria.getId().intValue())))
-            .andExpect(jsonPath("$.[*].dataSolicitacaoAnalise").value(hasItem(DEFAULT_DATA_SOLICITACAO_ANALISE.toString())))
             .andExpect(jsonPath("$.[*].dataAnalise").value(hasItem(DEFAULT_DATA_ANALISE.toString())))
-            .andExpect(jsonPath("$.[*].descricao").value(hasItem(DEFAULT_DESCRICAO.toString())))
-            .andExpect(jsonPath("$.[*].responsavelAnalise").value(hasItem(DEFAULT_RESPONSAVEL_ANALISE)))
+            .andExpect(jsonPath("$.[*].conteudo").value(hasItem(DEFAULT_CONTEUDO.toString())))
+            .andExpect(jsonPath("$.[*].responsavel").value(hasItem(DEFAULT_RESPONSAVEL)))
             .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())));
 
         // Check, that the count call also returns 1
@@ -671,10 +617,9 @@ public class AnaliseConsultoriaResourceIT {
         // Disconnect from session so that the updates on updatedAnaliseConsultoria are not directly saved in db
         em.detach(updatedAnaliseConsultoria);
         updatedAnaliseConsultoria
-            .dataSolicitacaoAnalise(UPDATED_DATA_SOLICITACAO_ANALISE)
             .dataAnalise(UPDATED_DATA_ANALISE)
-            .descricao(UPDATED_DESCRICAO)
-            .responsavelAnalise(UPDATED_RESPONSAVEL_ANALISE)
+            .conteudo(UPDATED_CONTEUDO)
+            .responsavel(UPDATED_RESPONSAVEL)
             .status(UPDATED_STATUS);
 
         restAnaliseConsultoriaMockMvc.perform(put("/api/analise-consultorias")
@@ -686,10 +631,9 @@ public class AnaliseConsultoriaResourceIT {
         List<AnaliseConsultoria> analiseConsultoriaList = analiseConsultoriaRepository.findAll();
         assertThat(analiseConsultoriaList).hasSize(databaseSizeBeforeUpdate);
         AnaliseConsultoria testAnaliseConsultoria = analiseConsultoriaList.get(analiseConsultoriaList.size() - 1);
-        assertThat(testAnaliseConsultoria.getDataSolicitacaoAnalise()).isEqualTo(UPDATED_DATA_SOLICITACAO_ANALISE);
         assertThat(testAnaliseConsultoria.getDataAnalise()).isEqualTo(UPDATED_DATA_ANALISE);
-        assertThat(testAnaliseConsultoria.getDescricao()).isEqualTo(UPDATED_DESCRICAO);
-        assertThat(testAnaliseConsultoria.getResponsavelAnalise()).isEqualTo(UPDATED_RESPONSAVEL_ANALISE);
+        assertThat(testAnaliseConsultoria.getConteudo()).isEqualTo(UPDATED_CONTEUDO);
+        assertThat(testAnaliseConsultoria.getResponsavel()).isEqualTo(UPDATED_RESPONSAVEL);
         assertThat(testAnaliseConsultoria.getStatus()).isEqualTo(UPDATED_STATUS);
     }
 

@@ -10,19 +10,83 @@ application {
     enableHibernateCache false
     enableSwaggerCodegen true
     enableTranslation false
-    languages [en]
-    nativeLanguage en
+    languages [pt-br]
+    nativeLanguage pt-br
     packageName com.xpto.consultoria
     prodDatabaseType mariadb
     serverPort 8083
     serviceDiscoveryType no
     skipClient true
   }
+  entities *
+}
+
+entity NaoConformidade {
+  titulo String required minlength(1) maxlength(100)
+  descricao TextBlob required
+  procedente Boolean
+  causa TextBlob
+  prazoConclusao Instant
+  novoPrazoConclusao Instant
+  dataRegistro Instant required
+}
+
+entity AcaoSGQ {
+  tipo TipoAcaoSGQ required
+  titulo String required minlength(1) maxlength(100)
+  descricao TextBlob required
+  prazoConclusao Instant
+  novoPrazoConclusao Instant
+  dataRegistro Instant required
+}
+
+enum TipoAcaoSGQ {
+  ACAO_CORRETIVA,
+  ACAO_PREVENTIVA,
+  CORRECAO_PONTUAL
+}
+
+entity SolicitacaoAnalise {
+  idUsuarioRegistro Integer required
+  dataRegistro Instant required
+  dataSolicitacao Instant
+  uuid String unique
+  status StatusSolicitacaoAnalise required
+}
+
+enum StatusSolicitacaoAnalise {
+  REGISTRADO,
+  PENDENTE,
+  CONCLUIDO
+}
+
+entity AnaliseConsultoria {
+  dataAnalise Instant required
+  descricao TextBlob required
+  responsavel String required minlength(1) maxlength(100)
+  status StatusAprovacao required
+}
+
+enum StatusAprovacao {
+  APROVADO,
+  APROVADO_PARCIALMENTE,
+  REPROVADO
+}
+
+relationship OneToOne {
+  SolicitacaoAnalise{analiseConsultoria} to AnaliseConsultoria{solicitacaoAnalise required}
+  SolicitacaoAnalise{naoConformidade(titulo) required} to NaoConformidade
+}
+
+relationship OneToMany {
+  NaoConformidade{acaoSGQ(titulo)} to AcaoSGQ{naoConformidade(titulo)}
 }
 
 filter *
 
 paginate * with pagination
+
+microservice * with consultoria
 
 deployment {
   deploymentType docker-compose

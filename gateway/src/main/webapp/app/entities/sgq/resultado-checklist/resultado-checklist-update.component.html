@@ -23,21 +23,18 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="gatewayApp.sgqResultadoChecklist.titulo" for="field_titulo">Titulo</label>
-                    <input type="text" class="form-control" name="titulo" id="field_titulo"
-                           formControlName="titulo"/>
-                    <div *ngIf="editForm.get('titulo')!.invalid && (editForm.get('titulo')!.dirty || editForm.get('titulo')!.touched)">
+                    <label class="form-control-label" jhiTranslate="gatewayApp.sgqResultadoChecklist.dataRegistro" for="field_dataRegistro">Data Registro</label>
+                    <div class="d-flex">
+                        <input id="field_dataRegistro" type="datetime-local" class="form-control" name="dataRegistro" formControlName="dataRegistro" placeholder="YYYY-MM-DD HH:mm"/>
+                    </div>
+                    <div *ngIf="editForm.get('dataRegistro')!.invalid && (editForm.get('dataRegistro')!.dirty || editForm.get('dataRegistro')!.touched)">
                         <small class="form-text text-danger"
-                               *ngIf="editForm.get('titulo')?.errors?.required" jhiTranslate="entity.validation.required">
+                               *ngIf="editForm.get('dataRegistro')?.errors?.required" jhiTranslate="entity.validation.required">
                         This field is required.
                         </small>
                         <small class="form-text text-danger"
-                               *ngIf="editForm.get('titulo')?.errors?.minlength" jhiTranslate="entity.validation.minlength" [translateValues]="{ min: 1 }">
-                        This field is required to be at least 1 characters.
-                        </small>
-                        <small class="form-text text-danger"
-                               *ngIf="editForm.get('titulo')?.errors?.maxlength" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: 100 }">
-                        This field cannot be longer than 100 characters.
+                            [hidden]="!editForm.get('dataRegistro')?.errors?.ZonedDateTimelocal" jhiTranslate="entity.validation.ZonedDateTimelocal">
+                            This field should be a date and time.
                         </small>
                     </div>
                 </div>
@@ -70,6 +67,12 @@
                            *ngIf="editForm.get('checklist')?.errors?.required" jhiTranslate="entity.validation.required">
                         This field is required.
                     </small>
+                </div>
+                <div class="form-group">
+                    <label jhiTranslate="gatewayApp.sgqResultadoChecklist.anexo" for="field_anexos">Anexo</label>
+                    <select class="form-control" id="field_anexos" multiple name="anexos" formControlName="anexos">
+                        <option [ngValue]="getSelected(editForm.get('anexos')!.value, anexoOption)" *ngFor="let anexoOption of anexos; trackBy: trackById">{{anexoOption.nomeArquivo}}</option>
+                    </select>
                 </div>
             </div>
             <div>

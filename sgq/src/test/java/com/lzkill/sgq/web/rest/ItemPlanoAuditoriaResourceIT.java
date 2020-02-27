@@ -2,8 +2,8 @@ package com.lzkill.sgq.web.rest;
 
 import com.lzkill.sgq.SgqApp;
 import com.lzkill.sgq.domain.ItemPlanoAuditoria;
+import com.lzkill.sgq.domain.ItemAuditoria;
 import com.lzkill.sgq.domain.Anexo;
-import com.lzkill.sgq.domain.Auditoria;
 import com.lzkill.sgq.domain.PlanoAuditoria;
 import com.lzkill.sgq.repository.ItemPlanoAuditoriaRepository;
 import com.lzkill.sgq.service.ItemPlanoAuditoriaService;
@@ -13,33 +13,49 @@ import com.lzkill.sgq.service.ItemPlanoAuditoriaQueryService;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Base64Utils;
 import org.springframework.validation.Validator;
 
 import javax.persistence.EntityManager;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.lzkill.sgq.web.rest.TestUtil.createFormattingConversionService;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import com.lzkill.sgq.domain.enumeration.ModalidadeAuditoria;
 /**
  * Integration tests for the {@link ItemPlanoAuditoriaResource} REST controller.
  */
 @SpringBootTest(classes = SgqApp.class)
 public class ItemPlanoAuditoriaResourceIT {
+
+    private static final String DEFAULT_TITULO = "AAAAAAAAAA";
+    private static final String UPDATED_TITULO = "BBBBBBBBBB";
+
+    private static final String DEFAULT_DESCRICAO = "AAAAAAAAAA";
+    private static final String UPDATED_DESCRICAO = "BBBBBBBBBB";
+
+    private static final ModalidadeAuditoria DEFAULT_MODALIDADE = ModalidadeAuditoria.INTERNA;
+    private static final ModalidadeAuditoria UPDATED_MODALIDADE = ModalidadeAuditoria.EXTERNA;
 
     private static final Instant DEFAULT_DATA_INICIO_PREVISTO = Instant.ofEpochMilli(0L);
     private static final Instant UPDATED_DATA_INICIO_PREVISTO = Instant.now().truncatedTo(ChronoUnit.MILLIS);
@@ -49,6 +65,12 @@ public class ItemPlanoAuditoriaResourceIT {
 
     @Autowired
     private ItemPlanoAuditoriaRepository itemPlanoAuditoriaRepository;
+
+    @Mock
+    private ItemPlanoAuditoriaRepository itemPlanoAuditoriaRepositoryMock;
+
+    @Mock
+    private ItemPlanoAuditoriaService itemPlanoAuditoriaServiceMock;
 
     @Autowired
     private ItemPlanoAuditoriaService itemPlanoAuditoriaService;
@@ -95,18 +117,11 @@ public class ItemPlanoAuditoriaResourceIT {
      */
     public static ItemPlanoAuditoria createEntity(EntityManager em) {
         ItemPlanoAuditoria itemPlanoAuditoria = new ItemPlanoAuditoria()
+            .titulo(DEFAULT_TITULO)
+            .descricao(DEFAULT_DESCRICAO)
+            .modalidade(DEFAULT_MODALIDADE)
             .dataInicioPrevisto(DEFAULT_DATA_INICIO_PREVISTO)
             .dataFimPrevisto(DEFAULT_DATA_FIM_PREVISTO);
-        // Add required entity
-        Auditoria auditoria;
-        if (TestUtil.findAll(em, Auditoria.class).isEmpty()) {
-            auditoria = AuditoriaResourceIT.createEntity(em);
-            em.persist(auditoria);
-            em.flush();
-        } else {
-            auditoria = TestUtil.findAll(em, Auditoria.class).get(0);
-        }
-        itemPlanoAuditoria.setAuditoria(auditoria);
         // Add required entity
         PlanoAuditoria planoAuditoria;
         if (TestUtil.findAll(em, PlanoAuditoria.class).isEmpty()) {
@@ -127,18 +142,11 @@ public class ItemPlanoAuditoriaResourceIT {
      */
     public static ItemPlanoAuditoria createUpdatedEntity(EntityManager em) {
         ItemPlanoAuditoria itemPlanoAuditoria = new ItemPlanoAuditoria()
+            .titulo(UPDATED_TITULO)
+            .descricao(UPDATED_DESCRICAO)
+            .modalidade(UPDATED_MODALIDADE)
             .dataInicioPrevisto(UPDATED_DATA_INICIO_PREVISTO)
             .dataFimPrevisto(UPDATED_DATA_FIM_PREVISTO);
-        // Add required entity
-        Auditoria auditoria;
-        if (TestUtil.findAll(em, Auditoria.class).isEmpty()) {
-            auditoria = AuditoriaResourceIT.createUpdatedEntity(em);
-            em.persist(auditoria);
-            em.flush();
-        } else {
-            auditoria = TestUtil.findAll(em, Auditoria.class).get(0);
-        }
-        itemPlanoAuditoria.setAuditoria(auditoria);
         // Add required entity
         PlanoAuditoria planoAuditoria;
         if (TestUtil.findAll(em, PlanoAuditoria.class).isEmpty()) {
@@ -172,6 +180,9 @@ public class ItemPlanoAuditoriaResourceIT {
         List<ItemPlanoAuditoria> itemPlanoAuditoriaList = itemPlanoAuditoriaRepository.findAll();
         assertThat(itemPlanoAuditoriaList).hasSize(databaseSizeBeforeCreate + 1);
         ItemPlanoAuditoria testItemPlanoAuditoria = itemPlanoAuditoriaList.get(itemPlanoAuditoriaList.size() - 1);
+        assertThat(testItemPlanoAuditoria.getTitulo()).isEqualTo(DEFAULT_TITULO);
+        assertThat(testItemPlanoAuditoria.getDescricao()).isEqualTo(DEFAULT_DESCRICAO);
+        assertThat(testItemPlanoAuditoria.getModalidade()).isEqualTo(DEFAULT_MODALIDADE);
         assertThat(testItemPlanoAuditoria.getDataInicioPrevisto()).isEqualTo(DEFAULT_DATA_INICIO_PREVISTO);
         assertThat(testItemPlanoAuditoria.getDataFimPrevisto()).isEqualTo(DEFAULT_DATA_FIM_PREVISTO);
     }
@@ -198,6 +209,60 @@ public class ItemPlanoAuditoriaResourceIT {
 
     @Test
     @Transactional
+    public void checkTituloIsRequired() throws Exception {
+        int databaseSizeBeforeTest = itemPlanoAuditoriaRepository.findAll().size();
+        // set the field null
+        itemPlanoAuditoria.setTitulo(null);
+
+        // Create the ItemPlanoAuditoria, which fails.
+
+        restItemPlanoAuditoriaMockMvc.perform(post("/api/item-plano-auditorias")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(itemPlanoAuditoria)))
+            .andExpect(status().isBadRequest());
+
+        List<ItemPlanoAuditoria> itemPlanoAuditoriaList = itemPlanoAuditoriaRepository.findAll();
+        assertThat(itemPlanoAuditoriaList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    public void checkModalidadeIsRequired() throws Exception {
+        int databaseSizeBeforeTest = itemPlanoAuditoriaRepository.findAll().size();
+        // set the field null
+        itemPlanoAuditoria.setModalidade(null);
+
+        // Create the ItemPlanoAuditoria, which fails.
+
+        restItemPlanoAuditoriaMockMvc.perform(post("/api/item-plano-auditorias")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(itemPlanoAuditoria)))
+            .andExpect(status().isBadRequest());
+
+        List<ItemPlanoAuditoria> itemPlanoAuditoriaList = itemPlanoAuditoriaRepository.findAll();
+        assertThat(itemPlanoAuditoriaList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    public void checkDataInicioPrevistoIsRequired() throws Exception {
+        int databaseSizeBeforeTest = itemPlanoAuditoriaRepository.findAll().size();
+        // set the field null
+        itemPlanoAuditoria.setDataInicioPrevisto(null);
+
+        // Create the ItemPlanoAuditoria, which fails.
+
+        restItemPlanoAuditoriaMockMvc.perform(post("/api/item-plano-auditorias")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(itemPlanoAuditoria)))
+            .andExpect(status().isBadRequest());
+
+        List<ItemPlanoAuditoria> itemPlanoAuditoriaList = itemPlanoAuditoriaRepository.findAll();
+        assertThat(itemPlanoAuditoriaList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     public void getAllItemPlanoAuditorias() throws Exception {
         // Initialize the database
         itemPlanoAuditoriaRepository.saveAndFlush(itemPlanoAuditoria);
@@ -207,10 +272,46 @@ public class ItemPlanoAuditoriaResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(itemPlanoAuditoria.getId().intValue())))
+            .andExpect(jsonPath("$.[*].titulo").value(hasItem(DEFAULT_TITULO)))
+            .andExpect(jsonPath("$.[*].descricao").value(hasItem(DEFAULT_DESCRICAO.toString())))
+            .andExpect(jsonPath("$.[*].modalidade").value(hasItem(DEFAULT_MODALIDADE.toString())))
             .andExpect(jsonPath("$.[*].dataInicioPrevisto").value(hasItem(DEFAULT_DATA_INICIO_PREVISTO.toString())))
             .andExpect(jsonPath("$.[*].dataFimPrevisto").value(hasItem(DEFAULT_DATA_FIM_PREVISTO.toString())));
     }
     
+    @SuppressWarnings({"unchecked"})
+    public void getAllItemPlanoAuditoriasWithEagerRelationshipsIsEnabled() throws Exception {
+        ItemPlanoAuditoriaResource itemPlanoAuditoriaResource = new ItemPlanoAuditoriaResource(itemPlanoAuditoriaServiceMock, itemPlanoAuditoriaQueryService);
+        when(itemPlanoAuditoriaServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+
+        MockMvc restItemPlanoAuditoriaMockMvc = MockMvcBuilders.standaloneSetup(itemPlanoAuditoriaResource)
+            .setCustomArgumentResolvers(pageableArgumentResolver)
+            .setControllerAdvice(exceptionTranslator)
+            .setConversionService(createFormattingConversionService())
+            .setMessageConverters(jacksonMessageConverter).build();
+
+        restItemPlanoAuditoriaMockMvc.perform(get("/api/item-plano-auditorias?eagerload=true"))
+        .andExpect(status().isOk());
+
+        verify(itemPlanoAuditoriaServiceMock, times(1)).findAllWithEagerRelationships(any());
+    }
+
+    @SuppressWarnings({"unchecked"})
+    public void getAllItemPlanoAuditoriasWithEagerRelationshipsIsNotEnabled() throws Exception {
+        ItemPlanoAuditoriaResource itemPlanoAuditoriaResource = new ItemPlanoAuditoriaResource(itemPlanoAuditoriaServiceMock, itemPlanoAuditoriaQueryService);
+            when(itemPlanoAuditoriaServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+            MockMvc restItemPlanoAuditoriaMockMvc = MockMvcBuilders.standaloneSetup(itemPlanoAuditoriaResource)
+            .setCustomArgumentResolvers(pageableArgumentResolver)
+            .setControllerAdvice(exceptionTranslator)
+            .setConversionService(createFormattingConversionService())
+            .setMessageConverters(jacksonMessageConverter).build();
+
+        restItemPlanoAuditoriaMockMvc.perform(get("/api/item-plano-auditorias?eagerload=true"))
+        .andExpect(status().isOk());
+
+            verify(itemPlanoAuditoriaServiceMock, times(1)).findAllWithEagerRelationships(any());
+    }
+
     @Test
     @Transactional
     public void getItemPlanoAuditoria() throws Exception {
@@ -222,6 +323,9 @@ public class ItemPlanoAuditoriaResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(itemPlanoAuditoria.getId().intValue()))
+            .andExpect(jsonPath("$.titulo").value(DEFAULT_TITULO))
+            .andExpect(jsonPath("$.descricao").value(DEFAULT_DESCRICAO.toString()))
+            .andExpect(jsonPath("$.modalidade").value(DEFAULT_MODALIDADE.toString()))
             .andExpect(jsonPath("$.dataInicioPrevisto").value(DEFAULT_DATA_INICIO_PREVISTO.toString()))
             .andExpect(jsonPath("$.dataFimPrevisto").value(DEFAULT_DATA_FIM_PREVISTO.toString()));
     }
@@ -245,6 +349,136 @@ public class ItemPlanoAuditoriaResourceIT {
         defaultItemPlanoAuditoriaShouldNotBeFound("id.lessThan=" + id);
     }
 
+
+    @Test
+    @Transactional
+    public void getAllItemPlanoAuditoriasByTituloIsEqualToSomething() throws Exception {
+        // Initialize the database
+        itemPlanoAuditoriaRepository.saveAndFlush(itemPlanoAuditoria);
+
+        // Get all the itemPlanoAuditoriaList where titulo equals to DEFAULT_TITULO
+        defaultItemPlanoAuditoriaShouldBeFound("titulo.equals=" + DEFAULT_TITULO);
+
+        // Get all the itemPlanoAuditoriaList where titulo equals to UPDATED_TITULO
+        defaultItemPlanoAuditoriaShouldNotBeFound("titulo.equals=" + UPDATED_TITULO);
+    }
+
+    @Test
+    @Transactional
+    public void getAllItemPlanoAuditoriasByTituloIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        itemPlanoAuditoriaRepository.saveAndFlush(itemPlanoAuditoria);
+
+        // Get all the itemPlanoAuditoriaList where titulo not equals to DEFAULT_TITULO
+        defaultItemPlanoAuditoriaShouldNotBeFound("titulo.notEquals=" + DEFAULT_TITULO);
+
+        // Get all the itemPlanoAuditoriaList where titulo not equals to UPDATED_TITULO
+        defaultItemPlanoAuditoriaShouldBeFound("titulo.notEquals=" + UPDATED_TITULO);
+    }
+
+    @Test
+    @Transactional
+    public void getAllItemPlanoAuditoriasByTituloIsInShouldWork() throws Exception {
+        // Initialize the database
+        itemPlanoAuditoriaRepository.saveAndFlush(itemPlanoAuditoria);
+
+        // Get all the itemPlanoAuditoriaList where titulo in DEFAULT_TITULO or UPDATED_TITULO
+        defaultItemPlanoAuditoriaShouldBeFound("titulo.in=" + DEFAULT_TITULO + "," + UPDATED_TITULO);
+
+        // Get all the itemPlanoAuditoriaList where titulo equals to UPDATED_TITULO
+        defaultItemPlanoAuditoriaShouldNotBeFound("titulo.in=" + UPDATED_TITULO);
+    }
+
+    @Test
+    @Transactional
+    public void getAllItemPlanoAuditoriasByTituloIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        itemPlanoAuditoriaRepository.saveAndFlush(itemPlanoAuditoria);
+
+        // Get all the itemPlanoAuditoriaList where titulo is not null
+        defaultItemPlanoAuditoriaShouldBeFound("titulo.specified=true");
+
+        // Get all the itemPlanoAuditoriaList where titulo is null
+        defaultItemPlanoAuditoriaShouldNotBeFound("titulo.specified=false");
+    }
+                @Test
+    @Transactional
+    public void getAllItemPlanoAuditoriasByTituloContainsSomething() throws Exception {
+        // Initialize the database
+        itemPlanoAuditoriaRepository.saveAndFlush(itemPlanoAuditoria);
+
+        // Get all the itemPlanoAuditoriaList where titulo contains DEFAULT_TITULO
+        defaultItemPlanoAuditoriaShouldBeFound("titulo.contains=" + DEFAULT_TITULO);
+
+        // Get all the itemPlanoAuditoriaList where titulo contains UPDATED_TITULO
+        defaultItemPlanoAuditoriaShouldNotBeFound("titulo.contains=" + UPDATED_TITULO);
+    }
+
+    @Test
+    @Transactional
+    public void getAllItemPlanoAuditoriasByTituloNotContainsSomething() throws Exception {
+        // Initialize the database
+        itemPlanoAuditoriaRepository.saveAndFlush(itemPlanoAuditoria);
+
+        // Get all the itemPlanoAuditoriaList where titulo does not contain DEFAULT_TITULO
+        defaultItemPlanoAuditoriaShouldNotBeFound("titulo.doesNotContain=" + DEFAULT_TITULO);
+
+        // Get all the itemPlanoAuditoriaList where titulo does not contain UPDATED_TITULO
+        defaultItemPlanoAuditoriaShouldBeFound("titulo.doesNotContain=" + UPDATED_TITULO);
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllItemPlanoAuditoriasByModalidadeIsEqualToSomething() throws Exception {
+        // Initialize the database
+        itemPlanoAuditoriaRepository.saveAndFlush(itemPlanoAuditoria);
+
+        // Get all the itemPlanoAuditoriaList where modalidade equals to DEFAULT_MODALIDADE
+        defaultItemPlanoAuditoriaShouldBeFound("modalidade.equals=" + DEFAULT_MODALIDADE);
+
+        // Get all the itemPlanoAuditoriaList where modalidade equals to UPDATED_MODALIDADE
+        defaultItemPlanoAuditoriaShouldNotBeFound("modalidade.equals=" + UPDATED_MODALIDADE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllItemPlanoAuditoriasByModalidadeIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        itemPlanoAuditoriaRepository.saveAndFlush(itemPlanoAuditoria);
+
+        // Get all the itemPlanoAuditoriaList where modalidade not equals to DEFAULT_MODALIDADE
+        defaultItemPlanoAuditoriaShouldNotBeFound("modalidade.notEquals=" + DEFAULT_MODALIDADE);
+
+        // Get all the itemPlanoAuditoriaList where modalidade not equals to UPDATED_MODALIDADE
+        defaultItemPlanoAuditoriaShouldBeFound("modalidade.notEquals=" + UPDATED_MODALIDADE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllItemPlanoAuditoriasByModalidadeIsInShouldWork() throws Exception {
+        // Initialize the database
+        itemPlanoAuditoriaRepository.saveAndFlush(itemPlanoAuditoria);
+
+        // Get all the itemPlanoAuditoriaList where modalidade in DEFAULT_MODALIDADE or UPDATED_MODALIDADE
+        defaultItemPlanoAuditoriaShouldBeFound("modalidade.in=" + DEFAULT_MODALIDADE + "," + UPDATED_MODALIDADE);
+
+        // Get all the itemPlanoAuditoriaList where modalidade equals to UPDATED_MODALIDADE
+        defaultItemPlanoAuditoriaShouldNotBeFound("modalidade.in=" + UPDATED_MODALIDADE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllItemPlanoAuditoriasByModalidadeIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        itemPlanoAuditoriaRepository.saveAndFlush(itemPlanoAuditoria);
+
+        // Get all the itemPlanoAuditoriaList where modalidade is not null
+        defaultItemPlanoAuditoriaShouldBeFound("modalidade.specified=true");
+
+        // Get all the itemPlanoAuditoriaList where modalidade is null
+        defaultItemPlanoAuditoriaShouldNotBeFound("modalidade.specified=false");
+    }
 
     @Test
     @Transactional
@@ -352,6 +586,26 @@ public class ItemPlanoAuditoriaResourceIT {
 
     @Test
     @Transactional
+    public void getAllItemPlanoAuditoriasByItemAuditoriaIsEqualToSomething() throws Exception {
+        // Initialize the database
+        itemPlanoAuditoriaRepository.saveAndFlush(itemPlanoAuditoria);
+        ItemAuditoria itemAuditoria = ItemAuditoriaResourceIT.createEntity(em);
+        em.persist(itemAuditoria);
+        em.flush();
+        itemPlanoAuditoria.setItemAuditoria(itemAuditoria);
+        itemPlanoAuditoriaRepository.saveAndFlush(itemPlanoAuditoria);
+        Long itemAuditoriaId = itemAuditoria.getId();
+
+        // Get all the itemPlanoAuditoriaList where itemAuditoria equals to itemAuditoriaId
+        defaultItemPlanoAuditoriaShouldBeFound("itemAuditoriaId.equals=" + itemAuditoriaId);
+
+        // Get all the itemPlanoAuditoriaList where itemAuditoria equals to itemAuditoriaId + 1
+        defaultItemPlanoAuditoriaShouldNotBeFound("itemAuditoriaId.equals=" + (itemAuditoriaId + 1));
+    }
+
+
+    @Test
+    @Transactional
     public void getAllItemPlanoAuditoriasByAnexoIsEqualToSomething() throws Exception {
         // Initialize the database
         itemPlanoAuditoriaRepository.saveAndFlush(itemPlanoAuditoria);
@@ -367,22 +621,6 @@ public class ItemPlanoAuditoriaResourceIT {
 
         // Get all the itemPlanoAuditoriaList where anexo equals to anexoId + 1
         defaultItemPlanoAuditoriaShouldNotBeFound("anexoId.equals=" + (anexoId + 1));
-    }
-
-
-    @Test
-    @Transactional
-    public void getAllItemPlanoAuditoriasByAuditoriaIsEqualToSomething() throws Exception {
-        // Get already existing entity
-        Auditoria auditoria = itemPlanoAuditoria.getAuditoria();
-        itemPlanoAuditoriaRepository.saveAndFlush(itemPlanoAuditoria);
-        Long auditoriaId = auditoria.getId();
-
-        // Get all the itemPlanoAuditoriaList where auditoria equals to auditoriaId
-        defaultItemPlanoAuditoriaShouldBeFound("auditoriaId.equals=" + auditoriaId);
-
-        // Get all the itemPlanoAuditoriaList where auditoria equals to auditoriaId + 1
-        defaultItemPlanoAuditoriaShouldNotBeFound("auditoriaId.equals=" + (auditoriaId + 1));
     }
 
 
@@ -409,6 +647,9 @@ public class ItemPlanoAuditoriaResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(itemPlanoAuditoria.getId().intValue())))
+            .andExpect(jsonPath("$.[*].titulo").value(hasItem(DEFAULT_TITULO)))
+            .andExpect(jsonPath("$.[*].descricao").value(hasItem(DEFAULT_DESCRICAO.toString())))
+            .andExpect(jsonPath("$.[*].modalidade").value(hasItem(DEFAULT_MODALIDADE.toString())))
             .andExpect(jsonPath("$.[*].dataInicioPrevisto").value(hasItem(DEFAULT_DATA_INICIO_PREVISTO.toString())))
             .andExpect(jsonPath("$.[*].dataFimPrevisto").value(hasItem(DEFAULT_DATA_FIM_PREVISTO.toString())));
 
@@ -458,6 +699,9 @@ public class ItemPlanoAuditoriaResourceIT {
         // Disconnect from session so that the updates on updatedItemPlanoAuditoria are not directly saved in db
         em.detach(updatedItemPlanoAuditoria);
         updatedItemPlanoAuditoria
+            .titulo(UPDATED_TITULO)
+            .descricao(UPDATED_DESCRICAO)
+            .modalidade(UPDATED_MODALIDADE)
             .dataInicioPrevisto(UPDATED_DATA_INICIO_PREVISTO)
             .dataFimPrevisto(UPDATED_DATA_FIM_PREVISTO);
 
@@ -470,6 +714,9 @@ public class ItemPlanoAuditoriaResourceIT {
         List<ItemPlanoAuditoria> itemPlanoAuditoriaList = itemPlanoAuditoriaRepository.findAll();
         assertThat(itemPlanoAuditoriaList).hasSize(databaseSizeBeforeUpdate);
         ItemPlanoAuditoria testItemPlanoAuditoria = itemPlanoAuditoriaList.get(itemPlanoAuditoriaList.size() - 1);
+        assertThat(testItemPlanoAuditoria.getTitulo()).isEqualTo(UPDATED_TITULO);
+        assertThat(testItemPlanoAuditoria.getDescricao()).isEqualTo(UPDATED_DESCRICAO);
+        assertThat(testItemPlanoAuditoria.getModalidade()).isEqualTo(UPDATED_MODALIDADE);
         assertThat(testItemPlanoAuditoria.getDataInicioPrevisto()).isEqualTo(UPDATED_DATA_INICIO_PREVISTO);
         assertThat(testItemPlanoAuditoria.getDataFimPrevisto()).isEqualTo(UPDATED_DATA_FIM_PREVISTO);
     }

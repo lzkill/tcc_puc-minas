@@ -17,9 +17,9 @@
                 <dd>
                     <span>{{naoConformidade.titulo}}</span>
                 </dd>
-                <dt><span jhiTranslate="gatewayApp.sgqNaoConformidade.fato">Fato</span></dt>
+                <dt><span jhiTranslate="gatewayApp.sgqNaoConformidade.descricao">Descricao</span></dt>
                 <dd>
-                    <span>{{naoConformidade.fato}}</span>
+                    <span>{{naoConformidade.descricao}}</span>
                 </dd>
                 <dt><span jhiTranslate="gatewayApp.sgqNaoConformidade.procedente" [ngbTooltip]="'gatewayApp.sgqNaoConformidade.help.procedente' | translate">Procedente</span></dt>
                 <dd>
@@ -53,16 +53,22 @@
                 <dd>
                     <span jhiTranslate="{{'gatewayApp.StatusSGQ.' + naoConformidade.statusSGQ}}">{{naoConformidade.statusSGQ}}</span>
                 </dd>
-                <dt><span jhiTranslate="gatewayApp.sgqNaoConformidade.resultadoAuditoria">Resultado Auditoria</span></dt>
+                <dt><span jhiTranslate="gatewayApp.sgqNaoConformidade.anexo">Anexo</span></dt>
                 <dd>
-                    <div *ngIf="naoConformidade.resultadoAuditoria">
-                        <a [routerLink]="['/resultado-auditoria', naoConformidade.resultadoAuditoria?.id, 'view']">{{naoConformidade.resultadoAuditoria?.id}}</a>
+                    <span *ngFor="let anexo of naoConformidade.anexos; let last = last">
+                        <a [routerLink]="['/anexo', anexo?.id, 'view' ]">{{anexo.nomeArquivo}}</a>{{last ? '' : ', '}}
+                    </span>
+                </dd>
+                <dt><span jhiTranslate="gatewayApp.sgqNaoConformidade.auditoria">Auditoria</span></dt>
+                <dd>
+                    <div *ngIf="naoConformidade.auditoria">
+                        <a [routerLink]="['/auditoria', naoConformidade.auditoria?.id, 'view']">{{naoConformidade.auditoria?.id}}</a>
                     </div>
                 </dd>
-                <dt><span jhiTranslate="gatewayApp.sgqNaoConformidade.resultadoItemChecklist">Resultado Item Checklist</span></dt>
+                <dt><span jhiTranslate="gatewayApp.sgqNaoConformidade.resultadoChecklist">Resultado Checklist</span></dt>
                 <dd>
-                    <div *ngIf="naoConformidade.resultadoItemChecklist">
-                        <a [routerLink]="['/resultado-item-checklist', naoConformidade.resultadoItemChecklist?.id, 'view']">{{naoConformidade.resultadoItemChecklist?.id}}</a>
+                    <div *ngIf="naoConformidade.resultadoChecklist">
+                        <a [routerLink]="['/resultado-checklist', naoConformidade.resultadoChecklist?.id, 'view']">{{naoConformidade.resultadoChecklist?.id}}</a>
                     </div>
                 </dd>
             </dl>

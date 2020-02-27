@@ -33,6 +33,10 @@ public class CategoriaPublicacao implements Serializable {
     @Column(name = "descricao")
     private String descricao;
 
+    @NotNull
+    @Column(name = "habilitado", nullable = false)
+    private Boolean habilitado;
+
     @ManyToMany(mappedBy = "categorias")
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     @JsonIgnore
@@ -76,6 +80,19 @@ public class CategoriaPublicacao implements Serializable {
 
     public void setDescricao(String descricao) {
         this.descricao = descricao;
+    }
+
+    public Boolean isHabilitado() {
+        return habilitado;
+    }
+
+    public CategoriaPublicacao habilitado(Boolean habilitado) {
+        this.habilitado = habilitado;
+        return this;
+    }
+
+    public void setHabilitado(Boolean habilitado) {
+        this.habilitado = habilitado;
     }
 
     public Set<BoletimInformativo> getBoletims() {
@@ -151,6 +168,7 @@ public class CategoriaPublicacao implements Serializable {
             "id=" + getId() +
             ", titulo='" + getTitulo() + "'" +
             ", descricao='" + getDescricao() + "'" +
+            ", habilitado='" + isHabilitado() + "'" +
             "}";
     }
 }

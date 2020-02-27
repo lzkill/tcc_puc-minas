@@ -20,6 +20,7 @@
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
             <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="nome"><span jhiTranslate="gatewayApp.sgqEmpresa.nome">Nome</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="habilitado"><span jhiTranslate="gatewayApp.sgqEmpresa.habilitado">Habilitado</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"></th>
             </tr>
             </thead>
@@ -27,6 +28,7 @@
             <tr *ngFor="let empresa of empresas ;trackBy: trackId">
                 <td><a [routerLink]="['/empresa', empresa.id, 'view' ]">{{empresa.id}}</a></td>
                 <td>{{empresa.nome}}</td>
+                <td>{{empresa.habilitado}}</td>
                 <td class="text-right">
                     <div class="btn-group">
                         <button type="submit"

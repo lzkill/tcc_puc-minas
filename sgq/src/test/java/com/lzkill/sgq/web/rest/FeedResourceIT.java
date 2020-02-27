@@ -33,7 +33,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import com.lzkill.sgq.domain.enumeration.TipoFeed;
-import com.lzkill.sgq.domain.enumeration.StatusFeed;
 /**
  * Integration tests for the {@link FeedResource} REST controller.
  */
@@ -76,8 +75,8 @@ public class FeedResourceIT {
     private static final Instant DEFAULT_DATA_REGISTRO = Instant.ofEpochMilli(0L);
     private static final Instant UPDATED_DATA_REGISTRO = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
-    private static final StatusFeed DEFAULT_STATUS = StatusFeed.ATIVO;
-    private static final StatusFeed UPDATED_STATUS = StatusFeed.INATIVO;
+    private static final Boolean DEFAULT_HABILITADO = false;
+    private static final Boolean UPDATED_HABILITADO = true;
 
     @Autowired
     private FeedRepository feedRepository;
@@ -138,7 +137,7 @@ public class FeedResourceIT {
             .alturaImagem(DEFAULT_ALTURA_IMAGEM)
             .larguraImagem(DEFAULT_LARGURA_IMAGEM)
             .dataRegistro(DEFAULT_DATA_REGISTRO)
-            .status(DEFAULT_STATUS);
+            .habilitado(DEFAULT_HABILITADO);
         return feed;
     }
     /**
@@ -160,7 +159,7 @@ public class FeedResourceIT {
             .alturaImagem(UPDATED_ALTURA_IMAGEM)
             .larguraImagem(UPDATED_LARGURA_IMAGEM)
             .dataRegistro(UPDATED_DATA_REGISTRO)
-            .status(UPDATED_STATUS);
+            .habilitado(UPDATED_HABILITADO);
         return feed;
     }
 
@@ -195,7 +194,7 @@ public class FeedResourceIT {
         assertThat(testFeed.getAlturaImagem()).isEqualTo(DEFAULT_ALTURA_IMAGEM);
         assertThat(testFeed.getLarguraImagem()).isEqualTo(DEFAULT_LARGURA_IMAGEM);
         assertThat(testFeed.getDataRegistro()).isEqualTo(DEFAULT_DATA_REGISTRO);
-        assertThat(testFeed.getStatus()).isEqualTo(DEFAULT_STATUS);
+        assertThat(testFeed.isHabilitado()).isEqualTo(DEFAULT_HABILITADO);
     }
 
     @Test
@@ -328,10 +327,10 @@ public class FeedResourceIT {
 
     @Test
     @Transactional
-    public void checkStatusIsRequired() throws Exception {
+    public void checkHabilitadoIsRequired() throws Exception {
         int databaseSizeBeforeTest = feedRepository.findAll().size();
         // set the field null
-        feed.setStatus(null);
+        feed.setHabilitado(null);
 
         // Create the Feed, which fails.
 
@@ -366,7 +365,7 @@ public class FeedResourceIT {
             .andExpect(jsonPath("$.[*].alturaImagem").value(hasItem(DEFAULT_ALTURA_IMAGEM)))
             .andExpect(jsonPath("$.[*].larguraImagem").value(hasItem(DEFAULT_LARGURA_IMAGEM)))
             .andExpect(jsonPath("$.[*].dataRegistro").value(hasItem(DEFAULT_DATA_REGISTRO.toString())))
-            .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())));
+            .andExpect(jsonPath("$.[*].habilitado").value(hasItem(DEFAULT_HABILITADO.booleanValue())));
     }
     
     @Test
@@ -391,7 +390,7 @@ public class FeedResourceIT {
             .andExpect(jsonPath("$.alturaImagem").value(DEFAULT_ALTURA_IMAGEM))
             .andExpect(jsonPath("$.larguraImagem").value(DEFAULT_LARGURA_IMAGEM))
             .andExpect(jsonPath("$.dataRegistro").value(DEFAULT_DATA_REGISTRO.toString()))
-            .andExpect(jsonPath("$.status").value(DEFAULT_STATUS.toString()));
+            .andExpect(jsonPath("$.habilitado").value(DEFAULT_HABILITADO.booleanValue()));
     }
 
 
@@ -1303,54 +1302,54 @@ public class FeedResourceIT {
 
     @Test
     @Transactional
-    public void getAllFeedsByStatusIsEqualToSomething() throws Exception {
+    public void getAllFeedsByHabilitadoIsEqualToSomething() throws Exception {
         // Initialize the database
         feedRepository.saveAndFlush(feed);
 
-        // Get all the feedList where status equals to DEFAULT_STATUS
-        defaultFeedShouldBeFound("status.equals=" + DEFAULT_STATUS);
+        // Get all the feedList where habilitado equals to DEFAULT_HABILITADO
+        defaultFeedShouldBeFound("habilitado.equals=" + DEFAULT_HABILITADO);
 
-        // Get all the feedList where status equals to UPDATED_STATUS
-        defaultFeedShouldNotBeFound("status.equals=" + UPDATED_STATUS);
+        // Get all the feedList where habilitado equals to UPDATED_HABILITADO
+        defaultFeedShouldNotBeFound("habilitado.equals=" + UPDATED_HABILITADO);
     }
 
     @Test
     @Transactional
-    public void getAllFeedsByStatusIsNotEqualToSomething() throws Exception {
+    public void getAllFeedsByHabilitadoIsNotEqualToSomething() throws Exception {
         // Initialize the database
         feedRepository.saveAndFlush(feed);
 
-        // Get all the feedList where status not equals to DEFAULT_STATUS
-        defaultFeedShouldNotBeFound("status.notEquals=" + DEFAULT_STATUS);
+        // Get all the feedList where habilitado not equals to DEFAULT_HABILITADO
+        defaultFeedShouldNotBeFound("habilitado.notEquals=" + DEFAULT_HABILITADO);
 
-        // Get all the feedList where status not equals to UPDATED_STATUS
-        defaultFeedShouldBeFound("status.notEquals=" + UPDATED_STATUS);
+        // Get all the feedList where habilitado not equals to UPDATED_HABILITADO
+        defaultFeedShouldBeFound("habilitado.notEquals=" + UPDATED_HABILITADO);
     }
 
     @Test
     @Transactional
-    public void getAllFeedsByStatusIsInShouldWork() throws Exception {
+    public void getAllFeedsByHabilitadoIsInShouldWork() throws Exception {
         // Initialize the database
         feedRepository.saveAndFlush(feed);
 
-        // Get all the feedList where status in DEFAULT_STATUS or UPDATED_STATUS
-        defaultFeedShouldBeFound("status.in=" + DEFAULT_STATUS + "," + UPDATED_STATUS);
+        // Get all the feedList where habilitado in DEFAULT_HABILITADO or UPDATED_HABILITADO
+        defaultFeedShouldBeFound("habilitado.in=" + DEFAULT_HABILITADO + "," + UPDATED_HABILITADO);
 
-        // Get all the feedList where status equals to UPDATED_STATUS
-        defaultFeedShouldNotBeFound("status.in=" + UPDATED_STATUS);
+        // Get all the feedList where habilitado equals to UPDATED_HABILITADO
+        defaultFeedShouldNotBeFound("habilitado.in=" + UPDATED_HABILITADO);
     }
 
     @Test
     @Transactional
-    public void getAllFeedsByStatusIsNullOrNotNull() throws Exception {
+    public void getAllFeedsByHabilitadoIsNullOrNotNull() throws Exception {
         // Initialize the database
         feedRepository.saveAndFlush(feed);
 
-        // Get all the feedList where status is not null
-        defaultFeedShouldBeFound("status.specified=true");
+        // Get all the feedList where habilitado is not null
+        defaultFeedShouldBeFound("habilitado.specified=true");
 
-        // Get all the feedList where status is null
-        defaultFeedShouldNotBeFound("status.specified=false");
+        // Get all the feedList where habilitado is null
+        defaultFeedShouldNotBeFound("habilitado.specified=false");
     }
     /**
      * Executes the search, and checks that the default entity is returned.
@@ -1371,7 +1370,7 @@ public class FeedResourceIT {
             .andExpect(jsonPath("$.[*].alturaImagem").value(hasItem(DEFAULT_ALTURA_IMAGEM)))
             .andExpect(jsonPath("$.[*].larguraImagem").value(hasItem(DEFAULT_LARGURA_IMAGEM)))
             .andExpect(jsonPath("$.[*].dataRegistro").value(hasItem(DEFAULT_DATA_REGISTRO.toString())))
-            .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())));
+            .andExpect(jsonPath("$.[*].habilitado").value(hasItem(DEFAULT_HABILITADO.booleanValue())));
 
         // Check, that the count call also returns 1
         restFeedMockMvc.perform(get("/api/feeds/count?sort=id,desc&" + filter))
@@ -1430,7 +1429,7 @@ public class FeedResourceIT {
             .alturaImagem(UPDATED_ALTURA_IMAGEM)
             .larguraImagem(UPDATED_LARGURA_IMAGEM)
             .dataRegistro(UPDATED_DATA_REGISTRO)
-            .status(UPDATED_STATUS);
+            .habilitado(UPDATED_HABILITADO);
 
         restFeedMockMvc.perform(put("/api/feeds")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -1452,7 +1451,7 @@ public class FeedResourceIT {
         assertThat(testFeed.getAlturaImagem()).isEqualTo(UPDATED_ALTURA_IMAGEM);
         assertThat(testFeed.getLarguraImagem()).isEqualTo(UPDATED_LARGURA_IMAGEM);
         assertThat(testFeed.getDataRegistro()).isEqualTo(UPDATED_DATA_REGISTRO);
-        assertThat(testFeed.getStatus()).isEqualTo(UPDATED_STATUS);
+        assertThat(testFeed.isHabilitado()).isEqualTo(UPDATED_HABILITADO);
     }
 
     @Test

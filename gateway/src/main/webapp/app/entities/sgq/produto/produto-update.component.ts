@@ -10,8 +10,12 @@ import { JhiDataUtils, JhiFileLoadError, JhiEventManager, JhiEventWithContent } 
 import { IProduto, Produto } from 'app/shared/model/sgq/produto.model';
 import { ProdutoService } from './produto.service';
 import { AlertError } from 'app/shared/alert/alert-error.model';
+import { IAnexo } from 'app/shared/model/sgq/anexo.model';
+import { AnexoService } from 'app/entities/sgq/anexo/anexo.service';
 import { IEmpresa } from 'app/shared/model/sgq/empresa.model';
 import { EmpresaService } from 'app/entities/sgq/empresa/empresa.service';
+
+type SelectableEntity = IAnexo | IEmpresa;
 
 @Component({
   selector: 'jhi-produto-update',
@@ -20,12 +24,16 @@ import { EmpresaService } from 'app/entities/sgq/empresa/empresa.service';
 export class ProdutoUpdateComponent implements OnInit {
   isSaving = false;
 
+  anexos: IAnexo[] = [];
+
   empresas: IEmpresa[] = [];
 
   editForm = this.fb.group({
     id: [],
     nome: [null, [Validators.required, Validators.minLength(1), Validators.maxLength(100)]],
     descricao: [],
+    habilitado: [null, [Validators.required]],
+    anexos: [],
     empresa: [null, Validators.required]
   });
 
@@ -33,6 +41,7 @@ export class ProdutoUpdateComponent implements OnInit {
     protected dataUtils: JhiDataUtils,
     protected eventManager: JhiEventManager,
     protected produtoService: ProdutoService,
+    protected anexoService: AnexoService,
     protected empresaService: EmpresaService,
     protected activatedRoute: ActivatedRoute,
     private fb: FormBuilder
@@ -41,6 +50,15 @@ export class ProdutoUpdateComponent implements OnInit {
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ produto }) => {
       this.updateForm(produto);
+
+      this.anexoService
+        .query()
+        .pipe(
+          map((res: HttpResponse<IAnexo[]>) => {
+            return res.body ? res.body : [];
+          })
+        )
+        .subscribe((resBody: IAnexo[]) => (this.anexos = resBody));
 
       this.empresaService
         .query()
@@ -58,6 +76,8 @@ export class ProdutoUpdateComponent implements OnInit {
       id: produto.id,
       nome: produto.nome,
       descricao: produto.descricao,
+      habilitado: produto.habilitado,
+      anexos: produto.anexos,
       empresa: produto.empresa
     });
   }
@@ -98,6 +118,8 @@ export class ProdutoUpdateComponent implements OnInit {
       id: this.editForm.get(['id'])!.value,
       nome: this.editForm.get(['nome'])!.value,
       descricao: this.editForm.get(['descricao'])!.value,
+      habilitado: this.editForm.get(['habilitado'])!.value,
+      anexos: this.editForm.get(['anexos'])!.value,
       empresa: this.editForm.get(['empresa'])!.value
     };
   }
@@ -118,7 +140,18 @@ export class ProdutoUpdateComponent implements OnInit {
     this.isSaving = false;
   }
 
-  trackById(index: number, item: IEmpresa): any {
+  trackById(index: number, item: SelectableEntity): any {
     return item.id;
+  }
+
+  getSelected(selectedVals: IAnexo[], option: IAnexo): IAnexo {
+    if (selectedVals) {
+      for (let i = 0; i < selectedVals.length; i++) {
+        if (option.id === selectedVals[i].id) {
+          return selectedVals[i];
+        }
+      }
+    }
+    return option;
   }
 }

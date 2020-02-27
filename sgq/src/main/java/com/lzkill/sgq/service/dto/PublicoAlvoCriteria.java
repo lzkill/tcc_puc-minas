@@ -28,12 +28,15 @@ public class PublicoAlvoCriteria implements Serializable, Criteria {
 
     private StringFilter nome;
 
+    private BooleanFilter habilitado;
+
     public PublicoAlvoCriteria(){
     }
 
     public PublicoAlvoCriteria(PublicoAlvoCriteria other){
         this.id = other.id == null ? null : other.id.copy();
         this.nome = other.nome == null ? null : other.nome.copy();
+        this.habilitado = other.habilitado == null ? null : other.habilitado.copy();
     }
 
     @Override
@@ -57,6 +60,14 @@ public class PublicoAlvoCriteria implements Serializable, Criteria {
         this.nome = nome;
     }
 
+    public BooleanFilter getHabilitado() {
+        return habilitado;
+    }
+
+    public void setHabilitado(BooleanFilter habilitado) {
+        this.habilitado = habilitado;
+    }
+
 
     @Override
     public boolean equals(Object o) {
@@ -69,14 +80,16 @@ public class PublicoAlvoCriteria implements Serializable, Criteria {
         final PublicoAlvoCriteria that = (PublicoAlvoCriteria) o;
         return
             Objects.equals(id, that.id) &&
-            Objects.equals(nome, that.nome);
+            Objects.equals(nome, that.nome) &&
+            Objects.equals(habilitado, that.habilitado);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(
         id,
-        nome
+        nome,
+        habilitado
         );
     }
 
@@ -85,6 +98,7 @@ public class PublicoAlvoCriteria implements Serializable, Criteria {
         return "PublicoAlvoCriteria{" +
                 (id != null ? "id=" + id + ", " : "") +
                 (nome != null ? "nome=" + nome + ", " : "") +
+                (habilitado != null ? "habilitado=" + habilitado + ", " : "") +
             "}";
     }
 

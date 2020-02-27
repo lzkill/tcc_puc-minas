@@ -62,13 +62,11 @@ public class ProdutoNaoConformeCriteria implements Serializable, Criteria {
 
     private LongFilter naoConformidadeId;
 
-    private LongFilter anexoId;
-
     private LongFilter produtoId;
 
-    private LongFilter resultadoAuditoriaId;
+    private LongFilter anexoId;
 
-    private LongFilter resultadoItemChecklistId;
+    private LongFilter resultadoChecklistId;
 
     public ProdutoNaoConformeCriteria(){
     }
@@ -83,10 +81,9 @@ public class ProdutoNaoConformeCriteria implements Serializable, Criteria {
         this.statusSGQ = other.statusSGQ == null ? null : other.statusSGQ.copy();
         this.acaoId = other.acaoId == null ? null : other.acaoId.copy();
         this.naoConformidadeId = other.naoConformidadeId == null ? null : other.naoConformidadeId.copy();
-        this.anexoId = other.anexoId == null ? null : other.anexoId.copy();
         this.produtoId = other.produtoId == null ? null : other.produtoId.copy();
-        this.resultadoAuditoriaId = other.resultadoAuditoriaId == null ? null : other.resultadoAuditoriaId.copy();
-        this.resultadoItemChecklistId = other.resultadoItemChecklistId == null ? null : other.resultadoItemChecklistId.copy();
+        this.anexoId = other.anexoId == null ? null : other.anexoId.copy();
+        this.resultadoChecklistId = other.resultadoChecklistId == null ? null : other.resultadoChecklistId.copy();
     }
 
     @Override
@@ -166,14 +163,6 @@ public class ProdutoNaoConformeCriteria implements Serializable, Criteria {
         this.naoConformidadeId = naoConformidadeId;
     }
 
-    public LongFilter getAnexoId() {
-        return anexoId;
-    }
-
-    public void setAnexoId(LongFilter anexoId) {
-        this.anexoId = anexoId;
-    }
-
     public LongFilter getProdutoId() {
         return produtoId;
     }
@@ -182,20 +171,20 @@ public class ProdutoNaoConformeCriteria implements Serializable, Criteria {
         this.produtoId = produtoId;
     }
 
-    public LongFilter getResultadoAuditoriaId() {
-        return resultadoAuditoriaId;
+    public LongFilter getAnexoId() {
+        return anexoId;
     }
 
-    public void setResultadoAuditoriaId(LongFilter resultadoAuditoriaId) {
-        this.resultadoAuditoriaId = resultadoAuditoriaId;
+    public void setAnexoId(LongFilter anexoId) {
+        this.anexoId = anexoId;
     }
 
-    public LongFilter getResultadoItemChecklistId() {
-        return resultadoItemChecklistId;
+    public LongFilter getResultadoChecklistId() {
+        return resultadoChecklistId;
     }
 
-    public void setResultadoItemChecklistId(LongFilter resultadoItemChecklistId) {
-        this.resultadoItemChecklistId = resultadoItemChecklistId;
+    public void setResultadoChecklistId(LongFilter resultadoChecklistId) {
+        this.resultadoChecklistId = resultadoChecklistId;
     }
 
 
@@ -218,10 +207,9 @@ public class ProdutoNaoConformeCriteria implements Serializable, Criteria {
             Objects.equals(statusSGQ, that.statusSGQ) &&
             Objects.equals(acaoId, that.acaoId) &&
             Objects.equals(naoConformidadeId, that.naoConformidadeId) &&
-            Objects.equals(anexoId, that.anexoId) &&
             Objects.equals(produtoId, that.produtoId) &&
-            Objects.equals(resultadoAuditoriaId, that.resultadoAuditoriaId) &&
-            Objects.equals(resultadoItemChecklistId, that.resultadoItemChecklistId);
+            Objects.equals(anexoId, that.anexoId) &&
+            Objects.equals(resultadoChecklistId, that.resultadoChecklistId);
     }
 
     @Override
@@ -236,10 +224,9 @@ public class ProdutoNaoConformeCriteria implements Serializable, Criteria {
         statusSGQ,
         acaoId,
         naoConformidadeId,
-        anexoId,
         produtoId,
-        resultadoAuditoriaId,
-        resultadoItemChecklistId
+        anexoId,
+        resultadoChecklistId
         );
     }
 
@@ -255,10 +242,9 @@ public class ProdutoNaoConformeCriteria implements Serializable, Criteria {
                 (statusSGQ != null ? "statusSGQ=" + statusSGQ + ", " : "") +
                 (acaoId != null ? "acaoId=" + acaoId + ", " : "") +
                 (naoConformidadeId != null ? "naoConformidadeId=" + naoConformidadeId + ", " : "") +
-                (anexoId != null ? "anexoId=" + anexoId + ", " : "") +
                 (produtoId != null ? "produtoId=" + produtoId + ", " : "") +
-                (resultadoAuditoriaId != null ? "resultadoAuditoriaId=" + resultadoAuditoriaId + ", " : "") +
-                (resultadoItemChecklistId != null ? "resultadoItemChecklistId=" + resultadoItemChecklistId + ", " : "") +
+                (anexoId != null ? "anexoId=" + anexoId + ", " : "") +
+                (resultadoChecklistId != null ? "resultadoChecklistId=" + resultadoChecklistId + ", " : "") +
             "}";
     }
 

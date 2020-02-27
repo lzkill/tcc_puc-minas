@@ -28,6 +28,17 @@
                         </small>
                     </div>
                 </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="gatewayApp.sgqEmpresa.habilitado" for="field_habilitado">Habilitado</label>
+                    <input type="checkbox" class="form-control" name="habilitado" id="field_habilitado"
+                           formControlName="habilitado"/>
+                    <div *ngIf="editForm.get('habilitado')!.invalid && (editForm.get('habilitado')!.dirty || editForm.get('habilitado')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('habilitado')?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
 
             </div>
             <div>

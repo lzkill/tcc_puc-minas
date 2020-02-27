@@ -13,6 +13,16 @@
                 <dd>
                     <span jhiTranslate="{{'gatewayApp.Periodicidade.' + checklist.periodicidade}}">{{checklist.periodicidade}}</span>
                 </dd>
+                <dt><span jhiTranslate="gatewayApp.sgqChecklist.habilitado">Habilitado</span></dt>
+                <dd>
+                    <span>{{checklist.habilitado}}</span>
+                </dd>
+                <dt><span jhiTranslate="gatewayApp.sgqChecklist.anexo">Anexo</span></dt>
+                <dd>
+                    <span *ngFor="let anexo of checklist.anexos; let last = last">
+                        <a [routerLink]="['/anexo', anexo?.id, 'view' ]">{{anexo.nomeArquivo}}</a>{{last ? '' : ', '}}
+                    </span>
+                </dd>
                 <dt><span jhiTranslate="gatewayApp.sgqChecklist.setor">Setor</span></dt>
                 <dd>
                     <div *ngIf="checklist.setor">

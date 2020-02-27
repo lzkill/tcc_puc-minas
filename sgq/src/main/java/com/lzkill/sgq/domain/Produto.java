@@ -33,8 +33,15 @@ public class Produto implements Serializable {
     @Column(name = "descricao")
     private String descricao;
 
-    @OneToMany(mappedBy = "produto")
+    @NotNull
+    @Column(name = "habilitado", nullable = false)
+    private Boolean habilitado;
+
+    @ManyToMany
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    @JoinTable(name = "produto_anexo",
+               joinColumns = @JoinColumn(name = "produto_id", referencedColumnName = "id"),
+               inverseJoinColumns = @JoinColumn(name = "anexo_id", referencedColumnName = "id"))
     private Set<Anexo> anexos = new HashSet<>();
 
     @ManyToOne(optional = false)
@@ -77,6 +84,19 @@ public class Produto implements Serializable {
         this.descricao = descricao;
     }
 
+    public Boolean isHabilitado() {
+        return habilitado;
+    }
+
+    public Produto habilitado(Boolean habilitado) {
+        this.habilitado = habilitado;
+        return this;
+    }
+
+    public void setHabilitado(Boolean habilitado) {
+        this.habilitado = habilitado;
+    }
+
     public Set<Anexo> getAnexos() {
         return anexos;
     }
@@ -88,13 +108,13 @@ public class Produto implements Serializable {
 
     public Produto addAnexo(Anexo anexo) {
         this.anexos.add(anexo);
-        anexo.setProduto(this);
+        anexo.getProdutos().add(this);
         return this;
     }
 
     public Produto removeAnexo(Anexo anexo) {
         this.anexos.remove(anexo);
-        anexo.setProduto(null);
+        anexo.getProdutos().remove(this);
         return this;
     }
 
@@ -138,6 +158,7 @@ public class Produto implements Serializable {
             "id=" + getId() +
             ", nome='" + getNome() + "'" +
             ", descricao='" + getDescricao() + "'" +
+            ", habilitado='" + isHabilitado() + "'" +
             "}";
     }
 }

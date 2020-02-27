@@ -1,6 +1,6 @@
 import { Moment } from 'moment';
-import { IAnexo } from 'app/shared/model/sgq/anexo.model';
 import { IProcesso } from 'app/shared/model/sgq/processo.model';
+import { IAnexo } from 'app/shared/model/sgq/anexo.model';
 import { TipoEventoOperacional } from 'app/shared/model/enumerations/tipo-evento-operacional.model';
 
 export interface IEventoOperacional {
@@ -9,11 +9,12 @@ export interface IEventoOperacional {
   tipo?: TipoEventoOperacional;
   titulo?: string;
   descricao?: any;
+  dataRegistro?: Moment;
   dataEvento?: Moment;
   duracao?: number;
   houveParadaProducao?: boolean;
-  anexos?: IAnexo[];
   processo?: IProcesso;
+  anexos?: IAnexo[];
 }
 
 export class EventoOperacional implements IEventoOperacional {
@@ -23,11 +24,12 @@ export class EventoOperacional implements IEventoOperacional {
     public tipo?: TipoEventoOperacional,
     public titulo?: string,
     public descricao?: any,
+    public dataRegistro?: Moment,
     public dataEvento?: Moment,
     public duracao?: number,
     public houveParadaProducao?: boolean,
-    public anexos?: IAnexo[],
-    public processo?: IProcesso
+    public processo?: IProcesso,
+    public anexos?: IAnexo[]
   ) {
     this.houveParadaProducao = this.houveParadaProducao || false;
   }

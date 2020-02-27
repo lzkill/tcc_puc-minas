@@ -2,7 +2,7 @@
   "gatewayApp": {
     "Periodicidade": {
       "null": "",
-      "DIARIO": "DIARIO",
+      "DIARIA": "DIARIA",
       "SEMANAL": "SEMANAL",
       "QUINZENAL": "QUINZENAL",
       "MENSAL": "MENSAL",

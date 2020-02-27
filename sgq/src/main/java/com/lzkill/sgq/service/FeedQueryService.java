@@ -118,8 +118,8 @@ public class FeedQueryService extends QueryService<Feed> {
             if (criteria.getDataRegistro() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getDataRegistro(), Feed_.dataRegistro));
             }
-            if (criteria.getStatus() != null) {
-                specification = specification.and(buildSpecification(criteria.getStatus(), Feed_.status));
+            if (criteria.getHabilitado() != null) {
+                specification = specification.and(buildSpecification(criteria.getHabilitado(), Feed_.habilitado));
             }
         }
         return specification;

@@ -16,14 +16,14 @@ import java.util.Optional;
 @Repository
 public interface PublicacaoFeedRepository extends JpaRepository<PublicacaoFeed, Long>, JpaSpecificationExecutor<PublicacaoFeed> {
 
-    @Query(value = "select distinct publicacaoFeed from PublicacaoFeed publicacaoFeed left join fetch publicacaoFeed.categorias",
+    @Query(value = "select distinct publicacaoFeed from PublicacaoFeed publicacaoFeed left join fetch publicacaoFeed.categorias left join fetch publicacaoFeed.anexos",
         countQuery = "select count(distinct publicacaoFeed) from PublicacaoFeed publicacaoFeed")
     Page<PublicacaoFeed> findAllWithEagerRelationships(Pageable pageable);
 
-    @Query("select distinct publicacaoFeed from PublicacaoFeed publicacaoFeed left join fetch publicacaoFeed.categorias")
+    @Query("select distinct publicacaoFeed from PublicacaoFeed publicacaoFeed left join fetch publicacaoFeed.categorias left join fetch publicacaoFeed.anexos")
     List<PublicacaoFeed> findAllWithEagerRelationships();
 
-    @Query("select publicacaoFeed from PublicacaoFeed publicacaoFeed left join fetch publicacaoFeed.categorias where publicacaoFeed.id =:id")
+    @Query("select publicacaoFeed from PublicacaoFeed publicacaoFeed left join fetch publicacaoFeed.categorias left join fetch publicacaoFeed.anexos where publicacaoFeed.id =:id")
     Optional<PublicacaoFeed> findOneWithEagerRelationships(@Param("id") Long id);
 
 }

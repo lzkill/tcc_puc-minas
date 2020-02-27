@@ -28,9 +28,11 @@ public class PlanoAuditoriaCriteria implements Serializable, Criteria {
 
     private StringFilter titulo;
 
-    private LongFilter anexoId;
+    private BooleanFilter habilitado;
 
     private LongFilter itemId;
+
+    private LongFilter anexoId;
 
     public PlanoAuditoriaCriteria(){
     }
@@ -38,8 +40,9 @@ public class PlanoAuditoriaCriteria implements Serializable, Criteria {
     public PlanoAuditoriaCriteria(PlanoAuditoriaCriteria other){
         this.id = other.id == null ? null : other.id.copy();
         this.titulo = other.titulo == null ? null : other.titulo.copy();
-        this.anexoId = other.anexoId == null ? null : other.anexoId.copy();
+        this.habilitado = other.habilitado == null ? null : other.habilitado.copy();
         this.itemId = other.itemId == null ? null : other.itemId.copy();
+        this.anexoId = other.anexoId == null ? null : other.anexoId.copy();
     }
 
     @Override
@@ -63,12 +66,12 @@ public class PlanoAuditoriaCriteria implements Serializable, Criteria {
         this.titulo = titulo;
     }
 
-    public LongFilter getAnexoId() {
-        return anexoId;
+    public BooleanFilter getHabilitado() {
+        return habilitado;
     }
 
-    public void setAnexoId(LongFilter anexoId) {
-        this.anexoId = anexoId;
+    public void setHabilitado(BooleanFilter habilitado) {
+        this.habilitado = habilitado;
     }
 
     public LongFilter getItemId() {
@@ -77,6 +80,14 @@ public class PlanoAuditoriaCriteria implements Serializable, Criteria {
 
     public void setItemId(LongFilter itemId) {
         this.itemId = itemId;
+    }
+
+    public LongFilter getAnexoId() {
+        return anexoId;
+    }
+
+    public void setAnexoId(LongFilter anexoId) {
+        this.anexoId = anexoId;
     }
 
 
@@ -92,8 +103,9 @@ public class PlanoAuditoriaCriteria implements Serializable, Criteria {
         return
             Objects.equals(id, that.id) &&
             Objects.equals(titulo, that.titulo) &&
-            Objects.equals(anexoId, that.anexoId) &&
-            Objects.equals(itemId, that.itemId);
+            Objects.equals(habilitado, that.habilitado) &&
+            Objects.equals(itemId, that.itemId) &&
+            Objects.equals(anexoId, that.anexoId);
     }
 
     @Override
@@ -101,8 +113,9 @@ public class PlanoAuditoriaCriteria implements Serializable, Criteria {
         return Objects.hash(
         id,
         titulo,
-        anexoId,
-        itemId
+        habilitado,
+        itemId,
+        anexoId
         );
     }
 
@@ -111,8 +124,9 @@ public class PlanoAuditoriaCriteria implements Serializable, Criteria {
         return "PlanoAuditoriaCriteria{" +
                 (id != null ? "id=" + id + ", " : "") +
                 (titulo != null ? "titulo=" + titulo + ", " : "") +
-                (anexoId != null ? "anexoId=" + anexoId + ", " : "") +
+                (habilitado != null ? "habilitado=" + habilitado + ", " : "") +
                 (itemId != null ? "itemId=" + itemId + ", " : "") +
+                (anexoId != null ? "anexoId=" + anexoId + ", " : "") +
             "}";
     }
 

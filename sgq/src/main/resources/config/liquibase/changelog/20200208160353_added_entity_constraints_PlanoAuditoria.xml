@@ -8,11 +8,17 @@
     -->
     <changeSet id="20200208160353-2" author="jhipster">
         
+        <addForeignKeyConstraint baseColumnNames="plano_auditoria_id"
+                                 baseTableName="plano_auditoria_anexo"
+                                 constraintName="fk_plano_auditoria_anexo_plano_auditoria_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="plano_auditoria"/>
+
         <addForeignKeyConstraint baseColumnNames="anexo_id"
-                                 baseTableName="plano_auditoria"
-                                 constraintName="fk_plano_auditoria_anexo_id"
+                                 baseTableName="plano_auditoria_anexo"
+                                 constraintName="fk_plano_auditoria_anexo_anexo_id"
                                  referencedColumnNames="id"
                                  referencedTableName="anexo"/>
-
+        
     </changeSet>
 </databaseChangeLog>

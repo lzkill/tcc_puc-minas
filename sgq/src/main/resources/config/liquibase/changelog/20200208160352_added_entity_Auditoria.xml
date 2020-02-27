@@ -16,24 +16,55 @@
             <column name="id" type="bigint" autoIncrement="${autoIncrement}">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="tipo" type="varchar(255)">
+            <column name="id_usuario_registro" type="integer">
                 <constraints nullable="false" />
             </column>
             <column name="titulo" type="varchar(100)">
                 <constraints nullable="false" />
             </column>
-            <column name="descricao" type="${clobType}" remarks="Requisitos abordados, objetivos, etc">
+            <column name="descricao" type="${clobType}">
                 <constraints nullable="true" />
             </column>
-            <column name="processo_id" type="bigint">
+            <column name="data_registro" type="datetime">
+                <constraints nullable="false" />
+            </column>
+            <column name="data_inicio" type="datetime">
+                <constraints nullable="true" />
+            </column>
+            <column name="data_fim" type="datetime">
                 <constraints nullable="true" />
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
         </createTable>
+        <dropDefaultValue tableName="auditoria" columnName="data_registro" columnDataType="datetime"/>
+        <dropDefaultValue tableName="auditoria" columnName="data_inicio" columnDataType="datetime"/>
+        <dropDefaultValue tableName="auditoria" columnName="data_fim" columnDataType="datetime"/>
     </changeSet>
 
     <changeSet id="20200208160352-1-relations" author="jhipster">
 
+        <createTable tableName="auditoria_item_auditoria">
+            <column name="item_auditoria_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="auditoria_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addPrimaryKey columnNames="auditoria_id, item_auditoria_id" tableName="auditoria_item_auditoria"/>
+        
+        <createTable tableName="auditoria_anexo">
+            <column name="anexo_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="auditoria_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addPrimaryKey columnNames="auditoria_id, anexo_id" tableName="auditoria_anexo"/>
+        
     </changeSet>
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here, do not remove-->
 
@@ -51,9 +82,12 @@
                   separator=";"
                   tableName="auditoria">
             <column name="id" type="numeric"/>
-            <column name="tipo" type="string"/>
+            <column name="id_usuario_registro" type="numeric"/>
             <column name="titulo" type="string"/>
             <column name="descricao" type="clob"/>
+            <column name="data_registro" type="datetime"/>
+            <column name="data_inicio" type="datetime"/>
+            <column name="data_fim" type="datetime"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here, do not remove-->
         </loadData>
     </changeSet>

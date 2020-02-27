@@ -8,17 +8,29 @@
     -->
     <changeSet id="20200208160350-2" author="jhipster">
         
-        <addForeignKeyConstraint baseColumnNames="resultado_auditoria_id"
-                                 baseTableName="nao_conformidade"
-                                 constraintName="fk_nao_conformidade_resultado_auditoria_id"
+        <addForeignKeyConstraint baseColumnNames="nao_conformidade_id"
+                                 baseTableName="nao_conformidade_anexo"
+                                 constraintName="fk_nao_conformidade_anexo_nao_conformidade_id"
                                  referencedColumnNames="id"
-                                 referencedTableName="resultado_auditoria"/>
+                                 referencedTableName="nao_conformidade"/>
 
-        <addForeignKeyConstraint baseColumnNames="resultado_item_checklist_id"
-                                 baseTableName="nao_conformidade"
-                                 constraintName="fk_nao_conformidade_resultado_item_checklist_id"
+        <addForeignKeyConstraint baseColumnNames="anexo_id"
+                                 baseTableName="nao_conformidade_anexo"
+                                 constraintName="fk_nao_conformidade_anexo_anexo_id"
                                  referencedColumnNames="id"
-                                 referencedTableName="resultado_item_checklist"/>
+                                 referencedTableName="anexo"/>
+        
+        <addForeignKeyConstraint baseColumnNames="auditoria_id"
+                                 baseTableName="nao_conformidade"
+                                 constraintName="fk_nao_conformidade_auditoria_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="auditoria"/>
+
+        <addForeignKeyConstraint baseColumnNames="resultado_checklist_id"
+                                 baseTableName="nao_conformidade"
+                                 constraintName="fk_nao_conformidade_resultado_checklist_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="resultado_checklist"/>
 
     </changeSet>
 </databaseChangeLog>

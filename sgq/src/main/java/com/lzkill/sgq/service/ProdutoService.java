@@ -50,6 +50,15 @@ public class ProdutoService {
         return produtoRepository.findAll(pageable);
     }
 
+    /**
+     * Get all the produtos with eager load of many-to-many relationships.
+     *
+     * @return the list of entities.
+     */
+    public Page<Produto> findAllWithEagerRelationships(Pageable pageable) {
+        return produtoRepository.findAllWithEagerRelationships(pageable);
+    }
+    
 
     /**
      * Get one produto by id.
@@ -60,7 +69,7 @@ public class ProdutoService {
     @Transactional(readOnly = true)
     public Optional<Produto> findOne(Long id) {
         log.debug("Request to get Produto : {}", id);
-        return produtoRepository.findById(id);
+        return produtoRepository.findOneWithEagerRelationships(id);
     }
 
     /**

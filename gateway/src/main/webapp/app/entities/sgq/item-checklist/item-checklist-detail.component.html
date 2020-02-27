@@ -17,6 +17,12 @@
                 <dd>
                     <span>{{itemChecklist.descricao}}</span>
                 </dd>
+                <dt><span jhiTranslate="gatewayApp.sgqItemChecklist.anexo">Anexo</span></dt>
+                <dd>
+                    <span *ngFor="let anexo of itemChecklist.anexos; let last = last">
+                        <a [routerLink]="['/anexo', anexo?.id, 'view' ]">{{anexo.nomeArquivo}}</a>{{last ? '' : ', '}}
+                    </span>
+                </dd>
                 <dt><span jhiTranslate="gatewayApp.sgqItemChecklist.checklist">Checklist</span></dt>
                 <dd>
                     <div *ngIf="itemChecklist.checklist">

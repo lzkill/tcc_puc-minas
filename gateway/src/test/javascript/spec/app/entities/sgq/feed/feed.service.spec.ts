@@ -6,7 +6,6 @@ import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 import { FeedService } from 'app/entities/sgq/feed/feed.service';
 import { IFeed, Feed } from 'app/shared/model/sgq/feed.model';
 import { TipoFeed } from 'app/shared/model/enumerations/tipo-feed.model';
-import { StatusFeed } from 'app/shared/model/enumerations/status-feed.model';
 
 describe('Service Tests', () => {
   describe('Feed Service', () => {
@@ -39,7 +38,7 @@ describe('Service Tests', () => {
         0,
         0,
         currentDate,
-        StatusFeed.ATIVO
+        false
       );
     });
 
@@ -98,7 +97,7 @@ describe('Service Tests', () => {
             alturaImagem: 1,
             larguraImagem: 1,
             dataRegistro: currentDate.format(DATE_TIME_FORMAT),
-            status: 'BBBBBB'
+            habilitado: true
           },
           elemDefault
         );
@@ -132,7 +131,7 @@ describe('Service Tests', () => {
             alturaImagem: 1,
             larguraImagem: 1,
             dataRegistro: currentDate.format(DATE_TIME_FORMAT),
-            status: 'BBBBBB'
+            habilitado: true
           },
           elemDefault
         );

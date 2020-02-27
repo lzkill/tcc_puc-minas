@@ -52,6 +52,8 @@ export class ResultadoChecklistService {
 
   protected convertDateFromClient(resultadoChecklist: IResultadoChecklist): IResultadoChecklist {
     const copy: IResultadoChecklist = Object.assign({}, resultadoChecklist, {
+      dataRegistro:
+        resultadoChecklist.dataRegistro && resultadoChecklist.dataRegistro.isValid() ? resultadoChecklist.dataRegistro.toJSON() : undefined,
       dataVerificacao:
         resultadoChecklist.dataVerificacao && resultadoChecklist.dataVerificacao.isValid()
           ? resultadoChecklist.dataVerificacao.toJSON()
@@ -62,6 +64,7 @@ export class ResultadoChecklistService {
 
   protected convertDateFromServer(res: EntityResponseType): EntityResponseType {
     if (res.body) {
+      res.body.dataRegistro = res.body.dataRegistro ? moment(res.body.dataRegistro) : undefined;
       res.body.dataVerificacao = res.body.dataVerificacao ? moment(res.body.dataVerificacao) : undefined;
     }
     return res;
@@ -70,6 +73,7 @@ export class ResultadoChecklistService {
   protected convertDateArrayFromServer(res: EntityArrayResponseType): EntityArrayResponseType {
     if (res.body) {
       res.body.forEach((resultadoChecklist: IResultadoChecklist) => {
+        resultadoChecklist.dataRegistro = resultadoChecklist.dataRegistro ? moment(resultadoChecklist.dataRegistro) : undefined;
         resultadoChecklist.dataVerificacao = resultadoChecklist.dataVerificacao ? moment(resultadoChecklist.dataVerificacao) : undefined;
       });
     }

@@ -10,15 +10,15 @@ application {
     enableHibernateCache false
     enableSwaggerCodegen true
     enableTranslation false
-    languages [en]
-    nativeLanguage en
+    languages [pt-br]
+    nativeLanguage pt-br
     packageName com.acme.normas
     prodDatabaseType mariadb
     serverPort 8082
     serviceDiscoveryType no
     skipClient true
   }
-  entities Norma
+  entities *
 }
 
 entity Norma {
@@ -48,6 +48,8 @@ enum CategoriaNorma {
 filter *
 
 paginate * with pagination
+
+microservice * with normas
 
 deployment {
   deploymentType docker-compose

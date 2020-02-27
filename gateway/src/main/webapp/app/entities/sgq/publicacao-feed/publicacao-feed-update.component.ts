@@ -16,11 +16,15 @@ import { IFeed } from 'app/shared/model/sgq/feed.model';
 import { FeedService } from 'app/entities/sgq/feed/feed.service';
 import { ICategoriaPublicacao } from 'app/shared/model/sgq/categoria-publicacao.model';
 import { CategoriaPublicacaoService } from 'app/entities/sgq/categoria-publicacao/categoria-publicacao.service';
+import { IAnexo } from 'app/shared/model/sgq/anexo.model';
+import { AnexoService } from 'app/entities/sgq/anexo/anexo.service';
 
 import { IUser } from 'app/core/user/user.model';
 import { UserService } from 'app/core/user/user.service';
 
-type SelectableEntity = IFeed | ICategoriaPublicacao;
+type SelectableEntity = IFeed | ICategoriaPublicacao | IAnexo;
+
+type SelectableManyToManyEntity = ICategoriaPublicacao | IAnexo;
 
 @Component({
   selector: 'jhi-publicacao-feed-update',
@@ -30,8 +34,11 @@ export class PublicacaoFeedUpdateComponent implements OnInit {
   isSaving = false;
 
   feeds: IFeed[] = [];
+
   categoriapublicacaos: ICategoriaPublicacao[] = [];
   usuarios: IUser[] = [];
+
+  anexos: IAnexo[] = [];
 
   editForm = this.fb.group({
     id: [],
@@ -42,10 +49,11 @@ export class PublicacaoFeedUpdateComponent implements OnInit {
     link: [null, [Validators.minLength(1), Validators.maxLength(150)]],
     conteudo: [null, [Validators.required]],
     dataRegistro: [null, [Validators.required]],
-    dataPublicacao: [null, [Validators.required]],
+    dataPublicacao: [],
     status: [null, [Validators.required]],
     feed: [null, Validators.required],
-    categorias: [null, Validators.required]
+    categorias: [null, Validators.required],
+    anexos: []
   });
 
   constructor(
@@ -54,8 +62,10 @@ export class PublicacaoFeedUpdateComponent implements OnInit {
     protected publicacaoFeedService: PublicacaoFeedService,
     protected feedService: FeedService,
     protected categoriaPublicacaoService: CategoriaPublicacaoService,
+    protected anexoService: AnexoService,
     protected activatedRoute: ActivatedRoute,
     protected userService: UserService,
+
     private fb: FormBuilder
   ) {}
 
@@ -80,6 +90,15 @@ export class PublicacaoFeedUpdateComponent implements OnInit {
           })
         )
         .subscribe((resBody: ICategoriaPublicacao[]) => (this.categoriapublicacaos = resBody));
+
+      this.anexoService
+        .query()
+        .pipe(
+          map((res: HttpResponse<IAnexo[]>) => {
+            return res.body ? res.body : [];
+          })
+        )
+        .subscribe((resBody: IAnexo[]) => (this.anexos = resBody));
 
       this.userService
         .query()
@@ -109,7 +128,8 @@ export class PublicacaoFeedUpdateComponent implements OnInit {
       dataPublicacao: publicacaoFeed.dataPublicacao != null ? publicacaoFeed.dataPublicacao.format(DATE_TIME_FORMAT) : null,
       status: publicacaoFeed.status,
       feed: publicacaoFeed.feed,
-      categorias: publicacaoFeed.categorias
+      categorias: publicacaoFeed.categorias,
+      anexos: publicacaoFeed.anexos
     });
   }
 
@@ -163,7 +183,8 @@ export class PublicacaoFeedUpdateComponent implements OnInit {
           : undefined,
       status: this.editForm.get(['status'])!.value,
       feed: this.editForm.get(['feed'])!.value,
-      categorias: this.editForm.get(['categorias'])!.value
+      categorias: this.editForm.get(['categorias'])!.value,
+      anexos: this.editForm.get(['anexos'])!.value
     };
   }
 
@@ -187,7 +208,7 @@ export class PublicacaoFeedUpdateComponent implements OnInit {
     return item.id;
   }
 
-  getSelected(selectedVals: ICategoriaPublicacao[], option: ICategoriaPublicacao): ICategoriaPublicacao {
+  getSelected(selectedVals: SelectableManyToManyEntity[], option: SelectableManyToManyEntity): SelectableManyToManyEntity {
     if (selectedVals) {
       for (let i = 0; i < selectedVals.length; i++) {
         if (option.id === selectedVals[i].id) {

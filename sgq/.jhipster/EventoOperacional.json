@@ -11,7 +11,7 @@
         {
             "fieldName": "tipo",
             "fieldType": "TipoEventoOperacional",
-            "fieldValues": "PROGRAMADO,NAO_PROGRAMADO",
+            "fieldValues": "FALHA_EQUIPAMENTO,FALHA_INFRA_ESTRUTURA,FALHA_PROCESSO",
             "fieldValidateRules": [
                 "required"
             ]
@@ -31,6 +31,13 @@
             "fieldName": "descricao",
             "fieldType": "byte[]",
             "fieldTypeBlobContent": "text",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "dataRegistro",
+            "fieldType": "Instant",
             "fieldValidateRules": [
                 "required"
             ]
@@ -56,17 +63,19 @@
     ],
     "relationships": [
         {
-            "relationshipType": "one-to-many",
-            "otherEntityName": "anexo",
-            "otherEntityRelationshipName": "eventoOperacional",
-            "relationshipName": "anexo"
-        },
-        {
             "relationshipType": "many-to-one",
             "otherEntityName": "processo",
             "otherEntityRelationshipName": "eventoOperacional",
             "relationshipName": "processo",
             "otherEntityField": "titulo"
+        },
+        {
+            "relationshipType": "many-to-many",
+            "otherEntityName": "anexo",
+            "otherEntityRelationshipName": "eventoOperacional",
+            "relationshipName": "anexo",
+            "otherEntityField": "nomeArquivo",
+            "ownerSide": true
         }
     ],
     "changelogDate": "20200208160359",

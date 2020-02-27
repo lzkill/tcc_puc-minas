@@ -12,9 +12,12 @@ import com.lzkill.sgq.service.AcaoSGQQueryService;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -27,11 +30,13 @@ import org.springframework.validation.Validator;
 import javax.persistence.EntityManager;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.lzkill.sgq.web.rest.TestUtil.createFormattingConversionService;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -80,6 +85,12 @@ public class AcaoSGQResourceIT {
 
     @Autowired
     private AcaoSGQRepository acaoSGQRepository;
+
+    @Mock
+    private AcaoSGQRepository acaoSGQRepositoryMock;
+
+    @Mock
+    private AcaoSGQService acaoSGQServiceMock;
 
     @Autowired
     private AcaoSGQService acaoSGQService;
@@ -234,24 +245,6 @@ public class AcaoSGQResourceIT {
 
     @Test
     @Transactional
-    public void checkIdUsuarioResponsavelIsRequired() throws Exception {
-        int databaseSizeBeforeTest = acaoSGQRepository.findAll().size();
-        // set the field null
-        acaoSGQ.setIdUsuarioResponsavel(null);
-
-        // Create the AcaoSGQ, which fails.
-
-        restAcaoSGQMockMvc.perform(post("/api/acao-sgqs")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(acaoSGQ)))
-            .andExpect(status().isBadRequest());
-
-        List<AcaoSGQ> acaoSGQList = acaoSGQRepository.findAll();
-        assertThat(acaoSGQList).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
     public void checkTipoIsRequired() throws Exception {
         int databaseSizeBeforeTest = acaoSGQRepository.findAll().size();
         // set the field null
@@ -274,24 +267,6 @@ public class AcaoSGQResourceIT {
         int databaseSizeBeforeTest = acaoSGQRepository.findAll().size();
         // set the field null
         acaoSGQ.setTitulo(null);
-
-        // Create the AcaoSGQ, which fails.
-
-        restAcaoSGQMockMvc.perform(post("/api/acao-sgqs")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(acaoSGQ)))
-            .andExpect(status().isBadRequest());
-
-        List<AcaoSGQ> acaoSGQList = acaoSGQRepository.findAll();
-        assertThat(acaoSGQList).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
-    public void checkPrazoConclusaoIsRequired() throws Exception {
-        int databaseSizeBeforeTest = acaoSGQRepository.findAll().size();
-        // set the field null
-        acaoSGQ.setPrazoConclusao(null);
 
         // Create the AcaoSGQ, which fails.
 
@@ -364,6 +339,39 @@ public class AcaoSGQResourceIT {
             .andExpect(jsonPath("$.[*].statusSGQ").value(hasItem(DEFAULT_STATUS_SGQ.toString())));
     }
     
+    @SuppressWarnings({"unchecked"})
+    public void getAllAcaoSGQSWithEagerRelationshipsIsEnabled() throws Exception {
+        AcaoSGQResource acaoSGQResource = new AcaoSGQResource(acaoSGQServiceMock, acaoSGQQueryService);
+        when(acaoSGQServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+
+        MockMvc restAcaoSGQMockMvc = MockMvcBuilders.standaloneSetup(acaoSGQResource)
+            .setCustomArgumentResolvers(pageableArgumentResolver)
+            .setControllerAdvice(exceptionTranslator)
+            .setConversionService(createFormattingConversionService())
+            .setMessageConverters(jacksonMessageConverter).build();
+
+        restAcaoSGQMockMvc.perform(get("/api/acao-sgqs?eagerload=true"))
+        .andExpect(status().isOk());
+
+        verify(acaoSGQServiceMock, times(1)).findAllWithEagerRelationships(any());
+    }
+
+    @SuppressWarnings({"unchecked"})
+    public void getAllAcaoSGQSWithEagerRelationshipsIsNotEnabled() throws Exception {
+        AcaoSGQResource acaoSGQResource = new AcaoSGQResource(acaoSGQServiceMock, acaoSGQQueryService);
+            when(acaoSGQServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+            MockMvc restAcaoSGQMockMvc = MockMvcBuilders.standaloneSetup(acaoSGQResource)
+            .setCustomArgumentResolvers(pageableArgumentResolver)
+            .setControllerAdvice(exceptionTranslator)
+            .setConversionService(createFormattingConversionService())
+            .setMessageConverters(jacksonMessageConverter).build();
+
+        restAcaoSGQMockMvc.perform(get("/api/acao-sgqs?eagerload=true"))
+        .andExpect(status().isOk());
+
+            verify(acaoSGQServiceMock, times(1)).findAllWithEagerRelationships(any());
+    }
+
     @Test
     @Transactional
     public void getAcaoSGQ() throws Exception {

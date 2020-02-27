@@ -50,6 +50,15 @@ public class AuditoriaService {
         return auditoriaRepository.findAll(pageable);
     }
 
+    /**
+     * Get all the auditorias with eager load of many-to-many relationships.
+     *
+     * @return the list of entities.
+     */
+    public Page<Auditoria> findAllWithEagerRelationships(Pageable pageable) {
+        return auditoriaRepository.findAllWithEagerRelationships(pageable);
+    }
+    
 
     /**
      * Get one auditoria by id.
@@ -60,7 +69,7 @@ public class AuditoriaService {
     @Transactional(readOnly = true)
     public Optional<Auditoria> findOne(Long id) {
         log.debug("Request to get Auditoria : {}", id);
-        return auditoriaRepository.findById(id);
+        return auditoriaRepository.findOneWithEagerRelationships(id);
     }
 
     /**

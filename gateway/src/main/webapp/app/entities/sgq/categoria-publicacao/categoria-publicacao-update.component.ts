@@ -20,7 +20,8 @@ export class CategoriaPublicacaoUpdateComponent implements OnInit {
   editForm = this.fb.group({
     id: [],
     titulo: [null, [Validators.required, Validators.minLength(1), Validators.maxLength(100)]],
-    descricao: []
+    descricao: [],
+    habilitado: [null, [Validators.required]]
   });
 
   constructor(
@@ -41,7 +42,8 @@ export class CategoriaPublicacaoUpdateComponent implements OnInit {
     this.editForm.patchValue({
       id: categoriaPublicacao.id,
       titulo: categoriaPublicacao.titulo,
-      descricao: categoriaPublicacao.descricao
+      descricao: categoriaPublicacao.descricao,
+      habilitado: categoriaPublicacao.habilitado
     });
   }
 
@@ -80,7 +82,8 @@ export class CategoriaPublicacaoUpdateComponent implements OnInit {
       ...new CategoriaPublicacao(),
       id: this.editForm.get(['id'])!.value,
       titulo: this.editForm.get(['titulo'])!.value,
-      descricao: this.editForm.get(['descricao'])!.value
+      descricao: this.editForm.get(['descricao'])!.value,
+      habilitado: this.editForm.get(['habilitado'])!.value
     };
   }
 

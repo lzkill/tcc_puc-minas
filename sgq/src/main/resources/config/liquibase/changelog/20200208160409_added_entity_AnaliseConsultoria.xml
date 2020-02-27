@@ -12,39 +12,40 @@
         Added the entity AnaliseConsultoria.
     -->
     <changeSet id="20200208160409-1" author="jhipster">
-        <createTable tableName="analise_consultoria" remarks="Os itens do plano de ação podem ser analisados pela consultoria antes da\nimplementação na prática">
+        <createTable tableName="analise_consultoria">
             <column name="id" type="bigint" autoIncrement="${autoIncrement}">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="data_solicitacao_analise" type="datetime">
-                <constraints nullable="false" />
-            </column>
             <column name="data_analise" type="datetime">
-                <constraints nullable="true" />
-            </column>
-            <column name="descricao" type="${clobType}">
                 <constraints nullable="false" />
             </column>
-            <column name="responsavel_analise" type="varchar(100)">
+            <column name="conteudo" type="${clobType}">
+                <constraints nullable="false" />
+            </column>
+            <column name="responsavel" type="varchar(100)">
                 <constraints nullable="false" />
             </column>
             <column name="status" type="varchar(255)">
                 <constraints nullable="false" />
             </column>
-            <column name="acao_id" type="bigint">
-                <constraints unique="true" nullable="false" uniqueConstraintName="ux_analise_consultoria_acao_id" />
-            </column>
-            <column name="empresa_id" type="bigint">
-                <constraints nullable="false" />
-            </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
         </createTable>
-        <dropDefaultValue tableName="analise_consultoria" columnName="data_solicitacao_analise" columnDataType="datetime"/>
         <dropDefaultValue tableName="analise_consultoria" columnName="data_analise" columnDataType="datetime"/>
     </changeSet>
 
     <changeSet id="20200208160409-1-relations" author="jhipster">
 
+        <createTable tableName="analise_consultoria_anexo">
+            <column name="anexo_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="analise_consultoria_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addPrimaryKey columnNames="analise_consultoria_id, anexo_id" tableName="analise_consultoria_anexo"/>
+        
     </changeSet>
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here, do not remove-->
 
@@ -62,13 +63,10 @@
                   separator=";"
                   tableName="analise_consultoria">
             <column name="id" type="numeric"/>
-            <column name="data_solicitacao_analise" type="datetime"/>
             <column name="data_analise" type="datetime"/>
-            <column name="descricao" type="clob"/>
-            <column name="responsavel_analise" type="string"/>
+            <column name="conteudo" type="clob"/>
+            <column name="responsavel" type="string"/>
             <column name="status" type="string"/>
-            <column name="acao_id" type="numeric"/>
-            <column name="empresa_id" type="numeric"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here, do not remove-->
         </loadData>
     </changeSet>

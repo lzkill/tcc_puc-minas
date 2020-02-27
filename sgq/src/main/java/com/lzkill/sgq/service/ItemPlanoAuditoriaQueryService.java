@@ -85,19 +85,25 @@ public class ItemPlanoAuditoriaQueryService extends QueryService<ItemPlanoAudito
             if (criteria.getId() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getId(), ItemPlanoAuditoria_.id));
             }
+            if (criteria.getTitulo() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getTitulo(), ItemPlanoAuditoria_.titulo));
+            }
+            if (criteria.getModalidade() != null) {
+                specification = specification.and(buildSpecification(criteria.getModalidade(), ItemPlanoAuditoria_.modalidade));
+            }
             if (criteria.getDataInicioPrevisto() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getDataInicioPrevisto(), ItemPlanoAuditoria_.dataInicioPrevisto));
             }
             if (criteria.getDataFimPrevisto() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getDataFimPrevisto(), ItemPlanoAuditoria_.dataFimPrevisto));
             }
+            if (criteria.getItemAuditoriaId() != null) {
+                specification = specification.and(buildSpecification(criteria.getItemAuditoriaId(),
+                    root -> root.join(ItemPlanoAuditoria_.itemAuditoria, JoinType.LEFT).get(ItemAuditoria_.id)));
+            }
             if (criteria.getAnexoId() != null) {
                 specification = specification.and(buildSpecification(criteria.getAnexoId(),
                     root -> root.join(ItemPlanoAuditoria_.anexos, JoinType.LEFT).get(Anexo_.id)));
-            }
-            if (criteria.getAuditoriaId() != null) {
-                specification = specification.and(buildSpecification(criteria.getAuditoriaId(),
-                    root -> root.join(ItemPlanoAuditoria_.auditoria, JoinType.LEFT).get(Auditoria_.id)));
             }
             if (criteria.getPlanoId() != null) {
                 specification = specification.and(buildSpecification(criteria.getPlanoId(),

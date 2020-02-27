@@ -77,9 +77,24 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="gatewayApp.sgqCampanhaRecall.resultado" for="field_resultado">Resultado</label>
-                    <textarea class="form-control" name="resultado" id="field_resultado"
-                              formControlName="resultado"></textarea>
+                    <label class="form-control-label" jhiTranslate="gatewayApp.sgqCampanhaRecall.dataPublicacao" for="field_dataPublicacao">Data Publicacao</label>
+                    <div class="d-flex">
+                        <input id="field_dataPublicacao" type="datetime-local" class="form-control" name="dataPublicacao" formControlName="dataPublicacao" placeholder="YYYY-MM-DD HH:mm"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="gatewayApp.sgqCampanhaRecall.status" for="field_status">Status</label>
+                    <select class="form-control" name="status" formControlName="status" id="field_status">
+                        <option value="RASCUNHO">{{'gatewayApp.StatusPublicacao.RASCUNHO' | translate}}</option>
+                        <option value="APROVADO">{{'gatewayApp.StatusPublicacao.APROVADO' | translate}}</option>
+                        <option value="PUBLICADO">{{'gatewayApp.StatusPublicacao.PUBLICADO' | translate}}</option>
+                    </select>
+                    <div *ngIf="editForm.get('status')!.invalid && (editForm.get('status')!.dirty || editForm.get('status')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('status')?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                    </div>
                 </div>
 
                 <div class="form-group">
@@ -107,6 +122,12 @@
                            *ngIf="editForm.get('setorResponsavel')?.errors?.required" jhiTranslate="entity.validation.required">
                         This field is required.
                     </small>
+                </div>
+                <div class="form-group">
+                    <label jhiTranslate="gatewayApp.sgqCampanhaRecall.anexo" for="field_anexos">Anexo</label>
+                    <select class="form-control" id="field_anexos" multiple name="anexos" formControlName="anexos">
+                        <option [ngValue]="getSelected(editForm.get('anexos')!.value, anexoOption)" *ngFor="let anexoOption of anexos; trackBy: trackById">{{anexoOption.nomeArquivo}}</option>
+                    </select>
                 </div>
             </div>
             <div>

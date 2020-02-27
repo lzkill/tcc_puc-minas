@@ -50,6 +50,15 @@ public class CampanhaRecallService {
         return campanhaRecallRepository.findAll(pageable);
     }
 
+    /**
+     * Get all the campanhaRecalls with eager load of many-to-many relationships.
+     *
+     * @return the list of entities.
+     */
+    public Page<CampanhaRecall> findAllWithEagerRelationships(Pageable pageable) {
+        return campanhaRecallRepository.findAllWithEagerRelationships(pageable);
+    }
+    
 
     /**
      * Get one campanhaRecall by id.
@@ -60,7 +69,7 @@ public class CampanhaRecallService {
     @Transactional(readOnly = true)
     public Optional<CampanhaRecall> findOne(Long id) {
         log.debug("Request to get CampanhaRecall : {}", id);
-        return campanhaRecallRepository.findById(id);
+        return campanhaRecallRepository.findOneWithEagerRelationships(id);
     }
 
     /**

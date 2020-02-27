@@ -16,8 +16,10 @@ import { IProduto } from 'app/shared/model/sgq/produto.model';
 import { ProdutoService } from 'app/entities/sgq/produto/produto.service';
 import { ISetor } from 'app/shared/model/sgq/setor.model';
 import { SetorService } from 'app/entities/sgq/setor/setor.service';
+import { IAnexo } from 'app/shared/model/sgq/anexo.model';
+import { AnexoService } from 'app/entities/sgq/anexo/anexo.service';
 
-type SelectableEntity = IProduto | ISetor;
+type SelectableEntity = IProduto | ISetor | IAnexo;
 
 @Component({
   selector: 'jhi-campanha-recall-update',
@@ -30,6 +32,8 @@ export class CampanhaRecallUpdateComponent implements OnInit {
 
   setors: ISetor[] = [];
 
+  anexos: IAnexo[] = [];
+
   editForm = this.fb.group({
     id: [],
     idUsuarioRegistro: [null, [Validators.required]],
@@ -38,9 +42,11 @@ export class CampanhaRecallUpdateComponent implements OnInit {
     dataRegistro: [null, [Validators.required]],
     dataInicio: [],
     dataFim: [],
-    resultado: [],
+    dataPublicacao: [],
+    status: [null, [Validators.required]],
     produto: [null, Validators.required],
-    setorResponsavel: [null, Validators.required]
+    setorResponsavel: [null, Validators.required],
+    anexos: []
   });
 
   constructor(
@@ -49,6 +55,7 @@ export class CampanhaRecallUpdateComponent implements OnInit {
     protected campanhaRecallService: CampanhaRecallService,
     protected produtoService: ProdutoService,
     protected setorService: SetorService,
+    protected anexoService: AnexoService,
     protected activatedRoute: ActivatedRoute,
     private fb: FormBuilder
   ) {}
@@ -74,6 +81,15 @@ export class CampanhaRecallUpdateComponent implements OnInit {
           })
         )
         .subscribe((resBody: ISetor[]) => (this.setors = resBody));
+
+      this.anexoService
+        .query()
+        .pipe(
+          map((res: HttpResponse<IAnexo[]>) => {
+            return res.body ? res.body : [];
+          })
+        )
+        .subscribe((resBody: IAnexo[]) => (this.anexos = resBody));
     });
   }
 
@@ -86,9 +102,11 @@ export class CampanhaRecallUpdateComponent implements OnInit {
       dataRegistro: campanhaRecall.dataRegistro != null ? campanhaRecall.dataRegistro.format(DATE_TIME_FORMAT) : null,
       dataInicio: campanhaRecall.dataInicio != null ? campanhaRecall.dataInicio.format(DATE_TIME_FORMAT) : null,
       dataFim: campanhaRecall.dataFim != null ? campanhaRecall.dataFim.format(DATE_TIME_FORMAT) : null,
-      resultado: campanhaRecall.resultado,
+      dataPublicacao: campanhaRecall.dataPublicacao != null ? campanhaRecall.dataPublicacao.format(DATE_TIME_FORMAT) : null,
+      status: campanhaRecall.status,
       produto: campanhaRecall.produto,
-      setorResponsavel: campanhaRecall.setorResponsavel
+      setorResponsavel: campanhaRecall.setorResponsavel,
+      anexos: campanhaRecall.anexos
     });
   }
 
@@ -136,9 +154,14 @@ export class CampanhaRecallUpdateComponent implements OnInit {
       dataInicio:
         this.editForm.get(['dataInicio'])!.value != null ? moment(this.editForm.get(['dataInicio'])!.value, DATE_TIME_FORMAT) : undefined,
       dataFim: this.editForm.get(['dataFim'])!.value != null ? moment(this.editForm.get(['dataFim'])!.value, DATE_TIME_FORMAT) : undefined,
-      resultado: this.editForm.get(['resultado'])!.value,
+      dataPublicacao:
+        this.editForm.get(['dataPublicacao'])!.value != null
+          ? moment(this.editForm.get(['dataPublicacao'])!.value, DATE_TIME_FORMAT)
+          : undefined,
+      status: this.editForm.get(['status'])!.value,
       produto: this.editForm.get(['produto'])!.value,
-      setorResponsavel: this.editForm.get(['setorResponsavel'])!.value
+      setorResponsavel: this.editForm.get(['setorResponsavel'])!.value,
+      anexos: this.editForm.get(['anexos'])!.value
     };
   }
 
@@ -160,5 +183,16 @@ export class CampanhaRecallUpdateComponent implements OnInit {
 
   trackById(index: number, item: SelectableEntity): any {
     return item.id;
+  }
+
+  getSelected(selectedVals: IAnexo[], option: IAnexo): IAnexo {
+    if (selectedVals) {
+      for (let i = 0; i < selectedVals.length; i++) {
+        if (option.id === selectedVals[i].id) {
+          return selectedVals[i];
+        }
+      }
+    }
+    return option;
   }
 }

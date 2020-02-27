@@ -85,29 +85,22 @@ public class AnaliseConsultoriaQueryService extends QueryService<AnaliseConsulto
             if (criteria.getId() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getId(), AnaliseConsultoria_.id));
             }
-            if (criteria.getDataSolicitacaoAnalise() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getDataSolicitacaoAnalise(), AnaliseConsultoria_.dataSolicitacaoAnalise));
-            }
             if (criteria.getDataAnalise() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getDataAnalise(), AnaliseConsultoria_.dataAnalise));
             }
-            if (criteria.getResponsavelAnalise() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getResponsavelAnalise(), AnaliseConsultoria_.responsavelAnalise));
+            if (criteria.getResponsavel() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getResponsavel(), AnaliseConsultoria_.responsavel));
             }
             if (criteria.getStatus() != null) {
                 specification = specification.and(buildSpecification(criteria.getStatus(), AnaliseConsultoria_.status));
-            }
-            if (criteria.getAcaoId() != null) {
-                specification = specification.and(buildSpecification(criteria.getAcaoId(),
-                    root -> root.join(AnaliseConsultoria_.acao, JoinType.LEFT).get(AcaoSGQ_.id)));
             }
             if (criteria.getAnexoId() != null) {
                 specification = specification.and(buildSpecification(criteria.getAnexoId(),
                     root -> root.join(AnaliseConsultoria_.anexos, JoinType.LEFT).get(Anexo_.id)));
             }
-            if (criteria.getEmpresaId() != null) {
-                specification = specification.and(buildSpecification(criteria.getEmpresaId(),
-                    root -> root.join(AnaliseConsultoria_.empresa, JoinType.LEFT).get(EmpresaConsultoria_.id)));
+            if (criteria.getSolicitacaoAnaliseId() != null) {
+                specification = specification.and(buildSpecification(criteria.getSolicitacaoAnaliseId(),
+                    root -> root.join(AnaliseConsultoria_.solicitacaoAnalise, JoinType.LEFT).get(SolicitacaoAnalise_.id)));
             }
         }
         return specification;

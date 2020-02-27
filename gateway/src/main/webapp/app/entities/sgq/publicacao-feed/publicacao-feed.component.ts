@@ -10,7 +10,6 @@ import { IPublicacaoFeed } from 'app/shared/model/sgq/publicacao-feed.model';
 import { ITEMS_PER_PAGE } from 'app/shared/constants/pagination.constants';
 import { PublicacaoFeedService } from './publicacao-feed.service';
 import { PublicacaoFeedDeleteDialogComponent } from './publicacao-feed-delete-dialog.component';
-
 import { IUser } from 'app/core/user/user.model';
 import { UserService } from 'app/core/user/user.service';
 import { map } from 'rxjs/operators';

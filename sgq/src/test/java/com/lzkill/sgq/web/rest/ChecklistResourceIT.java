@@ -2,8 +2,8 @@ package com.lzkill.sgq.web.rest;
 
 import com.lzkill.sgq.SgqApp;
 import com.lzkill.sgq.domain.Checklist;
-import com.lzkill.sgq.domain.Anexo;
 import com.lzkill.sgq.domain.ItemChecklist;
+import com.lzkill.sgq.domain.Anexo;
 import com.lzkill.sgq.domain.Setor;
 import com.lzkill.sgq.repository.ChecklistRepository;
 import com.lzkill.sgq.service.ChecklistService;
@@ -13,9 +13,12 @@ import com.lzkill.sgq.service.ChecklistQueryService;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -25,11 +28,13 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.Validator;
 
 import javax.persistence.EntityManager;
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.lzkill.sgq.web.rest.TestUtil.createFormattingConversionService;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -43,11 +48,20 @@ public class ChecklistResourceIT {
     private static final String DEFAULT_TITULO = "AAAAAAAAAA";
     private static final String UPDATED_TITULO = "BBBBBBBBBB";
 
-    private static final Periodicidade DEFAULT_PERIODICIDADE = Periodicidade.DIARIO;
+    private static final Periodicidade DEFAULT_PERIODICIDADE = Periodicidade.DIARIA;
     private static final Periodicidade UPDATED_PERIODICIDADE = Periodicidade.SEMANAL;
+
+    private static final Boolean DEFAULT_HABILITADO = false;
+    private static final Boolean UPDATED_HABILITADO = true;
 
     @Autowired
     private ChecklistRepository checklistRepository;
+
+    @Mock
+    private ChecklistRepository checklistRepositoryMock;
+
+    @Mock
+    private ChecklistService checklistServiceMock;
 
     @Autowired
     private ChecklistService checklistService;
@@ -95,7 +109,8 @@ public class ChecklistResourceIT {
     public static Checklist createEntity(EntityManager em) {
         Checklist checklist = new Checklist()
             .titulo(DEFAULT_TITULO)
-            .periodicidade(DEFAULT_PERIODICIDADE);
+            .periodicidade(DEFAULT_PERIODICIDADE)
+            .habilitado(DEFAULT_HABILITADO);
         // Add required entity
         Setor setor;
         if (TestUtil.findAll(em, Setor.class).isEmpty()) {
@@ -117,7 +132,8 @@ public class ChecklistResourceIT {
     public static Checklist createUpdatedEntity(EntityManager em) {
         Checklist checklist = new Checklist()
             .titulo(UPDATED_TITULO)
-            .periodicidade(UPDATED_PERIODICIDADE);
+            .periodicidade(UPDATED_PERIODICIDADE)
+            .habilitado(UPDATED_HABILITADO);
         // Add required entity
         Setor setor;
         if (TestUtil.findAll(em, Setor.class).isEmpty()) {
@@ -153,6 +169,7 @@ public class ChecklistResourceIT {
         Checklist testChecklist = checklistList.get(checklistList.size() - 1);
         assertThat(testChecklist.getTitulo()).isEqualTo(DEFAULT_TITULO);
         assertThat(testChecklist.getPeriodicidade()).isEqualTo(DEFAULT_PERIODICIDADE);
+        assertThat(testChecklist.isHabilitado()).isEqualTo(DEFAULT_HABILITADO);
     }
 
     @Test
@@ -195,6 +212,24 @@ public class ChecklistResourceIT {
 
     @Test
     @Transactional
+    public void checkHabilitadoIsRequired() throws Exception {
+        int databaseSizeBeforeTest = checklistRepository.findAll().size();
+        // set the field null
+        checklist.setHabilitado(null);
+
+        // Create the Checklist, which fails.
+
+        restChecklistMockMvc.perform(post("/api/checklists")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(checklist)))
+            .andExpect(status().isBadRequest());
+
+        List<Checklist> checklistList = checklistRepository.findAll();
+        assertThat(checklistList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     public void getAllChecklists() throws Exception {
         // Initialize the database
         checklistRepository.saveAndFlush(checklist);
@@ -205,9 +240,43 @@ public class ChecklistResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(checklist.getId().intValue())))
             .andExpect(jsonPath("$.[*].titulo").value(hasItem(DEFAULT_TITULO)))
-            .andExpect(jsonPath("$.[*].periodicidade").value(hasItem(DEFAULT_PERIODICIDADE.toString())));
+            .andExpect(jsonPath("$.[*].periodicidade").value(hasItem(DEFAULT_PERIODICIDADE.toString())))
+            .andExpect(jsonPath("$.[*].habilitado").value(hasItem(DEFAULT_HABILITADO.booleanValue())));
     }
     
+    @SuppressWarnings({"unchecked"})
+    public void getAllChecklistsWithEagerRelationshipsIsEnabled() throws Exception {
+        ChecklistResource checklistResource = new ChecklistResource(checklistServiceMock, checklistQueryService);
+        when(checklistServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+
+        MockMvc restChecklistMockMvc = MockMvcBuilders.standaloneSetup(checklistResource)
+            .setCustomArgumentResolvers(pageableArgumentResolver)
+            .setControllerAdvice(exceptionTranslator)
+            .setConversionService(createFormattingConversionService())
+            .setMessageConverters(jacksonMessageConverter).build();
+
+        restChecklistMockMvc.perform(get("/api/checklists?eagerload=true"))
+        .andExpect(status().isOk());
+
+        verify(checklistServiceMock, times(1)).findAllWithEagerRelationships(any());
+    }
+
+    @SuppressWarnings({"unchecked"})
+    public void getAllChecklistsWithEagerRelationshipsIsNotEnabled() throws Exception {
+        ChecklistResource checklistResource = new ChecklistResource(checklistServiceMock, checklistQueryService);
+            when(checklistServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+            MockMvc restChecklistMockMvc = MockMvcBuilders.standaloneSetup(checklistResource)
+            .setCustomArgumentResolvers(pageableArgumentResolver)
+            .setControllerAdvice(exceptionTranslator)
+            .setConversionService(createFormattingConversionService())
+            .setMessageConverters(jacksonMessageConverter).build();
+
+        restChecklistMockMvc.perform(get("/api/checklists?eagerload=true"))
+        .andExpect(status().isOk());
+
+            verify(checklistServiceMock, times(1)).findAllWithEagerRelationships(any());
+    }
+
     @Test
     @Transactional
     public void getChecklist() throws Exception {
@@ -220,7 +289,8 @@ public class ChecklistResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(checklist.getId().intValue()))
             .andExpect(jsonPath("$.titulo").value(DEFAULT_TITULO))
-            .andExpect(jsonPath("$.periodicidade").value(DEFAULT_PERIODICIDADE.toString()));
+            .andExpect(jsonPath("$.periodicidade").value(DEFAULT_PERIODICIDADE.toString()))
+            .andExpect(jsonPath("$.habilitado").value(DEFAULT_HABILITADO.booleanValue()));
     }
 
 
@@ -375,23 +445,55 @@ public class ChecklistResourceIT {
 
     @Test
     @Transactional
-    public void getAllChecklistsByAnexoIsEqualToSomething() throws Exception {
+    public void getAllChecklistsByHabilitadoIsEqualToSomething() throws Exception {
         // Initialize the database
         checklistRepository.saveAndFlush(checklist);
-        Anexo anexo = AnexoResourceIT.createEntity(em);
-        em.persist(anexo);
-        em.flush();
-        checklist.addAnexo(anexo);
-        checklistRepository.saveAndFlush(checklist);
-        Long anexoId = anexo.getId();
 
-        // Get all the checklistList where anexo equals to anexoId
-        defaultChecklistShouldBeFound("anexoId.equals=" + anexoId);
+        // Get all the checklistList where habilitado equals to DEFAULT_HABILITADO
+        defaultChecklistShouldBeFound("habilitado.equals=" + DEFAULT_HABILITADO);
 
-        // Get all the checklistList where anexo equals to anexoId + 1
-        defaultChecklistShouldNotBeFound("anexoId.equals=" + (anexoId + 1));
+        // Get all the checklistList where habilitado equals to UPDATED_HABILITADO
+        defaultChecklistShouldNotBeFound("habilitado.equals=" + UPDATED_HABILITADO);
     }
 
+    @Test
+    @Transactional
+    public void getAllChecklistsByHabilitadoIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        checklistRepository.saveAndFlush(checklist);
+
+        // Get all the checklistList where habilitado not equals to DEFAULT_HABILITADO
+        defaultChecklistShouldNotBeFound("habilitado.notEquals=" + DEFAULT_HABILITADO);
+
+        // Get all the checklistList where habilitado not equals to UPDATED_HABILITADO
+        defaultChecklistShouldBeFound("habilitado.notEquals=" + UPDATED_HABILITADO);
+    }
+
+    @Test
+    @Transactional
+    public void getAllChecklistsByHabilitadoIsInShouldWork() throws Exception {
+        // Initialize the database
+        checklistRepository.saveAndFlush(checklist);
+
+        // Get all the checklistList where habilitado in DEFAULT_HABILITADO or UPDATED_HABILITADO
+        defaultChecklistShouldBeFound("habilitado.in=" + DEFAULT_HABILITADO + "," + UPDATED_HABILITADO);
+
+        // Get all the checklistList where habilitado equals to UPDATED_HABILITADO
+        defaultChecklistShouldNotBeFound("habilitado.in=" + UPDATED_HABILITADO);
+    }
+
+    @Test
+    @Transactional
+    public void getAllChecklistsByHabilitadoIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        checklistRepository.saveAndFlush(checklist);
+
+        // Get all the checklistList where habilitado is not null
+        defaultChecklistShouldBeFound("habilitado.specified=true");
+
+        // Get all the checklistList where habilitado is null
+        defaultChecklistShouldNotBeFound("habilitado.specified=false");
+    }
 
     @Test
     @Transactional
@@ -410,6 +512,26 @@ public class ChecklistResourceIT {
 
         // Get all the checklistList where item equals to itemId + 1
         defaultChecklistShouldNotBeFound("itemId.equals=" + (itemId + 1));
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllChecklistsByAnexoIsEqualToSomething() throws Exception {
+        // Initialize the database
+        checklistRepository.saveAndFlush(checklist);
+        Anexo anexo = AnexoResourceIT.createEntity(em);
+        em.persist(anexo);
+        em.flush();
+        checklist.addAnexo(anexo);
+        checklistRepository.saveAndFlush(checklist);
+        Long anexoId = anexo.getId();
+
+        // Get all the checklistList where anexo equals to anexoId
+        defaultChecklistShouldBeFound("anexoId.equals=" + anexoId);
+
+        // Get all the checklistList where anexo equals to anexoId + 1
+        defaultChecklistShouldNotBeFound("anexoId.equals=" + (anexoId + 1));
     }
 
 
@@ -437,7 +559,8 @@ public class ChecklistResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(checklist.getId().intValue())))
             .andExpect(jsonPath("$.[*].titulo").value(hasItem(DEFAULT_TITULO)))
-            .andExpect(jsonPath("$.[*].periodicidade").value(hasItem(DEFAULT_PERIODICIDADE.toString())));
+            .andExpect(jsonPath("$.[*].periodicidade").value(hasItem(DEFAULT_PERIODICIDADE.toString())))
+            .andExpect(jsonPath("$.[*].habilitado").value(hasItem(DEFAULT_HABILITADO.booleanValue())));
 
         // Check, that the count call also returns 1
         restChecklistMockMvc.perform(get("/api/checklists/count?sort=id,desc&" + filter))
@@ -486,7 +609,8 @@ public class ChecklistResourceIT {
         em.detach(updatedChecklist);
         updatedChecklist
             .titulo(UPDATED_TITULO)
-            .periodicidade(UPDATED_PERIODICIDADE);
+            .periodicidade(UPDATED_PERIODICIDADE)
+            .habilitado(UPDATED_HABILITADO);
 
         restChecklistMockMvc.perform(put("/api/checklists")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -499,6 +623,7 @@ public class ChecklistResourceIT {
         Checklist testChecklist = checklistList.get(checklistList.size() - 1);
         assertThat(testChecklist.getTitulo()).isEqualTo(UPDATED_TITULO);
         assertThat(testChecklist.getPeriodicidade()).isEqualTo(UPDATED_PERIODICIDADE);
+        assertThat(testChecklist.isHabilitado()).isEqualTo(UPDATED_HABILITADO);
     }
 
     @Test

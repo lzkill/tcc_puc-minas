@@ -50,6 +50,15 @@ public class AcaoSGQService {
         return acaoSGQRepository.findAll(pageable);
     }
 
+    /**
+     * Get all the acaoSGQS with eager load of many-to-many relationships.
+     *
+     * @return the list of entities.
+     */
+    public Page<AcaoSGQ> findAllWithEagerRelationships(Pageable pageable) {
+        return acaoSGQRepository.findAllWithEagerRelationships(pageable);
+    }
+    
 
     /**
      * Get one acaoSGQ by id.
@@ -60,7 +69,7 @@ public class AcaoSGQService {
     @Transactional(readOnly = true)
     public Optional<AcaoSGQ> findOne(Long id) {
         log.debug("Request to get AcaoSGQ : {}", id);
-        return acaoSGQRepository.findById(id);
+        return acaoSGQRepository.findOneWithEagerRelationships(id);
     }
 
     /**

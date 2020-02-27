@@ -5,6 +5,7 @@ import * as moment from 'moment';
 import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 import { CampanhaRecallService } from 'app/entities/sgq/campanha-recall/campanha-recall.service';
 import { ICampanhaRecall, CampanhaRecall } from 'app/shared/model/sgq/campanha-recall.model';
+import { StatusPublicacao } from 'app/shared/model/enumerations/status-publicacao.model';
 
 describe('Service Tests', () => {
   describe('CampanhaRecall Service', () => {
@@ -24,7 +25,17 @@ describe('Service Tests', () => {
       httpMock = injector.get(HttpTestingController);
       currentDate = moment();
 
-      elemDefault = new CampanhaRecall(0, 0, 'AAAAAAA', 'AAAAAAA', currentDate, currentDate, currentDate, 'AAAAAAA');
+      elemDefault = new CampanhaRecall(
+        0,
+        0,
+        'AAAAAAA',
+        'AAAAAAA',
+        currentDate,
+        currentDate,
+        currentDate,
+        currentDate,
+        StatusPublicacao.RASCUNHO
+      );
     });
 
     describe('Service methods', () => {
@@ -33,7 +44,8 @@ describe('Service Tests', () => {
           {
             dataRegistro: currentDate.format(DATE_TIME_FORMAT),
             dataInicio: currentDate.format(DATE_TIME_FORMAT),
-            dataFim: currentDate.format(DATE_TIME_FORMAT)
+            dataFim: currentDate.format(DATE_TIME_FORMAT),
+            dataPublicacao: currentDate.format(DATE_TIME_FORMAT)
           },
           elemDefault
         );
@@ -53,7 +65,8 @@ describe('Service Tests', () => {
             id: 0,
             dataRegistro: currentDate.format(DATE_TIME_FORMAT),
             dataInicio: currentDate.format(DATE_TIME_FORMAT),
-            dataFim: currentDate.format(DATE_TIME_FORMAT)
+            dataFim: currentDate.format(DATE_TIME_FORMAT),
+            dataPublicacao: currentDate.format(DATE_TIME_FORMAT)
           },
           elemDefault
         );
@@ -61,7 +74,8 @@ describe('Service Tests', () => {
           {
             dataRegistro: currentDate,
             dataInicio: currentDate,
-            dataFim: currentDate
+            dataFim: currentDate,
+            dataPublicacao: currentDate
           },
           returnedFromService
         );
@@ -83,7 +97,8 @@ describe('Service Tests', () => {
             dataRegistro: currentDate.format(DATE_TIME_FORMAT),
             dataInicio: currentDate.format(DATE_TIME_FORMAT),
             dataFim: currentDate.format(DATE_TIME_FORMAT),
-            resultado: 'BBBBBB'
+            dataPublicacao: currentDate.format(DATE_TIME_FORMAT),
+            status: 'BBBBBB'
           },
           elemDefault
         );
@@ -92,7 +107,8 @@ describe('Service Tests', () => {
           {
             dataRegistro: currentDate,
             dataInicio: currentDate,
-            dataFim: currentDate
+            dataFim: currentDate,
+            dataPublicacao: currentDate
           },
           returnedFromService
         );
@@ -114,7 +130,8 @@ describe('Service Tests', () => {
             dataRegistro: currentDate.format(DATE_TIME_FORMAT),
             dataInicio: currentDate.format(DATE_TIME_FORMAT),
             dataFim: currentDate.format(DATE_TIME_FORMAT),
-            resultado: 'BBBBBB'
+            dataPublicacao: currentDate.format(DATE_TIME_FORMAT),
+            status: 'BBBBBB'
           },
           elemDefault
         );
@@ -122,7 +139,8 @@ describe('Service Tests', () => {
           {
             dataRegistro: currentDate,
             dataInicio: currentDate,
-            dataFim: currentDate
+            dataFim: currentDate,
+            dataPublicacao: currentDate
           },
           returnedFromService
         );

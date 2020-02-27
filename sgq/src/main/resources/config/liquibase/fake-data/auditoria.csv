@@ -1,11 +1,11 @@
-id;tipo;titulo;descricao
-1;INTERNA;Silver;../fake-data/blob/hipster.txt
-2;INTERNA;transmit;../fake-data/blob/hipster.txt
-3;EXTERNA;withdrawal connect New York;../fake-data/blob/hipster.txt
-4;INTERNA;turquoise;../fake-data/blob/hipster.txt
-5;INTERNA;infrastructures Berkshire;../fake-data/blob/hipster.txt
-6;INTERNA;Burundi Practical Metal Sausages Strategist;../fake-data/blob/hipster.txt
-7;EXTERNA;Distributed;../fake-data/blob/hipster.txt
-8;EXTERNA;National;../fake-data/blob/hipster.txt
-9;INTERNA;frictionless transmitter;../fake-data/blob/hipster.txt
-10;EXTERNA;Planner Kansas;../fake-data/blob/hipster.txt
+id;id_usuario_registro;titulo;descricao;data_registro;data_inicio;data_fim
+1;27910;Cyprus Baby JBOD;../fake-data/blob/hipster.txt;2020-02-07T23:07:27;2020-02-08T03:50:25;2020-02-08T14:33:34
+2;67369;Belize;../fake-data/blob/hipster.txt;2020-02-08T08:53:05;2020-02-08T07:25:34;2020-02-08T08:26:10
+3;77448;support Pines alarm;../fake-data/blob/hipster.txt;2020-02-08T06:00:31;2020-02-07T21:39:15;2020-02-08T04:26:53
+4;57644;transmitting Shoes;../fake-data/blob/hipster.txt;2020-02-08T03:10:53;2020-02-08T10:30:54;2020-02-08T12:20:57
+5;4131;turquoise;../fake-data/blob/hipster.txt;2020-02-07T21:56:30;2020-02-08T12:58:09;2020-02-08T11:02:17
+6;46331;Rustic Steel Pizza;../fake-data/blob/hipster.txt;2020-02-08T09:41:44;2020-02-08T06:53:08;2020-02-08T05:28:11
+7;13237;exploit Functionality;../fake-data/blob/hipster.txt;2020-02-07T18:44:19;2020-02-08T02:26:58;2020-02-08T14:23:08
+8;29144;morph haptic Steel;../fake-data/blob/hipster.txt;2020-02-08T05:47:11;2020-02-08T00:34:07;2020-02-07T17:40:00
+9;99734;Planner Refined generating;../fake-data/blob/hipster.txt;2020-02-08T08:21:02;2020-02-07T23:55:54;2020-02-08T08:19:34
+10;22746;Stravenue;../fake-data/blob/hipster.txt;2020-02-07T22:29:02;2020-02-08T02:39:11;2020-02-08T07:15:22

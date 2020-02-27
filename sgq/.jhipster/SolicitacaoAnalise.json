@@ -1,0 +1,82 @@
+{
+    "name": "SolicitacaoAnalise",
+    "fields": [
+        {
+            "fieldName": "idUsuarioRegistro",
+            "fieldType": "Integer",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "dataRegistro",
+            "fieldType": "Instant",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "dataSolicitacao",
+            "javadoc": "Data em que a solicitação foi recebida pela consultoria",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "uuid",
+            "javadoc": "ID retornado pela consultoria para acompanhamento",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "unique"
+            ]
+        },
+        {
+            "fieldName": "status",
+            "fieldType": "StatusSolicitacaoAnalise",
+            "fieldValues": "REGISTRADO,PENDENTE,CONCLUIDO",
+            "fieldValidateRules": [
+                "required"
+            ]
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "one-to-one",
+            "otherEntityName": "naoConformidade",
+            "otherEntityRelationshipName": "solicitacaoAnalise",
+            "relationshipValidateRules": "required",
+            "relationshipName": "naoConformidade",
+            "otherEntityField": "titulo",
+            "ownerSide": true
+        },
+        {
+            "relationshipType": "one-to-one",
+            "otherEntityName": "analiseConsultoria",
+            "otherEntityRelationshipName": "solicitacaoAnalise",
+            "relationshipName": "analiseConsultoria",
+            "otherEntityField": "id",
+            "ownerSide": true
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "consultoria",
+            "otherEntityRelationshipName": "solicitacaoAnalise",
+            "relationshipValidateRules": "required",
+            "relationshipName": "consultoria",
+            "otherEntityField": "nome"
+        }
+    ],
+    "changelogDate": "20200227165243",
+    "javadoc": "Os planos de ação das NCs podem ser analisados pela consultoria antes da\\nimplementação na prática",
+    "entityTableName": "solicitacao_analise",
+    "dto": "no",
+    "pagination": "pagination",
+    "service": "serviceClass",
+    "jpaMetamodelFiltering": true,
+    "fluentMethods": true,
+    "readOnly": false,
+    "clientRootFolder": "",
+    "applications": [
+        "gateway",
+        "sgq"
+    ],
+    "microserviceName": "sgq"
+}

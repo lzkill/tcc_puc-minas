@@ -1,11 +1,11 @@
-id;titulo;descricao
-1;Ecuador multimedia strategic;../fake-data/blob/hipster.txt
-2;multi-byte indexing;../fake-data/blob/hipster.txt
-3;synthesizing Cambridgeshire didactic;../fake-data/blob/hipster.txt
-4;Rubber copy Benin;../fake-data/blob/hipster.txt
-5;Codes specifically reserved for testing purposes Organic panel;../fake-data/blob/hipster.txt
-6;panel Libyan Dinar;../fake-data/blob/hipster.txt
-7;connect out-of-the-box;../fake-data/blob/hipster.txt
-8;withdrawal;../fake-data/blob/hipster.txt
-9;open architecture overriding;../fake-data/blob/hipster.txt
-10;black;../fake-data/blob/hipster.txt
+id;titulo;descricao;habilitado
+1;Ecuador multimedia strategic;../fake-data/blob/hipster.txt;false
+2;Tennessee Buckinghamshire synthesizing;../fake-data/blob/hipster.txt;true
+3;didactic back-end Auto Loan Account;../fake-data/blob/hipster.txt;false
+4;Handcrafted Codes specifically reserved for testing purposes;../fake-data/blob/hipster.txt;false
+5;panel payment;../fake-data/blob/hipster.txt;false
+6;Berkshire connect out-of-the-box;../fake-data/blob/hipster.txt;false
+7;human-resource open architecture;../fake-data/blob/hipster.txt;true
+8;Electronics;../fake-data/blob/hipster.txt;false
+9;Ridges capacity Representative;../fake-data/blob/hipster.txt;true
+10;bypass;../fake-data/blob/hipster.txt;false

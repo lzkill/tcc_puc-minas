@@ -29,15 +29,19 @@ public class ResultadoChecklistCriteria implements Serializable, Criteria {
 
     private IntegerFilter idUsuarioRegistro;
 
-    private StringFilter titulo;
+    private InstantFilter dataRegistro;
 
     private InstantFilter dataVerificacao;
 
-    private LongFilter anexoId;
-
     private LongFilter resultadoItemId;
 
+    private LongFilter naoConformidadeId;
+
+    private LongFilter produtoNaoConformeId;
+
     private LongFilter checklistId;
+
+    private LongFilter anexoId;
 
     public ResultadoChecklistCriteria(){
     }
@@ -45,11 +49,13 @@ public class ResultadoChecklistCriteria implements Serializable, Criteria {
     public ResultadoChecklistCriteria(ResultadoChecklistCriteria other){
         this.id = other.id == null ? null : other.id.copy();
         this.idUsuarioRegistro = other.idUsuarioRegistro == null ? null : other.idUsuarioRegistro.copy();
-        this.titulo = other.titulo == null ? null : other.titulo.copy();
+        this.dataRegistro = other.dataRegistro == null ? null : other.dataRegistro.copy();
         this.dataVerificacao = other.dataVerificacao == null ? null : other.dataVerificacao.copy();
-        this.anexoId = other.anexoId == null ? null : other.anexoId.copy();
         this.resultadoItemId = other.resultadoItemId == null ? null : other.resultadoItemId.copy();
+        this.naoConformidadeId = other.naoConformidadeId == null ? null : other.naoConformidadeId.copy();
+        this.produtoNaoConformeId = other.produtoNaoConformeId == null ? null : other.produtoNaoConformeId.copy();
         this.checklistId = other.checklistId == null ? null : other.checklistId.copy();
+        this.anexoId = other.anexoId == null ? null : other.anexoId.copy();
     }
 
     @Override
@@ -73,12 +79,12 @@ public class ResultadoChecklistCriteria implements Serializable, Criteria {
         this.idUsuarioRegistro = idUsuarioRegistro;
     }
 
-    public StringFilter getTitulo() {
-        return titulo;
+    public InstantFilter getDataRegistro() {
+        return dataRegistro;
     }
 
-    public void setTitulo(StringFilter titulo) {
-        this.titulo = titulo;
+    public void setDataRegistro(InstantFilter dataRegistro) {
+        this.dataRegistro = dataRegistro;
     }
 
     public InstantFilter getDataVerificacao() {
@@ -89,14 +95,6 @@ public class ResultadoChecklistCriteria implements Serializable, Criteria {
         this.dataVerificacao = dataVerificacao;
     }
 
-    public LongFilter getAnexoId() {
-        return anexoId;
-    }
-
-    public void setAnexoId(LongFilter anexoId) {
-        this.anexoId = anexoId;
-    }
-
     public LongFilter getResultadoItemId() {
         return resultadoItemId;
     }
@@ -105,12 +103,36 @@ public class ResultadoChecklistCriteria implements Serializable, Criteria {
         this.resultadoItemId = resultadoItemId;
     }
 
+    public LongFilter getNaoConformidadeId() {
+        return naoConformidadeId;
+    }
+
+    public void setNaoConformidadeId(LongFilter naoConformidadeId) {
+        this.naoConformidadeId = naoConformidadeId;
+    }
+
+    public LongFilter getProdutoNaoConformeId() {
+        return produtoNaoConformeId;
+    }
+
+    public void setProdutoNaoConformeId(LongFilter produtoNaoConformeId) {
+        this.produtoNaoConformeId = produtoNaoConformeId;
+    }
+
     public LongFilter getChecklistId() {
         return checklistId;
     }
 
     public void setChecklistId(LongFilter checklistId) {
         this.checklistId = checklistId;
+    }
+
+    public LongFilter getAnexoId() {
+        return anexoId;
+    }
+
+    public void setAnexoId(LongFilter anexoId) {
+        this.anexoId = anexoId;
     }
 
 
@@ -126,11 +148,13 @@ public class ResultadoChecklistCriteria implements Serializable, Criteria {
         return
             Objects.equals(id, that.id) &&
             Objects.equals(idUsuarioRegistro, that.idUsuarioRegistro) &&
-            Objects.equals(titulo, that.titulo) &&
+            Objects.equals(dataRegistro, that.dataRegistro) &&
             Objects.equals(dataVerificacao, that.dataVerificacao) &&
-            Objects.equals(anexoId, that.anexoId) &&
             Objects.equals(resultadoItemId, that.resultadoItemId) &&
-            Objects.equals(checklistId, that.checklistId);
+            Objects.equals(naoConformidadeId, that.naoConformidadeId) &&
+            Objects.equals(produtoNaoConformeId, that.produtoNaoConformeId) &&
+            Objects.equals(checklistId, that.checklistId) &&
+            Objects.equals(anexoId, that.anexoId);
     }
 
     @Override
@@ -138,11 +162,13 @@ public class ResultadoChecklistCriteria implements Serializable, Criteria {
         return Objects.hash(
         id,
         idUsuarioRegistro,
-        titulo,
+        dataRegistro,
         dataVerificacao,
-        anexoId,
         resultadoItemId,
-        checklistId
+        naoConformidadeId,
+        produtoNaoConformeId,
+        checklistId,
+        anexoId
         );
     }
 
@@ -151,11 +177,13 @@ public class ResultadoChecklistCriteria implements Serializable, Criteria {
         return "ResultadoChecklistCriteria{" +
                 (id != null ? "id=" + id + ", " : "") +
                 (idUsuarioRegistro != null ? "idUsuarioRegistro=" + idUsuarioRegistro + ", " : "") +
-                (titulo != null ? "titulo=" + titulo + ", " : "") +
+                (dataRegistro != null ? "dataRegistro=" + dataRegistro + ", " : "") +
                 (dataVerificacao != null ? "dataVerificacao=" + dataVerificacao + ", " : "") +
-                (anexoId != null ? "anexoId=" + anexoId + ", " : "") +
                 (resultadoItemId != null ? "resultadoItemId=" + resultadoItemId + ", " : "") +
+                (naoConformidadeId != null ? "naoConformidadeId=" + naoConformidadeId + ", " : "") +
+                (produtoNaoConformeId != null ? "produtoNaoConformeId=" + produtoNaoConformeId + ", " : "") +
                 (checklistId != null ? "checklistId=" + checklistId + ", " : "") +
+                (anexoId != null ? "anexoId=" + anexoId + ", " : "") +
             "}";
     }
 

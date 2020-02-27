@@ -33,8 +33,15 @@ public class Processo implements Serializable {
     @Column(name = "descricao")
     private String descricao;
 
-    @OneToMany(mappedBy = "processo")
+    @NotNull
+    @Column(name = "habilitado", nullable = false)
+    private Boolean habilitado;
+
+    @ManyToMany
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    @JoinTable(name = "processo_anexo",
+               joinColumns = @JoinColumn(name = "processo_id", referencedColumnName = "id"),
+               inverseJoinColumns = @JoinColumn(name = "anexo_id", referencedColumnName = "id"))
     private Set<Anexo> anexos = new HashSet<>();
 
     @ManyToOne(optional = false)
@@ -77,6 +84,19 @@ public class Processo implements Serializable {
         this.descricao = descricao;
     }
 
+    public Boolean isHabilitado() {
+        return habilitado;
+    }
+
+    public Processo habilitado(Boolean habilitado) {
+        this.habilitado = habilitado;
+        return this;
+    }
+
+    public void setHabilitado(Boolean habilitado) {
+        this.habilitado = habilitado;
+    }
+
     public Set<Anexo> getAnexos() {
         return anexos;
     }
@@ -88,13 +108,13 @@ public class Processo implements Serializable {
 
     public Processo addAnexo(Anexo anexo) {
         this.anexos.add(anexo);
-        anexo.setProcesso(this);
+        anexo.getProcessos().add(this);
         return this;
     }
 
     public Processo removeAnexo(Anexo anexo) {
         this.anexos.remove(anexo);
-        anexo.setProcesso(null);
+        anexo.getProcessos().remove(this);
         return this;
     }
 
@@ -138,6 +158,7 @@ public class Processo implements Serializable {
             "id=" + getId() +
             ", titulo='" + getTitulo() + "'" +
             ", descricao='" + getDescricao() + "'" +
+            ", habilitado='" + isHabilitado() + "'" +
             "}";
     }
 }

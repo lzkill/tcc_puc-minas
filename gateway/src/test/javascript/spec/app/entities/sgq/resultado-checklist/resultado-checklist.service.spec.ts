@@ -24,13 +24,14 @@ describe('Service Tests', () => {
       httpMock = injector.get(HttpTestingController);
       currentDate = moment();
 
-      elemDefault = new ResultadoChecklist(0, 0, 'AAAAAAA', currentDate);
+      elemDefault = new ResultadoChecklist(0, 0, currentDate, currentDate);
     });
 
     describe('Service methods', () => {
       it('should find an element', () => {
         const returnedFromService = Object.assign(
           {
+            dataRegistro: currentDate.format(DATE_TIME_FORMAT),
             dataVerificacao: currentDate.format(DATE_TIME_FORMAT)
           },
           elemDefault
@@ -49,12 +50,14 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             id: 0,
+            dataRegistro: currentDate.format(DATE_TIME_FORMAT),
             dataVerificacao: currentDate.format(DATE_TIME_FORMAT)
           },
           elemDefault
         );
         const expected = Object.assign(
           {
+            dataRegistro: currentDate,
             dataVerificacao: currentDate
           },
           returnedFromService
@@ -72,7 +75,7 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             idUsuarioRegistro: 1,
-            titulo: 'BBBBBB',
+            dataRegistro: currentDate.format(DATE_TIME_FORMAT),
             dataVerificacao: currentDate.format(DATE_TIME_FORMAT)
           },
           elemDefault
@@ -80,6 +83,7 @@ describe('Service Tests', () => {
 
         const expected = Object.assign(
           {
+            dataRegistro: currentDate,
             dataVerificacao: currentDate
           },
           returnedFromService
@@ -97,13 +101,14 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             idUsuarioRegistro: 1,
-            titulo: 'BBBBBB',
+            dataRegistro: currentDate.format(DATE_TIME_FORMAT),
             dataVerificacao: currentDate.format(DATE_TIME_FORMAT)
           },
           elemDefault
         );
         const expected = Object.assign(
           {
+            dataRegistro: currentDate,
             dataVerificacao: currentDate
           },
           returnedFromService

@@ -19,34 +19,20 @@
             <thead>
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
             <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  jhiSortBy="dataSolicitacaoAnalise"><span jhiTranslate="gatewayApp.sgqAnaliseConsultoria.dataSolicitacaoAnalise">Data Solicitacao Analise</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="dataAnalise"><span jhiTranslate="gatewayApp.sgqAnaliseConsultoria.dataAnalise">Data Analise</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  jhiSortBy="descricao"><span jhiTranslate="gatewayApp.sgqAnaliseConsultoria.descricao">Descricao</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  jhiSortBy="responsavelAnalise"><span jhiTranslate="gatewayApp.sgqAnaliseConsultoria.responsavelAnalise">Responsavel Analise</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="conteudo"><span jhiTranslate="gatewayApp.sgqAnaliseConsultoria.conteudo">Conteudo</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="responsavel"><span jhiTranslate="gatewayApp.sgqAnaliseConsultoria.responsavel">Responsavel</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="status"><span jhiTranslate="gatewayApp.sgqAnaliseConsultoria.status">Status</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  jhiSortBy="acao.titulo"><span jhiTranslate="gatewayApp.sgqAnaliseConsultoria.acao">Acao</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  jhiSortBy="empresa.nome"><span jhiTranslate="gatewayApp.sgqAnaliseConsultoria.empresa">Empresa</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"></th>
             </tr>
             </thead>
             <tbody>
             <tr *ngFor="let analiseConsultoria of analiseConsultorias ;trackBy: trackId">
                 <td><a [routerLink]="['/analise-consultoria', analiseConsultoria.id, 'view' ]">{{analiseConsultoria.id}}</a></td>
-                <td>{{analiseConsultoria.dataSolicitacaoAnalise | date:'medium'}}</td>
                 <td>{{analiseConsultoria.dataAnalise | date:'medium'}}</td>
-                <td>{{analiseConsultoria.descricao}}</td>
-                <td>{{analiseConsultoria.responsavelAnalise}}</td>
-                <td jhiTranslate="{{'gatewayApp.StatusAnaliseExterna.' + analiseConsultoria.status}}">{{analiseConsultoria.status}}</td>
-                <td>
-                    <div *ngIf="analiseConsultoria.acao">
-                        <a [routerLink]="['/acao-sgq', analiseConsultoria.acao?.id, 'view' ]" >{{analiseConsultoria.acao?.titulo}}</a>
-                    </div>
-                </td>
-                <td>
-                    <div *ngIf="analiseConsultoria.empresa">
-                        <a [routerLink]="['/empresa-consultoria', analiseConsultoria.empresa?.id, 'view' ]" >{{analiseConsultoria.empresa?.nome}}</a>
-                    </div>
-                </td>
+                <td>{{analiseConsultoria.conteudo}}</td>
+                <td>{{analiseConsultoria.responsavel}}</td>
+                <td jhiTranslate="{{'gatewayApp.StatusAprovacao.' + analiseConsultoria.status}}">{{analiseConsultoria.status}}</td>
                 <td class="text-right">
                     <div class="btn-group">
                         <button type="submit"

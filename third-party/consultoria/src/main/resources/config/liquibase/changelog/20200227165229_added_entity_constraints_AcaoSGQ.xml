@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+    <!--
+        Added the constraints for entity AcaoSGQ.
+    -->
+    <changeSet id="20200227165229-2" author="jhipster">
+        
+        <addForeignKeyConstraint baseColumnNames="nao_conformidade_id"
+                                 baseTableName="acao_sgq"
+                                 constraintName="fk_acao_sgq_nao_conformidade_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="nao_conformidade"/>
+
+    </changeSet>
+</databaseChangeLog>

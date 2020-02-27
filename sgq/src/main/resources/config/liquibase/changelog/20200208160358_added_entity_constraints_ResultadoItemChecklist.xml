@@ -14,6 +14,18 @@
                                  referencedColumnNames="id"
                                  referencedTableName="item_checklist"/>
 
+        <addForeignKeyConstraint baseColumnNames="resultado_item_checklist_id"
+                                 baseTableName="resultado_item_checklist_anexo"
+                                 constraintName="fk_resultado_item_checklist_anexo_resultado_item_checklist_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="resultado_item_checklist"/>
+
+        <addForeignKeyConstraint baseColumnNames="anexo_id"
+                                 baseTableName="resultado_item_checklist_anexo"
+                                 constraintName="fk_resultado_item_checklist_anexo_anexo_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="anexo"/>
+        
         <addForeignKeyConstraint baseColumnNames="resultado_id"
                                  baseTableName="resultado_item_checklist"
                                  constraintName="fk_resultado_item_checklist_resultado_id"

@@ -11,6 +11,8 @@ import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.lzkill.sgq.domain.enumeration.ModalidadeAuditoria;
+
 /**
  * A ItemPlanoAuditoria.
  */
@@ -25,20 +27,37 @@ public class ItemPlanoAuditoria implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "data_inicio_previsto")
+    @NotNull
+    @Size(min = 1, max = 100)
+    @Column(name = "titulo", length = 100, nullable = false)
+    private String titulo;
+
+    @Lob
+    @Column(name = "descricao")
+    private String descricao;
+
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    @Column(name = "modalidade", nullable = false)
+    private ModalidadeAuditoria modalidade;
+
+    @NotNull
+    @Column(name = "data_inicio_previsto", nullable = false)
     private Instant dataInicioPrevisto;
 
     @Column(name = "data_fim_previsto")
     private Instant dataFimPrevisto;
 
-    @OneToMany(mappedBy = "itemPlanoAuditoria")
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<Anexo> anexos = new HashSet<>();
-
-    @ManyToOne(optional = false)
-    @NotNull
+    @ManyToOne
     @JsonIgnoreProperties("itemPlanoAuditorias")
-    private Auditoria auditoria;
+    private ItemAuditoria itemAuditoria;
+
+    @ManyToMany
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    @JoinTable(name = "item_plano_auditoria_anexo",
+               joinColumns = @JoinColumn(name = "item_plano_auditoria_id", referencedColumnName = "id"),
+               inverseJoinColumns = @JoinColumn(name = "anexo_id", referencedColumnName = "id"))
+    private Set<Anexo> anexos = new HashSet<>();
 
     @ManyToOne(optional = false)
     @NotNull
@@ -52,6 +71,45 @@ public class ItemPlanoAuditoria implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getTitulo() {
+        return titulo;
+    }
+
+    public ItemPlanoAuditoria titulo(String titulo) {
+        this.titulo = titulo;
+        return this;
+    }
+
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public ItemPlanoAuditoria descricao(String descricao) {
+        this.descricao = descricao;
+        return this;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
+    public ModalidadeAuditoria getModalidade() {
+        return modalidade;
+    }
+
+    public ItemPlanoAuditoria modalidade(ModalidadeAuditoria modalidade) {
+        this.modalidade = modalidade;
+        return this;
+    }
+
+    public void setModalidade(ModalidadeAuditoria modalidade) {
+        this.modalidade = modalidade;
     }
 
     public Instant getDataInicioPrevisto() {
@@ -80,6 +138,19 @@ public class ItemPlanoAuditoria implements Serializable {
         this.dataFimPrevisto = dataFimPrevisto;
     }
 
+    public ItemAuditoria getItemAuditoria() {
+        return itemAuditoria;
+    }
+
+    public ItemPlanoAuditoria itemAuditoria(ItemAuditoria itemAuditoria) {
+        this.itemAuditoria = itemAuditoria;
+        return this;
+    }
+
+    public void setItemAuditoria(ItemAuditoria itemAuditoria) {
+        this.itemAuditoria = itemAuditoria;
+    }
+
     public Set<Anexo> getAnexos() {
         return anexos;
     }
@@ -91,31 +162,18 @@ public class ItemPlanoAuditoria implements Serializable {
 
     public ItemPlanoAuditoria addAnexo(Anexo anexo) {
         this.anexos.add(anexo);
-        anexo.setItemPlanoAuditoria(this);
+        anexo.getItemPlanoAuditorias().add(this);
         return this;
     }
 
     public ItemPlanoAuditoria removeAnexo(Anexo anexo) {
         this.anexos.remove(anexo);
-        anexo.setItemPlanoAuditoria(null);
+        anexo.getItemPlanoAuditorias().remove(this);
         return this;
     }
 
     public void setAnexos(Set<Anexo> anexos) {
         this.anexos = anexos;
-    }
-
-    public Auditoria getAuditoria() {
-        return auditoria;
-    }
-
-    public ItemPlanoAuditoria auditoria(Auditoria auditoria) {
-        this.auditoria = auditoria;
-        return this;
-    }
-
-    public void setAuditoria(Auditoria auditoria) {
-        this.auditoria = auditoria;
     }
 
     public PlanoAuditoria getPlano() {
@@ -152,6 +210,9 @@ public class ItemPlanoAuditoria implements Serializable {
     public String toString() {
         return "ItemPlanoAuditoria{" +
             "id=" + getId() +
+            ", titulo='" + getTitulo() + "'" +
+            ", descricao='" + getDescricao() + "'" +
+            ", modalidade='" + getModalidade() + "'" +
             ", dataInicioPrevisto='" + getDataInicioPrevisto() + "'" +
             ", dataFimPrevisto='" + getDataFimPrevisto() + "'" +
             "}";

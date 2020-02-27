@@ -25,8 +25,9 @@
                 <div class="form-group">
                     <label class="form-control-label" jhiTranslate="gatewayApp.sgqEventoOperacional.tipo" for="field_tipo">Tipo</label>
                     <select class="form-control" name="tipo" formControlName="tipo" id="field_tipo">
-                        <option value="PROGRAMADO">{{'gatewayApp.TipoEventoOperacional.PROGRAMADO' | translate}}</option>
-                        <option value="NAO_PROGRAMADO">{{'gatewayApp.TipoEventoOperacional.NAO_PROGRAMADO' | translate}}</option>
+                        <option value="FALHA_EQUIPAMENTO">{{'gatewayApp.TipoEventoOperacional.FALHA_EQUIPAMENTO' | translate}}</option>
+                        <option value="FALHA_INFRA_ESTRUTURA">{{'gatewayApp.TipoEventoOperacional.FALHA_INFRA_ESTRUTURA' | translate}}</option>
+                        <option value="FALHA_PROCESSO">{{'gatewayApp.TipoEventoOperacional.FALHA_PROCESSO' | translate}}</option>
                     </select>
                     <div *ngIf="editForm.get('tipo')!.invalid && (editForm.get('tipo')!.dirty || editForm.get('tipo')!.touched)">
                         <small class="form-text text-danger"
@@ -62,6 +63,22 @@
                         <small class="form-text text-danger"
                                *ngIf="editForm.get('descricao')?.errors?.required" jhiTranslate="entity.validation.required">
                         This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="gatewayApp.sgqEventoOperacional.dataRegistro" for="field_dataRegistro">Data Registro</label>
+                    <div class="d-flex">
+                        <input id="field_dataRegistro" type="datetime-local" class="form-control" name="dataRegistro" formControlName="dataRegistro" placeholder="YYYY-MM-DD HH:mm"/>
+                    </div>
+                    <div *ngIf="editForm.get('dataRegistro')!.invalid && (editForm.get('dataRegistro')!.dirty || editForm.get('dataRegistro')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('dataRegistro')?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.get('dataRegistro')?.errors?.ZonedDateTimelocal" jhiTranslate="entity.validation.ZonedDateTimelocal">
+                            This field should be a date and time.
                         </small>
                     </div>
                 </div>
@@ -103,6 +120,12 @@
                     <select class="form-control" id="field_processo" name="processo" formControlName="processo">
                         <option [ngValue]="null"></option>
                         <option [ngValue]="processoOption.id === editForm.get('processo')!.value?.id ? editForm.get('processo')!.value : processoOption" *ngFor="let processoOption of processos; trackBy: trackById">{{processoOption.titulo}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label jhiTranslate="gatewayApp.sgqEventoOperacional.anexo" for="field_anexos">Anexo</label>
+                    <select class="form-control" id="field_anexos" multiple name="anexos" formControlName="anexos">
+                        <option [ngValue]="getSelected(editForm.get('anexos')!.value, anexoOption)" *ngFor="let anexoOption of anexos; trackBy: trackById">{{anexoOption.nomeArquivo}}</option>
                     </select>
                 </div>
             </div>

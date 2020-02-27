@@ -2,9 +2,9 @@ package com.lzkill.sgq.web.rest;
 
 import com.lzkill.sgq.SgqApp;
 import com.lzkill.sgq.domain.CampanhaRecall;
-import com.lzkill.sgq.domain.Anexo;
 import com.lzkill.sgq.domain.Produto;
 import com.lzkill.sgq.domain.Setor;
+import com.lzkill.sgq.domain.Anexo;
 import com.lzkill.sgq.repository.CampanhaRecallRepository;
 import com.lzkill.sgq.service.CampanhaRecallService;
 import com.lzkill.sgq.web.rest.errors.ExceptionTranslator;
@@ -13,9 +13,12 @@ import com.lzkill.sgq.service.CampanhaRecallQueryService;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -28,14 +31,17 @@ import org.springframework.validation.Validator;
 import javax.persistence.EntityManager;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.lzkill.sgq.web.rest.TestUtil.createFormattingConversionService;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import com.lzkill.sgq.domain.enumeration.StatusPublicacao;
 /**
  * Integration tests for the {@link CampanhaRecallResource} REST controller.
  */
@@ -61,11 +67,20 @@ public class CampanhaRecallResourceIT {
     private static final Instant DEFAULT_DATA_FIM = Instant.ofEpochMilli(0L);
     private static final Instant UPDATED_DATA_FIM = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
-    private static final String DEFAULT_RESULTADO = "AAAAAAAAAA";
-    private static final String UPDATED_RESULTADO = "BBBBBBBBBB";
+    private static final Instant DEFAULT_DATA_PUBLICACAO = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_DATA_PUBLICACAO = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+
+    private static final StatusPublicacao DEFAULT_STATUS = StatusPublicacao.RASCUNHO;
+    private static final StatusPublicacao UPDATED_STATUS = StatusPublicacao.APROVADO;
 
     @Autowired
     private CampanhaRecallRepository campanhaRecallRepository;
+
+    @Mock
+    private CampanhaRecallRepository campanhaRecallRepositoryMock;
+
+    @Mock
+    private CampanhaRecallService campanhaRecallServiceMock;
 
     @Autowired
     private CampanhaRecallService campanhaRecallService;
@@ -118,7 +133,8 @@ public class CampanhaRecallResourceIT {
             .dataRegistro(DEFAULT_DATA_REGISTRO)
             .dataInicio(DEFAULT_DATA_INICIO)
             .dataFim(DEFAULT_DATA_FIM)
-            .resultado(DEFAULT_RESULTADO);
+            .dataPublicacao(DEFAULT_DATA_PUBLICACAO)
+            .status(DEFAULT_STATUS);
         // Add required entity
         Produto produto;
         if (TestUtil.findAll(em, Produto.class).isEmpty()) {
@@ -155,7 +171,8 @@ public class CampanhaRecallResourceIT {
             .dataRegistro(UPDATED_DATA_REGISTRO)
             .dataInicio(UPDATED_DATA_INICIO)
             .dataFim(UPDATED_DATA_FIM)
-            .resultado(UPDATED_RESULTADO);
+            .dataPublicacao(UPDATED_DATA_PUBLICACAO)
+            .status(UPDATED_STATUS);
         // Add required entity
         Produto produto;
         if (TestUtil.findAll(em, Produto.class).isEmpty()) {
@@ -205,7 +222,8 @@ public class CampanhaRecallResourceIT {
         assertThat(testCampanhaRecall.getDataRegistro()).isEqualTo(DEFAULT_DATA_REGISTRO);
         assertThat(testCampanhaRecall.getDataInicio()).isEqualTo(DEFAULT_DATA_INICIO);
         assertThat(testCampanhaRecall.getDataFim()).isEqualTo(DEFAULT_DATA_FIM);
-        assertThat(testCampanhaRecall.getResultado()).isEqualTo(DEFAULT_RESULTADO);
+        assertThat(testCampanhaRecall.getDataPublicacao()).isEqualTo(DEFAULT_DATA_PUBLICACAO);
+        assertThat(testCampanhaRecall.getStatus()).isEqualTo(DEFAULT_STATUS);
     }
 
     @Test
@@ -284,6 +302,24 @@ public class CampanhaRecallResourceIT {
 
     @Test
     @Transactional
+    public void checkStatusIsRequired() throws Exception {
+        int databaseSizeBeforeTest = campanhaRecallRepository.findAll().size();
+        // set the field null
+        campanhaRecall.setStatus(null);
+
+        // Create the CampanhaRecall, which fails.
+
+        restCampanhaRecallMockMvc.perform(post("/api/campanha-recalls")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(campanhaRecall)))
+            .andExpect(status().isBadRequest());
+
+        List<CampanhaRecall> campanhaRecallList = campanhaRecallRepository.findAll();
+        assertThat(campanhaRecallList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     public void getAllCampanhaRecalls() throws Exception {
         // Initialize the database
         campanhaRecallRepository.saveAndFlush(campanhaRecall);
@@ -299,9 +335,43 @@ public class CampanhaRecallResourceIT {
             .andExpect(jsonPath("$.[*].dataRegistro").value(hasItem(DEFAULT_DATA_REGISTRO.toString())))
             .andExpect(jsonPath("$.[*].dataInicio").value(hasItem(DEFAULT_DATA_INICIO.toString())))
             .andExpect(jsonPath("$.[*].dataFim").value(hasItem(DEFAULT_DATA_FIM.toString())))
-            .andExpect(jsonPath("$.[*].resultado").value(hasItem(DEFAULT_RESULTADO.toString())));
+            .andExpect(jsonPath("$.[*].dataPublicacao").value(hasItem(DEFAULT_DATA_PUBLICACAO.toString())))
+            .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())));
     }
     
+    @SuppressWarnings({"unchecked"})
+    public void getAllCampanhaRecallsWithEagerRelationshipsIsEnabled() throws Exception {
+        CampanhaRecallResource campanhaRecallResource = new CampanhaRecallResource(campanhaRecallServiceMock, campanhaRecallQueryService);
+        when(campanhaRecallServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+
+        MockMvc restCampanhaRecallMockMvc = MockMvcBuilders.standaloneSetup(campanhaRecallResource)
+            .setCustomArgumentResolvers(pageableArgumentResolver)
+            .setControllerAdvice(exceptionTranslator)
+            .setConversionService(createFormattingConversionService())
+            .setMessageConverters(jacksonMessageConverter).build();
+
+        restCampanhaRecallMockMvc.perform(get("/api/campanha-recalls?eagerload=true"))
+        .andExpect(status().isOk());
+
+        verify(campanhaRecallServiceMock, times(1)).findAllWithEagerRelationships(any());
+    }
+
+    @SuppressWarnings({"unchecked"})
+    public void getAllCampanhaRecallsWithEagerRelationshipsIsNotEnabled() throws Exception {
+        CampanhaRecallResource campanhaRecallResource = new CampanhaRecallResource(campanhaRecallServiceMock, campanhaRecallQueryService);
+            when(campanhaRecallServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+            MockMvc restCampanhaRecallMockMvc = MockMvcBuilders.standaloneSetup(campanhaRecallResource)
+            .setCustomArgumentResolvers(pageableArgumentResolver)
+            .setControllerAdvice(exceptionTranslator)
+            .setConversionService(createFormattingConversionService())
+            .setMessageConverters(jacksonMessageConverter).build();
+
+        restCampanhaRecallMockMvc.perform(get("/api/campanha-recalls?eagerload=true"))
+        .andExpect(status().isOk());
+
+            verify(campanhaRecallServiceMock, times(1)).findAllWithEagerRelationships(any());
+    }
+
     @Test
     @Transactional
     public void getCampanhaRecall() throws Exception {
@@ -319,7 +389,8 @@ public class CampanhaRecallResourceIT {
             .andExpect(jsonPath("$.dataRegistro").value(DEFAULT_DATA_REGISTRO.toString()))
             .andExpect(jsonPath("$.dataInicio").value(DEFAULT_DATA_INICIO.toString()))
             .andExpect(jsonPath("$.dataFim").value(DEFAULT_DATA_FIM.toString()))
-            .andExpect(jsonPath("$.resultado").value(DEFAULT_RESULTADO.toString()));
+            .andExpect(jsonPath("$.dataPublicacao").value(DEFAULT_DATA_PUBLICACAO.toString()))
+            .andExpect(jsonPath("$.status").value(DEFAULT_STATUS.toString()));
     }
 
 
@@ -683,23 +754,107 @@ public class CampanhaRecallResourceIT {
 
     @Test
     @Transactional
-    public void getAllCampanhaRecallsByAnexoIsEqualToSomething() throws Exception {
+    public void getAllCampanhaRecallsByDataPublicacaoIsEqualToSomething() throws Exception {
         // Initialize the database
         campanhaRecallRepository.saveAndFlush(campanhaRecall);
-        Anexo anexo = AnexoResourceIT.createEntity(em);
-        em.persist(anexo);
-        em.flush();
-        campanhaRecall.addAnexo(anexo);
-        campanhaRecallRepository.saveAndFlush(campanhaRecall);
-        Long anexoId = anexo.getId();
 
-        // Get all the campanhaRecallList where anexo equals to anexoId
-        defaultCampanhaRecallShouldBeFound("anexoId.equals=" + anexoId);
+        // Get all the campanhaRecallList where dataPublicacao equals to DEFAULT_DATA_PUBLICACAO
+        defaultCampanhaRecallShouldBeFound("dataPublicacao.equals=" + DEFAULT_DATA_PUBLICACAO);
 
-        // Get all the campanhaRecallList where anexo equals to anexoId + 1
-        defaultCampanhaRecallShouldNotBeFound("anexoId.equals=" + (anexoId + 1));
+        // Get all the campanhaRecallList where dataPublicacao equals to UPDATED_DATA_PUBLICACAO
+        defaultCampanhaRecallShouldNotBeFound("dataPublicacao.equals=" + UPDATED_DATA_PUBLICACAO);
     }
 
+    @Test
+    @Transactional
+    public void getAllCampanhaRecallsByDataPublicacaoIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        campanhaRecallRepository.saveAndFlush(campanhaRecall);
+
+        // Get all the campanhaRecallList where dataPublicacao not equals to DEFAULT_DATA_PUBLICACAO
+        defaultCampanhaRecallShouldNotBeFound("dataPublicacao.notEquals=" + DEFAULT_DATA_PUBLICACAO);
+
+        // Get all the campanhaRecallList where dataPublicacao not equals to UPDATED_DATA_PUBLICACAO
+        defaultCampanhaRecallShouldBeFound("dataPublicacao.notEquals=" + UPDATED_DATA_PUBLICACAO);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCampanhaRecallsByDataPublicacaoIsInShouldWork() throws Exception {
+        // Initialize the database
+        campanhaRecallRepository.saveAndFlush(campanhaRecall);
+
+        // Get all the campanhaRecallList where dataPublicacao in DEFAULT_DATA_PUBLICACAO or UPDATED_DATA_PUBLICACAO
+        defaultCampanhaRecallShouldBeFound("dataPublicacao.in=" + DEFAULT_DATA_PUBLICACAO + "," + UPDATED_DATA_PUBLICACAO);
+
+        // Get all the campanhaRecallList where dataPublicacao equals to UPDATED_DATA_PUBLICACAO
+        defaultCampanhaRecallShouldNotBeFound("dataPublicacao.in=" + UPDATED_DATA_PUBLICACAO);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCampanhaRecallsByDataPublicacaoIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        campanhaRecallRepository.saveAndFlush(campanhaRecall);
+
+        // Get all the campanhaRecallList where dataPublicacao is not null
+        defaultCampanhaRecallShouldBeFound("dataPublicacao.specified=true");
+
+        // Get all the campanhaRecallList where dataPublicacao is null
+        defaultCampanhaRecallShouldNotBeFound("dataPublicacao.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllCampanhaRecallsByStatusIsEqualToSomething() throws Exception {
+        // Initialize the database
+        campanhaRecallRepository.saveAndFlush(campanhaRecall);
+
+        // Get all the campanhaRecallList where status equals to DEFAULT_STATUS
+        defaultCampanhaRecallShouldBeFound("status.equals=" + DEFAULT_STATUS);
+
+        // Get all the campanhaRecallList where status equals to UPDATED_STATUS
+        defaultCampanhaRecallShouldNotBeFound("status.equals=" + UPDATED_STATUS);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCampanhaRecallsByStatusIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        campanhaRecallRepository.saveAndFlush(campanhaRecall);
+
+        // Get all the campanhaRecallList where status not equals to DEFAULT_STATUS
+        defaultCampanhaRecallShouldNotBeFound("status.notEquals=" + DEFAULT_STATUS);
+
+        // Get all the campanhaRecallList where status not equals to UPDATED_STATUS
+        defaultCampanhaRecallShouldBeFound("status.notEquals=" + UPDATED_STATUS);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCampanhaRecallsByStatusIsInShouldWork() throws Exception {
+        // Initialize the database
+        campanhaRecallRepository.saveAndFlush(campanhaRecall);
+
+        // Get all the campanhaRecallList where status in DEFAULT_STATUS or UPDATED_STATUS
+        defaultCampanhaRecallShouldBeFound("status.in=" + DEFAULT_STATUS + "," + UPDATED_STATUS);
+
+        // Get all the campanhaRecallList where status equals to UPDATED_STATUS
+        defaultCampanhaRecallShouldNotBeFound("status.in=" + UPDATED_STATUS);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCampanhaRecallsByStatusIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        campanhaRecallRepository.saveAndFlush(campanhaRecall);
+
+        // Get all the campanhaRecallList where status is not null
+        defaultCampanhaRecallShouldBeFound("status.specified=true");
+
+        // Get all the campanhaRecallList where status is null
+        defaultCampanhaRecallShouldNotBeFound("status.specified=false");
+    }
 
     @Test
     @Transactional
@@ -732,6 +887,26 @@ public class CampanhaRecallResourceIT {
         defaultCampanhaRecallShouldNotBeFound("setorResponsavelId.equals=" + (setorResponsavelId + 1));
     }
 
+
+    @Test
+    @Transactional
+    public void getAllCampanhaRecallsByAnexoIsEqualToSomething() throws Exception {
+        // Initialize the database
+        campanhaRecallRepository.saveAndFlush(campanhaRecall);
+        Anexo anexo = AnexoResourceIT.createEntity(em);
+        em.persist(anexo);
+        em.flush();
+        campanhaRecall.addAnexo(anexo);
+        campanhaRecallRepository.saveAndFlush(campanhaRecall);
+        Long anexoId = anexo.getId();
+
+        // Get all the campanhaRecallList where anexo equals to anexoId
+        defaultCampanhaRecallShouldBeFound("anexoId.equals=" + anexoId);
+
+        // Get all the campanhaRecallList where anexo equals to anexoId + 1
+        defaultCampanhaRecallShouldNotBeFound("anexoId.equals=" + (anexoId + 1));
+    }
+
     /**
      * Executes the search, and checks that the default entity is returned.
      */
@@ -746,7 +921,8 @@ public class CampanhaRecallResourceIT {
             .andExpect(jsonPath("$.[*].dataRegistro").value(hasItem(DEFAULT_DATA_REGISTRO.toString())))
             .andExpect(jsonPath("$.[*].dataInicio").value(hasItem(DEFAULT_DATA_INICIO.toString())))
             .andExpect(jsonPath("$.[*].dataFim").value(hasItem(DEFAULT_DATA_FIM.toString())))
-            .andExpect(jsonPath("$.[*].resultado").value(hasItem(DEFAULT_RESULTADO.toString())));
+            .andExpect(jsonPath("$.[*].dataPublicacao").value(hasItem(DEFAULT_DATA_PUBLICACAO.toString())))
+            .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())));
 
         // Check, that the count call also returns 1
         restCampanhaRecallMockMvc.perform(get("/api/campanha-recalls/count?sort=id,desc&" + filter))
@@ -800,7 +976,8 @@ public class CampanhaRecallResourceIT {
             .dataRegistro(UPDATED_DATA_REGISTRO)
             .dataInicio(UPDATED_DATA_INICIO)
             .dataFim(UPDATED_DATA_FIM)
-            .resultado(UPDATED_RESULTADO);
+            .dataPublicacao(UPDATED_DATA_PUBLICACAO)
+            .status(UPDATED_STATUS);
 
         restCampanhaRecallMockMvc.perform(put("/api/campanha-recalls")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -817,7 +994,8 @@ public class CampanhaRecallResourceIT {
         assertThat(testCampanhaRecall.getDataRegistro()).isEqualTo(UPDATED_DATA_REGISTRO);
         assertThat(testCampanhaRecall.getDataInicio()).isEqualTo(UPDATED_DATA_INICIO);
         assertThat(testCampanhaRecall.getDataFim()).isEqualTo(UPDATED_DATA_FIM);
-        assertThat(testCampanhaRecall.getResultado()).isEqualTo(UPDATED_RESULTADO);
+        assertThat(testCampanhaRecall.getDataPublicacao()).isEqualTo(UPDATED_DATA_PUBLICACAO);
+        assertThat(testCampanhaRecall.getStatus()).isEqualTo(UPDATED_STATUS);
     }
 
     @Test

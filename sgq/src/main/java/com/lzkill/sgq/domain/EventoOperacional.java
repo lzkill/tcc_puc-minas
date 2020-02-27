@@ -48,6 +48,10 @@ public class EventoOperacional implements Serializable {
     private String descricao;
 
     @NotNull
+    @Column(name = "data_registro", nullable = false)
+    private Instant dataRegistro;
+
+    @NotNull
     @Column(name = "data_evento", nullable = false)
     private Instant dataEvento;
 
@@ -58,13 +62,16 @@ public class EventoOperacional implements Serializable {
     @Column(name = "houve_parada_producao", nullable = false)
     private Boolean houveParadaProducao;
 
-    @OneToMany(mappedBy = "eventoOperacional")
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<Anexo> anexos = new HashSet<>();
-
     @ManyToOne
     @JsonIgnoreProperties("eventoOperacionals")
     private Processo processo;
+
+    @ManyToMany
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    @JoinTable(name = "evento_operacional_anexo",
+               joinColumns = @JoinColumn(name = "evento_operacional_id", referencedColumnName = "id"),
+               inverseJoinColumns = @JoinColumn(name = "anexo_id", referencedColumnName = "id"))
+    private Set<Anexo> anexos = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -127,6 +134,19 @@ public class EventoOperacional implements Serializable {
         this.descricao = descricao;
     }
 
+    public Instant getDataRegistro() {
+        return dataRegistro;
+    }
+
+    public EventoOperacional dataRegistro(Instant dataRegistro) {
+        this.dataRegistro = dataRegistro;
+        return this;
+    }
+
+    public void setDataRegistro(Instant dataRegistro) {
+        this.dataRegistro = dataRegistro;
+    }
+
     public Instant getDataEvento() {
         return dataEvento;
     }
@@ -166,31 +186,6 @@ public class EventoOperacional implements Serializable {
         this.houveParadaProducao = houveParadaProducao;
     }
 
-    public Set<Anexo> getAnexos() {
-        return anexos;
-    }
-
-    public EventoOperacional anexos(Set<Anexo> anexos) {
-        this.anexos = anexos;
-        return this;
-    }
-
-    public EventoOperacional addAnexo(Anexo anexo) {
-        this.anexos.add(anexo);
-        anexo.setEventoOperacional(this);
-        return this;
-    }
-
-    public EventoOperacional removeAnexo(Anexo anexo) {
-        this.anexos.remove(anexo);
-        anexo.setEventoOperacional(null);
-        return this;
-    }
-
-    public void setAnexos(Set<Anexo> anexos) {
-        this.anexos = anexos;
-    }
-
     public Processo getProcesso() {
         return processo;
     }
@@ -202,6 +197,31 @@ public class EventoOperacional implements Serializable {
 
     public void setProcesso(Processo processo) {
         this.processo = processo;
+    }
+
+    public Set<Anexo> getAnexos() {
+        return anexos;
+    }
+
+    public EventoOperacional anexos(Set<Anexo> anexos) {
+        this.anexos = anexos;
+        return this;
+    }
+
+    public EventoOperacional addAnexo(Anexo anexo) {
+        this.anexos.add(anexo);
+        anexo.getEventoOperacionals().add(this);
+        return this;
+    }
+
+    public EventoOperacional removeAnexo(Anexo anexo) {
+        this.anexos.remove(anexo);
+        anexo.getEventoOperacionals().remove(this);
+        return this;
+    }
+
+    public void setAnexos(Set<Anexo> anexos) {
+        this.anexos = anexos;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
@@ -229,6 +249,7 @@ public class EventoOperacional implements Serializable {
             ", tipo='" + getTipo() + "'" +
             ", titulo='" + getTitulo() + "'" +
             ", descricao='" + getDescricao() + "'" +
+            ", dataRegistro='" + getDataRegistro() + "'" +
             ", dataEvento='" + getDataEvento() + "'" +
             ", duracao='" + getDuracao() + "'" +
             ", houveParadaProducao='" + isHouveParadaProducao() + "'" +

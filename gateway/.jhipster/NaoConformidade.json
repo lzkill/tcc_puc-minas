@@ -10,10 +10,7 @@
         },
         {
             "fieldName": "idUsuarioResponsavel",
-            "fieldType": "Integer",
-            "fieldValidateRules": [
-                "required"
-            ]
+            "fieldType": "Integer"
         },
         {
             "fieldName": "titulo",
@@ -27,7 +24,7 @@
             "fieldValidateRulesMaxlength": 100
         },
         {
-            "fieldName": "fato",
+            "fieldName": "descricao",
             "fieldType": "byte[]",
             "fieldTypeBlobContent": "text",
             "fieldValidateRules": [
@@ -36,11 +33,8 @@
         },
         {
             "fieldName": "procedente",
-            "javadoc": "O fato descrito implica de fato uma NC",
-            "fieldType": "Boolean",
-            "fieldValidateRules": [
-                "required"
-            ]
+            "javadoc": "O fato descrito implica de fato uma NC?",
+            "fieldType": "Boolean"
         },
         {
             "fieldName": "causa",
@@ -50,10 +44,7 @@
         },
         {
             "fieldName": "prazoConclusao",
-            "fieldType": "Instant",
-            "fieldValidateRules": [
-                "required"
-            ]
+            "fieldType": "Instant"
         },
         {
             "fieldName": "novoPrazoConclusao",
@@ -88,29 +79,30 @@
     "relationships": [
         {
             "relationshipType": "one-to-many",
-            "otherEntityName": "anexo",
-            "otherEntityRelationshipName": "naoConformidade",
-            "relationshipName": "anexo"
-        },
-        {
-            "relationshipType": "one-to-many",
             "otherEntityName": "acaoSGQ",
             "otherEntityRelationshipName": "naoConformidade",
-            "relationshipValidateRules": "required",
             "relationshipName": "acaoSGQ"
         },
         {
-            "relationshipType": "many-to-one",
-            "otherEntityName": "resultadoAuditoria",
+            "relationshipType": "many-to-many",
+            "otherEntityName": "anexo",
             "otherEntityRelationshipName": "naoConformidade",
-            "relationshipName": "resultadoAuditoria",
+            "relationshipName": "anexo",
+            "otherEntityField": "nomeArquivo",
+            "ownerSide": true
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "auditoria",
+            "otherEntityRelationshipName": "naoConformidade",
+            "relationshipName": "auditoria",
             "otherEntityField": "id"
         },
         {
             "relationshipType": "many-to-one",
-            "otherEntityName": "resultadoItemChecklist",
+            "otherEntityName": "resultadoChecklist",
             "otherEntityRelationshipName": "naoConformidade",
-            "relationshipName": "resultadoItemChecklist",
+            "relationshipName": "resultadoChecklist",
             "otherEntityField": "id"
         }
     ],

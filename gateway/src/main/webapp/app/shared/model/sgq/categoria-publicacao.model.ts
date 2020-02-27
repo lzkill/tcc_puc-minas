@@ -5,6 +5,7 @@ export interface ICategoriaPublicacao {
   id?: number;
   titulo?: string;
   descricao?: any;
+  habilitado?: boolean;
   boletims?: IBoletimInformativo[];
   publicacaos?: IPublicacaoFeed[];
 }
@@ -14,7 +15,10 @@ export class CategoriaPublicacao implements ICategoriaPublicacao {
     public id?: number,
     public titulo?: string,
     public descricao?: any,
+    public habilitado?: boolean,
     public boletims?: IBoletimInformativo[],
     public publicacaos?: IPublicacaoFeed[]
-  ) {}
+  ) {
+    this.habilitado = this.habilitado || false;
+  }
 }

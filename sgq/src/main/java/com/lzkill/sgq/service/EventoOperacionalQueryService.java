@@ -94,6 +94,9 @@ public class EventoOperacionalQueryService extends QueryService<EventoOperaciona
             if (criteria.getTitulo() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getTitulo(), EventoOperacional_.titulo));
             }
+            if (criteria.getDataRegistro() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getDataRegistro(), EventoOperacional_.dataRegistro));
+            }
             if (criteria.getDataEvento() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getDataEvento(), EventoOperacional_.dataEvento));
             }
@@ -103,13 +106,13 @@ public class EventoOperacionalQueryService extends QueryService<EventoOperaciona
             if (criteria.getHouveParadaProducao() != null) {
                 specification = specification.and(buildSpecification(criteria.getHouveParadaProducao(), EventoOperacional_.houveParadaProducao));
             }
-            if (criteria.getAnexoId() != null) {
-                specification = specification.and(buildSpecification(criteria.getAnexoId(),
-                    root -> root.join(EventoOperacional_.anexos, JoinType.LEFT).get(Anexo_.id)));
-            }
             if (criteria.getProcessoId() != null) {
                 specification = specification.and(buildSpecification(criteria.getProcessoId(),
                     root -> root.join(EventoOperacional_.processo, JoinType.LEFT).get(Processo_.id)));
+            }
+            if (criteria.getAnexoId() != null) {
+                specification = specification.and(buildSpecification(criteria.getAnexoId(),
+                    root -> root.join(EventoOperacional_.anexos, JoinType.LEFT).get(Anexo_.id)));
             }
         }
         return specification;

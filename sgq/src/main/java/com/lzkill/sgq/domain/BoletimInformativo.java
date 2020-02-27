@@ -52,10 +52,6 @@ public class BoletimInformativo implements Serializable {
     @Column(name = "status", nullable = false)
     private StatusPublicacao status;
 
-    @OneToMany(mappedBy = "boletimInformativo")
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<Anexo> anexos = new HashSet<>();
-
     @ManyToOne(optional = false)
     @NotNull
     @JsonIgnoreProperties("boletimInformativos")
@@ -68,6 +64,13 @@ public class BoletimInformativo implements Serializable {
                joinColumns = @JoinColumn(name = "boletim_informativo_id", referencedColumnName = "id"),
                inverseJoinColumns = @JoinColumn(name = "categoria_id", referencedColumnName = "id"))
     private Set<CategoriaPublicacao> categorias = new HashSet<>();
+
+    @ManyToMany
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    @JoinTable(name = "boletim_informativo_anexo",
+               joinColumns = @JoinColumn(name = "boletim_informativo_id", referencedColumnName = "id"),
+               inverseJoinColumns = @JoinColumn(name = "anexo_id", referencedColumnName = "id"))
+    private Set<Anexo> anexos = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -156,31 +159,6 @@ public class BoletimInformativo implements Serializable {
         this.status = status;
     }
 
-    public Set<Anexo> getAnexos() {
-        return anexos;
-    }
-
-    public BoletimInformativo anexos(Set<Anexo> anexos) {
-        this.anexos = anexos;
-        return this;
-    }
-
-    public BoletimInformativo addAnexo(Anexo anexo) {
-        this.anexos.add(anexo);
-        anexo.setBoletimInformativo(this);
-        return this;
-    }
-
-    public BoletimInformativo removeAnexo(Anexo anexo) {
-        this.anexos.remove(anexo);
-        anexo.setBoletimInformativo(null);
-        return this;
-    }
-
-    public void setAnexos(Set<Anexo> anexos) {
-        this.anexos = anexos;
-    }
-
     public PublicoAlvo getPublicoAlvo() {
         return publicoAlvo;
     }
@@ -217,6 +195,31 @@ public class BoletimInformativo implements Serializable {
 
     public void setCategorias(Set<CategoriaPublicacao> categoriaPublicacaos) {
         this.categorias = categoriaPublicacaos;
+    }
+
+    public Set<Anexo> getAnexos() {
+        return anexos;
+    }
+
+    public BoletimInformativo anexos(Set<Anexo> anexos) {
+        this.anexos = anexos;
+        return this;
+    }
+
+    public BoletimInformativo addAnexo(Anexo anexo) {
+        this.anexos.add(anexo);
+        anexo.getBoletimInformativos().add(this);
+        return this;
+    }
+
+    public BoletimInformativo removeAnexo(Anexo anexo) {
+        this.anexos.remove(anexo);
+        anexo.getBoletimInformativos().remove(this);
+        return this;
+    }
+
+    public void setAnexos(Set<Anexo> anexos) {
+        this.anexos = anexos;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 

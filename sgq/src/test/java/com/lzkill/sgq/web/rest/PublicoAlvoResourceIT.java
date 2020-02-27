@@ -43,6 +43,9 @@ public class PublicoAlvoResourceIT {
     private static final String DEFAULT_DESCRICAO = "AAAAAAAAAA";
     private static final String UPDATED_DESCRICAO = "BBBBBBBBBB";
 
+    private static final Boolean DEFAULT_HABILITADO = false;
+    private static final Boolean UPDATED_HABILITADO = true;
+
     @Autowired
     private PublicoAlvoRepository publicoAlvoRepository;
 
@@ -92,7 +95,8 @@ public class PublicoAlvoResourceIT {
     public static PublicoAlvo createEntity(EntityManager em) {
         PublicoAlvo publicoAlvo = new PublicoAlvo()
             .nome(DEFAULT_NOME)
-            .descricao(DEFAULT_DESCRICAO);
+            .descricao(DEFAULT_DESCRICAO)
+            .habilitado(DEFAULT_HABILITADO);
         return publicoAlvo;
     }
     /**
@@ -104,7 +108,8 @@ public class PublicoAlvoResourceIT {
     public static PublicoAlvo createUpdatedEntity(EntityManager em) {
         PublicoAlvo publicoAlvo = new PublicoAlvo()
             .nome(UPDATED_NOME)
-            .descricao(UPDATED_DESCRICAO);
+            .descricao(UPDATED_DESCRICAO)
+            .habilitado(UPDATED_HABILITADO);
         return publicoAlvo;
     }
 
@@ -130,6 +135,7 @@ public class PublicoAlvoResourceIT {
         PublicoAlvo testPublicoAlvo = publicoAlvoList.get(publicoAlvoList.size() - 1);
         assertThat(testPublicoAlvo.getNome()).isEqualTo(DEFAULT_NOME);
         assertThat(testPublicoAlvo.getDescricao()).isEqualTo(DEFAULT_DESCRICAO);
+        assertThat(testPublicoAlvo.isHabilitado()).isEqualTo(DEFAULT_HABILITADO);
     }
 
     @Test
@@ -172,6 +178,24 @@ public class PublicoAlvoResourceIT {
 
     @Test
     @Transactional
+    public void checkHabilitadoIsRequired() throws Exception {
+        int databaseSizeBeforeTest = publicoAlvoRepository.findAll().size();
+        // set the field null
+        publicoAlvo.setHabilitado(null);
+
+        // Create the PublicoAlvo, which fails.
+
+        restPublicoAlvoMockMvc.perform(post("/api/publico-alvos")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(publicoAlvo)))
+            .andExpect(status().isBadRequest());
+
+        List<PublicoAlvo> publicoAlvoList = publicoAlvoRepository.findAll();
+        assertThat(publicoAlvoList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     public void getAllPublicoAlvos() throws Exception {
         // Initialize the database
         publicoAlvoRepository.saveAndFlush(publicoAlvo);
@@ -182,7 +206,8 @@ public class PublicoAlvoResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(publicoAlvo.getId().intValue())))
             .andExpect(jsonPath("$.[*].nome").value(hasItem(DEFAULT_NOME)))
-            .andExpect(jsonPath("$.[*].descricao").value(hasItem(DEFAULT_DESCRICAO.toString())));
+            .andExpect(jsonPath("$.[*].descricao").value(hasItem(DEFAULT_DESCRICAO.toString())))
+            .andExpect(jsonPath("$.[*].habilitado").value(hasItem(DEFAULT_HABILITADO.booleanValue())));
     }
     
     @Test
@@ -197,7 +222,8 @@ public class PublicoAlvoResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(publicoAlvo.getId().intValue()))
             .andExpect(jsonPath("$.nome").value(DEFAULT_NOME))
-            .andExpect(jsonPath("$.descricao").value(DEFAULT_DESCRICAO.toString()));
+            .andExpect(jsonPath("$.descricao").value(DEFAULT_DESCRICAO.toString()))
+            .andExpect(jsonPath("$.habilitado").value(DEFAULT_HABILITADO.booleanValue()));
     }
 
 
@@ -297,6 +323,58 @@ public class PublicoAlvoResourceIT {
         defaultPublicoAlvoShouldBeFound("nome.doesNotContain=" + UPDATED_NOME);
     }
 
+
+    @Test
+    @Transactional
+    public void getAllPublicoAlvosByHabilitadoIsEqualToSomething() throws Exception {
+        // Initialize the database
+        publicoAlvoRepository.saveAndFlush(publicoAlvo);
+
+        // Get all the publicoAlvoList where habilitado equals to DEFAULT_HABILITADO
+        defaultPublicoAlvoShouldBeFound("habilitado.equals=" + DEFAULT_HABILITADO);
+
+        // Get all the publicoAlvoList where habilitado equals to UPDATED_HABILITADO
+        defaultPublicoAlvoShouldNotBeFound("habilitado.equals=" + UPDATED_HABILITADO);
+    }
+
+    @Test
+    @Transactional
+    public void getAllPublicoAlvosByHabilitadoIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        publicoAlvoRepository.saveAndFlush(publicoAlvo);
+
+        // Get all the publicoAlvoList where habilitado not equals to DEFAULT_HABILITADO
+        defaultPublicoAlvoShouldNotBeFound("habilitado.notEquals=" + DEFAULT_HABILITADO);
+
+        // Get all the publicoAlvoList where habilitado not equals to UPDATED_HABILITADO
+        defaultPublicoAlvoShouldBeFound("habilitado.notEquals=" + UPDATED_HABILITADO);
+    }
+
+    @Test
+    @Transactional
+    public void getAllPublicoAlvosByHabilitadoIsInShouldWork() throws Exception {
+        // Initialize the database
+        publicoAlvoRepository.saveAndFlush(publicoAlvo);
+
+        // Get all the publicoAlvoList where habilitado in DEFAULT_HABILITADO or UPDATED_HABILITADO
+        defaultPublicoAlvoShouldBeFound("habilitado.in=" + DEFAULT_HABILITADO + "," + UPDATED_HABILITADO);
+
+        // Get all the publicoAlvoList where habilitado equals to UPDATED_HABILITADO
+        defaultPublicoAlvoShouldNotBeFound("habilitado.in=" + UPDATED_HABILITADO);
+    }
+
+    @Test
+    @Transactional
+    public void getAllPublicoAlvosByHabilitadoIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        publicoAlvoRepository.saveAndFlush(publicoAlvo);
+
+        // Get all the publicoAlvoList where habilitado is not null
+        defaultPublicoAlvoShouldBeFound("habilitado.specified=true");
+
+        // Get all the publicoAlvoList where habilitado is null
+        defaultPublicoAlvoShouldNotBeFound("habilitado.specified=false");
+    }
     /**
      * Executes the search, and checks that the default entity is returned.
      */
@@ -306,7 +384,8 @@ public class PublicoAlvoResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(publicoAlvo.getId().intValue())))
             .andExpect(jsonPath("$.[*].nome").value(hasItem(DEFAULT_NOME)))
-            .andExpect(jsonPath("$.[*].descricao").value(hasItem(DEFAULT_DESCRICAO.toString())));
+            .andExpect(jsonPath("$.[*].descricao").value(hasItem(DEFAULT_DESCRICAO.toString())))
+            .andExpect(jsonPath("$.[*].habilitado").value(hasItem(DEFAULT_HABILITADO.booleanValue())));
 
         // Check, that the count call also returns 1
         restPublicoAlvoMockMvc.perform(get("/api/publico-alvos/count?sort=id,desc&" + filter))
@@ -355,7 +434,8 @@ public class PublicoAlvoResourceIT {
         em.detach(updatedPublicoAlvo);
         updatedPublicoAlvo
             .nome(UPDATED_NOME)
-            .descricao(UPDATED_DESCRICAO);
+            .descricao(UPDATED_DESCRICAO)
+            .habilitado(UPDATED_HABILITADO);
 
         restPublicoAlvoMockMvc.perform(put("/api/publico-alvos")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -368,6 +448,7 @@ public class PublicoAlvoResourceIT {
         PublicoAlvo testPublicoAlvo = publicoAlvoList.get(publicoAlvoList.size() - 1);
         assertThat(testPublicoAlvo.getNome()).isEqualTo(UPDATED_NOME);
         assertThat(testPublicoAlvo.getDescricao()).isEqualTo(UPDATED_DESCRICAO);
+        assertThat(testPublicoAlvo.isHabilitado()).isEqualTo(UPDATED_HABILITADO);
     }
 
     @Test

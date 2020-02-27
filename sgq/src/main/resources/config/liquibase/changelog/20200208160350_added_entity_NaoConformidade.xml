@@ -20,22 +20,22 @@
                 <constraints nullable="false" />
             </column>
             <column name="id_usuario_responsavel" type="integer">
-                <constraints nullable="false" />
+                <constraints nullable="true" />
             </column>
             <column name="titulo" type="varchar(100)">
                 <constraints nullable="false" />
             </column>
-            <column name="fato" type="${clobType}">
+            <column name="descricao" type="${clobType}">
                 <constraints nullable="false" />
             </column>
-            <column name="procedente" type="boolean" remarks="O fato descrito implica de fato uma NC">
-                <constraints nullable="false" />
+            <column name="procedente" type="boolean" remarks="O fato descrito implica de fato uma NC?">
+                <constraints nullable="true" />
             </column>
             <column name="causa" type="${clobType}" remarks="O fechamento da NC só é possível se houver identificação de causa">
                 <constraints nullable="true" />
             </column>
             <column name="prazo_conclusao" type="datetime">
-                <constraints nullable="false" />
+                <constraints nullable="true" />
             </column>
             <column name="novo_prazo_conclusao" type="datetime">
                 <constraints nullable="true" />
@@ -52,10 +52,10 @@
             <column name="status_sgq" type="varchar(255)">
                 <constraints nullable="false" />
             </column>
-            <column name="resultado_auditoria_id" type="bigint">
+            <column name="auditoria_id" type="bigint">
                 <constraints nullable="true" />
             </column>
-            <column name="resultado_item_checklist_id" type="bigint">
+            <column name="resultado_checklist_id" type="bigint">
                 <constraints nullable="true" />
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
@@ -68,6 +68,17 @@
 
     <changeSet id="20200208160350-1-relations" author="jhipster">
 
+        <createTable tableName="nao_conformidade_anexo">
+            <column name="anexo_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="nao_conformidade_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addPrimaryKey columnNames="nao_conformidade_id, anexo_id" tableName="nao_conformidade_anexo"/>
+        
     </changeSet>
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here, do not remove-->
 
@@ -88,7 +99,7 @@
             <column name="id_usuario_registro" type="numeric"/>
             <column name="id_usuario_responsavel" type="numeric"/>
             <column name="titulo" type="string"/>
-            <column name="fato" type="clob"/>
+            <column name="descricao" type="clob"/>
             <column name="procedente" type="boolean"/>
             <column name="causa" type="clob"/>
             <column name="prazo_conclusao" type="datetime"/>

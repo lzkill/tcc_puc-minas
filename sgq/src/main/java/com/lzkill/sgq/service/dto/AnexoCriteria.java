@@ -10,6 +10,7 @@ import io.github.jhipster.service.filter.FloatFilter;
 import io.github.jhipster.service.filter.IntegerFilter;
 import io.github.jhipster.service.filter.LongFilter;
 import io.github.jhipster.service.filter.StringFilter;
+import io.github.jhipster.service.filter.InstantFilter;
 
 /**
  * Criteria class for the {@link com.lzkill.sgq.domain.Anexo} entity. This class is used
@@ -26,19 +27,27 @@ public class AnexoCriteria implements Serializable, Criteria {
 
     private LongFilter id;
 
+    private IntegerFilter idUsuarioRegistro;
+
+    private InstantFilter dataRegistro;
+
     private StringFilter nomeArquivo;
 
     private LongFilter acaoSGQId;
 
-    private LongFilter analiseConsultoriaId;
+    private LongFilter auditoriaId;
 
-    private LongFilter checklistId;
+    private LongFilter analiseConsultoriaId;
 
     private LongFilter boletimInformativoId;
 
     private LongFilter campanhaRecallId;
 
+    private LongFilter checklistId;
+
     private LongFilter eventoOperacionalId;
+
+    private LongFilter itemAuditoriaId;
 
     private LongFilter itemChecklistId;
 
@@ -65,13 +74,17 @@ public class AnexoCriteria implements Serializable, Criteria {
 
     public AnexoCriteria(AnexoCriteria other){
         this.id = other.id == null ? null : other.id.copy();
+        this.idUsuarioRegistro = other.idUsuarioRegistro == null ? null : other.idUsuarioRegistro.copy();
+        this.dataRegistro = other.dataRegistro == null ? null : other.dataRegistro.copy();
         this.nomeArquivo = other.nomeArquivo == null ? null : other.nomeArquivo.copy();
         this.acaoSGQId = other.acaoSGQId == null ? null : other.acaoSGQId.copy();
+        this.auditoriaId = other.auditoriaId == null ? null : other.auditoriaId.copy();
         this.analiseConsultoriaId = other.analiseConsultoriaId == null ? null : other.analiseConsultoriaId.copy();
-        this.checklistId = other.checklistId == null ? null : other.checklistId.copy();
         this.boletimInformativoId = other.boletimInformativoId == null ? null : other.boletimInformativoId.copy();
         this.campanhaRecallId = other.campanhaRecallId == null ? null : other.campanhaRecallId.copy();
+        this.checklistId = other.checklistId == null ? null : other.checklistId.copy();
         this.eventoOperacionalId = other.eventoOperacionalId == null ? null : other.eventoOperacionalId.copy();
+        this.itemAuditoriaId = other.itemAuditoriaId == null ? null : other.itemAuditoriaId.copy();
         this.itemChecklistId = other.itemChecklistId == null ? null : other.itemChecklistId.copy();
         this.itemPlanoAuditoriaId = other.itemPlanoAuditoriaId == null ? null : other.itemPlanoAuditoriaId.copy();
         this.naoConformidadeId = other.naoConformidadeId == null ? null : other.naoConformidadeId.copy();
@@ -97,6 +110,22 @@ public class AnexoCriteria implements Serializable, Criteria {
         this.id = id;
     }
 
+    public IntegerFilter getIdUsuarioRegistro() {
+        return idUsuarioRegistro;
+    }
+
+    public void setIdUsuarioRegistro(IntegerFilter idUsuarioRegistro) {
+        this.idUsuarioRegistro = idUsuarioRegistro;
+    }
+
+    public InstantFilter getDataRegistro() {
+        return dataRegistro;
+    }
+
+    public void setDataRegistro(InstantFilter dataRegistro) {
+        this.dataRegistro = dataRegistro;
+    }
+
     public StringFilter getNomeArquivo() {
         return nomeArquivo;
     }
@@ -113,20 +142,20 @@ public class AnexoCriteria implements Serializable, Criteria {
         this.acaoSGQId = acaoSGQId;
     }
 
+    public LongFilter getAuditoriaId() {
+        return auditoriaId;
+    }
+
+    public void setAuditoriaId(LongFilter auditoriaId) {
+        this.auditoriaId = auditoriaId;
+    }
+
     public LongFilter getAnaliseConsultoriaId() {
         return analiseConsultoriaId;
     }
 
     public void setAnaliseConsultoriaId(LongFilter analiseConsultoriaId) {
         this.analiseConsultoriaId = analiseConsultoriaId;
-    }
-
-    public LongFilter getChecklistId() {
-        return checklistId;
-    }
-
-    public void setChecklistId(LongFilter checklistId) {
-        this.checklistId = checklistId;
     }
 
     public LongFilter getBoletimInformativoId() {
@@ -145,12 +174,28 @@ public class AnexoCriteria implements Serializable, Criteria {
         this.campanhaRecallId = campanhaRecallId;
     }
 
+    public LongFilter getChecklistId() {
+        return checklistId;
+    }
+
+    public void setChecklistId(LongFilter checklistId) {
+        this.checklistId = checklistId;
+    }
+
     public LongFilter getEventoOperacionalId() {
         return eventoOperacionalId;
     }
 
     public void setEventoOperacionalId(LongFilter eventoOperacionalId) {
         this.eventoOperacionalId = eventoOperacionalId;
+    }
+
+    public LongFilter getItemAuditoriaId() {
+        return itemAuditoriaId;
+    }
+
+    public void setItemAuditoriaId(LongFilter itemAuditoriaId) {
+        this.itemAuditoriaId = itemAuditoriaId;
     }
 
     public LongFilter getItemChecklistId() {
@@ -245,13 +290,17 @@ public class AnexoCriteria implements Serializable, Criteria {
         final AnexoCriteria that = (AnexoCriteria) o;
         return
             Objects.equals(id, that.id) &&
+            Objects.equals(idUsuarioRegistro, that.idUsuarioRegistro) &&
+            Objects.equals(dataRegistro, that.dataRegistro) &&
             Objects.equals(nomeArquivo, that.nomeArquivo) &&
             Objects.equals(acaoSGQId, that.acaoSGQId) &&
+            Objects.equals(auditoriaId, that.auditoriaId) &&
             Objects.equals(analiseConsultoriaId, that.analiseConsultoriaId) &&
-            Objects.equals(checklistId, that.checklistId) &&
             Objects.equals(boletimInformativoId, that.boletimInformativoId) &&
             Objects.equals(campanhaRecallId, that.campanhaRecallId) &&
+            Objects.equals(checklistId, that.checklistId) &&
             Objects.equals(eventoOperacionalId, that.eventoOperacionalId) &&
+            Objects.equals(itemAuditoriaId, that.itemAuditoriaId) &&
             Objects.equals(itemChecklistId, that.itemChecklistId) &&
             Objects.equals(itemPlanoAuditoriaId, that.itemPlanoAuditoriaId) &&
             Objects.equals(naoConformidadeId, that.naoConformidadeId) &&
@@ -268,13 +317,17 @@ public class AnexoCriteria implements Serializable, Criteria {
     public int hashCode() {
         return Objects.hash(
         id,
+        idUsuarioRegistro,
+        dataRegistro,
         nomeArquivo,
         acaoSGQId,
+        auditoriaId,
         analiseConsultoriaId,
-        checklistId,
         boletimInformativoId,
         campanhaRecallId,
+        checklistId,
         eventoOperacionalId,
+        itemAuditoriaId,
         itemChecklistId,
         itemPlanoAuditoriaId,
         naoConformidadeId,
@@ -292,13 +345,17 @@ public class AnexoCriteria implements Serializable, Criteria {
     public String toString() {
         return "AnexoCriteria{" +
                 (id != null ? "id=" + id + ", " : "") +
+                (idUsuarioRegistro != null ? "idUsuarioRegistro=" + idUsuarioRegistro + ", " : "") +
+                (dataRegistro != null ? "dataRegistro=" + dataRegistro + ", " : "") +
                 (nomeArquivo != null ? "nomeArquivo=" + nomeArquivo + ", " : "") +
                 (acaoSGQId != null ? "acaoSGQId=" + acaoSGQId + ", " : "") +
+                (auditoriaId != null ? "auditoriaId=" + auditoriaId + ", " : "") +
                 (analiseConsultoriaId != null ? "analiseConsultoriaId=" + analiseConsultoriaId + ", " : "") +
-                (checklistId != null ? "checklistId=" + checklistId + ", " : "") +
                 (boletimInformativoId != null ? "boletimInformativoId=" + boletimInformativoId + ", " : "") +
                 (campanhaRecallId != null ? "campanhaRecallId=" + campanhaRecallId + ", " : "") +
+                (checklistId != null ? "checklistId=" + checklistId + ", " : "") +
                 (eventoOperacionalId != null ? "eventoOperacionalId=" + eventoOperacionalId + ", " : "") +
+                (itemAuditoriaId != null ? "itemAuditoriaId=" + itemAuditoriaId + ", " : "") +
                 (itemChecklistId != null ? "itemChecklistId=" + itemChecklistId + ", " : "") +
                 (itemPlanoAuditoriaId != null ? "itemPlanoAuditoriaId=" + itemPlanoAuditoriaId + ", " : "") +
                 (naoConformidadeId != null ? "naoConformidadeId=" + naoConformidadeId + ", " : "") +

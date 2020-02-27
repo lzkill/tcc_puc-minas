@@ -2,10 +2,10 @@ package com.lzkill.sgq.web.rest;
 
 import com.lzkill.sgq.SgqApp;
 import com.lzkill.sgq.domain.NaoConformidade;
-import com.lzkill.sgq.domain.Anexo;
 import com.lzkill.sgq.domain.AcaoSGQ;
-import com.lzkill.sgq.domain.ResultadoAuditoria;
-import com.lzkill.sgq.domain.ResultadoItemChecklist;
+import com.lzkill.sgq.domain.Anexo;
+import com.lzkill.sgq.domain.Auditoria;
+import com.lzkill.sgq.domain.ResultadoChecklist;
 import com.lzkill.sgq.repository.NaoConformidadeRepository;
 import com.lzkill.sgq.service.NaoConformidadeService;
 import com.lzkill.sgq.web.rest.errors.ExceptionTranslator;
@@ -14,9 +14,12 @@ import com.lzkill.sgq.service.NaoConformidadeQueryService;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -29,11 +32,13 @@ import org.springframework.validation.Validator;
 import javax.persistence.EntityManager;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.lzkill.sgq.web.rest.TestUtil.createFormattingConversionService;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -55,8 +60,8 @@ public class NaoConformidadeResourceIT {
     private static final String DEFAULT_TITULO = "AAAAAAAAAA";
     private static final String UPDATED_TITULO = "BBBBBBBBBB";
 
-    private static final String DEFAULT_FATO = "AAAAAAAAAA";
-    private static final String UPDATED_FATO = "BBBBBBBBBB";
+    private static final String DEFAULT_DESCRICAO = "AAAAAAAAAA";
+    private static final String UPDATED_DESCRICAO = "BBBBBBBBBB";
 
     private static final Boolean DEFAULT_PROCEDENTE = false;
     private static final Boolean UPDATED_PROCEDENTE = true;
@@ -84,6 +89,12 @@ public class NaoConformidadeResourceIT {
 
     @Autowired
     private NaoConformidadeRepository naoConformidadeRepository;
+
+    @Mock
+    private NaoConformidadeRepository naoConformidadeRepositoryMock;
+
+    @Mock
+    private NaoConformidadeService naoConformidadeServiceMock;
 
     @Autowired
     private NaoConformidadeService naoConformidadeService;
@@ -133,7 +144,7 @@ public class NaoConformidadeResourceIT {
             .idUsuarioRegistro(DEFAULT_ID_USUARIO_REGISTRO)
             .idUsuarioResponsavel(DEFAULT_ID_USUARIO_RESPONSAVEL)
             .titulo(DEFAULT_TITULO)
-            .fato(DEFAULT_FATO)
+            .descricao(DEFAULT_DESCRICAO)
             .procedente(DEFAULT_PROCEDENTE)
             .causa(DEFAULT_CAUSA)
             .prazoConclusao(DEFAULT_PRAZO_CONCLUSAO)
@@ -142,16 +153,6 @@ public class NaoConformidadeResourceIT {
             .dataConclusao(DEFAULT_DATA_CONCLUSAO)
             .analiseFinal(DEFAULT_ANALISE_FINAL)
             .statusSGQ(DEFAULT_STATUS_SGQ);
-        // Add required entity
-        AcaoSGQ acaoSGQ;
-        if (TestUtil.findAll(em, AcaoSGQ.class).isEmpty()) {
-            acaoSGQ = AcaoSGQResourceIT.createEntity(em);
-            em.persist(acaoSGQ);
-            em.flush();
-        } else {
-            acaoSGQ = TestUtil.findAll(em, AcaoSGQ.class).get(0);
-        }
-        naoConformidade.getAcaoSGQS().add(acaoSGQ);
         return naoConformidade;
     }
     /**
@@ -165,7 +166,7 @@ public class NaoConformidadeResourceIT {
             .idUsuarioRegistro(UPDATED_ID_USUARIO_REGISTRO)
             .idUsuarioResponsavel(UPDATED_ID_USUARIO_RESPONSAVEL)
             .titulo(UPDATED_TITULO)
-            .fato(UPDATED_FATO)
+            .descricao(UPDATED_DESCRICAO)
             .procedente(UPDATED_PROCEDENTE)
             .causa(UPDATED_CAUSA)
             .prazoConclusao(UPDATED_PRAZO_CONCLUSAO)
@@ -174,16 +175,6 @@ public class NaoConformidadeResourceIT {
             .dataConclusao(UPDATED_DATA_CONCLUSAO)
             .analiseFinal(UPDATED_ANALISE_FINAL)
             .statusSGQ(UPDATED_STATUS_SGQ);
-        // Add required entity
-        AcaoSGQ acaoSGQ;
-        if (TestUtil.findAll(em, AcaoSGQ.class).isEmpty()) {
-            acaoSGQ = AcaoSGQResourceIT.createUpdatedEntity(em);
-            em.persist(acaoSGQ);
-            em.flush();
-        } else {
-            acaoSGQ = TestUtil.findAll(em, AcaoSGQ.class).get(0);
-        }
-        naoConformidade.getAcaoSGQS().add(acaoSGQ);
         return naoConformidade;
     }
 
@@ -210,7 +201,7 @@ public class NaoConformidadeResourceIT {
         assertThat(testNaoConformidade.getIdUsuarioRegistro()).isEqualTo(DEFAULT_ID_USUARIO_REGISTRO);
         assertThat(testNaoConformidade.getIdUsuarioResponsavel()).isEqualTo(DEFAULT_ID_USUARIO_RESPONSAVEL);
         assertThat(testNaoConformidade.getTitulo()).isEqualTo(DEFAULT_TITULO);
-        assertThat(testNaoConformidade.getFato()).isEqualTo(DEFAULT_FATO);
+        assertThat(testNaoConformidade.getDescricao()).isEqualTo(DEFAULT_DESCRICAO);
         assertThat(testNaoConformidade.isProcedente()).isEqualTo(DEFAULT_PROCEDENTE);
         assertThat(testNaoConformidade.getCausa()).isEqualTo(DEFAULT_CAUSA);
         assertThat(testNaoConformidade.getPrazoConclusao()).isEqualTo(DEFAULT_PRAZO_CONCLUSAO);
@@ -261,64 +252,10 @@ public class NaoConformidadeResourceIT {
 
     @Test
     @Transactional
-    public void checkIdUsuarioResponsavelIsRequired() throws Exception {
-        int databaseSizeBeforeTest = naoConformidadeRepository.findAll().size();
-        // set the field null
-        naoConformidade.setIdUsuarioResponsavel(null);
-
-        // Create the NaoConformidade, which fails.
-
-        restNaoConformidadeMockMvc.perform(post("/api/nao-conformidades")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(naoConformidade)))
-            .andExpect(status().isBadRequest());
-
-        List<NaoConformidade> naoConformidadeList = naoConformidadeRepository.findAll();
-        assertThat(naoConformidadeList).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
     public void checkTituloIsRequired() throws Exception {
         int databaseSizeBeforeTest = naoConformidadeRepository.findAll().size();
         // set the field null
         naoConformidade.setTitulo(null);
-
-        // Create the NaoConformidade, which fails.
-
-        restNaoConformidadeMockMvc.perform(post("/api/nao-conformidades")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(naoConformidade)))
-            .andExpect(status().isBadRequest());
-
-        List<NaoConformidade> naoConformidadeList = naoConformidadeRepository.findAll();
-        assertThat(naoConformidadeList).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
-    public void checkProcedenteIsRequired() throws Exception {
-        int databaseSizeBeforeTest = naoConformidadeRepository.findAll().size();
-        // set the field null
-        naoConformidade.setProcedente(null);
-
-        // Create the NaoConformidade, which fails.
-
-        restNaoConformidadeMockMvc.perform(post("/api/nao-conformidades")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(naoConformidade)))
-            .andExpect(status().isBadRequest());
-
-        List<NaoConformidade> naoConformidadeList = naoConformidadeRepository.findAll();
-        assertThat(naoConformidadeList).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
-    public void checkPrazoConclusaoIsRequired() throws Exception {
-        int databaseSizeBeforeTest = naoConformidadeRepository.findAll().size();
-        // set the field null
-        naoConformidade.setPrazoConclusao(null);
 
         // Create the NaoConformidade, which fails.
 
@@ -381,7 +318,7 @@ public class NaoConformidadeResourceIT {
             .andExpect(jsonPath("$.[*].idUsuarioRegistro").value(hasItem(DEFAULT_ID_USUARIO_REGISTRO)))
             .andExpect(jsonPath("$.[*].idUsuarioResponsavel").value(hasItem(DEFAULT_ID_USUARIO_RESPONSAVEL)))
             .andExpect(jsonPath("$.[*].titulo").value(hasItem(DEFAULT_TITULO)))
-            .andExpect(jsonPath("$.[*].fato").value(hasItem(DEFAULT_FATO.toString())))
+            .andExpect(jsonPath("$.[*].descricao").value(hasItem(DEFAULT_DESCRICAO.toString())))
             .andExpect(jsonPath("$.[*].procedente").value(hasItem(DEFAULT_PROCEDENTE.booleanValue())))
             .andExpect(jsonPath("$.[*].causa").value(hasItem(DEFAULT_CAUSA.toString())))
             .andExpect(jsonPath("$.[*].prazoConclusao").value(hasItem(DEFAULT_PRAZO_CONCLUSAO.toString())))
@@ -390,6 +327,39 @@ public class NaoConformidadeResourceIT {
             .andExpect(jsonPath("$.[*].dataConclusao").value(hasItem(DEFAULT_DATA_CONCLUSAO.toString())))
             .andExpect(jsonPath("$.[*].analiseFinal").value(hasItem(DEFAULT_ANALISE_FINAL.toString())))
             .andExpect(jsonPath("$.[*].statusSGQ").value(hasItem(DEFAULT_STATUS_SGQ.toString())));
+    }
+    
+    @SuppressWarnings({"unchecked"})
+    public void getAllNaoConformidadesWithEagerRelationshipsIsEnabled() throws Exception {
+        NaoConformidadeResource naoConformidadeResource = new NaoConformidadeResource(naoConformidadeServiceMock, naoConformidadeQueryService);
+        when(naoConformidadeServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+
+        MockMvc restNaoConformidadeMockMvc = MockMvcBuilders.standaloneSetup(naoConformidadeResource)
+            .setCustomArgumentResolvers(pageableArgumentResolver)
+            .setControllerAdvice(exceptionTranslator)
+            .setConversionService(createFormattingConversionService())
+            .setMessageConverters(jacksonMessageConverter).build();
+
+        restNaoConformidadeMockMvc.perform(get("/api/nao-conformidades?eagerload=true"))
+        .andExpect(status().isOk());
+
+        verify(naoConformidadeServiceMock, times(1)).findAllWithEagerRelationships(any());
+    }
+
+    @SuppressWarnings({"unchecked"})
+    public void getAllNaoConformidadesWithEagerRelationshipsIsNotEnabled() throws Exception {
+        NaoConformidadeResource naoConformidadeResource = new NaoConformidadeResource(naoConformidadeServiceMock, naoConformidadeQueryService);
+            when(naoConformidadeServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+            MockMvc restNaoConformidadeMockMvc = MockMvcBuilders.standaloneSetup(naoConformidadeResource)
+            .setCustomArgumentResolvers(pageableArgumentResolver)
+            .setControllerAdvice(exceptionTranslator)
+            .setConversionService(createFormattingConversionService())
+            .setMessageConverters(jacksonMessageConverter).build();
+
+        restNaoConformidadeMockMvc.perform(get("/api/nao-conformidades?eagerload=true"))
+        .andExpect(status().isOk());
+
+            verify(naoConformidadeServiceMock, times(1)).findAllWithEagerRelationships(any());
     }
 
     @Test
@@ -406,7 +376,7 @@ public class NaoConformidadeResourceIT {
             .andExpect(jsonPath("$.idUsuarioRegistro").value(DEFAULT_ID_USUARIO_REGISTRO))
             .andExpect(jsonPath("$.idUsuarioResponsavel").value(DEFAULT_ID_USUARIO_RESPONSAVEL))
             .andExpect(jsonPath("$.titulo").value(DEFAULT_TITULO))
-            .andExpect(jsonPath("$.fato").value(DEFAULT_FATO.toString()))
+            .andExpect(jsonPath("$.descricao").value(DEFAULT_DESCRICAO.toString()))
             .andExpect(jsonPath("$.procedente").value(DEFAULT_PROCEDENTE.booleanValue()))
             .andExpect(jsonPath("$.causa").value(DEFAULT_CAUSA.toString()))
             .andExpect(jsonPath("$.prazoConclusao").value(DEFAULT_PRAZO_CONCLUSAO.toString()))
@@ -1039,6 +1009,26 @@ public class NaoConformidadeResourceIT {
 
     @Test
     @Transactional
+    public void getAllNaoConformidadesByAcaoSGQIsEqualToSomething() throws Exception {
+        // Initialize the database
+        naoConformidadeRepository.saveAndFlush(naoConformidade);
+        AcaoSGQ acaoSGQ = AcaoSGQResourceIT.createEntity(em);
+        em.persist(acaoSGQ);
+        em.flush();
+        naoConformidade.addAcaoSGQ(acaoSGQ);
+        naoConformidadeRepository.saveAndFlush(naoConformidade);
+        Long acaoSGQId = acaoSGQ.getId();
+
+        // Get all the naoConformidadeList where acaoSGQ equals to acaoSGQId
+        defaultNaoConformidadeShouldBeFound("acaoSGQId.equals=" + acaoSGQId);
+
+        // Get all the naoConformidadeList where acaoSGQ equals to acaoSGQId + 1
+        defaultNaoConformidadeShouldNotBeFound("acaoSGQId.equals=" + (acaoSGQId + 1));
+    }
+
+
+    @Test
+    @Transactional
     public void getAllNaoConformidadesByAnexoIsEqualToSomething() throws Exception {
         // Initialize the database
         naoConformidadeRepository.saveAndFlush(naoConformidade);
@@ -1056,60 +1046,44 @@ public class NaoConformidadeResourceIT {
         defaultNaoConformidadeShouldNotBeFound("anexoId.equals=" + (anexoId + 1));
     }
 
-/*
-    @Test
-    @Transactional
-    public void getAllNaoConformidadesByAcaoSGQIsEqualToSomething() throws Exception {
-        // Get already existing entity
-        AcaoSGQ acaoSGQ = naoConformidade.getAcaoSGQ();
-        naoConformidadeRepository.saveAndFlush(naoConformidade);
-        Long acaoSGQId = acaoSGQ.getId();
-
-        // Get all the naoConformidadeList where acaoSGQ equals to acaoSGQId
-        defaultNaoConformidadeShouldBeFound("acaoSGQId.equals=" + acaoSGQId);
-
-        // Get all the naoConformidadeList where acaoSGQ equals to acaoSGQId + 1
-        defaultNaoConformidadeShouldNotBeFound("acaoSGQId.equals=" + (acaoSGQId + 1));
-    }
-*/
 
     @Test
     @Transactional
-    public void getAllNaoConformidadesByResultadoAuditoriaIsEqualToSomething() throws Exception {
+    public void getAllNaoConformidadesByAuditoriaIsEqualToSomething() throws Exception {
         // Initialize the database
         naoConformidadeRepository.saveAndFlush(naoConformidade);
-        ResultadoAuditoria resultadoAuditoria = ResultadoAuditoriaResourceIT.createEntity(em);
-        em.persist(resultadoAuditoria);
+        Auditoria auditoria = AuditoriaResourceIT.createEntity(em);
+        em.persist(auditoria);
         em.flush();
-        naoConformidade.setResultadoAuditoria(resultadoAuditoria);
+        naoConformidade.setAuditoria(auditoria);
         naoConformidadeRepository.saveAndFlush(naoConformidade);
-        Long resultadoAuditoriaId = resultadoAuditoria.getId();
+        Long auditoriaId = auditoria.getId();
 
-        // Get all the naoConformidadeList where resultadoAuditoria equals to resultadoAuditoriaId
-        defaultNaoConformidadeShouldBeFound("resultadoAuditoriaId.equals=" + resultadoAuditoriaId);
+        // Get all the naoConformidadeList where auditoria equals to auditoriaId
+        defaultNaoConformidadeShouldBeFound("auditoriaId.equals=" + auditoriaId);
 
-        // Get all the naoConformidadeList where resultadoAuditoria equals to resultadoAuditoriaId + 1
-        defaultNaoConformidadeShouldNotBeFound("resultadoAuditoriaId.equals=" + (resultadoAuditoriaId + 1));
+        // Get all the naoConformidadeList where auditoria equals to auditoriaId + 1
+        defaultNaoConformidadeShouldNotBeFound("auditoriaId.equals=" + (auditoriaId + 1));
     }
 
 
     @Test
     @Transactional
-    public void getAllNaoConformidadesByResultadoItemChecklistIsEqualToSomething() throws Exception {
+    public void getAllNaoConformidadesByResultadoChecklistIsEqualToSomething() throws Exception {
         // Initialize the database
         naoConformidadeRepository.saveAndFlush(naoConformidade);
-        ResultadoItemChecklist resultadoItemChecklist = ResultadoItemChecklistResourceIT.createEntity(em);
-        em.persist(resultadoItemChecklist);
+        ResultadoChecklist resultadoChecklist = ResultadoChecklistResourceIT.createEntity(em);
+        em.persist(resultadoChecklist);
         em.flush();
-        naoConformidade.setResultadoItemChecklist(resultadoItemChecklist);
+        naoConformidade.setResultadoChecklist(resultadoChecklist);
         naoConformidadeRepository.saveAndFlush(naoConformidade);
-        Long resultadoItemChecklistId = resultadoItemChecklist.getId();
+        Long resultadoChecklistId = resultadoChecklist.getId();
 
-        // Get all the naoConformidadeList where resultadoItemChecklist equals to resultadoItemChecklistId
-        defaultNaoConformidadeShouldBeFound("resultadoItemChecklistId.equals=" + resultadoItemChecklistId);
+        // Get all the naoConformidadeList where resultadoChecklist equals to resultadoChecklistId
+        defaultNaoConformidadeShouldBeFound("resultadoChecklistId.equals=" + resultadoChecklistId);
 
-        // Get all the naoConformidadeList where resultadoItemChecklist equals to resultadoItemChecklistId + 1
-        defaultNaoConformidadeShouldNotBeFound("resultadoItemChecklistId.equals=" + (resultadoItemChecklistId + 1));
+        // Get all the naoConformidadeList where resultadoChecklist equals to resultadoChecklistId + 1
+        defaultNaoConformidadeShouldNotBeFound("resultadoChecklistId.equals=" + (resultadoChecklistId + 1));
     }
 
     /**
@@ -1123,7 +1097,7 @@ public class NaoConformidadeResourceIT {
             .andExpect(jsonPath("$.[*].idUsuarioRegistro").value(hasItem(DEFAULT_ID_USUARIO_REGISTRO)))
             .andExpect(jsonPath("$.[*].idUsuarioResponsavel").value(hasItem(DEFAULT_ID_USUARIO_RESPONSAVEL)))
             .andExpect(jsonPath("$.[*].titulo").value(hasItem(DEFAULT_TITULO)))
-            .andExpect(jsonPath("$.[*].fato").value(hasItem(DEFAULT_FATO.toString())))
+            .andExpect(jsonPath("$.[*].descricao").value(hasItem(DEFAULT_DESCRICAO.toString())))
             .andExpect(jsonPath("$.[*].procedente").value(hasItem(DEFAULT_PROCEDENTE.booleanValue())))
             .andExpect(jsonPath("$.[*].causa").value(hasItem(DEFAULT_CAUSA.toString())))
             .andExpect(jsonPath("$.[*].prazoConclusao").value(hasItem(DEFAULT_PRAZO_CONCLUSAO.toString())))
@@ -1182,7 +1156,7 @@ public class NaoConformidadeResourceIT {
             .idUsuarioRegistro(UPDATED_ID_USUARIO_REGISTRO)
             .idUsuarioResponsavel(UPDATED_ID_USUARIO_RESPONSAVEL)
             .titulo(UPDATED_TITULO)
-            .fato(UPDATED_FATO)
+            .descricao(UPDATED_DESCRICAO)
             .procedente(UPDATED_PROCEDENTE)
             .causa(UPDATED_CAUSA)
             .prazoConclusao(UPDATED_PRAZO_CONCLUSAO)
@@ -1204,7 +1178,7 @@ public class NaoConformidadeResourceIT {
         assertThat(testNaoConformidade.getIdUsuarioRegistro()).isEqualTo(UPDATED_ID_USUARIO_REGISTRO);
         assertThat(testNaoConformidade.getIdUsuarioResponsavel()).isEqualTo(UPDATED_ID_USUARIO_RESPONSAVEL);
         assertThat(testNaoConformidade.getTitulo()).isEqualTo(UPDATED_TITULO);
-        assertThat(testNaoConformidade.getFato()).isEqualTo(UPDATED_FATO);
+        assertThat(testNaoConformidade.getDescricao()).isEqualTo(UPDATED_DESCRICAO);
         assertThat(testNaoConformidade.isProcedente()).isEqualTo(UPDATED_PROCEDENTE);
         assertThat(testNaoConformidade.getCausa()).isEqualTo(UPDATED_CAUSA);
         assertThat(testNaoConformidade.getPrazoConclusao()).isEqualTo(UPDATED_PRAZO_CONCLUSAO);

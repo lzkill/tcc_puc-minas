@@ -3,6 +3,7 @@ package com.lzkill.sgq.service.dto;
 import java.io.Serializable;
 import java.util.Objects;
 import io.github.jhipster.service.Criteria;
+import com.lzkill.sgq.domain.enumeration.ModalidadeAuditoria;
 import io.github.jhipster.service.filter.BooleanFilter;
 import io.github.jhipster.service.filter.DoubleFilter;
 import io.github.jhipster.service.filter.Filter;
@@ -22,18 +23,40 @@ import io.github.jhipster.service.filter.InstantFilter;
  * fix type specific filters.
  */
 public class ItemPlanoAuditoriaCriteria implements Serializable, Criteria {
+    /**
+     * Class for filtering ModalidadeAuditoria
+     */
+    public static class ModalidadeAuditoriaFilter extends Filter<ModalidadeAuditoria> {
+
+        public ModalidadeAuditoriaFilter() {
+        }
+
+        public ModalidadeAuditoriaFilter(ModalidadeAuditoriaFilter filter) {
+            super(filter);
+        }
+
+        @Override
+        public ModalidadeAuditoriaFilter copy() {
+            return new ModalidadeAuditoriaFilter(this);
+        }
+
+    }
 
     private static final long serialVersionUID = 1L;
 
     private LongFilter id;
 
+    private StringFilter titulo;
+
+    private ModalidadeAuditoriaFilter modalidade;
+
     private InstantFilter dataInicioPrevisto;
 
     private InstantFilter dataFimPrevisto;
 
-    private LongFilter anexoId;
+    private LongFilter itemAuditoriaId;
 
-    private LongFilter auditoriaId;
+    private LongFilter anexoId;
 
     private LongFilter planoId;
 
@@ -42,10 +65,12 @@ public class ItemPlanoAuditoriaCriteria implements Serializable, Criteria {
 
     public ItemPlanoAuditoriaCriteria(ItemPlanoAuditoriaCriteria other){
         this.id = other.id == null ? null : other.id.copy();
+        this.titulo = other.titulo == null ? null : other.titulo.copy();
+        this.modalidade = other.modalidade == null ? null : other.modalidade.copy();
         this.dataInicioPrevisto = other.dataInicioPrevisto == null ? null : other.dataInicioPrevisto.copy();
         this.dataFimPrevisto = other.dataFimPrevisto == null ? null : other.dataFimPrevisto.copy();
+        this.itemAuditoriaId = other.itemAuditoriaId == null ? null : other.itemAuditoriaId.copy();
         this.anexoId = other.anexoId == null ? null : other.anexoId.copy();
-        this.auditoriaId = other.auditoriaId == null ? null : other.auditoriaId.copy();
         this.planoId = other.planoId == null ? null : other.planoId.copy();
     }
 
@@ -60,6 +85,22 @@ public class ItemPlanoAuditoriaCriteria implements Serializable, Criteria {
 
     public void setId(LongFilter id) {
         this.id = id;
+    }
+
+    public StringFilter getTitulo() {
+        return titulo;
+    }
+
+    public void setTitulo(StringFilter titulo) {
+        this.titulo = titulo;
+    }
+
+    public ModalidadeAuditoriaFilter getModalidade() {
+        return modalidade;
+    }
+
+    public void setModalidade(ModalidadeAuditoriaFilter modalidade) {
+        this.modalidade = modalidade;
     }
 
     public InstantFilter getDataInicioPrevisto() {
@@ -78,20 +119,20 @@ public class ItemPlanoAuditoriaCriteria implements Serializable, Criteria {
         this.dataFimPrevisto = dataFimPrevisto;
     }
 
+    public LongFilter getItemAuditoriaId() {
+        return itemAuditoriaId;
+    }
+
+    public void setItemAuditoriaId(LongFilter itemAuditoriaId) {
+        this.itemAuditoriaId = itemAuditoriaId;
+    }
+
     public LongFilter getAnexoId() {
         return anexoId;
     }
 
     public void setAnexoId(LongFilter anexoId) {
         this.anexoId = anexoId;
-    }
-
-    public LongFilter getAuditoriaId() {
-        return auditoriaId;
-    }
-
-    public void setAuditoriaId(LongFilter auditoriaId) {
-        this.auditoriaId = auditoriaId;
     }
 
     public LongFilter getPlanoId() {
@@ -114,10 +155,12 @@ public class ItemPlanoAuditoriaCriteria implements Serializable, Criteria {
         final ItemPlanoAuditoriaCriteria that = (ItemPlanoAuditoriaCriteria) o;
         return
             Objects.equals(id, that.id) &&
+            Objects.equals(titulo, that.titulo) &&
+            Objects.equals(modalidade, that.modalidade) &&
             Objects.equals(dataInicioPrevisto, that.dataInicioPrevisto) &&
             Objects.equals(dataFimPrevisto, that.dataFimPrevisto) &&
+            Objects.equals(itemAuditoriaId, that.itemAuditoriaId) &&
             Objects.equals(anexoId, that.anexoId) &&
-            Objects.equals(auditoriaId, that.auditoriaId) &&
             Objects.equals(planoId, that.planoId);
     }
 
@@ -125,10 +168,12 @@ public class ItemPlanoAuditoriaCriteria implements Serializable, Criteria {
     public int hashCode() {
         return Objects.hash(
         id,
+        titulo,
+        modalidade,
         dataInicioPrevisto,
         dataFimPrevisto,
+        itemAuditoriaId,
         anexoId,
-        auditoriaId,
         planoId
         );
     }
@@ -137,10 +182,12 @@ public class ItemPlanoAuditoriaCriteria implements Serializable, Criteria {
     public String toString() {
         return "ItemPlanoAuditoriaCriteria{" +
                 (id != null ? "id=" + id + ", " : "") +
+                (titulo != null ? "titulo=" + titulo + ", " : "") +
+                (modalidade != null ? "modalidade=" + modalidade + ", " : "") +
                 (dataInicioPrevisto != null ? "dataInicioPrevisto=" + dataInicioPrevisto + ", " : "") +
                 (dataFimPrevisto != null ? "dataFimPrevisto=" + dataFimPrevisto + ", " : "") +
+                (itemAuditoriaId != null ? "itemAuditoriaId=" + itemAuditoriaId + ", " : "") +
                 (anexoId != null ? "anexoId=" + anexoId + ", " : "") +
-                (auditoriaId != null ? "auditoriaId=" + auditoriaId + ", " : "") +
                 (planoId != null ? "planoId=" + planoId + ", " : "") +
             "}";
     }

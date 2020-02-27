@@ -2,30 +2,32 @@
   "gatewayApp": {
     "sgqResultadoChecklist": {
       "home": {
-        "title": "Resultados de checklist",
-        "createLabel": "Adicionar",
-        "createOrEditLabel": "Criar ou editar resultado de checklist",
-        "notFound": "Nenhum resultado de checklist encontrado"
+        "title": "Resultado Checklists",
+        "createLabel": "Criar novo Resultado Checklist",
+        "createOrEditLabel": "Criar ou editar Resultado Checklist",
+        "notFound": "Nenhum Resultado Checklist encontrado"
       },
       "delete": {
-        "question": "Tem certeza de que deseja excluir o resultado checklist {{ id }}?"
+        "question": "Tem certeza de que deseja excluir Resultado Checklist {{ id }}?"
       },
       "detail": {
-        "title": "Resultado de checklist"
+        "title": "Resultado Checklist"
       },
-      "idUsuarioRegistro": "Usuário de registro",
-      "titulo": "Titulo",
-      "dataVerificacao": "Data de verificação",
-      "anexo": "Anexo",
-      "resultadoItem": "Resultado de item",
-      "checklist": "Checklist"
+      "idUsuarioRegistro": "Id Usuario Registro",
+      "dataRegistro": "Data Registro",
+      "dataVerificacao": "Data Verificacao",
+      "resultadoItem": "Resultado Item",
+      "naoConformidade": "Nao Conformidade",
+      "produtoNaoConforme": "Produto Nao Conforme",
+      "checklist": "Checklist",
+      "anexo": "Anexo"
     }
   },
   "sgqApp": {
     "sgqResultadoChecklist": {
-      "created": "Um novo resultado de checklist foi criado com o identificador {{ param }}",
-      "updated": "Um resultado de checklist foi atualizado com o identificador {{ param }}",
-      "deleted": "Um resultado de checklist foi excluído com o identificador {{ param }}"
+      "created": "Um novo Resultado Checklist foi criado com o identificador {{ param }}",
+      "updated": "Um Resultado Checklist foi atualizado com o identificador {{ param }}",
+      "deleted": "Um Resultado Checklist foi excluído com o identificador {{ param }}"
     }
   }
 }

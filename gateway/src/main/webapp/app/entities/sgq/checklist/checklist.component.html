@@ -21,6 +21,7 @@
             <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="titulo"><span jhiTranslate="gatewayApp.sgqChecklist.titulo">Titulo</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="periodicidade"><span jhiTranslate="gatewayApp.sgqChecklist.periodicidade">Periodicidade</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="habilitado"><span jhiTranslate="gatewayApp.sgqChecklist.habilitado">Habilitado</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="setor.nome"><span jhiTranslate="gatewayApp.sgqChecklist.setor">Setor</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"></th>
             </tr>
@@ -30,6 +31,7 @@
                 <td><a [routerLink]="['/checklist', checklist.id, 'view' ]">{{checklist.id}}</a></td>
                 <td>{{checklist.titulo}}</td>
                 <td jhiTranslate="{{'gatewayApp.Periodicidade.' + checklist.periodicidade}}">{{checklist.periodicidade}}</td>
+                <td>{{checklist.habilitado}}</td>
                 <td>
                     <div *ngIf="checklist.setor">
                         <a [routerLink]="['/setor', checklist.setor?.id, 'view' ]" >{{checklist.setor?.nome}}</a>

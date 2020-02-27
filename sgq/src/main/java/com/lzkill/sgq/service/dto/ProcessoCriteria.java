@@ -28,6 +28,8 @@ public class ProcessoCriteria implements Serializable, Criteria {
 
     private StringFilter titulo;
 
+    private BooleanFilter habilitado;
+
     private LongFilter anexoId;
 
     private LongFilter setorId;
@@ -38,6 +40,7 @@ public class ProcessoCriteria implements Serializable, Criteria {
     public ProcessoCriteria(ProcessoCriteria other){
         this.id = other.id == null ? null : other.id.copy();
         this.titulo = other.titulo == null ? null : other.titulo.copy();
+        this.habilitado = other.habilitado == null ? null : other.habilitado.copy();
         this.anexoId = other.anexoId == null ? null : other.anexoId.copy();
         this.setorId = other.setorId == null ? null : other.setorId.copy();
     }
@@ -61,6 +64,14 @@ public class ProcessoCriteria implements Serializable, Criteria {
 
     public void setTitulo(StringFilter titulo) {
         this.titulo = titulo;
+    }
+
+    public BooleanFilter getHabilitado() {
+        return habilitado;
+    }
+
+    public void setHabilitado(BooleanFilter habilitado) {
+        this.habilitado = habilitado;
     }
 
     public LongFilter getAnexoId() {
@@ -92,6 +103,7 @@ public class ProcessoCriteria implements Serializable, Criteria {
         return
             Objects.equals(id, that.id) &&
             Objects.equals(titulo, that.titulo) &&
+            Objects.equals(habilitado, that.habilitado) &&
             Objects.equals(anexoId, that.anexoId) &&
             Objects.equals(setorId, that.setorId);
     }
@@ -101,6 +113,7 @@ public class ProcessoCriteria implements Serializable, Criteria {
         return Objects.hash(
         id,
         titulo,
+        habilitado,
         anexoId,
         setorId
         );
@@ -111,6 +124,7 @@ public class ProcessoCriteria implements Serializable, Criteria {
         return "ProcessoCriteria{" +
                 (id != null ? "id=" + id + ", " : "") +
                 (titulo != null ? "titulo=" + titulo + ", " : "") +
+                (habilitado != null ? "habilitado=" + habilitado + ", " : "") +
                 (anexoId != null ? "anexoId=" + anexoId + ", " : "") +
                 (setorId != null ? "setorId=" + setorId + ", " : "") +
             "}";

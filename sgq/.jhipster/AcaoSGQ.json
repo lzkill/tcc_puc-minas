@@ -10,10 +10,7 @@
         },
         {
             "fieldName": "idUsuarioResponsavel",
-            "fieldType": "Integer",
-            "fieldValidateRules": [
-                "required"
-            ]
+            "fieldType": "Integer"
         },
         {
             "fieldName": "tipo",
@@ -44,10 +41,7 @@
         },
         {
             "fieldName": "prazoConclusao",
-            "fieldType": "Instant",
-            "fieldValidateRules": [
-                "required"
-            ]
+            "fieldType": "Instant"
         },
         {
             "fieldName": "novoPrazoConclusao",
@@ -80,10 +74,12 @@
     ],
     "relationships": [
         {
-            "relationshipType": "one-to-many",
+            "relationshipType": "many-to-many",
             "otherEntityName": "anexo",
             "otherEntityRelationshipName": "acaoSGQ",
-            "relationshipName": "anexo"
+            "relationshipName": "anexo",
+            "otherEntityField": "nomeArquivo",
+            "ownerSide": true
         },
         {
             "relationshipType": "many-to-one",

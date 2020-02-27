@@ -20,7 +20,7 @@ describe('Service Tests', () => {
       service = injector.get(EmpresaService);
       httpMock = injector.get(HttpTestingController);
 
-      elemDefault = new Empresa(0, 'AAAAAAA');
+      elemDefault = new Empresa(0, 'AAAAAAA', false);
     });
 
     describe('Service methods', () => {
@@ -56,7 +56,8 @@ describe('Service Tests', () => {
       it('should update a Empresa', () => {
         const returnedFromService = Object.assign(
           {
-            nome: 'BBBBBB'
+            nome: 'BBBBBB',
+            habilitado: true
           },
           elemDefault
         );
@@ -74,7 +75,8 @@ describe('Service Tests', () => {
       it('should return a list of Empresa', () => {
         const returnedFromService = Object.assign(
           {
-            nome: 'BBBBBB'
+            nome: 'BBBBBB',
+            habilitado: true
           },
           elemDefault
         );

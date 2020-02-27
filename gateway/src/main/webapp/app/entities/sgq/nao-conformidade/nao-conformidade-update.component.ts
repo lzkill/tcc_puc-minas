@@ -12,15 +12,17 @@ import { JhiDataUtils, JhiFileLoadError, JhiEventManager, JhiEventWithContent } 
 import { INaoConformidade, NaoConformidade } from 'app/shared/model/sgq/nao-conformidade.model';
 import { NaoConformidadeService } from './nao-conformidade.service';
 import { AlertError } from 'app/shared/alert/alert-error.model';
-import { IResultadoAuditoria } from 'app/shared/model/sgq/resultado-auditoria.model';
-import { ResultadoAuditoriaService } from 'app/entities/sgq/resultado-auditoria/resultado-auditoria.service';
-import { IResultadoItemChecklist } from 'app/shared/model/sgq/resultado-item-checklist.model';
-import { ResultadoItemChecklistService } from 'app/entities/sgq/resultado-item-checklist/resultado-item-checklist.service';
+import { IAnexo } from 'app/shared/model/sgq/anexo.model';
+import { AnexoService } from 'app/entities/sgq/anexo/anexo.service';
+import { IAuditoria } from 'app/shared/model/sgq/auditoria.model';
+import { AuditoriaService } from 'app/entities/sgq/auditoria/auditoria.service';
+import { IResultadoChecklist } from 'app/shared/model/sgq/resultado-checklist.model';
+import { ResultadoChecklistService } from 'app/entities/sgq/resultado-checklist/resultado-checklist.service';
 
 import { IUser } from 'app/core/user/user.model';
 import { UserService } from 'app/core/user/user.service';
 
-type SelectableEntity = IResultadoAuditoria | IResultadoItemChecklist;
+type SelectableEntity = IAnexo | IAuditoria | IResultadoChecklist;
 
 @Component({
   selector: 'jhi-nao-conformidade-update',
@@ -29,34 +31,39 @@ type SelectableEntity = IResultadoAuditoria | IResultadoItemChecklist;
 export class NaoConformidadeUpdateComponent implements OnInit {
   isSaving = false;
 
-  resultadoauditorias: IResultadoAuditoria[] = [];
-  resultadoitemchecklists: IResultadoItemChecklist[] = [];
+  anexos: IAnexo[] = [];
   usuarios: IUser[] = [];
+
+  auditorias: IAuditoria[] = [];
+
+  resultadochecklists: IResultadoChecklist[] = [];
 
   editForm = this.fb.group({
     id: [],
     idUsuarioRegistro: [null, [Validators.required]],
-    idUsuarioResponsavel: [null, [Validators.required]],
+    idUsuarioResponsavel: [],
     titulo: [null, [Validators.required, Validators.minLength(1), Validators.maxLength(100)]],
-    fato: [null, [Validators.required]],
-    procedente: [null, [Validators.required]],
+    descricao: [null, [Validators.required]],
+    procedente: [],
     causa: [],
-    prazoConclusao: [null, [Validators.required]],
+    prazoConclusao: [],
     novoPrazoConclusao: [],
     dataRegistro: [null, [Validators.required]],
     dataConclusao: [],
     analiseFinal: [],
     statusSGQ: [null, [Validators.required]],
-    resultadoAuditoria: [],
-    resultadoItemChecklist: []
+    anexos: [],
+    auditoria: [],
+    resultadoChecklist: []
   });
 
   constructor(
     protected dataUtils: JhiDataUtils,
     protected eventManager: JhiEventManager,
     protected naoConformidadeService: NaoConformidadeService,
-    protected resultadoAuditoriaService: ResultadoAuditoriaService,
-    protected resultadoItemChecklistService: ResultadoItemChecklistService,
+    protected anexoService: AnexoService,
+    protected auditoriaService: AuditoriaService,
+    protected resultadoChecklistService: ResultadoChecklistService,
     protected activatedRoute: ActivatedRoute,
     protected userService: UserService,
     private fb: FormBuilder
@@ -66,23 +73,32 @@ export class NaoConformidadeUpdateComponent implements OnInit {
     this.activatedRoute.data.subscribe(({ naoConformidade }) => {
       this.updateForm(naoConformidade);
 
-      this.resultadoAuditoriaService
+      this.anexoService
         .query()
         .pipe(
-          map((res: HttpResponse<IResultadoAuditoria[]>) => {
+          map((res: HttpResponse<IAnexo[]>) => {
             return res.body ? res.body : [];
           })
         )
-        .subscribe((resBody: IResultadoAuditoria[]) => (this.resultadoauditorias = resBody));
+        .subscribe((resBody: IAnexo[]) => (this.anexos = resBody));
 
-      this.resultadoItemChecklistService
+      this.auditoriaService
         .query()
         .pipe(
-          map((res: HttpResponse<IResultadoItemChecklist[]>) => {
+          map((res: HttpResponse<IAuditoria[]>) => {
             return res.body ? res.body : [];
           })
         )
-        .subscribe((resBody: IResultadoItemChecklist[]) => (this.resultadoitemchecklists = resBody));
+        .subscribe((resBody: IAuditoria[]) => (this.auditorias = resBody));
+
+      this.resultadoChecklistService
+        .query()
+        .pipe(
+          map((res: HttpResponse<IResultadoChecklist[]>) => {
+            return res.body ? res.body : [];
+          })
+        )
+        .subscribe((resBody: IResultadoChecklist[]) => (this.resultadochecklists = resBody));
 
       this.userService
         .query()
@@ -105,7 +121,7 @@ export class NaoConformidadeUpdateComponent implements OnInit {
       idUsuarioRegistro: naoConformidade.idUsuarioRegistro,
       idUsuarioResponsavel: naoConformidade.idUsuarioResponsavel,
       titulo: naoConformidade.titulo,
-      fato: naoConformidade.fato,
+      descricao: naoConformidade.descricao,
       procedente: naoConformidade.procedente,
       causa: naoConformidade.causa,
       prazoConclusao: naoConformidade.prazoConclusao != null ? naoConformidade.prazoConclusao.format(DATE_TIME_FORMAT) : null,
@@ -114,8 +130,9 @@ export class NaoConformidadeUpdateComponent implements OnInit {
       dataConclusao: naoConformidade.dataConclusao != null ? naoConformidade.dataConclusao.format(DATE_TIME_FORMAT) : null,
       analiseFinal: naoConformidade.analiseFinal,
       statusSGQ: naoConformidade.statusSGQ,
-      resultadoAuditoria: naoConformidade.resultadoAuditoria,
-      resultadoItemChecklist: naoConformidade.resultadoItemChecklist
+      anexos: naoConformidade.anexos,
+      auditoria: naoConformidade.auditoria,
+      resultadoChecklist: naoConformidade.resultadoChecklist
     });
   }
 
@@ -156,7 +173,7 @@ export class NaoConformidadeUpdateComponent implements OnInit {
       idUsuarioRegistro: this.editForm.get(['idUsuarioRegistro'])!.value,
       idUsuarioResponsavel: this.editForm.get(['idUsuarioResponsavel'])!.value,
       titulo: this.editForm.get(['titulo'])!.value,
-      fato: this.editForm.get(['fato'])!.value,
+      descricao: this.editForm.get(['descricao'])!.value,
       procedente: this.editForm.get(['procedente'])!.value,
       causa: this.editForm.get(['causa'])!.value,
       prazoConclusao:
@@ -177,8 +194,9 @@ export class NaoConformidadeUpdateComponent implements OnInit {
           : undefined,
       analiseFinal: this.editForm.get(['analiseFinal'])!.value,
       statusSGQ: this.editForm.get(['statusSGQ'])!.value,
-      resultadoAuditoria: this.editForm.get(['resultadoAuditoria'])!.value,
-      resultadoItemChecklist: this.editForm.get(['resultadoItemChecklist'])!.value
+      anexos: this.editForm.get(['anexos'])!.value,
+      auditoria: this.editForm.get(['auditoria'])!.value,
+      resultadoChecklist: this.editForm.get(['resultadoChecklist'])!.value
     };
   }
 
@@ -200,5 +218,16 @@ export class NaoConformidadeUpdateComponent implements OnInit {
 
   trackById(index: number, item: SelectableEntity): any {
     return item.id;
+  }
+
+  getSelected(selectedVals: IAnexo[], option: IAnexo): IAnexo {
+    if (selectedVals) {
+      for (let i = 0; i < selectedVals.length; i++) {
+        if (option.id === selectedVals[i].id) {
+          return selectedVals[i];
+        }
+      }
+    }
+    return option;
   }
 }

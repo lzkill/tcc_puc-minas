@@ -10,10 +10,7 @@
         },
         {
             "fieldName": "idUsuarioResponsavel",
-            "fieldType": "Integer",
-            "fieldValidateRules": [
-                "required"
-            ]
+            "fieldType": "Integer"
         },
         {
             "fieldName": "titulo",
@@ -36,11 +33,8 @@
         },
         {
             "fieldName": "procedente",
-            "javadoc": "O fato descrito configura de fato um PNC",
-            "fieldType": "Boolean",
-            "fieldValidateRules": [
-                "required"
-            ]
+            "javadoc": "O fato descrito configura de fato um PNC?",
+            "fieldType": "Boolean"
         },
         {
             "fieldName": "dataRegistro",
@@ -69,7 +63,6 @@
             "relationshipType": "one-to-one",
             "otherEntityName": "acaoSGQ",
             "otherEntityRelationshipName": "produtoNaoConforme",
-            "relationshipValidateRules": "required",
             "javadoc": "PNCs são tratados com ações únicas e pontuais",
             "relationshipName": "acao",
             "otherEntityField": "titulo",
@@ -79,16 +72,10 @@
             "relationshipType": "one-to-one",
             "otherEntityName": "naoConformidade",
             "otherEntityRelationshipName": "produtoNaoConforme",
-            "javadoc": "Quando o problema identificado é sistêmico deve-se abrir uma NC",
+            "javadoc": "Quando o problema identificado é sistêmico pode-se abrir uma NC",
             "relationshipName": "naoConformidade",
             "otherEntityField": "titulo",
             "ownerSide": true
-        },
-        {
-            "relationshipType": "one-to-many",
-            "otherEntityName": "anexo",
-            "otherEntityRelationshipName": "produtoNaoConforme",
-            "relationshipName": "anexo"
         },
         {
             "relationshipType": "many-to-one",
@@ -99,17 +86,18 @@
             "otherEntityField": "nome"
         },
         {
-            "relationshipType": "many-to-one",
-            "otherEntityName": "resultadoAuditoria",
+            "relationshipType": "many-to-many",
+            "otherEntityName": "anexo",
             "otherEntityRelationshipName": "produtoNaoConforme",
-            "relationshipName": "resultadoAuditoria",
-            "otherEntityField": "id"
+            "relationshipName": "anexo",
+            "otherEntityField": "nomeArquivo",
+            "ownerSide": true
         },
         {
             "relationshipType": "many-to-one",
-            "otherEntityName": "resultadoItemChecklist",
+            "otherEntityName": "resultadoChecklist",
             "otherEntityRelationshipName": "produtoNaoConforme",
-            "relationshipName": "resultadoItemChecklist",
+            "relationshipName": "resultadoChecklist",
             "otherEntityField": "id"
         }
     ],
