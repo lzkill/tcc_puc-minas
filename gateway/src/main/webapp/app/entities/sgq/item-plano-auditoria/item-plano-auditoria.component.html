@@ -35,8 +35,8 @@
                 <td>{{itemPlanoAuditoria.titulo}}</td>
                 <td>{{itemPlanoAuditoria.descricao}}</td>
                 <td jhiTranslate="{{'gatewayApp.ModalidadeAuditoria.' + itemPlanoAuditoria.modalidade}}">{{itemPlanoAuditoria.modalidade}}</td>
-                <td>{{itemPlanoAuditoria.dataInicioPrevisto | date:'medium'}}</td>
-                <td>{{itemPlanoAuditoria.dataFimPrevisto | date:'medium'}}</td>
+                <td>{{itemPlanoAuditoria.dataInicioPrevisto | date:'shortDate'}}</td>
+                <td>{{itemPlanoAuditoria.dataFimPrevisto | date:'shortDate'}}</td>
                 <td>
                     <div *ngIf="itemPlanoAuditoria.itemAuditoria">
                         <a [routerLink]="['/item-auditoria', itemPlanoAuditoria.itemAuditoria?.id, 'view' ]" >{{itemPlanoAuditoria.itemAuditoria?.titulo}}</a>

@@ -35,7 +35,7 @@
                 <td>{{usuarios.has(boletimInformativo.idUsuarioRegistro) ? usuarios.get(boletimInformativo.idUsuarioRegistro).login : ""}}</td>
                 <td>{{boletimInformativo.titulo}}</td>
                 <td>{{boletimInformativo.descricao}}</td>
-                <td>{{boletimInformativo.dataRegistro | date:'medium'}}</td>
+                <td>{{boletimInformativo.dataRegistro | date:'shortDate'}}</td>
                 <td>{{boletimInformativo.dataPublicacao | date:'medium'}}</td>
                 <td jhiTranslate="{{'gatewayApp.StatusPublicacao.' + boletimInformativo.status}}">{{boletimInformativo.status}}</td>
                 <td>

@@ -38,10 +38,10 @@
                 <td>{{campanhaRecall.idUsuarioRegistro}}</td>
                 <td>{{campanhaRecall.titulo}}</td>
                 <td>{{campanhaRecall.descricao}}</td>
-                <td>{{campanhaRecall.dataRegistro | date:'medium'}}</td>
-                <td>{{campanhaRecall.dataInicio | date:'medium'}}</td>
-                <td>{{campanhaRecall.dataFim | date:'medium'}}</td>
-                <td>{{campanhaRecall.dataPublicacao | date:'medium'}}</td>
+                <td>{{campanhaRecall.dataRegistro | date:'shortDate'}}</td>
+                <td>{{campanhaRecall.dataInicio | date:'shortDate'}}</td>
+                <td>{{campanhaRecall.dataFim | date:'shortDate'}}</td>
+                <td>{{campanhaRecall.dataPublicacao | date:'shortDate'}}</td>
                 <td jhiTranslate="{{'gatewayApp.StatusPublicacao.' + campanhaRecall.status}}">{{campanhaRecall.status}}</td>
                 <td>
                     <div *ngIf="campanhaRecall.produto">

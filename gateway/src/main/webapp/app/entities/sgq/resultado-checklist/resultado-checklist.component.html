@@ -30,8 +30,8 @@
             <tr *ngFor="let resultadoChecklist of resultadoChecklists ;trackBy: trackId">
                 <td><a [routerLink]="['/resultado-checklist', resultadoChecklist.id, 'view' ]">{{resultadoChecklist.id}}</a></td>
                 <td>{{usuarios.has(resultadoChecklist.idUsuarioRegistro) ? usuarios.get(resultadoChecklist.idUsuarioRegistro).login : ""}}</td>
-                <td>{{resultadoChecklist.dataRegistro | date:'medium'}}</td>
-                <td>{{resultadoChecklist.dataVerificacao | date:'medium'}}</td>
+                <td>{{resultadoChecklist.dataRegistro | date:'shortDate'}}</td>
+                <td>{{resultadoChecklist.dataVerificacao | date:'shortDate'}}</td>
                 <td>
                     <div *ngIf="resultadoChecklist.checklist">
                         <a [routerLink]="['/checklist', resultadoChecklist.checklist?.id, 'view' ]" >{{resultadoChecklist.checklist?.titulo}}</a>
