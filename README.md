@@ -48,15 +48,3 @@ Veja [Milestones](https://github.com/lzkill/tcc_puc-minas/milestones).
 ## Issues
 
 Veja [Bugs](https://github.com/lzkill/tcc_puc-minas/issues?q=is%3Aopen+is%3Aissue+label%3Abug).
-
-### JHipster
-
-* `jhipster-generator`
-  - O arquivo `docker-compose/docker_compose.yml` repete a porta pública 3306 quando vários MariaDBs estão presentes
-  - Relacionamentos *ManyToMany* com `CategoriaPublicacao` geram testes quebrados (`PublicacaoFeedResourceIT` / `BoletimInformativoResourceIT`)
-  - Relacionamentos com `User` contendo *injected fields* geram arquivos quebrados quando a autenticação é oauth2 (`getUser()`)
-  - Hazelcast não é incluído no arquivo `docker-compose/docker_compose.yml`
-  - Não é possível inserir javadocs em enums
-* `jhipster-studio`
-  - A anotação `@readOnly` gera erro de sintaxe
-  - As configurações de `clientTheme` e `clientThemeVariant` geram erro de sintaxe
