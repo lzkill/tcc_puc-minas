@@ -88,23 +88,31 @@ public class ResultadoChecklistQueryService extends QueryService<ResultadoCheckl
             if (criteria.getIdUsuarioRegistro() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getIdUsuarioRegistro(), ResultadoChecklist_.idUsuarioRegistro));
             }
-            if (criteria.getTitulo() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getTitulo(), ResultadoChecklist_.titulo));
+            if (criteria.getDataRegistro() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getDataRegistro(), ResultadoChecklist_.dataRegistro));
             }
             if (criteria.getDataVerificacao() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getDataVerificacao(), ResultadoChecklist_.dataVerificacao));
-            }
-            if (criteria.getAnexoId() != null) {
-                specification = specification.and(buildSpecification(criteria.getAnexoId(),
-                    root -> root.join(ResultadoChecklist_.anexos, JoinType.LEFT).get(Anexo_.id)));
             }
             if (criteria.getResultadoItemId() != null) {
                 specification = specification.and(buildSpecification(criteria.getResultadoItemId(),
                     root -> root.join(ResultadoChecklist_.resultadoItems, JoinType.LEFT).get(ResultadoItemChecklist_.id)));
             }
+            if (criteria.getNaoConformidadeId() != null) {
+                specification = specification.and(buildSpecification(criteria.getNaoConformidadeId(),
+                    root -> root.join(ResultadoChecklist_.naoConformidades, JoinType.LEFT).get(NaoConformidade_.id)));
+            }
+            if (criteria.getProdutoNaoConformeId() != null) {
+                specification = specification.and(buildSpecification(criteria.getProdutoNaoConformeId(),
+                    root -> root.join(ResultadoChecklist_.produtoNaoConformes, JoinType.LEFT).get(ProdutoNaoConforme_.id)));
+            }
             if (criteria.getChecklistId() != null) {
                 specification = specification.and(buildSpecification(criteria.getChecklistId(),
                     root -> root.join(ResultadoChecklist_.checklist, JoinType.LEFT).get(Checklist_.id)));
+            }
+            if (criteria.getAnexoId() != null) {
+                specification = specification.and(buildSpecification(criteria.getAnexoId(),
+                    root -> root.join(ResultadoChecklist_.anexos, JoinType.LEFT).get(Anexo_.id)));
             }
         }
         return specification;

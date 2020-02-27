@@ -100,10 +100,6 @@ public class BoletimInformativoQueryService extends QueryService<BoletimInformat
             if (criteria.getStatus() != null) {
                 specification = specification.and(buildSpecification(criteria.getStatus(), BoletimInformativo_.status));
             }
-            if (criteria.getAnexoId() != null) {
-                specification = specification.and(buildSpecification(criteria.getAnexoId(),
-                    root -> root.join(BoletimInformativo_.anexos, JoinType.LEFT).get(Anexo_.id)));
-            }
             if (criteria.getPublicoAlvoId() != null) {
                 specification = specification.and(buildSpecification(criteria.getPublicoAlvoId(),
                     root -> root.join(BoletimInformativo_.publicoAlvo, JoinType.LEFT).get(PublicoAlvo_.id)));
@@ -111,6 +107,10 @@ public class BoletimInformativoQueryService extends QueryService<BoletimInformat
             if (criteria.getCategoriaId() != null) {
                 specification = specification.and(buildSpecification(criteria.getCategoriaId(),
                     root -> root.join(BoletimInformativo_.categorias, JoinType.LEFT).get(CategoriaPublicacao_.id)));
+            }
+            if (criteria.getAnexoId() != null) {
+                specification = specification.and(buildSpecification(criteria.getAnexoId(),
+                    root -> root.join(BoletimInformativo_.anexos, JoinType.LEFT).get(Anexo_.id)));
             }
         }
         return specification;

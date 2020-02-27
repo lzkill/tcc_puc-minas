@@ -56,6 +56,17 @@
 
         <addPrimaryKey columnNames="boletim_informativo_id, categoria_id" tableName="boletim_informativo_categoria"/>
         
+        <createTable tableName="boletim_informativo_anexo">
+            <column name="anexo_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="boletim_informativo_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addPrimaryKey columnNames="boletim_informativo_id, anexo_id" tableName="boletim_informativo_anexo"/>
+        
     </changeSet>
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here, do not remove-->
 

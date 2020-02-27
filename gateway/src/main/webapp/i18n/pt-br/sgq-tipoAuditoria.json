@@ -1,9 +1,0 @@
-{
-  "gatewayApp": {
-    "TipoAuditoria": {
-      "null": "",
-      "INTERNA": "INTERNA",
-      "EXTERNA": "EXTERNA"
-    }
-  }
-}

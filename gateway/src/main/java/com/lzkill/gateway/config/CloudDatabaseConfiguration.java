@@ -4,6 +4,7 @@ import io.github.jhipster.config.JHipsterConstants;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.CacheManager;
 import org.springframework.cloud.config.java.AbstractCloudConfig;
 import org.springframework.context.annotation.*;
 
@@ -21,7 +22,7 @@ public class CloudDatabaseConfiguration extends AbstractCloudConfig {
 
     @Bean
     @ConfigurationProperties(CLOUD_CONFIGURATION_HIKARI_PREFIX)
-    public DataSource dataSource() {
+    public DataSource dataSource(CacheManager cacheManager) {
         log.info("Configuring JDBC datasource from a cloud provider");
         return connectionFactory().dataSource();
     }

@@ -6,9 +6,9 @@
     "enableSwaggerCodegen": true,
     "enableTranslation": false,
     "jhiPrefix": "jhi",
-    "languages": ["en"],
+    "languages": ["pt-br"],
     "messageBroker": false,
-    "nativeLanguage": "en",
+    "nativeLanguage": "pt-br",
     "packageName": "com.acme.normas",
     "packageFolder": "com/acme/normas",
     "prodDatabaseType": "mariadb",
@@ -31,8 +31,8 @@
     "creationTimestamp": 1582067486512,
     "entitySuffix": "",
     "dtoSuffix": "DTO",
-    "otherModules": [],
-    "blueprints": []
+    "blueprints": [],
+    "otherModules": []
   },
   "entities": ["Norma"]
 }

@@ -20,7 +20,7 @@ describe('Service Tests', () => {
       service = injector.get(SetorService);
       httpMock = injector.get(HttpTestingController);
 
-      elemDefault = new Setor(0, 'AAAAAAA');
+      elemDefault = new Setor(0, 'AAAAAAA', false);
     });
 
     describe('Service methods', () => {
@@ -56,7 +56,8 @@ describe('Service Tests', () => {
       it('should update a Setor', () => {
         const returnedFromService = Object.assign(
           {
-            nome: 'BBBBBB'
+            nome: 'BBBBBB',
+            habilitado: true
           },
           elemDefault
         );
@@ -74,7 +75,8 @@ describe('Service Tests', () => {
       it('should return a list of Setor', () => {
         const returnedFromService = Object.assign(
           {
-            nome: 'BBBBBB'
+            nome: 'BBBBBB',
+            habilitado: true
           },
           elemDefault
         );

@@ -50,6 +50,15 @@ public class ItemPlanoAuditoriaService {
         return itemPlanoAuditoriaRepository.findAll(pageable);
     }
 
+    /**
+     * Get all the itemPlanoAuditorias with eager load of many-to-many relationships.
+     *
+     * @return the list of entities.
+     */
+    public Page<ItemPlanoAuditoria> findAllWithEagerRelationships(Pageable pageable) {
+        return itemPlanoAuditoriaRepository.findAllWithEagerRelationships(pageable);
+    }
+    
 
     /**
      * Get one itemPlanoAuditoria by id.
@@ -60,7 +69,7 @@ public class ItemPlanoAuditoriaService {
     @Transactional(readOnly = true)
     public Optional<ItemPlanoAuditoria> findOne(Long id) {
         log.debug("Request to get ItemPlanoAuditoria : {}", id);
-        return itemPlanoAuditoriaRepository.findById(id);
+        return itemPlanoAuditoriaRepository.findOneWithEagerRelationships(id);
     }
 
     /**

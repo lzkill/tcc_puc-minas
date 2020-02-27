@@ -4,10 +4,9 @@ import com.lzkill.sgq.SgqApp;
 import com.lzkill.sgq.domain.ProdutoNaoConforme;
 import com.lzkill.sgq.domain.AcaoSGQ;
 import com.lzkill.sgq.domain.NaoConformidade;
-import com.lzkill.sgq.domain.Anexo;
 import com.lzkill.sgq.domain.Produto;
-import com.lzkill.sgq.domain.ResultadoAuditoria;
-import com.lzkill.sgq.domain.ResultadoItemChecklist;
+import com.lzkill.sgq.domain.Anexo;
+import com.lzkill.sgq.domain.ResultadoChecklist;
 import com.lzkill.sgq.repository.ProdutoNaoConformeRepository;
 import com.lzkill.sgq.service.ProdutoNaoConformeService;
 import com.lzkill.sgq.web.rest.errors.ExceptionTranslator;
@@ -16,9 +15,12 @@ import com.lzkill.sgq.service.ProdutoNaoConformeQueryService;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -31,11 +33,13 @@ import org.springframework.validation.Validator;
 import javax.persistence.EntityManager;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.lzkill.sgq.web.rest.TestUtil.createFormattingConversionService;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -74,6 +78,12 @@ public class ProdutoNaoConformeResourceIT {
 
     @Autowired
     private ProdutoNaoConformeRepository produtoNaoConformeRepository;
+
+    @Mock
+    private ProdutoNaoConformeRepository produtoNaoConformeRepositoryMock;
+
+    @Mock
+    private ProdutoNaoConformeService produtoNaoConformeServiceMock;
 
     @Autowired
     private ProdutoNaoConformeService produtoNaoConformeService;
@@ -129,16 +139,6 @@ public class ProdutoNaoConformeResourceIT {
             .analiseFinal(DEFAULT_ANALISE_FINAL)
             .statusSGQ(DEFAULT_STATUS_SGQ);
         // Add required entity
-        AcaoSGQ acaoSGQ;
-        if (TestUtil.findAll(em, AcaoSGQ.class).isEmpty()) {
-            acaoSGQ = AcaoSGQResourceIT.createEntity(em);
-            em.persist(acaoSGQ);
-            em.flush();
-        } else {
-            acaoSGQ = TestUtil.findAll(em, AcaoSGQ.class).get(0);
-        }
-        produtoNaoConforme.setAcao(acaoSGQ);
-        // Add required entity
         Produto produto;
         if (TestUtil.findAll(em, Produto.class).isEmpty()) {
             produto = ProdutoResourceIT.createEntity(em);
@@ -166,16 +166,6 @@ public class ProdutoNaoConformeResourceIT {
             .dataRegistro(UPDATED_DATA_REGISTRO)
             .analiseFinal(UPDATED_ANALISE_FINAL)
             .statusSGQ(UPDATED_STATUS_SGQ);
-        // Add required entity
-        AcaoSGQ acaoSGQ;
-        if (TestUtil.findAll(em, AcaoSGQ.class).isEmpty()) {
-            acaoSGQ = AcaoSGQResourceIT.createUpdatedEntity(em);
-            em.persist(acaoSGQ);
-            em.flush();
-        } else {
-            acaoSGQ = TestUtil.findAll(em, AcaoSGQ.class).get(0);
-        }
-        produtoNaoConforme.setAcao(acaoSGQ);
         // Add required entity
         Produto produto;
         if (TestUtil.findAll(em, Produto.class).isEmpty()) {
@@ -259,46 +249,10 @@ public class ProdutoNaoConformeResourceIT {
 
     @Test
     @Transactional
-    public void checkIdUsuarioResponsavelIsRequired() throws Exception {
-        int databaseSizeBeforeTest = produtoNaoConformeRepository.findAll().size();
-        // set the field null
-        produtoNaoConforme.setIdUsuarioResponsavel(null);
-
-        // Create the ProdutoNaoConforme, which fails.
-
-        restProdutoNaoConformeMockMvc.perform(post("/api/produto-nao-conformes")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(produtoNaoConforme)))
-            .andExpect(status().isBadRequest());
-
-        List<ProdutoNaoConforme> produtoNaoConformeList = produtoNaoConformeRepository.findAll();
-        assertThat(produtoNaoConformeList).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
     public void checkTituloIsRequired() throws Exception {
         int databaseSizeBeforeTest = produtoNaoConformeRepository.findAll().size();
         // set the field null
         produtoNaoConforme.setTitulo(null);
-
-        // Create the ProdutoNaoConforme, which fails.
-
-        restProdutoNaoConformeMockMvc.perform(post("/api/produto-nao-conformes")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(produtoNaoConforme)))
-            .andExpect(status().isBadRequest());
-
-        List<ProdutoNaoConforme> produtoNaoConformeList = produtoNaoConformeRepository.findAll();
-        assertThat(produtoNaoConformeList).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
-    public void checkProcedenteIsRequired() throws Exception {
-        int databaseSizeBeforeTest = produtoNaoConformeRepository.findAll().size();
-        // set the field null
-        produtoNaoConforme.setProcedente(null);
 
         // Create the ProdutoNaoConforme, which fails.
 
@@ -368,6 +322,39 @@ public class ProdutoNaoConformeResourceIT {
             .andExpect(jsonPath("$.[*].statusSGQ").value(hasItem(DEFAULT_STATUS_SGQ.toString())));
     }
     
+    @SuppressWarnings({"unchecked"})
+    public void getAllProdutoNaoConformesWithEagerRelationshipsIsEnabled() throws Exception {
+        ProdutoNaoConformeResource produtoNaoConformeResource = new ProdutoNaoConformeResource(produtoNaoConformeServiceMock, produtoNaoConformeQueryService);
+        when(produtoNaoConformeServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+
+        MockMvc restProdutoNaoConformeMockMvc = MockMvcBuilders.standaloneSetup(produtoNaoConformeResource)
+            .setCustomArgumentResolvers(pageableArgumentResolver)
+            .setControllerAdvice(exceptionTranslator)
+            .setConversionService(createFormattingConversionService())
+            .setMessageConverters(jacksonMessageConverter).build();
+
+        restProdutoNaoConformeMockMvc.perform(get("/api/produto-nao-conformes?eagerload=true"))
+        .andExpect(status().isOk());
+
+        verify(produtoNaoConformeServiceMock, times(1)).findAllWithEagerRelationships(any());
+    }
+
+    @SuppressWarnings({"unchecked"})
+    public void getAllProdutoNaoConformesWithEagerRelationshipsIsNotEnabled() throws Exception {
+        ProdutoNaoConformeResource produtoNaoConformeResource = new ProdutoNaoConformeResource(produtoNaoConformeServiceMock, produtoNaoConformeQueryService);
+            when(produtoNaoConformeServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+            MockMvc restProdutoNaoConformeMockMvc = MockMvcBuilders.standaloneSetup(produtoNaoConformeResource)
+            .setCustomArgumentResolvers(pageableArgumentResolver)
+            .setControllerAdvice(exceptionTranslator)
+            .setConversionService(createFormattingConversionService())
+            .setMessageConverters(jacksonMessageConverter).build();
+
+        restProdutoNaoConformeMockMvc.perform(get("/api/produto-nao-conformes?eagerload=true"))
+        .andExpect(status().isOk());
+
+            verify(produtoNaoConformeServiceMock, times(1)).findAllWithEagerRelationships(any());
+    }
+
     @Test
     @Transactional
     public void getProdutoNaoConforme() throws Exception {
@@ -856,8 +843,12 @@ public class ProdutoNaoConformeResourceIT {
     @Test
     @Transactional
     public void getAllProdutoNaoConformesByAcaoIsEqualToSomething() throws Exception {
-        // Get already existing entity
-        AcaoSGQ acao = produtoNaoConforme.getAcao();
+        // Initialize the database
+        produtoNaoConformeRepository.saveAndFlush(produtoNaoConforme);
+        AcaoSGQ acao = AcaoSGQResourceIT.createEntity(em);
+        em.persist(acao);
+        em.flush();
+        produtoNaoConforme.setAcao(acao);
         produtoNaoConformeRepository.saveAndFlush(produtoNaoConforme);
         Long acaoId = acao.getId();
 
@@ -891,6 +882,22 @@ public class ProdutoNaoConformeResourceIT {
 
     @Test
     @Transactional
+    public void getAllProdutoNaoConformesByProdutoIsEqualToSomething() throws Exception {
+        // Get already existing entity
+        Produto produto = produtoNaoConforme.getProduto();
+        produtoNaoConformeRepository.saveAndFlush(produtoNaoConforme);
+        Long produtoId = produto.getId();
+
+        // Get all the produtoNaoConformeList where produto equals to produtoId
+        defaultProdutoNaoConformeShouldBeFound("produtoId.equals=" + produtoId);
+
+        // Get all the produtoNaoConformeList where produto equals to produtoId + 1
+        defaultProdutoNaoConformeShouldNotBeFound("produtoId.equals=" + (produtoId + 1));
+    }
+
+
+    @Test
+    @Transactional
     public void getAllProdutoNaoConformesByAnexoIsEqualToSomething() throws Exception {
         // Initialize the database
         produtoNaoConformeRepository.saveAndFlush(produtoNaoConforme);
@@ -911,57 +918,21 @@ public class ProdutoNaoConformeResourceIT {
 
     @Test
     @Transactional
-    public void getAllProdutoNaoConformesByProdutoIsEqualToSomething() throws Exception {
-        // Get already existing entity
-        Produto produto = produtoNaoConforme.getProduto();
-        produtoNaoConformeRepository.saveAndFlush(produtoNaoConforme);
-        Long produtoId = produto.getId();
-
-        // Get all the produtoNaoConformeList where produto equals to produtoId
-        defaultProdutoNaoConformeShouldBeFound("produtoId.equals=" + produtoId);
-
-        // Get all the produtoNaoConformeList where produto equals to produtoId + 1
-        defaultProdutoNaoConformeShouldNotBeFound("produtoId.equals=" + (produtoId + 1));
-    }
-
-
-    @Test
-    @Transactional
-    public void getAllProdutoNaoConformesByResultadoAuditoriaIsEqualToSomething() throws Exception {
+    public void getAllProdutoNaoConformesByResultadoChecklistIsEqualToSomething() throws Exception {
         // Initialize the database
         produtoNaoConformeRepository.saveAndFlush(produtoNaoConforme);
-        ResultadoAuditoria resultadoAuditoria = ResultadoAuditoriaResourceIT.createEntity(em);
-        em.persist(resultadoAuditoria);
+        ResultadoChecklist resultadoChecklist = ResultadoChecklistResourceIT.createEntity(em);
+        em.persist(resultadoChecklist);
         em.flush();
-        produtoNaoConforme.setResultadoAuditoria(resultadoAuditoria);
+        produtoNaoConforme.setResultadoChecklist(resultadoChecklist);
         produtoNaoConformeRepository.saveAndFlush(produtoNaoConforme);
-        Long resultadoAuditoriaId = resultadoAuditoria.getId();
+        Long resultadoChecklistId = resultadoChecklist.getId();
 
-        // Get all the produtoNaoConformeList where resultadoAuditoria equals to resultadoAuditoriaId
-        defaultProdutoNaoConformeShouldBeFound("resultadoAuditoriaId.equals=" + resultadoAuditoriaId);
+        // Get all the produtoNaoConformeList where resultadoChecklist equals to resultadoChecklistId
+        defaultProdutoNaoConformeShouldBeFound("resultadoChecklistId.equals=" + resultadoChecklistId);
 
-        // Get all the produtoNaoConformeList where resultadoAuditoria equals to resultadoAuditoriaId + 1
-        defaultProdutoNaoConformeShouldNotBeFound("resultadoAuditoriaId.equals=" + (resultadoAuditoriaId + 1));
-    }
-
-
-    @Test
-    @Transactional
-    public void getAllProdutoNaoConformesByResultadoItemChecklistIsEqualToSomething() throws Exception {
-        // Initialize the database
-        produtoNaoConformeRepository.saveAndFlush(produtoNaoConforme);
-        ResultadoItemChecklist resultadoItemChecklist = ResultadoItemChecklistResourceIT.createEntity(em);
-        em.persist(resultadoItemChecklist);
-        em.flush();
-        produtoNaoConforme.setResultadoItemChecklist(resultadoItemChecklist);
-        produtoNaoConformeRepository.saveAndFlush(produtoNaoConforme);
-        Long resultadoItemChecklistId = resultadoItemChecklist.getId();
-
-        // Get all the produtoNaoConformeList where resultadoItemChecklist equals to resultadoItemChecklistId
-        defaultProdutoNaoConformeShouldBeFound("resultadoItemChecklistId.equals=" + resultadoItemChecklistId);
-
-        // Get all the produtoNaoConformeList where resultadoItemChecklist equals to resultadoItemChecklistId + 1
-        defaultProdutoNaoConformeShouldNotBeFound("resultadoItemChecklistId.equals=" + (resultadoItemChecklistId + 1));
+        // Get all the produtoNaoConformeList where resultadoChecklist equals to resultadoChecklistId + 1
+        defaultProdutoNaoConformeShouldNotBeFound("resultadoChecklistId.equals=" + (resultadoChecklistId + 1));
     }
 
     /**

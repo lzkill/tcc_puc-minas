@@ -20,7 +20,7 @@ describe('Service Tests', () => {
       service = injector.get(CategoriaPublicacaoService);
       httpMock = injector.get(HttpTestingController);
 
-      elemDefault = new CategoriaPublicacao(0, 'AAAAAAA', 'AAAAAAA');
+      elemDefault = new CategoriaPublicacao(0, 'AAAAAAA', 'AAAAAAA', false);
     });
 
     describe('Service methods', () => {
@@ -57,7 +57,8 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             titulo: 'BBBBBB',
-            descricao: 'BBBBBB'
+            descricao: 'BBBBBB',
+            habilitado: true
           },
           elemDefault
         );
@@ -76,7 +77,8 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             titulo: 'BBBBBB',
-            descricao: 'BBBBBB'
+            descricao: 'BBBBBB',
+            habilitado: true
           },
           elemDefault
         );

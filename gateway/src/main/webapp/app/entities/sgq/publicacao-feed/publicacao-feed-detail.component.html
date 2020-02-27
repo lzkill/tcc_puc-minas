@@ -53,6 +53,12 @@
                         <a [routerLink]="['/categoria-publicacao', categoria?.id, 'view' ]">{{categoria.titulo}}</a>{{last ? '' : ', '}}
                     </span>
                 </dd>
+                <dt><span jhiTranslate="gatewayApp.sgqPublicacaoFeed.anexo">Anexo</span></dt>
+                <dd>
+                    <span *ngFor="let anexo of publicacaoFeed.anexos; let last = last">
+                        <a [routerLink]="['/anexo', anexo?.id, 'view' ]">{{anexo.nomeArquivo}}</a>{{last ? '' : ', '}}
+                    </span>
+                </dd>
             </dl>
 
             <button type="submit"

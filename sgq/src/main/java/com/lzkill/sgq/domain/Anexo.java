@@ -1,5 +1,5 @@
 package com.lzkill.sgq.domain;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -7,6 +7,9 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 
 import java.io.Serializable;
+import java.time.Instant;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * A Anexo.
@@ -23,6 +26,14 @@ public class Anexo implements Serializable {
     private Long id;
 
     @NotNull
+    @Column(name = "id_usuario_registro", nullable = false)
+    private Integer idUsuarioRegistro;
+
+    @NotNull
+    @Column(name = "data_registro", nullable = false)
+    private Instant dataRegistro;
+
+    @NotNull
     @Column(name = "nome_arquivo", nullable = false)
     private String nomeArquivo;
 
@@ -34,69 +45,95 @@ public class Anexo implements Serializable {
     @Column(name = "conteudo_content_type", nullable = false)
     private String conteudoContentType;
 
-    @ManyToOne
-    @JsonIgnoreProperties("anexos")
-    private AcaoSGQ acaoSGQ;
+    @ManyToMany(mappedBy = "anexos")
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    @JsonIgnore
+    private Set<AcaoSGQ> acaoSGQS = new HashSet<>();
 
-    @ManyToOne
-    @JsonIgnoreProperties("anexos")
-    private AnaliseConsultoria analiseConsultoria;
+    @ManyToMany(mappedBy = "anexos")
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    @JsonIgnore
+    private Set<Auditoria> auditorias = new HashSet<>();
 
-    @ManyToOne
-    @JsonIgnoreProperties("anexos")
-    private Checklist checklist;
+    @ManyToMany(mappedBy = "anexos")
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    @JsonIgnore
+    private Set<AnaliseConsultoria> analiseConsultorias = new HashSet<>();
 
-    @ManyToOne
-    @JsonIgnoreProperties("anexos")
-    private BoletimInformativo boletimInformativo;
+    @ManyToMany(mappedBy = "anexos")
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    @JsonIgnore
+    private Set<BoletimInformativo> boletimInformativos = new HashSet<>();
 
-    @ManyToOne
-    @JsonIgnoreProperties("anexos")
-    private CampanhaRecall campanhaRecall;
+    @ManyToMany(mappedBy = "anexos")
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    @JsonIgnore
+    private Set<CampanhaRecall> campanhaRecalls = new HashSet<>();
 
-    @ManyToOne
-    @JsonIgnoreProperties("anexos")
-    private EventoOperacional eventoOperacional;
+    @ManyToMany(mappedBy = "anexos")
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    @JsonIgnore
+    private Set<Checklist> checklists = new HashSet<>();
 
-    @ManyToOne
-    @JsonIgnoreProperties("anexos")
-    private ItemChecklist itemChecklist;
+    @ManyToMany(mappedBy = "anexos")
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    @JsonIgnore
+    private Set<EventoOperacional> eventoOperacionals = new HashSet<>();
 
-    @ManyToOne
-    @JsonIgnoreProperties("anexos")
-    private ItemPlanoAuditoria itemPlanoAuditoria;
+    @ManyToMany(mappedBy = "anexos")
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    @JsonIgnore
+    private Set<ItemAuditoria> itemAuditorias = new HashSet<>();
 
-    @ManyToOne
-    @JsonIgnoreProperties("anexos")
-    private NaoConformidade naoConformidade;
+    @ManyToMany(mappedBy = "anexos")
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    @JsonIgnore
+    private Set<ItemChecklist> itemChecklists = new HashSet<>();
 
-    @ManyToOne
-    @JsonIgnoreProperties("anexos")
-    private Processo processo;
+    @ManyToMany(mappedBy = "anexos")
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    @JsonIgnore
+    private Set<ItemPlanoAuditoria> itemPlanoAuditorias = new HashSet<>();
 
-    @ManyToOne
-    @JsonIgnoreProperties("anexos")
-    private Produto produto;
+    @ManyToMany(mappedBy = "anexos")
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    @JsonIgnore
+    private Set<NaoConformidade> naoConformidades = new HashSet<>();
 
-    @ManyToOne
-    @JsonIgnoreProperties("anexos")
-    private PlanoAuditoria planoAuditoria;
+    @ManyToMany(mappedBy = "anexos")
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    @JsonIgnore
+    private Set<Processo> processos = new HashSet<>();
 
-    @ManyToOne
-    @JsonIgnoreProperties("anexos")
-    private ProdutoNaoConforme produtoNaoConforme;
+    @ManyToMany(mappedBy = "anexos")
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    @JsonIgnore
+    private Set<Produto> produtos = new HashSet<>();
 
-    @ManyToOne
-    @JsonIgnoreProperties("anexos")
-    private PublicacaoFeed publicacaoFeed;
+    @ManyToMany(mappedBy = "anexos")
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    @JsonIgnore
+    private Set<PlanoAuditoria> planoAuditorias = new HashSet<>();
 
-    @ManyToOne
-    @JsonIgnoreProperties("anexos")
-    private ResultadoChecklist resultadoChecklist;
+    @ManyToMany(mappedBy = "anexos")
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    @JsonIgnore
+    private Set<ProdutoNaoConforme> produtoNaoConformes = new HashSet<>();
 
-    @ManyToOne
-    @JsonIgnoreProperties("anexos")
-    private ResultadoItemChecklist resultadoItemChecklist;
+    @ManyToMany(mappedBy = "anexos")
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    @JsonIgnore
+    private Set<PublicacaoFeed> publicacaoFeeds = new HashSet<>();
+
+    @ManyToMany(mappedBy = "anexos")
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    @JsonIgnore
+    private Set<ResultadoChecklist> resultadoChecklists = new HashSet<>();
+
+    @ManyToMany(mappedBy = "anexos")
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    @JsonIgnore
+    private Set<ResultadoItemChecklist> resultadoItemChecklists = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -105,6 +142,32 @@ public class Anexo implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Integer getIdUsuarioRegistro() {
+        return idUsuarioRegistro;
+    }
+
+    public Anexo idUsuarioRegistro(Integer idUsuarioRegistro) {
+        this.idUsuarioRegistro = idUsuarioRegistro;
+        return this;
+    }
+
+    public void setIdUsuarioRegistro(Integer idUsuarioRegistro) {
+        this.idUsuarioRegistro = idUsuarioRegistro;
+    }
+
+    public Instant getDataRegistro() {
+        return dataRegistro;
+    }
+
+    public Anexo dataRegistro(Instant dataRegistro) {
+        this.dataRegistro = dataRegistro;
+        return this;
+    }
+
+    public void setDataRegistro(Instant dataRegistro) {
+        this.dataRegistro = dataRegistro;
     }
 
     public String getNomeArquivo() {
@@ -146,212 +209,454 @@ public class Anexo implements Serializable {
         this.conteudoContentType = conteudoContentType;
     }
 
-    public AcaoSGQ getAcaoSGQ() {
-        return acaoSGQ;
+    public Set<AcaoSGQ> getAcaoSGQS() {
+        return acaoSGQS;
     }
 
-    public Anexo acaoSGQ(AcaoSGQ acaoSGQ) {
-        this.acaoSGQ = acaoSGQ;
+    public Anexo acaoSGQS(Set<AcaoSGQ> acaoSGQS) {
+        this.acaoSGQS = acaoSGQS;
         return this;
     }
 
-    public void setAcaoSGQ(AcaoSGQ acaoSGQ) {
-        this.acaoSGQ = acaoSGQ;
-    }
-
-    public AnaliseConsultoria getAnaliseConsultoria() {
-        return analiseConsultoria;
-    }
-
-    public Anexo analiseConsultoria(AnaliseConsultoria analiseConsultoria) {
-        this.analiseConsultoria = analiseConsultoria;
+    public Anexo addAcaoSGQ(AcaoSGQ acaoSGQ) {
+        this.acaoSGQS.add(acaoSGQ);
+        acaoSGQ.getAnexos().add(this);
         return this;
     }
 
-    public void setAnaliseConsultoria(AnaliseConsultoria analiseConsultoria) {
-        this.analiseConsultoria = analiseConsultoria;
-    }
-
-    public Checklist getChecklist() {
-        return checklist;
-    }
-
-    public Anexo checklist(Checklist checklist) {
-        this.checklist = checklist;
+    public Anexo removeAcaoSGQ(AcaoSGQ acaoSGQ) {
+        this.acaoSGQS.remove(acaoSGQ);
+        acaoSGQ.getAnexos().remove(this);
         return this;
     }
 
-    public void setChecklist(Checklist checklist) {
-        this.checklist = checklist;
+    public void setAcaoSGQS(Set<AcaoSGQ> acaoSGQS) {
+        this.acaoSGQS = acaoSGQS;
     }
 
-    public BoletimInformativo getBoletimInformativo() {
-        return boletimInformativo;
+    public Set<Auditoria> getAuditorias() {
+        return auditorias;
     }
 
-    public Anexo boletimInformativo(BoletimInformativo boletimInformativo) {
-        this.boletimInformativo = boletimInformativo;
+    public Anexo auditorias(Set<Auditoria> auditorias) {
+        this.auditorias = auditorias;
         return this;
     }
 
-    public void setBoletimInformativo(BoletimInformativo boletimInformativo) {
-        this.boletimInformativo = boletimInformativo;
-    }
-
-    public CampanhaRecall getCampanhaRecall() {
-        return campanhaRecall;
-    }
-
-    public Anexo campanhaRecall(CampanhaRecall campanhaRecall) {
-        this.campanhaRecall = campanhaRecall;
+    public Anexo addAuditoria(Auditoria auditoria) {
+        this.auditorias.add(auditoria);
+        auditoria.getAnexos().add(this);
         return this;
     }
 
-    public void setCampanhaRecall(CampanhaRecall campanhaRecall) {
-        this.campanhaRecall = campanhaRecall;
-    }
-
-    public EventoOperacional getEventoOperacional() {
-        return eventoOperacional;
-    }
-
-    public Anexo eventoOperacional(EventoOperacional eventoOperacional) {
-        this.eventoOperacional = eventoOperacional;
+    public Anexo removeAuditoria(Auditoria auditoria) {
+        this.auditorias.remove(auditoria);
+        auditoria.getAnexos().remove(this);
         return this;
     }
 
-    public void setEventoOperacional(EventoOperacional eventoOperacional) {
-        this.eventoOperacional = eventoOperacional;
+    public void setAuditorias(Set<Auditoria> auditorias) {
+        this.auditorias = auditorias;
     }
 
-    public ItemChecklist getItemChecklist() {
-        return itemChecklist;
+    public Set<AnaliseConsultoria> getAnaliseConsultorias() {
+        return analiseConsultorias;
     }
 
-    public Anexo itemChecklist(ItemChecklist itemChecklist) {
-        this.itemChecklist = itemChecklist;
+    public Anexo analiseConsultorias(Set<AnaliseConsultoria> analiseConsultorias) {
+        this.analiseConsultorias = analiseConsultorias;
         return this;
     }
 
-    public void setItemChecklist(ItemChecklist itemChecklist) {
-        this.itemChecklist = itemChecklist;
-    }
-
-    public ItemPlanoAuditoria getItemPlanoAuditoria() {
-        return itemPlanoAuditoria;
-    }
-
-    public Anexo itemPlanoAuditoria(ItemPlanoAuditoria itemPlanoAuditoria) {
-        this.itemPlanoAuditoria = itemPlanoAuditoria;
+    public Anexo addAnaliseConsultoria(AnaliseConsultoria analiseConsultoria) {
+        this.analiseConsultorias.add(analiseConsultoria);
+        analiseConsultoria.getAnexos().add(this);
         return this;
     }
 
-    public void setItemPlanoAuditoria(ItemPlanoAuditoria itemPlanoAuditoria) {
-        this.itemPlanoAuditoria = itemPlanoAuditoria;
-    }
-
-    public NaoConformidade getNaoConformidade() {
-        return naoConformidade;
-    }
-
-    public Anexo naoConformidade(NaoConformidade naoConformidade) {
-        this.naoConformidade = naoConformidade;
+    public Anexo removeAnaliseConsultoria(AnaliseConsultoria analiseConsultoria) {
+        this.analiseConsultorias.remove(analiseConsultoria);
+        analiseConsultoria.getAnexos().remove(this);
         return this;
     }
 
-    public void setNaoConformidade(NaoConformidade naoConformidade) {
-        this.naoConformidade = naoConformidade;
+    public void setAnaliseConsultorias(Set<AnaliseConsultoria> analiseConsultorias) {
+        this.analiseConsultorias = analiseConsultorias;
     }
 
-    public Processo getProcesso() {
-        return processo;
+    public Set<BoletimInformativo> getBoletimInformativos() {
+        return boletimInformativos;
     }
 
-    public Anexo processo(Processo processo) {
-        this.processo = processo;
+    public Anexo boletimInformativos(Set<BoletimInformativo> boletimInformativos) {
+        this.boletimInformativos = boletimInformativos;
         return this;
     }
 
-    public void setProcesso(Processo processo) {
-        this.processo = processo;
-    }
-
-    public Produto getProduto() {
-        return produto;
-    }
-
-    public Anexo produto(Produto produto) {
-        this.produto = produto;
+    public Anexo addBoletimInformativo(BoletimInformativo boletimInformativo) {
+        this.boletimInformativos.add(boletimInformativo);
+        boletimInformativo.getAnexos().add(this);
         return this;
     }
 
-    public void setProduto(Produto produto) {
-        this.produto = produto;
-    }
-
-    public PlanoAuditoria getPlanoAuditoria() {
-        return planoAuditoria;
-    }
-
-    public Anexo planoAuditoria(PlanoAuditoria planoAuditoria) {
-        this.planoAuditoria = planoAuditoria;
+    public Anexo removeBoletimInformativo(BoletimInformativo boletimInformativo) {
+        this.boletimInformativos.remove(boletimInformativo);
+        boletimInformativo.getAnexos().remove(this);
         return this;
     }
 
-    public void setPlanoAuditoria(PlanoAuditoria planoAuditoria) {
-        this.planoAuditoria = planoAuditoria;
+    public void setBoletimInformativos(Set<BoletimInformativo> boletimInformativos) {
+        this.boletimInformativos = boletimInformativos;
     }
 
-    public ProdutoNaoConforme getProdutoNaoConforme() {
-        return produtoNaoConforme;
+    public Set<CampanhaRecall> getCampanhaRecalls() {
+        return campanhaRecalls;
     }
 
-    public Anexo produtoNaoConforme(ProdutoNaoConforme produtoNaoConforme) {
-        this.produtoNaoConforme = produtoNaoConforme;
+    public Anexo campanhaRecalls(Set<CampanhaRecall> campanhaRecalls) {
+        this.campanhaRecalls = campanhaRecalls;
         return this;
     }
 
-    public void setProdutoNaoConforme(ProdutoNaoConforme produtoNaoConforme) {
-        this.produtoNaoConforme = produtoNaoConforme;
-    }
-
-    public PublicacaoFeed getPublicacaoFeed() {
-        return publicacaoFeed;
-    }
-
-    public Anexo publicacaoFeed(PublicacaoFeed publicacaoFeed) {
-        this.publicacaoFeed = publicacaoFeed;
+    public Anexo addCampanhaRecall(CampanhaRecall campanhaRecall) {
+        this.campanhaRecalls.add(campanhaRecall);
+        campanhaRecall.getAnexos().add(this);
         return this;
     }
 
-    public void setPublicacaoFeed(PublicacaoFeed publicacaoFeed) {
-        this.publicacaoFeed = publicacaoFeed;
-    }
-
-    public ResultadoChecklist getResultadoChecklist() {
-        return resultadoChecklist;
-    }
-
-    public Anexo resultadoChecklist(ResultadoChecklist resultadoChecklist) {
-        this.resultadoChecklist = resultadoChecklist;
+    public Anexo removeCampanhaRecall(CampanhaRecall campanhaRecall) {
+        this.campanhaRecalls.remove(campanhaRecall);
+        campanhaRecall.getAnexos().remove(this);
         return this;
     }
 
-    public void setResultadoChecklist(ResultadoChecklist resultadoChecklist) {
-        this.resultadoChecklist = resultadoChecklist;
+    public void setCampanhaRecalls(Set<CampanhaRecall> campanhaRecalls) {
+        this.campanhaRecalls = campanhaRecalls;
     }
 
-    public ResultadoItemChecklist getResultadoItemChecklist() {
-        return resultadoItemChecklist;
+    public Set<Checklist> getChecklists() {
+        return checklists;
     }
 
-    public Anexo resultadoItemChecklist(ResultadoItemChecklist resultadoItemChecklist) {
-        this.resultadoItemChecklist = resultadoItemChecklist;
+    public Anexo checklists(Set<Checklist> checklists) {
+        this.checklists = checklists;
         return this;
     }
 
-    public void setResultadoItemChecklist(ResultadoItemChecklist resultadoItemChecklist) {
-        this.resultadoItemChecklist = resultadoItemChecklist;
+    public Anexo addChecklist(Checklist checklist) {
+        this.checklists.add(checklist);
+        checklist.getAnexos().add(this);
+        return this;
+    }
+
+    public Anexo removeChecklist(Checklist checklist) {
+        this.checklists.remove(checklist);
+        checklist.getAnexos().remove(this);
+        return this;
+    }
+
+    public void setChecklists(Set<Checklist> checklists) {
+        this.checklists = checklists;
+    }
+
+    public Set<EventoOperacional> getEventoOperacionals() {
+        return eventoOperacionals;
+    }
+
+    public Anexo eventoOperacionals(Set<EventoOperacional> eventoOperacionals) {
+        this.eventoOperacionals = eventoOperacionals;
+        return this;
+    }
+
+    public Anexo addEventoOperacional(EventoOperacional eventoOperacional) {
+        this.eventoOperacionals.add(eventoOperacional);
+        eventoOperacional.getAnexos().add(this);
+        return this;
+    }
+
+    public Anexo removeEventoOperacional(EventoOperacional eventoOperacional) {
+        this.eventoOperacionals.remove(eventoOperacional);
+        eventoOperacional.getAnexos().remove(this);
+        return this;
+    }
+
+    public void setEventoOperacionals(Set<EventoOperacional> eventoOperacionals) {
+        this.eventoOperacionals = eventoOperacionals;
+    }
+
+    public Set<ItemAuditoria> getItemAuditorias() {
+        return itemAuditorias;
+    }
+
+    public Anexo itemAuditorias(Set<ItemAuditoria> itemAuditorias) {
+        this.itemAuditorias = itemAuditorias;
+        return this;
+    }
+
+    public Anexo addItemAuditoria(ItemAuditoria itemAuditoria) {
+        this.itemAuditorias.add(itemAuditoria);
+        itemAuditoria.getAnexos().add(this);
+        return this;
+    }
+
+    public Anexo removeItemAuditoria(ItemAuditoria itemAuditoria) {
+        this.itemAuditorias.remove(itemAuditoria);
+        itemAuditoria.getAnexos().remove(this);
+        return this;
+    }
+
+    public void setItemAuditorias(Set<ItemAuditoria> itemAuditorias) {
+        this.itemAuditorias = itemAuditorias;
+    }
+
+    public Set<ItemChecklist> getItemChecklists() {
+        return itemChecklists;
+    }
+
+    public Anexo itemChecklists(Set<ItemChecklist> itemChecklists) {
+        this.itemChecklists = itemChecklists;
+        return this;
+    }
+
+    public Anexo addItemChecklist(ItemChecklist itemChecklist) {
+        this.itemChecklists.add(itemChecklist);
+        itemChecklist.getAnexos().add(this);
+        return this;
+    }
+
+    public Anexo removeItemChecklist(ItemChecklist itemChecklist) {
+        this.itemChecklists.remove(itemChecklist);
+        itemChecklist.getAnexos().remove(this);
+        return this;
+    }
+
+    public void setItemChecklists(Set<ItemChecklist> itemChecklists) {
+        this.itemChecklists = itemChecklists;
+    }
+
+    public Set<ItemPlanoAuditoria> getItemPlanoAuditorias() {
+        return itemPlanoAuditorias;
+    }
+
+    public Anexo itemPlanoAuditorias(Set<ItemPlanoAuditoria> itemPlanoAuditorias) {
+        this.itemPlanoAuditorias = itemPlanoAuditorias;
+        return this;
+    }
+
+    public Anexo addItemPlanoAuditoria(ItemPlanoAuditoria itemPlanoAuditoria) {
+        this.itemPlanoAuditorias.add(itemPlanoAuditoria);
+        itemPlanoAuditoria.getAnexos().add(this);
+        return this;
+    }
+
+    public Anexo removeItemPlanoAuditoria(ItemPlanoAuditoria itemPlanoAuditoria) {
+        this.itemPlanoAuditorias.remove(itemPlanoAuditoria);
+        itemPlanoAuditoria.getAnexos().remove(this);
+        return this;
+    }
+
+    public void setItemPlanoAuditorias(Set<ItemPlanoAuditoria> itemPlanoAuditorias) {
+        this.itemPlanoAuditorias = itemPlanoAuditorias;
+    }
+
+    public Set<NaoConformidade> getNaoConformidades() {
+        return naoConformidades;
+    }
+
+    public Anexo naoConformidades(Set<NaoConformidade> naoConformidades) {
+        this.naoConformidades = naoConformidades;
+        return this;
+    }
+
+    public Anexo addNaoConformidade(NaoConformidade naoConformidade) {
+        this.naoConformidades.add(naoConformidade);
+        naoConformidade.getAnexos().add(this);
+        return this;
+    }
+
+    public Anexo removeNaoConformidade(NaoConformidade naoConformidade) {
+        this.naoConformidades.remove(naoConformidade);
+        naoConformidade.getAnexos().remove(this);
+        return this;
+    }
+
+    public void setNaoConformidades(Set<NaoConformidade> naoConformidades) {
+        this.naoConformidades = naoConformidades;
+    }
+
+    public Set<Processo> getProcessos() {
+        return processos;
+    }
+
+    public Anexo processos(Set<Processo> processos) {
+        this.processos = processos;
+        return this;
+    }
+
+    public Anexo addProcesso(Processo processo) {
+        this.processos.add(processo);
+        processo.getAnexos().add(this);
+        return this;
+    }
+
+    public Anexo removeProcesso(Processo processo) {
+        this.processos.remove(processo);
+        processo.getAnexos().remove(this);
+        return this;
+    }
+
+    public void setProcessos(Set<Processo> processos) {
+        this.processos = processos;
+    }
+
+    public Set<Produto> getProdutos() {
+        return produtos;
+    }
+
+    public Anexo produtos(Set<Produto> produtos) {
+        this.produtos = produtos;
+        return this;
+    }
+
+    public Anexo addProduto(Produto produto) {
+        this.produtos.add(produto);
+        produto.getAnexos().add(this);
+        return this;
+    }
+
+    public Anexo removeProduto(Produto produto) {
+        this.produtos.remove(produto);
+        produto.getAnexos().remove(this);
+        return this;
+    }
+
+    public void setProdutos(Set<Produto> produtos) {
+        this.produtos = produtos;
+    }
+
+    public Set<PlanoAuditoria> getPlanoAuditorias() {
+        return planoAuditorias;
+    }
+
+    public Anexo planoAuditorias(Set<PlanoAuditoria> planoAuditorias) {
+        this.planoAuditorias = planoAuditorias;
+        return this;
+    }
+
+    public Anexo addPlanoAuditoria(PlanoAuditoria planoAuditoria) {
+        this.planoAuditorias.add(planoAuditoria);
+        planoAuditoria.getAnexos().add(this);
+        return this;
+    }
+
+    public Anexo removePlanoAuditoria(PlanoAuditoria planoAuditoria) {
+        this.planoAuditorias.remove(planoAuditoria);
+        planoAuditoria.getAnexos().remove(this);
+        return this;
+    }
+
+    public void setPlanoAuditorias(Set<PlanoAuditoria> planoAuditorias) {
+        this.planoAuditorias = planoAuditorias;
+    }
+
+    public Set<ProdutoNaoConforme> getProdutoNaoConformes() {
+        return produtoNaoConformes;
+    }
+
+    public Anexo produtoNaoConformes(Set<ProdutoNaoConforme> produtoNaoConformes) {
+        this.produtoNaoConformes = produtoNaoConformes;
+        return this;
+    }
+
+    public Anexo addProdutoNaoConforme(ProdutoNaoConforme produtoNaoConforme) {
+        this.produtoNaoConformes.add(produtoNaoConforme);
+        produtoNaoConforme.getAnexos().add(this);
+        return this;
+    }
+
+    public Anexo removeProdutoNaoConforme(ProdutoNaoConforme produtoNaoConforme) {
+        this.produtoNaoConformes.remove(produtoNaoConforme);
+        produtoNaoConforme.getAnexos().remove(this);
+        return this;
+    }
+
+    public void setProdutoNaoConformes(Set<ProdutoNaoConforme> produtoNaoConformes) {
+        this.produtoNaoConformes = produtoNaoConformes;
+    }
+
+    public Set<PublicacaoFeed> getPublicacaoFeeds() {
+        return publicacaoFeeds;
+    }
+
+    public Anexo publicacaoFeeds(Set<PublicacaoFeed> publicacaoFeeds) {
+        this.publicacaoFeeds = publicacaoFeeds;
+        return this;
+    }
+
+    public Anexo addPublicacaoFeed(PublicacaoFeed publicacaoFeed) {
+        this.publicacaoFeeds.add(publicacaoFeed);
+        publicacaoFeed.getAnexos().add(this);
+        return this;
+    }
+
+    public Anexo removePublicacaoFeed(PublicacaoFeed publicacaoFeed) {
+        this.publicacaoFeeds.remove(publicacaoFeed);
+        publicacaoFeed.getAnexos().remove(this);
+        return this;
+    }
+
+    public void setPublicacaoFeeds(Set<PublicacaoFeed> publicacaoFeeds) {
+        this.publicacaoFeeds = publicacaoFeeds;
+    }
+
+    public Set<ResultadoChecklist> getResultadoChecklists() {
+        return resultadoChecklists;
+    }
+
+    public Anexo resultadoChecklists(Set<ResultadoChecklist> resultadoChecklists) {
+        this.resultadoChecklists = resultadoChecklists;
+        return this;
+    }
+
+    public Anexo addResultadoChecklist(ResultadoChecklist resultadoChecklist) {
+        this.resultadoChecklists.add(resultadoChecklist);
+        resultadoChecklist.getAnexos().add(this);
+        return this;
+    }
+
+    public Anexo removeResultadoChecklist(ResultadoChecklist resultadoChecklist) {
+        this.resultadoChecklists.remove(resultadoChecklist);
+        resultadoChecklist.getAnexos().remove(this);
+        return this;
+    }
+
+    public void setResultadoChecklists(Set<ResultadoChecklist> resultadoChecklists) {
+        this.resultadoChecklists = resultadoChecklists;
+    }
+
+    public Set<ResultadoItemChecklist> getResultadoItemChecklists() {
+        return resultadoItemChecklists;
+    }
+
+    public Anexo resultadoItemChecklists(Set<ResultadoItemChecklist> resultadoItemChecklists) {
+        this.resultadoItemChecklists = resultadoItemChecklists;
+        return this;
+    }
+
+    public Anexo addResultadoItemChecklist(ResultadoItemChecklist resultadoItemChecklist) {
+        this.resultadoItemChecklists.add(resultadoItemChecklist);
+        resultadoItemChecklist.getAnexos().add(this);
+        return this;
+    }
+
+    public Anexo removeResultadoItemChecklist(ResultadoItemChecklist resultadoItemChecklist) {
+        this.resultadoItemChecklists.remove(resultadoItemChecklist);
+        resultadoItemChecklist.getAnexos().remove(this);
+        return this;
+    }
+
+    public void setResultadoItemChecklists(Set<ResultadoItemChecklist> resultadoItemChecklists) {
+        this.resultadoItemChecklists = resultadoItemChecklists;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
@@ -375,6 +680,8 @@ public class Anexo implements Serializable {
     public String toString() {
         return "Anexo{" +
             "id=" + getId() +
+            ", idUsuarioRegistro=" + getIdUsuarioRegistro() +
+            ", dataRegistro='" + getDataRegistro() + "'" +
             ", nomeArquivo='" + getNomeArquivo() + "'" +
             ", conteudo='" + getConteudo() + "'" +
             ", conteudoContentType='" + getConteudoContentType() + "'" +

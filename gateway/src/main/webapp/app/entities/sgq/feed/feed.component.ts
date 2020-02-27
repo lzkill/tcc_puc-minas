@@ -14,7 +14,6 @@ import { FeedDeleteDialogComponent } from './feed-delete-dialog.component';
 import { IUser } from 'app/core/user/user.model';
 import { UserService } from 'app/core/user/user.service';
 import { map } from 'rxjs/operators';
-
 @Component({
   selector: 'jhi-feed',
   templateUrl: './feed.component.html'

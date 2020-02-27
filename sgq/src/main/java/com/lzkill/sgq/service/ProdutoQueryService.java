@@ -88,6 +88,9 @@ public class ProdutoQueryService extends QueryService<Produto> {
             if (criteria.getNome() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getNome(), Produto_.nome));
             }
+            if (criteria.getHabilitado() != null) {
+                specification = specification.and(buildSpecification(criteria.getHabilitado(), Produto_.habilitado));
+            }
             if (criteria.getAnexoId() != null) {
                 specification = specification.and(buildSpecification(criteria.getAnexoId(),
                     root -> root.join(Produto_.anexos, JoinType.LEFT).get(Anexo_.id)));

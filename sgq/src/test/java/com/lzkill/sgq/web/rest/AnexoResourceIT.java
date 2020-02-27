@@ -3,11 +3,13 @@ package com.lzkill.sgq.web.rest;
 import com.lzkill.sgq.SgqApp;
 import com.lzkill.sgq.domain.Anexo;
 import com.lzkill.sgq.domain.AcaoSGQ;
+import com.lzkill.sgq.domain.Auditoria;
 import com.lzkill.sgq.domain.AnaliseConsultoria;
-import com.lzkill.sgq.domain.Checklist;
 import com.lzkill.sgq.domain.BoletimInformativo;
 import com.lzkill.sgq.domain.CampanhaRecall;
+import com.lzkill.sgq.domain.Checklist;
 import com.lzkill.sgq.domain.EventoOperacional;
+import com.lzkill.sgq.domain.ItemAuditoria;
 import com.lzkill.sgq.domain.ItemChecklist;
 import com.lzkill.sgq.domain.ItemPlanoAuditoria;
 import com.lzkill.sgq.domain.NaoConformidade;
@@ -39,6 +41,8 @@ import org.springframework.util.Base64Utils;
 import org.springframework.validation.Validator;
 
 import javax.persistence.EntityManager;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 import static com.lzkill.sgq.web.rest.TestUtil.createFormattingConversionService;
@@ -52,6 +56,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 @SpringBootTest(classes = SgqApp.class)
 public class AnexoResourceIT {
+
+    private static final Integer DEFAULT_ID_USUARIO_REGISTRO = 1;
+    private static final Integer UPDATED_ID_USUARIO_REGISTRO = 2;
+    private static final Integer SMALLER_ID_USUARIO_REGISTRO = 1 - 1;
+
+    private static final Instant DEFAULT_DATA_REGISTRO = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_DATA_REGISTRO = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
     private static final String DEFAULT_NOME_ARQUIVO = "AAAAAAAAAA";
     private static final String UPDATED_NOME_ARQUIVO = "BBBBBBBBBB";
@@ -109,6 +120,8 @@ public class AnexoResourceIT {
      */
     public static Anexo createEntity(EntityManager em) {
         Anexo anexo = new Anexo()
+            .idUsuarioRegistro(DEFAULT_ID_USUARIO_REGISTRO)
+            .dataRegistro(DEFAULT_DATA_REGISTRO)
             .nomeArquivo(DEFAULT_NOME_ARQUIVO)
             .conteudo(DEFAULT_CONTEUDO)
             .conteudoContentType(DEFAULT_CONTEUDO_CONTENT_TYPE);
@@ -122,6 +135,8 @@ public class AnexoResourceIT {
      */
     public static Anexo createUpdatedEntity(EntityManager em) {
         Anexo anexo = new Anexo()
+            .idUsuarioRegistro(UPDATED_ID_USUARIO_REGISTRO)
+            .dataRegistro(UPDATED_DATA_REGISTRO)
             .nomeArquivo(UPDATED_NOME_ARQUIVO)
             .conteudo(UPDATED_CONTEUDO)
             .conteudoContentType(UPDATED_CONTEUDO_CONTENT_TYPE);
@@ -148,6 +163,8 @@ public class AnexoResourceIT {
         List<Anexo> anexoList = anexoRepository.findAll();
         assertThat(anexoList).hasSize(databaseSizeBeforeCreate + 1);
         Anexo testAnexo = anexoList.get(anexoList.size() - 1);
+        assertThat(testAnexo.getIdUsuarioRegistro()).isEqualTo(DEFAULT_ID_USUARIO_REGISTRO);
+        assertThat(testAnexo.getDataRegistro()).isEqualTo(DEFAULT_DATA_REGISTRO);
         assertThat(testAnexo.getNomeArquivo()).isEqualTo(DEFAULT_NOME_ARQUIVO);
         assertThat(testAnexo.getConteudo()).isEqualTo(DEFAULT_CONTEUDO);
         assertThat(testAnexo.getConteudoContentType()).isEqualTo(DEFAULT_CONTEUDO_CONTENT_TYPE);
@@ -172,6 +189,42 @@ public class AnexoResourceIT {
         assertThat(anexoList).hasSize(databaseSizeBeforeCreate);
     }
 
+
+    @Test
+    @Transactional
+    public void checkIdUsuarioRegistroIsRequired() throws Exception {
+        int databaseSizeBeforeTest = anexoRepository.findAll().size();
+        // set the field null
+        anexo.setIdUsuarioRegistro(null);
+
+        // Create the Anexo, which fails.
+
+        restAnexoMockMvc.perform(post("/api/anexos")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(anexo)))
+            .andExpect(status().isBadRequest());
+
+        List<Anexo> anexoList = anexoRepository.findAll();
+        assertThat(anexoList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    public void checkDataRegistroIsRequired() throws Exception {
+        int databaseSizeBeforeTest = anexoRepository.findAll().size();
+        // set the field null
+        anexo.setDataRegistro(null);
+
+        // Create the Anexo, which fails.
+
+        restAnexoMockMvc.perform(post("/api/anexos")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(anexo)))
+            .andExpect(status().isBadRequest());
+
+        List<Anexo> anexoList = anexoRepository.findAll();
+        assertThat(anexoList).hasSize(databaseSizeBeforeTest);
+    }
 
     @Test
     @Transactional
@@ -202,6 +255,8 @@ public class AnexoResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(anexo.getId().intValue())))
+            .andExpect(jsonPath("$.[*].idUsuarioRegistro").value(hasItem(DEFAULT_ID_USUARIO_REGISTRO)))
+            .andExpect(jsonPath("$.[*].dataRegistro").value(hasItem(DEFAULT_DATA_REGISTRO.toString())))
             .andExpect(jsonPath("$.[*].nomeArquivo").value(hasItem(DEFAULT_NOME_ARQUIVO)))
             .andExpect(jsonPath("$.[*].conteudoContentType").value(hasItem(DEFAULT_CONTEUDO_CONTENT_TYPE)))
             .andExpect(jsonPath("$.[*].conteudo").value(hasItem(Base64Utils.encodeToString(DEFAULT_CONTEUDO))));
@@ -218,6 +273,8 @@ public class AnexoResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(anexo.getId().intValue()))
+            .andExpect(jsonPath("$.idUsuarioRegistro").value(DEFAULT_ID_USUARIO_REGISTRO))
+            .andExpect(jsonPath("$.dataRegistro").value(DEFAULT_DATA_REGISTRO.toString()))
             .andExpect(jsonPath("$.nomeArquivo").value(DEFAULT_NOME_ARQUIVO))
             .andExpect(jsonPath("$.conteudoContentType").value(DEFAULT_CONTEUDO_CONTENT_TYPE))
             .andExpect(jsonPath("$.conteudo").value(Base64Utils.encodeToString(DEFAULT_CONTEUDO)));
@@ -242,6 +299,163 @@ public class AnexoResourceIT {
         defaultAnexoShouldNotBeFound("id.lessThan=" + id);
     }
 
+
+    @Test
+    @Transactional
+    public void getAllAnexosByIdUsuarioRegistroIsEqualToSomething() throws Exception {
+        // Initialize the database
+        anexoRepository.saveAndFlush(anexo);
+
+        // Get all the anexoList where idUsuarioRegistro equals to DEFAULT_ID_USUARIO_REGISTRO
+        defaultAnexoShouldBeFound("idUsuarioRegistro.equals=" + DEFAULT_ID_USUARIO_REGISTRO);
+
+        // Get all the anexoList where idUsuarioRegistro equals to UPDATED_ID_USUARIO_REGISTRO
+        defaultAnexoShouldNotBeFound("idUsuarioRegistro.equals=" + UPDATED_ID_USUARIO_REGISTRO);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAnexosByIdUsuarioRegistroIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        anexoRepository.saveAndFlush(anexo);
+
+        // Get all the anexoList where idUsuarioRegistro not equals to DEFAULT_ID_USUARIO_REGISTRO
+        defaultAnexoShouldNotBeFound("idUsuarioRegistro.notEquals=" + DEFAULT_ID_USUARIO_REGISTRO);
+
+        // Get all the anexoList where idUsuarioRegistro not equals to UPDATED_ID_USUARIO_REGISTRO
+        defaultAnexoShouldBeFound("idUsuarioRegistro.notEquals=" + UPDATED_ID_USUARIO_REGISTRO);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAnexosByIdUsuarioRegistroIsInShouldWork() throws Exception {
+        // Initialize the database
+        anexoRepository.saveAndFlush(anexo);
+
+        // Get all the anexoList where idUsuarioRegistro in DEFAULT_ID_USUARIO_REGISTRO or UPDATED_ID_USUARIO_REGISTRO
+        defaultAnexoShouldBeFound("idUsuarioRegistro.in=" + DEFAULT_ID_USUARIO_REGISTRO + "," + UPDATED_ID_USUARIO_REGISTRO);
+
+        // Get all the anexoList where idUsuarioRegistro equals to UPDATED_ID_USUARIO_REGISTRO
+        defaultAnexoShouldNotBeFound("idUsuarioRegistro.in=" + UPDATED_ID_USUARIO_REGISTRO);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAnexosByIdUsuarioRegistroIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        anexoRepository.saveAndFlush(anexo);
+
+        // Get all the anexoList where idUsuarioRegistro is not null
+        defaultAnexoShouldBeFound("idUsuarioRegistro.specified=true");
+
+        // Get all the anexoList where idUsuarioRegistro is null
+        defaultAnexoShouldNotBeFound("idUsuarioRegistro.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllAnexosByIdUsuarioRegistroIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        anexoRepository.saveAndFlush(anexo);
+
+        // Get all the anexoList where idUsuarioRegistro is greater than or equal to DEFAULT_ID_USUARIO_REGISTRO
+        defaultAnexoShouldBeFound("idUsuarioRegistro.greaterThanOrEqual=" + DEFAULT_ID_USUARIO_REGISTRO);
+
+        // Get all the anexoList where idUsuarioRegistro is greater than or equal to UPDATED_ID_USUARIO_REGISTRO
+        defaultAnexoShouldNotBeFound("idUsuarioRegistro.greaterThanOrEqual=" + UPDATED_ID_USUARIO_REGISTRO);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAnexosByIdUsuarioRegistroIsLessThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        anexoRepository.saveAndFlush(anexo);
+
+        // Get all the anexoList where idUsuarioRegistro is less than or equal to DEFAULT_ID_USUARIO_REGISTRO
+        defaultAnexoShouldBeFound("idUsuarioRegistro.lessThanOrEqual=" + DEFAULT_ID_USUARIO_REGISTRO);
+
+        // Get all the anexoList where idUsuarioRegistro is less than or equal to SMALLER_ID_USUARIO_REGISTRO
+        defaultAnexoShouldNotBeFound("idUsuarioRegistro.lessThanOrEqual=" + SMALLER_ID_USUARIO_REGISTRO);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAnexosByIdUsuarioRegistroIsLessThanSomething() throws Exception {
+        // Initialize the database
+        anexoRepository.saveAndFlush(anexo);
+
+        // Get all the anexoList where idUsuarioRegistro is less than DEFAULT_ID_USUARIO_REGISTRO
+        defaultAnexoShouldNotBeFound("idUsuarioRegistro.lessThan=" + DEFAULT_ID_USUARIO_REGISTRO);
+
+        // Get all the anexoList where idUsuarioRegistro is less than UPDATED_ID_USUARIO_REGISTRO
+        defaultAnexoShouldBeFound("idUsuarioRegistro.lessThan=" + UPDATED_ID_USUARIO_REGISTRO);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAnexosByIdUsuarioRegistroIsGreaterThanSomething() throws Exception {
+        // Initialize the database
+        anexoRepository.saveAndFlush(anexo);
+
+        // Get all the anexoList where idUsuarioRegistro is greater than DEFAULT_ID_USUARIO_REGISTRO
+        defaultAnexoShouldNotBeFound("idUsuarioRegistro.greaterThan=" + DEFAULT_ID_USUARIO_REGISTRO);
+
+        // Get all the anexoList where idUsuarioRegistro is greater than SMALLER_ID_USUARIO_REGISTRO
+        defaultAnexoShouldBeFound("idUsuarioRegistro.greaterThan=" + SMALLER_ID_USUARIO_REGISTRO);
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllAnexosByDataRegistroIsEqualToSomething() throws Exception {
+        // Initialize the database
+        anexoRepository.saveAndFlush(anexo);
+
+        // Get all the anexoList where dataRegistro equals to DEFAULT_DATA_REGISTRO
+        defaultAnexoShouldBeFound("dataRegistro.equals=" + DEFAULT_DATA_REGISTRO);
+
+        // Get all the anexoList where dataRegistro equals to UPDATED_DATA_REGISTRO
+        defaultAnexoShouldNotBeFound("dataRegistro.equals=" + UPDATED_DATA_REGISTRO);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAnexosByDataRegistroIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        anexoRepository.saveAndFlush(anexo);
+
+        // Get all the anexoList where dataRegistro not equals to DEFAULT_DATA_REGISTRO
+        defaultAnexoShouldNotBeFound("dataRegistro.notEquals=" + DEFAULT_DATA_REGISTRO);
+
+        // Get all the anexoList where dataRegistro not equals to UPDATED_DATA_REGISTRO
+        defaultAnexoShouldBeFound("dataRegistro.notEquals=" + UPDATED_DATA_REGISTRO);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAnexosByDataRegistroIsInShouldWork() throws Exception {
+        // Initialize the database
+        anexoRepository.saveAndFlush(anexo);
+
+        // Get all the anexoList where dataRegistro in DEFAULT_DATA_REGISTRO or UPDATED_DATA_REGISTRO
+        defaultAnexoShouldBeFound("dataRegistro.in=" + DEFAULT_DATA_REGISTRO + "," + UPDATED_DATA_REGISTRO);
+
+        // Get all the anexoList where dataRegistro equals to UPDATED_DATA_REGISTRO
+        defaultAnexoShouldNotBeFound("dataRegistro.in=" + UPDATED_DATA_REGISTRO);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAnexosByDataRegistroIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        anexoRepository.saveAndFlush(anexo);
+
+        // Get all the anexoList where dataRegistro is not null
+        defaultAnexoShouldBeFound("dataRegistro.specified=true");
+
+        // Get all the anexoList where dataRegistro is null
+        defaultAnexoShouldNotBeFound("dataRegistro.specified=false");
+    }
 
     @Test
     @Transactional
@@ -329,7 +543,7 @@ public class AnexoResourceIT {
         AcaoSGQ acaoSGQ = AcaoSGQResourceIT.createEntity(em);
         em.persist(acaoSGQ);
         em.flush();
-        anexo.setAcaoSGQ(acaoSGQ);
+        anexo.addAcaoSGQ(acaoSGQ);
         anexoRepository.saveAndFlush(anexo);
         Long acaoSGQId = acaoSGQ.getId();
 
@@ -343,13 +557,33 @@ public class AnexoResourceIT {
 
     @Test
     @Transactional
+    public void getAllAnexosByAuditoriaIsEqualToSomething() throws Exception {
+        // Initialize the database
+        anexoRepository.saveAndFlush(anexo);
+        Auditoria auditoria = AuditoriaResourceIT.createEntity(em);
+        em.persist(auditoria);
+        em.flush();
+        anexo.addAuditoria(auditoria);
+        anexoRepository.saveAndFlush(anexo);
+        Long auditoriaId = auditoria.getId();
+
+        // Get all the anexoList where auditoria equals to auditoriaId
+        defaultAnexoShouldBeFound("auditoriaId.equals=" + auditoriaId);
+
+        // Get all the anexoList where auditoria equals to auditoriaId + 1
+        defaultAnexoShouldNotBeFound("auditoriaId.equals=" + (auditoriaId + 1));
+    }
+
+
+    @Test
+    @Transactional
     public void getAllAnexosByAnaliseConsultoriaIsEqualToSomething() throws Exception {
         // Initialize the database
         anexoRepository.saveAndFlush(anexo);
         AnaliseConsultoria analiseConsultoria = AnaliseConsultoriaResourceIT.createEntity(em);
         em.persist(analiseConsultoria);
         em.flush();
-        anexo.setAnaliseConsultoria(analiseConsultoria);
+        anexo.addAnaliseConsultoria(analiseConsultoria);
         anexoRepository.saveAndFlush(anexo);
         Long analiseConsultoriaId = analiseConsultoria.getId();
 
@@ -363,33 +597,13 @@ public class AnexoResourceIT {
 
     @Test
     @Transactional
-    public void getAllAnexosByChecklistIsEqualToSomething() throws Exception {
-        // Initialize the database
-        anexoRepository.saveAndFlush(anexo);
-        Checklist checklist = ChecklistResourceIT.createEntity(em);
-        em.persist(checklist);
-        em.flush();
-        anexo.setChecklist(checklist);
-        anexoRepository.saveAndFlush(anexo);
-        Long checklistId = checklist.getId();
-
-        // Get all the anexoList where checklist equals to checklistId
-        defaultAnexoShouldBeFound("checklistId.equals=" + checklistId);
-
-        // Get all the anexoList where checklist equals to checklistId + 1
-        defaultAnexoShouldNotBeFound("checklistId.equals=" + (checklistId + 1));
-    }
-
-
-    @Test
-    @Transactional
     public void getAllAnexosByBoletimInformativoIsEqualToSomething() throws Exception {
         // Initialize the database
         anexoRepository.saveAndFlush(anexo);
         BoletimInformativo boletimInformativo = BoletimInformativoResourceIT.createEntity(em);
         em.persist(boletimInformativo);
         em.flush();
-        anexo.setBoletimInformativo(boletimInformativo);
+        anexo.addBoletimInformativo(boletimInformativo);
         anexoRepository.saveAndFlush(anexo);
         Long boletimInformativoId = boletimInformativo.getId();
 
@@ -409,7 +623,7 @@ public class AnexoResourceIT {
         CampanhaRecall campanhaRecall = CampanhaRecallResourceIT.createEntity(em);
         em.persist(campanhaRecall);
         em.flush();
-        anexo.setCampanhaRecall(campanhaRecall);
+        anexo.addCampanhaRecall(campanhaRecall);
         anexoRepository.saveAndFlush(anexo);
         Long campanhaRecallId = campanhaRecall.getId();
 
@@ -423,13 +637,33 @@ public class AnexoResourceIT {
 
     @Test
     @Transactional
+    public void getAllAnexosByChecklistIsEqualToSomething() throws Exception {
+        // Initialize the database
+        anexoRepository.saveAndFlush(anexo);
+        Checklist checklist = ChecklistResourceIT.createEntity(em);
+        em.persist(checklist);
+        em.flush();
+        anexo.addChecklist(checklist);
+        anexoRepository.saveAndFlush(anexo);
+        Long checklistId = checklist.getId();
+
+        // Get all the anexoList where checklist equals to checklistId
+        defaultAnexoShouldBeFound("checklistId.equals=" + checklistId);
+
+        // Get all the anexoList where checklist equals to checklistId + 1
+        defaultAnexoShouldNotBeFound("checklistId.equals=" + (checklistId + 1));
+    }
+
+
+    @Test
+    @Transactional
     public void getAllAnexosByEventoOperacionalIsEqualToSomething() throws Exception {
         // Initialize the database
         anexoRepository.saveAndFlush(anexo);
         EventoOperacional eventoOperacional = EventoOperacionalResourceIT.createEntity(em);
         em.persist(eventoOperacional);
         em.flush();
-        anexo.setEventoOperacional(eventoOperacional);
+        anexo.addEventoOperacional(eventoOperacional);
         anexoRepository.saveAndFlush(anexo);
         Long eventoOperacionalId = eventoOperacional.getId();
 
@@ -443,13 +677,33 @@ public class AnexoResourceIT {
 
     @Test
     @Transactional
+    public void getAllAnexosByItemAuditoriaIsEqualToSomething() throws Exception {
+        // Initialize the database
+        anexoRepository.saveAndFlush(anexo);
+        ItemAuditoria itemAuditoria = ItemAuditoriaResourceIT.createEntity(em);
+        em.persist(itemAuditoria);
+        em.flush();
+        anexo.addItemAuditoria(itemAuditoria);
+        anexoRepository.saveAndFlush(anexo);
+        Long itemAuditoriaId = itemAuditoria.getId();
+
+        // Get all the anexoList where itemAuditoria equals to itemAuditoriaId
+        defaultAnexoShouldBeFound("itemAuditoriaId.equals=" + itemAuditoriaId);
+
+        // Get all the anexoList where itemAuditoria equals to itemAuditoriaId + 1
+        defaultAnexoShouldNotBeFound("itemAuditoriaId.equals=" + (itemAuditoriaId + 1));
+    }
+
+
+    @Test
+    @Transactional
     public void getAllAnexosByItemChecklistIsEqualToSomething() throws Exception {
         // Initialize the database
         anexoRepository.saveAndFlush(anexo);
         ItemChecklist itemChecklist = ItemChecklistResourceIT.createEntity(em);
         em.persist(itemChecklist);
         em.flush();
-        anexo.setItemChecklist(itemChecklist);
+        anexo.addItemChecklist(itemChecklist);
         anexoRepository.saveAndFlush(anexo);
         Long itemChecklistId = itemChecklist.getId();
 
@@ -469,7 +723,7 @@ public class AnexoResourceIT {
         ItemPlanoAuditoria itemPlanoAuditoria = ItemPlanoAuditoriaResourceIT.createEntity(em);
         em.persist(itemPlanoAuditoria);
         em.flush();
-        anexo.setItemPlanoAuditoria(itemPlanoAuditoria);
+        anexo.addItemPlanoAuditoria(itemPlanoAuditoria);
         anexoRepository.saveAndFlush(anexo);
         Long itemPlanoAuditoriaId = itemPlanoAuditoria.getId();
 
@@ -489,7 +743,7 @@ public class AnexoResourceIT {
         NaoConformidade naoConformidade = NaoConformidadeResourceIT.createEntity(em);
         em.persist(naoConformidade);
         em.flush();
-        anexo.setNaoConformidade(naoConformidade);
+        anexo.addNaoConformidade(naoConformidade);
         anexoRepository.saveAndFlush(anexo);
         Long naoConformidadeId = naoConformidade.getId();
 
@@ -509,7 +763,7 @@ public class AnexoResourceIT {
         Processo processo = ProcessoResourceIT.createEntity(em);
         em.persist(processo);
         em.flush();
-        anexo.setProcesso(processo);
+        anexo.addProcesso(processo);
         anexoRepository.saveAndFlush(anexo);
         Long processoId = processo.getId();
 
@@ -529,7 +783,7 @@ public class AnexoResourceIT {
         Produto produto = ProdutoResourceIT.createEntity(em);
         em.persist(produto);
         em.flush();
-        anexo.setProduto(produto);
+        anexo.addProduto(produto);
         anexoRepository.saveAndFlush(anexo);
         Long produtoId = produto.getId();
 
@@ -549,7 +803,7 @@ public class AnexoResourceIT {
         PlanoAuditoria planoAuditoria = PlanoAuditoriaResourceIT.createEntity(em);
         em.persist(planoAuditoria);
         em.flush();
-        anexo.setPlanoAuditoria(planoAuditoria);
+        anexo.addPlanoAuditoria(planoAuditoria);
         anexoRepository.saveAndFlush(anexo);
         Long planoAuditoriaId = planoAuditoria.getId();
 
@@ -569,7 +823,7 @@ public class AnexoResourceIT {
         ProdutoNaoConforme produtoNaoConforme = ProdutoNaoConformeResourceIT.createEntity(em);
         em.persist(produtoNaoConforme);
         em.flush();
-        anexo.setProdutoNaoConforme(produtoNaoConforme);
+        anexo.addProdutoNaoConforme(produtoNaoConforme);
         anexoRepository.saveAndFlush(anexo);
         Long produtoNaoConformeId = produtoNaoConforme.getId();
 
@@ -589,7 +843,7 @@ public class AnexoResourceIT {
         PublicacaoFeed publicacaoFeed = PublicacaoFeedResourceIT.createEntity(em);
         em.persist(publicacaoFeed);
         em.flush();
-        anexo.setPublicacaoFeed(publicacaoFeed);
+        anexo.addPublicacaoFeed(publicacaoFeed);
         anexoRepository.saveAndFlush(anexo);
         Long publicacaoFeedId = publicacaoFeed.getId();
 
@@ -609,7 +863,7 @@ public class AnexoResourceIT {
         ResultadoChecklist resultadoChecklist = ResultadoChecklistResourceIT.createEntity(em);
         em.persist(resultadoChecklist);
         em.flush();
-        anexo.setResultadoChecklist(resultadoChecklist);
+        anexo.addResultadoChecklist(resultadoChecklist);
         anexoRepository.saveAndFlush(anexo);
         Long resultadoChecklistId = resultadoChecklist.getId();
 
@@ -629,7 +883,7 @@ public class AnexoResourceIT {
         ResultadoItemChecklist resultadoItemChecklist = ResultadoItemChecklistResourceIT.createEntity(em);
         em.persist(resultadoItemChecklist);
         em.flush();
-        anexo.setResultadoItemChecklist(resultadoItemChecklist);
+        anexo.addResultadoItemChecklist(resultadoItemChecklist);
         anexoRepository.saveAndFlush(anexo);
         Long resultadoItemChecklistId = resultadoItemChecklist.getId();
 
@@ -648,6 +902,8 @@ public class AnexoResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(anexo.getId().intValue())))
+            .andExpect(jsonPath("$.[*].idUsuarioRegistro").value(hasItem(DEFAULT_ID_USUARIO_REGISTRO)))
+            .andExpect(jsonPath("$.[*].dataRegistro").value(hasItem(DEFAULT_DATA_REGISTRO.toString())))
             .andExpect(jsonPath("$.[*].nomeArquivo").value(hasItem(DEFAULT_NOME_ARQUIVO)))
             .andExpect(jsonPath("$.[*].conteudoContentType").value(hasItem(DEFAULT_CONTEUDO_CONTENT_TYPE)))
             .andExpect(jsonPath("$.[*].conteudo").value(hasItem(Base64Utils.encodeToString(DEFAULT_CONTEUDO))));
@@ -698,6 +954,8 @@ public class AnexoResourceIT {
         // Disconnect from session so that the updates on updatedAnexo are not directly saved in db
         em.detach(updatedAnexo);
         updatedAnexo
+            .idUsuarioRegistro(UPDATED_ID_USUARIO_REGISTRO)
+            .dataRegistro(UPDATED_DATA_REGISTRO)
             .nomeArquivo(UPDATED_NOME_ARQUIVO)
             .conteudo(UPDATED_CONTEUDO)
             .conteudoContentType(UPDATED_CONTEUDO_CONTENT_TYPE);
@@ -711,6 +969,8 @@ public class AnexoResourceIT {
         List<Anexo> anexoList = anexoRepository.findAll();
         assertThat(anexoList).hasSize(databaseSizeBeforeUpdate);
         Anexo testAnexo = anexoList.get(anexoList.size() - 1);
+        assertThat(testAnexo.getIdUsuarioRegistro()).isEqualTo(UPDATED_ID_USUARIO_REGISTRO);
+        assertThat(testAnexo.getDataRegistro()).isEqualTo(UPDATED_DATA_REGISTRO);
         assertThat(testAnexo.getNomeArquivo()).isEqualTo(UPDATED_NOME_ARQUIVO);
         assertThat(testAnexo.getConteudo()).isEqualTo(UPDATED_CONTEUDO);
         assertThat(testAnexo.getConteudoContentType()).isEqualTo(UPDATED_CONTEUDO_CONTENT_TYPE);

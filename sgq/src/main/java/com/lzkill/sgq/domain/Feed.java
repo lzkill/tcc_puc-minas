@@ -10,8 +10,6 @@ import java.time.Instant;
 
 import com.lzkill.sgq.domain.enumeration.TipoFeed;
 
-import com.lzkill.sgq.domain.enumeration.StatusFeed;
-
 /**
  * A Feed.
  */
@@ -77,9 +75,8 @@ public class Feed implements Serializable {
     private Instant dataRegistro;
 
     @NotNull
-    @Enumerated(EnumType.STRING)
-    @Column(name = "status", nullable = false)
-    private StatusFeed status;
+    @Column(name = "habilitado", nullable = false)
+    private Boolean habilitado;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -233,17 +230,17 @@ public class Feed implements Serializable {
         this.dataRegistro = dataRegistro;
     }
 
-    public StatusFeed getStatus() {
-        return status;
+    public Boolean isHabilitado() {
+        return habilitado;
     }
 
-    public Feed status(StatusFeed status) {
-        this.status = status;
+    public Feed habilitado(Boolean habilitado) {
+        this.habilitado = habilitado;
         return this;
     }
 
-    public void setStatus(StatusFeed status) {
-        this.status = status;
+    public void setHabilitado(Boolean habilitado) {
+        this.habilitado = habilitado;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
@@ -278,7 +275,7 @@ public class Feed implements Serializable {
             ", alturaImagem=" + getAlturaImagem() +
             ", larguraImagem=" + getLarguraImagem() +
             ", dataRegistro='" + getDataRegistro() + "'" +
-            ", status='" + getStatus() + "'" +
+            ", habilitado='" + isHabilitado() + "'" +
             "}";
     }
 }

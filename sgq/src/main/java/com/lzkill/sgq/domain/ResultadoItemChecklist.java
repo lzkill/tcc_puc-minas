@@ -32,22 +32,17 @@ public class ResultadoItemChecklist implements Serializable {
     @Column(name = "descricao")
     private String descricao;
 
-    @OneToMany(mappedBy = "resultadoItemChecklist")
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<Anexo> anexos = new HashSet<>();
-
-    @OneToMany(mappedBy = "resultadoItemChecklist")
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<NaoConformidade> naoConformidades = new HashSet<>();
-
-    @OneToMany(mappedBy = "resultadoItemChecklist")
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<ProdutoNaoConforme> produtoNaoConformes = new HashSet<>();
-
     @ManyToOne(optional = false)
     @NotNull
     @JsonIgnoreProperties("resultadoItemChecklists")
     private ItemChecklist item;
+
+    @ManyToMany
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    @JoinTable(name = "resultado_item_checklist_anexo",
+               joinColumns = @JoinColumn(name = "resultado_item_checklist_id", referencedColumnName = "id"),
+               inverseJoinColumns = @JoinColumn(name = "anexo_id", referencedColumnName = "id"))
+    private Set<Anexo> anexos = new HashSet<>();
 
     @ManyToOne(optional = false)
     @NotNull
@@ -89,81 +84,6 @@ public class ResultadoItemChecklist implements Serializable {
         this.descricao = descricao;
     }
 
-    public Set<Anexo> getAnexos() {
-        return anexos;
-    }
-
-    public ResultadoItemChecklist anexos(Set<Anexo> anexos) {
-        this.anexos = anexos;
-        return this;
-    }
-
-    public ResultadoItemChecklist addAnexo(Anexo anexo) {
-        this.anexos.add(anexo);
-        anexo.setResultadoItemChecklist(this);
-        return this;
-    }
-
-    public ResultadoItemChecklist removeAnexo(Anexo anexo) {
-        this.anexos.remove(anexo);
-        anexo.setResultadoItemChecklist(null);
-        return this;
-    }
-
-    public void setAnexos(Set<Anexo> anexos) {
-        this.anexos = anexos;
-    }
-
-    public Set<NaoConformidade> getNaoConformidades() {
-        return naoConformidades;
-    }
-
-    public ResultadoItemChecklist naoConformidades(Set<NaoConformidade> naoConformidades) {
-        this.naoConformidades = naoConformidades;
-        return this;
-    }
-
-    public ResultadoItemChecklist addNaoConformidade(NaoConformidade naoConformidade) {
-        this.naoConformidades.add(naoConformidade);
-        naoConformidade.setResultadoItemChecklist(this);
-        return this;
-    }
-
-    public ResultadoItemChecklist removeNaoConformidade(NaoConformidade naoConformidade) {
-        this.naoConformidades.remove(naoConformidade);
-        naoConformidade.setResultadoItemChecklist(null);
-        return this;
-    }
-
-    public void setNaoConformidades(Set<NaoConformidade> naoConformidades) {
-        this.naoConformidades = naoConformidades;
-    }
-
-    public Set<ProdutoNaoConforme> getProdutoNaoConformes() {
-        return produtoNaoConformes;
-    }
-
-    public ResultadoItemChecklist produtoNaoConformes(Set<ProdutoNaoConforme> produtoNaoConformes) {
-        this.produtoNaoConformes = produtoNaoConformes;
-        return this;
-    }
-
-    public ResultadoItemChecklist addProdutoNaoConforme(ProdutoNaoConforme produtoNaoConforme) {
-        this.produtoNaoConformes.add(produtoNaoConforme);
-        produtoNaoConforme.setResultadoItemChecklist(this);
-        return this;
-    }
-
-    public ResultadoItemChecklist removeProdutoNaoConforme(ProdutoNaoConforme produtoNaoConforme) {
-        this.produtoNaoConformes.remove(produtoNaoConforme);
-        produtoNaoConforme.setResultadoItemChecklist(null);
-        return this;
-    }
-
-    public void setProdutoNaoConformes(Set<ProdutoNaoConforme> produtoNaoConformes) {
-        this.produtoNaoConformes = produtoNaoConformes;
-    }
-
     public ItemChecklist getItem() {
         return item;
     }
@@ -175,6 +95,31 @@ public class ResultadoItemChecklist implements Serializable {
 
     public void setItem(ItemChecklist itemChecklist) {
         this.item = itemChecklist;
+    }
+
+    public Set<Anexo> getAnexos() {
+        return anexos;
+    }
+
+    public ResultadoItemChecklist anexos(Set<Anexo> anexos) {
+        this.anexos = anexos;
+        return this;
+    }
+
+    public ResultadoItemChecklist addAnexo(Anexo anexo) {
+        this.anexos.add(anexo);
+        anexo.getResultadoItemChecklists().add(this);
+        return this;
+    }
+
+    public ResultadoItemChecklist removeAnexo(Anexo anexo) {
+        this.anexos.remove(anexo);
+        anexo.getResultadoItemChecklists().remove(this);
+        return this;
+    }
+
+    public void setAnexos(Set<Anexo> anexos) {
+        this.anexos = anexos;
     }
 
     public ResultadoChecklist getResultado() {

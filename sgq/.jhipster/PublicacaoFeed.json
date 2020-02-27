@@ -69,27 +69,18 @@
         },
         {
             "fieldName": "dataPublicacao",
-            "fieldType": "Instant",
-            "fieldValidateRules": [
-                "required"
-            ]
+            "fieldType": "Instant"
         },
         {
             "fieldName": "status",
             "fieldType": "StatusPublicacao",
-            "fieldValues": "RASCUNHO,PUBLICADO",
+            "fieldValues": "RASCUNHO,APROVADO,PUBLICADO",
             "fieldValidateRules": [
                 "required"
             ]
         }
     ],
     "relationships": [
-        {
-            "relationshipType": "one-to-many",
-            "otherEntityName": "anexo",
-            "otherEntityRelationshipName": "publicacaoFeed",
-            "relationshipName": "anexo"
-        },
         {
             "relationshipType": "many-to-one",
             "otherEntityName": "feed",
@@ -105,6 +96,14 @@
             "relationshipValidateRules": "required",
             "relationshipName": "categoria",
             "otherEntityField": "titulo",
+            "ownerSide": true
+        },
+        {
+            "relationshipType": "many-to-many",
+            "otherEntityName": "anexo",
+            "otherEntityRelationshipName": "publicacaoFeed",
+            "relationshipName": "anexo",
+            "otherEntityField": "nomeArquivo",
             "ownerSide": true
         }
     ],

@@ -1,8 +1,8 @@
 import { Moment } from 'moment';
-import { IAnexo } from 'app/shared/model/sgq/anexo.model';
 import { IAcaoSGQ } from 'app/shared/model/sgq/acao-sgq.model';
-import { IResultadoAuditoria } from 'app/shared/model/sgq/resultado-auditoria.model';
-import { IResultadoItemChecklist } from 'app/shared/model/sgq/resultado-item-checklist.model';
+import { IAnexo } from 'app/shared/model/sgq/anexo.model';
+import { IAuditoria } from 'app/shared/model/sgq/auditoria.model';
+import { IResultadoChecklist } from 'app/shared/model/sgq/resultado-checklist.model';
 import { StatusSGQ } from 'app/shared/model/enumerations/status-sgq.model';
 
 export interface INaoConformidade {
@@ -10,7 +10,7 @@ export interface INaoConformidade {
   idUsuarioRegistro?: number;
   idUsuarioResponsavel?: number;
   titulo?: string;
-  fato?: any;
+  descricao?: any;
   procedente?: boolean;
   causa?: any;
   prazoConclusao?: Moment;
@@ -19,10 +19,10 @@ export interface INaoConformidade {
   dataConclusao?: Moment;
   analiseFinal?: any;
   statusSGQ?: StatusSGQ;
-  anexos?: IAnexo[];
   acaoSGQS?: IAcaoSGQ[];
-  resultadoAuditoria?: IResultadoAuditoria;
-  resultadoItemChecklist?: IResultadoItemChecklist;
+  anexos?: IAnexo[];
+  auditoria?: IAuditoria;
+  resultadoChecklist?: IResultadoChecklist;
 }
 
 export class NaoConformidade implements INaoConformidade {
@@ -31,7 +31,7 @@ export class NaoConformidade implements INaoConformidade {
     public idUsuarioRegistro?: number,
     public idUsuarioResponsavel?: number,
     public titulo?: string,
-    public fato?: any,
+    public descricao?: any,
     public procedente?: boolean,
     public causa?: any,
     public prazoConclusao?: Moment,
@@ -40,10 +40,10 @@ export class NaoConformidade implements INaoConformidade {
     public dataConclusao?: Moment,
     public analiseFinal?: any,
     public statusSGQ?: StatusSGQ,
-    public anexos?: IAnexo[],
     public acaoSGQS?: IAcaoSGQ[],
-    public resultadoAuditoria?: IResultadoAuditoria,
-    public resultadoItemChecklist?: IResultadoItemChecklist
+    public anexos?: IAnexo[],
+    public auditoria?: IAuditoria,
+    public resultadoChecklist?: IResultadoChecklist
   ) {
     this.procedente = this.procedente || false;
   }

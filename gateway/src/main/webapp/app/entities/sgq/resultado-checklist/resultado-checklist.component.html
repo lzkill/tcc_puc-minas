@@ -20,7 +20,7 @@
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
             <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="idUsuarioRegistro"><span jhiTranslate="gatewayApp.sgqResultadoChecklist.idUsuarioRegistro">Id Usuario Registro</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  jhiSortBy="titulo"><span jhiTranslate="gatewayApp.sgqResultadoChecklist.titulo">Titulo</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="dataRegistro"><span jhiTranslate="gatewayApp.sgqResultadoChecklist.dataRegistro">Data Registro</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="dataVerificacao"><span jhiTranslate="gatewayApp.sgqResultadoChecklist.dataVerificacao">Data Verificacao</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="checklist.titulo"><span jhiTranslate="gatewayApp.sgqResultadoChecklist.checklist">Checklist</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"></th>
@@ -30,7 +30,7 @@
             <tr *ngFor="let resultadoChecklist of resultadoChecklists ;trackBy: trackId">
                 <td><a [routerLink]="['/resultado-checklist', resultadoChecklist.id, 'view' ]">{{resultadoChecklist.id}}</a></td>
                 <td>{{usuarios.has(resultadoChecklist.idUsuarioRegistro) ? usuarios.get(resultadoChecklist.idUsuarioRegistro).login : ""}}</td>
-                <td>{{resultadoChecklist.titulo}}</td>
+                <td>{{resultadoChecklist.dataRegistro | date:'medium'}}</td>
                 <td>{{resultadoChecklist.dataVerificacao | date:'medium'}}</td>
                 <td>
                     <div *ngIf="resultadoChecklist.checklist">

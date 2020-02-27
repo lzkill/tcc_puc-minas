@@ -1,10 +1,9 @@
 import { Moment } from 'moment';
 import { IAcaoSGQ } from 'app/shared/model/sgq/acao-sgq.model';
 import { INaoConformidade } from 'app/shared/model/sgq/nao-conformidade.model';
-import { IAnexo } from 'app/shared/model/sgq/anexo.model';
 import { IProduto } from 'app/shared/model/sgq/produto.model';
-import { IResultadoAuditoria } from 'app/shared/model/sgq/resultado-auditoria.model';
-import { IResultadoItemChecklist } from 'app/shared/model/sgq/resultado-item-checklist.model';
+import { IAnexo } from 'app/shared/model/sgq/anexo.model';
+import { IResultadoChecklist } from 'app/shared/model/sgq/resultado-checklist.model';
 import { StatusSGQ } from 'app/shared/model/enumerations/status-sgq.model';
 
 export interface IProdutoNaoConforme {
@@ -19,10 +18,9 @@ export interface IProdutoNaoConforme {
   statusSGQ?: StatusSGQ;
   acao?: IAcaoSGQ;
   naoConformidade?: INaoConformidade;
-  anexos?: IAnexo[];
   produto?: IProduto;
-  resultadoAuditoria?: IResultadoAuditoria;
-  resultadoItemChecklist?: IResultadoItemChecklist;
+  anexos?: IAnexo[];
+  resultadoChecklist?: IResultadoChecklist;
 }
 
 export class ProdutoNaoConforme implements IProdutoNaoConforme {
@@ -38,10 +36,9 @@ export class ProdutoNaoConforme implements IProdutoNaoConforme {
     public statusSGQ?: StatusSGQ,
     public acao?: IAcaoSGQ,
     public naoConformidade?: INaoConformidade,
-    public anexos?: IAnexo[],
     public produto?: IProduto,
-    public resultadoAuditoria?: IResultadoAuditoria,
-    public resultadoItemChecklist?: IResultadoItemChecklist
+    public anexos?: IAnexo[],
+    public resultadoChecklist?: IResultadoChecklist
   ) {
     this.procedente = this.procedente || false;
   }

@@ -12,12 +12,8 @@ import { JhiDataUtils, JhiFileLoadError, JhiEventManager, JhiEventWithContent } 
 import { IAnaliseConsultoria, AnaliseConsultoria } from 'app/shared/model/sgq/analise-consultoria.model';
 import { AnaliseConsultoriaService } from './analise-consultoria.service';
 import { AlertError } from 'app/shared/alert/alert-error.model';
-import { IAcaoSGQ } from 'app/shared/model/sgq/acao-sgq.model';
-import { AcaoSGQService } from 'app/entities/sgq/acao-sgq/acao-sgq.service';
-import { IEmpresaConsultoria } from 'app/shared/model/sgq/empresa-consultoria.model';
-import { EmpresaConsultoriaService } from 'app/entities/sgq/empresa-consultoria/empresa-consultoria.service';
-
-type SelectableEntity = IAcaoSGQ | IEmpresaConsultoria;
+import { IAnexo } from 'app/shared/model/sgq/anexo.model';
+import { AnexoService } from 'app/entities/sgq/anexo/anexo.service';
 
 @Component({
   selector: 'jhi-analise-consultoria-update',
@@ -26,27 +22,22 @@ type SelectableEntity = IAcaoSGQ | IEmpresaConsultoria;
 export class AnaliseConsultoriaUpdateComponent implements OnInit {
   isSaving = false;
 
-  acaos: IAcaoSGQ[] = [];
-
-  empresaconsultorias: IEmpresaConsultoria[] = [];
+  anexos: IAnexo[] = [];
 
   editForm = this.fb.group({
     id: [],
-    dataSolicitacaoAnalise: [null, [Validators.required]],
-    dataAnalise: [],
-    descricao: [null, [Validators.required]],
-    responsavelAnalise: [null, [Validators.required, Validators.minLength(1), Validators.maxLength(100)]],
+    dataAnalise: [null, [Validators.required]],
+    conteudo: [null, [Validators.required]],
+    responsavel: [null, [Validators.required, Validators.minLength(1), Validators.maxLength(100)]],
     status: [null, [Validators.required]],
-    acao: [null, Validators.required],
-    empresa: [null, Validators.required]
+    anexos: []
   });
 
   constructor(
     protected dataUtils: JhiDataUtils,
     protected eventManager: JhiEventManager,
     protected analiseConsultoriaService: AnaliseConsultoriaService,
-    protected acaoSGQService: AcaoSGQService,
-    protected empresaConsultoriaService: EmpresaConsultoriaService,
+    protected anexoService: AnexoService,
     protected activatedRoute: ActivatedRoute,
     private fb: FormBuilder
   ) {}
@@ -55,52 +46,25 @@ export class AnaliseConsultoriaUpdateComponent implements OnInit {
     this.activatedRoute.data.subscribe(({ analiseConsultoria }) => {
       this.updateForm(analiseConsultoria);
 
-      this.acaoSGQService
-        .query({ 'analiseConsultoriaId.specified': 'false' })
-        .pipe(
-          map((res: HttpResponse<IAcaoSGQ[]>) => {
-            return res.body ? res.body : [];
-          })
-        )
-        .subscribe((resBody: IAcaoSGQ[]) => {
-          if (!analiseConsultoria.acao || !analiseConsultoria.acao.id) {
-            this.acaos = resBody;
-          } else {
-            this.acaoSGQService
-              .find(analiseConsultoria.acao.id)
-              .pipe(
-                map((subRes: HttpResponse<IAcaoSGQ>) => {
-                  return subRes.body ? [subRes.body].concat(resBody) : resBody;
-                })
-              )
-              .subscribe((concatRes: IAcaoSGQ[]) => {
-                this.acaos = concatRes;
-              });
-          }
-        });
-
-      this.empresaConsultoriaService
+      this.anexoService
         .query()
         .pipe(
-          map((res: HttpResponse<IEmpresaConsultoria[]>) => {
+          map((res: HttpResponse<IAnexo[]>) => {
             return res.body ? res.body : [];
           })
         )
-        .subscribe((resBody: IEmpresaConsultoria[]) => (this.empresaconsultorias = resBody));
+        .subscribe((resBody: IAnexo[]) => (this.anexos = resBody));
     });
   }
 
   updateForm(analiseConsultoria: IAnaliseConsultoria): void {
     this.editForm.patchValue({
       id: analiseConsultoria.id,
-      dataSolicitacaoAnalise:
-        analiseConsultoria.dataSolicitacaoAnalise != null ? analiseConsultoria.dataSolicitacaoAnalise.format(DATE_TIME_FORMAT) : null,
       dataAnalise: analiseConsultoria.dataAnalise != null ? analiseConsultoria.dataAnalise.format(DATE_TIME_FORMAT) : null,
-      descricao: analiseConsultoria.descricao,
-      responsavelAnalise: analiseConsultoria.responsavelAnalise,
+      conteudo: analiseConsultoria.conteudo,
+      responsavel: analiseConsultoria.responsavel,
       status: analiseConsultoria.status,
-      acao: analiseConsultoria.acao,
-      empresa: analiseConsultoria.empresa
+      anexos: analiseConsultoria.anexos
     });
   }
 
@@ -138,17 +102,12 @@ export class AnaliseConsultoriaUpdateComponent implements OnInit {
     return {
       ...new AnaliseConsultoria(),
       id: this.editForm.get(['id'])!.value,
-      dataSolicitacaoAnalise:
-        this.editForm.get(['dataSolicitacaoAnalise'])!.value != null
-          ? moment(this.editForm.get(['dataSolicitacaoAnalise'])!.value, DATE_TIME_FORMAT)
-          : undefined,
       dataAnalise:
         this.editForm.get(['dataAnalise'])!.value != null ? moment(this.editForm.get(['dataAnalise'])!.value, DATE_TIME_FORMAT) : undefined,
-      descricao: this.editForm.get(['descricao'])!.value,
-      responsavelAnalise: this.editForm.get(['responsavelAnalise'])!.value,
+      conteudo: this.editForm.get(['conteudo'])!.value,
+      responsavel: this.editForm.get(['responsavel'])!.value,
       status: this.editForm.get(['status'])!.value,
-      acao: this.editForm.get(['acao'])!.value,
-      empresa: this.editForm.get(['empresa'])!.value
+      anexos: this.editForm.get(['anexos'])!.value
     };
   }
 
@@ -168,7 +127,18 @@ export class AnaliseConsultoriaUpdateComponent implements OnInit {
     this.isSaving = false;
   }
 
-  trackById(index: number, item: SelectableEntity): any {
+  trackById(index: number, item: IAnexo): any {
     return item.id;
+  }
+
+  getSelected(selectedVals: IAnexo[], option: IAnexo): IAnexo {
+    if (selectedVals) {
+      for (let i = 0; i < selectedVals.length; i++) {
+        if (option.id === selectedVals[i].id) {
+          return selectedVals[i];
+        }
+      }
+    }
+    return option;
   }
 }

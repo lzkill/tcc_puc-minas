@@ -88,6 +88,9 @@ public class EmpresaQueryService extends QueryService<Empresa> {
             if (criteria.getNome() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getNome(), Empresa_.nome));
             }
+            if (criteria.getHabilitado() != null) {
+                specification = specification.and(buildSpecification(criteria.getHabilitado(), Empresa_.habilitado));
+            }
             if (criteria.getProdutoId() != null) {
                 specification = specification.and(buildSpecification(criteria.getProdutoId(),
                     root -> root.join(Empresa_.produtos, JoinType.LEFT).get(Produto_.id)));

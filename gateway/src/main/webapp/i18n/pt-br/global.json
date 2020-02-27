@@ -7,37 +7,38 @@
       "jhipster-needle-menu-add-element": "JHipster will add additional menu entries here (do not translate!)",
       "entities": {
         "main": "Entidades",
-        "sgqEmpresa": "Empresas",
-        "sgqSetor": "Setores",
-        "sgqProcesso": "Processos",
-        "sgqProduto": "Produtos",
-        "sgqAnexo": "Anexos",
-        "sgqAcaoSgq": "Ações SGQ",
-        "sgqNaoConformidade": "Não conformidades",
-        "sgqProdutoNaoConforme": "Produtos não conformes",
-        "sgqAuditoria": "Auditorias",
-        "sgqPlanoAuditoria": "Planos de auditoria",
-        "sgqItemPlanoAuditoria": "Itens de planos de auditoria",
-        "sgqChecklist": "Checklists",
-        "sgqItemChecklist": "Itens de checklist",
-        "sgqResultadoChecklist": "Resultados de checklist",
-        "sgqResultadoItemChecklist": "Resultados de itens de checklist",
-        "sgqEventoOperacional": "Eventos operacionais",
-        "sgqCampanhaRecall": "Campanhas de recall",
-        "sgqBoletimInformativo": "Boletins informativos",
-        "sgqPublicoAlvo": "Públicos alvo",
-        "sgqFeed": "Feeds",
-        "sgqPublicacaoFeed": "Publicações de feed",
-        "sgqCategoriaPublicacao": "Categorias de publicação",
-        "sgqEmpresaConsultoria": "Consultorias",
-        "sgqNorma": "Normas",
-        "sgqAnaliseConsultoria": "Análises de consultoria",
-        "sgqResultadoAuditoria": "Resultados de auditoria",
+        "sgqEmpresa": "Empresa",
+        "sgqSetor": "Setor",
+        "sgqProcesso": "Processo",
+        "sgqProduto": "Produto",
+        "sgqAnexo": "Anexo",
+        "sgqAcaoSgq": "Acao SGQ",
+        "sgqNaoConformidade": "Nao Conformidade",
+        "sgqProdutoNaoConforme": "Produto Nao Conforme",
+        "sgqAuditoria": "Auditoria",
+        "sgqPlanoAuditoria": "Plano Auditoria",
+        "sgqItemPlanoAuditoria": "Item Plano Auditoria",
+        "sgqChecklist": "Checklist",
+        "sgqItemChecklist": "Item Checklist",
+        "sgqResultadoChecklist": "Resultado Checklist",
+        "sgqResultadoItemChecklist": "Resultado Item Checklist",
+        "sgqEventoOperacional": "Evento Operacional",
+        "sgqCampanhaRecall": "Campanha Recall",
+        "sgqBoletimInformativo": "Boletim Informativo",
+        "sgqPublicoAlvo": "Publico Alvo",
+        "sgqFeed": "Feed",
+        "sgqPublicacaoFeed": "Publicacao Feed",
+        "sgqCategoriaPublicacao": "Categoria Publicacao",
+        "sgqNorma": "Norma",
+        "sgqAnaliseConsultoria": "Analise Consultoria",
+        "sgqItemAuditoria": "Item Auditoria",
+        "sgqConsultoria": "Consultoria",
+        "sgqSolicitacaoAnalise": "Solicitacao Analise",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
       "account": {
         "main": "Conta",
-        "settings": "Meus dados",
+        "settings": "Configuração",
         "password": "Senha",
         "sessions": "Sessões",
         "login": "Entrar",
@@ -47,7 +48,7 @@
       "admin": {
         "main": "Administração",
         "gateway": "Gateway",
-        "userManagement": "Usuários",
+        "userManagement": "Gerenciamento de usuário",
         "tracker": "Rastreamento de usuário",
         "metrics": "Métricas",
         "health": "Estado do Sistema",
@@ -57,27 +58,6 @@
         "apidocs": "API",
         "database": "Banco de dados",
         "jhipster-needle-menu-add-admin-element": "JHipster will add additional menu entries here (do not translate!)"
-      },
-      "cadastrosBasicos": {
-        "main": "Configuração"
-      },
-      "incidentesProblemas": {
-        "main": "Ocorrências"
-      },
-      "controleProcessos": {
-        "main": "Controle"
-      },
-      "divulgacaoTransparencia": {
-        "main": "Divulgação"
-      },
-      "inteligenciaNegocio": {
-        "main": "Inteligência"
-      },
-      "compliance": {
-        "main": "Compliance"
-      },
-      "relatorios": {
-        "main": "Relatórios"
       },
       "language": "Idioma"
     },
@@ -98,7 +78,7 @@
         "authenticated": {
           "prefix": "Se deseja ",
           "link": "entrar",
-          "suffix": ", utilize as seguintes contas padrões:<br/><br/>- Administrador (usuário=\"admin\" e senha=\"admin\") <br/>- Gestor SGQ (login=\"sgq\" e senha=\"admin\" )<br/>- Usuário (usuário=\"user\" e senha=\"user\")."
+          "suffix": ", utilize as seguintes contas padrões:<br/>- Administrador (usuário=\"admin\" and senha=\"admin\") <br/>- Usuário (usuário=\"user\" e senha=\"user\")."
         },
         "register": {
           "noaccount": "Não possui uma conta ainda?",
@@ -184,5 +164,5 @@
       "not.image": "File was expected to be an image but was found to be \"{{ fileType }}\""
     }
   },
-  "footer": ""
+  "footer": "Este é o rodapé da página"
 }

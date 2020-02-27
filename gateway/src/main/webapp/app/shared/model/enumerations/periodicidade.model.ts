@@ -1,5 +1,5 @@
 export const enum Periodicidade {
-  DIARIO,
+  DIARIA,
   SEMANAL,
   QUINZENAL,
   MENSAL,

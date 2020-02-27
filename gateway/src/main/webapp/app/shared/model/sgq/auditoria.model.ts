@@ -1,20 +1,32 @@
-import { IProcesso } from 'app/shared/model/sgq/processo.model';
-import { TipoAuditoria } from 'app/shared/model/enumerations/tipo-auditoria.model';
+import { Moment } from 'moment';
+import { INaoConformidade } from 'app/shared/model/sgq/nao-conformidade.model';
+import { IItemAuditoria } from 'app/shared/model/sgq/item-auditoria.model';
+import { IAnexo } from 'app/shared/model/sgq/anexo.model';
 
 export interface IAuditoria {
   id?: number;
-  tipo?: TipoAuditoria;
+  idUsuarioRegistro?: number;
   titulo?: string;
   descricao?: any;
-  processo?: IProcesso;
+  dataRegistro?: Moment;
+  dataInicio?: Moment;
+  dataFim?: Moment;
+  naoConformidades?: INaoConformidade[];
+  itemAuditorias?: IItemAuditoria[];
+  anexos?: IAnexo[];
 }
 
 export class Auditoria implements IAuditoria {
   constructor(
     public id?: number,
-    public tipo?: TipoAuditoria,
+    public idUsuarioRegistro?: number,
     public titulo?: string,
     public descricao?: any,
-    public processo?: IProcesso
+    public dataRegistro?: Moment,
+    public dataInicio?: Moment,
+    public dataFim?: Moment,
+    public naoConformidades?: INaoConformidade[],
+    public itemAuditorias?: IItemAuditoria[],
+    public anexos?: IAnexo[]
   ) {}
 }

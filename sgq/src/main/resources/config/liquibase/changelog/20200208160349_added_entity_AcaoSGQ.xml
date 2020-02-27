@@ -20,7 +20,7 @@
                 <constraints nullable="false" />
             </column>
             <column name="id_usuario_responsavel" type="integer">
-                <constraints nullable="false" />
+                <constraints nullable="true" />
             </column>
             <column name="tipo" type="varchar(255)">
                 <constraints nullable="false" />
@@ -32,7 +32,7 @@
                 <constraints nullable="false" />
             </column>
             <column name="prazo_conclusao" type="datetime">
-                <constraints nullable="false" />
+                <constraints nullable="true" />
             </column>
             <column name="novo_prazo_conclusao" type="datetime">
                 <constraints nullable="true" />
@@ -62,6 +62,17 @@
 
     <changeSet id="20200208160349-1-relations" author="jhipster">
 
+        <createTable tableName="acao_sgq_anexo">
+            <column name="anexo_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="acaosgq_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addPrimaryKey columnNames="acaosgq_id, anexo_id" tableName="acao_sgq_anexo"/>
+        
     </changeSet>
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here, do not remove-->
 

@@ -85,15 +85,32 @@ public class AuditoriaQueryService extends QueryService<Auditoria> {
             if (criteria.getId() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getId(), Auditoria_.id));
             }
-            if (criteria.getTipo() != null) {
-                specification = specification.and(buildSpecification(criteria.getTipo(), Auditoria_.tipo));
+            if (criteria.getIdUsuarioRegistro() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getIdUsuarioRegistro(), Auditoria_.idUsuarioRegistro));
             }
             if (criteria.getTitulo() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getTitulo(), Auditoria_.titulo));
             }
-            if (criteria.getProcessoId() != null) {
-                specification = specification.and(buildSpecification(criteria.getProcessoId(),
-                    root -> root.join(Auditoria_.processo, JoinType.LEFT).get(Processo_.id)));
+            if (criteria.getDataRegistro() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getDataRegistro(), Auditoria_.dataRegistro));
+            }
+            if (criteria.getDataInicio() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getDataInicio(), Auditoria_.dataInicio));
+            }
+            if (criteria.getDataFim() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getDataFim(), Auditoria_.dataFim));
+            }
+            if (criteria.getNaoConformidadeId() != null) {
+                specification = specification.and(buildSpecification(criteria.getNaoConformidadeId(),
+                    root -> root.join(Auditoria_.naoConformidades, JoinType.LEFT).get(NaoConformidade_.id)));
+            }
+            if (criteria.getItemAuditoriaId() != null) {
+                specification = specification.and(buildSpecification(criteria.getItemAuditoriaId(),
+                    root -> root.join(Auditoria_.itemAuditorias, JoinType.LEFT).get(ItemAuditoria_.id)));
+            }
+            if (criteria.getAnexoId() != null) {
+                specification = specification.and(buildSpecification(criteria.getAnexoId(),
+                    root -> root.join(Auditoria_.anexos, JoinType.LEFT).get(Anexo_.id)));
             }
         }
         return specification;

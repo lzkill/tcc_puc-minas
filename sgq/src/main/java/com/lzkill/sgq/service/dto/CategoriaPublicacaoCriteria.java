@@ -28,6 +28,8 @@ public class CategoriaPublicacaoCriteria implements Serializable, Criteria {
 
     private StringFilter titulo;
 
+    private BooleanFilter habilitado;
+
     private LongFilter boletimId;
 
     private LongFilter publicacaoId;
@@ -38,6 +40,7 @@ public class CategoriaPublicacaoCriteria implements Serializable, Criteria {
     public CategoriaPublicacaoCriteria(CategoriaPublicacaoCriteria other){
         this.id = other.id == null ? null : other.id.copy();
         this.titulo = other.titulo == null ? null : other.titulo.copy();
+        this.habilitado = other.habilitado == null ? null : other.habilitado.copy();
         this.boletimId = other.boletimId == null ? null : other.boletimId.copy();
         this.publicacaoId = other.publicacaoId == null ? null : other.publicacaoId.copy();
     }
@@ -61,6 +64,14 @@ public class CategoriaPublicacaoCriteria implements Serializable, Criteria {
 
     public void setTitulo(StringFilter titulo) {
         this.titulo = titulo;
+    }
+
+    public BooleanFilter getHabilitado() {
+        return habilitado;
+    }
+
+    public void setHabilitado(BooleanFilter habilitado) {
+        this.habilitado = habilitado;
     }
 
     public LongFilter getBoletimId() {
@@ -92,6 +103,7 @@ public class CategoriaPublicacaoCriteria implements Serializable, Criteria {
         return
             Objects.equals(id, that.id) &&
             Objects.equals(titulo, that.titulo) &&
+            Objects.equals(habilitado, that.habilitado) &&
             Objects.equals(boletimId, that.boletimId) &&
             Objects.equals(publicacaoId, that.publicacaoId);
     }
@@ -101,6 +113,7 @@ public class CategoriaPublicacaoCriteria implements Serializable, Criteria {
         return Objects.hash(
         id,
         titulo,
+        habilitado,
         boletimId,
         publicacaoId
         );
@@ -111,6 +124,7 @@ public class CategoriaPublicacaoCriteria implements Serializable, Criteria {
         return "CategoriaPublicacaoCriteria{" +
                 (id != null ? "id=" + id + ", " : "") +
                 (titulo != null ? "titulo=" + titulo + ", " : "") +
+                (habilitado != null ? "habilitado=" + habilitado + ", " : "") +
                 (boletimId != null ? "boletimId=" + boletimId + ", " : "") +
                 (publicacaoId != null ? "publicacaoId=" + publicacaoId + ", " : "") +
             "}";

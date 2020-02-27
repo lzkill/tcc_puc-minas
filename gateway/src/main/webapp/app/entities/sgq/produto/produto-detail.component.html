@@ -13,6 +13,16 @@
                 <dd>
                     <span>{{produto.descricao}}</span>
                 </dd>
+                <dt><span jhiTranslate="gatewayApp.sgqProduto.habilitado">Habilitado</span></dt>
+                <dd>
+                    <span>{{produto.habilitado}}</span>
+                </dd>
+                <dt><span jhiTranslate="gatewayApp.sgqProduto.anexo">Anexo</span></dt>
+                <dd>
+                    <span *ngFor="let anexo of produto.anexos; let last = last">
+                        <a [routerLink]="['/anexo', anexo?.id, 'view' ]">{{anexo.nomeArquivo}}</a>{{last ? '' : ', '}}
+                    </span>
+                </dd>
                 <dt><span jhiTranslate="gatewayApp.sgqProduto.empresa">Empresa</span></dt>
                 <dd>
                     <div *ngIf="produto.empresa">

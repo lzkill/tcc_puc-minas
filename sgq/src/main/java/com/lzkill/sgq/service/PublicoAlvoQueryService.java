@@ -88,6 +88,9 @@ public class PublicoAlvoQueryService extends QueryService<PublicoAlvo> {
             if (criteria.getNome() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getNome(), PublicoAlvo_.nome));
             }
+            if (criteria.getHabilitado() != null) {
+                specification = specification.and(buildSpecification(criteria.getHabilitado(), PublicoAlvo_.habilitado));
+            }
         }
         return specification;
     }

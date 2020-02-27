@@ -5,6 +5,7 @@ import * as moment from 'moment';
 import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 import { ItemPlanoAuditoriaService } from 'app/entities/sgq/item-plano-auditoria/item-plano-auditoria.service';
 import { IItemPlanoAuditoria, ItemPlanoAuditoria } from 'app/shared/model/sgq/item-plano-auditoria.model';
+import { ModalidadeAuditoria } from 'app/shared/model/enumerations/modalidade-auditoria.model';
 
 describe('Service Tests', () => {
   describe('ItemPlanoAuditoria Service', () => {
@@ -24,7 +25,7 @@ describe('Service Tests', () => {
       httpMock = injector.get(HttpTestingController);
       currentDate = moment();
 
-      elemDefault = new ItemPlanoAuditoria(0, currentDate, currentDate);
+      elemDefault = new ItemPlanoAuditoria(0, 'AAAAAAA', 'AAAAAAA', ModalidadeAuditoria.INTERNA, currentDate, currentDate);
     });
 
     describe('Service methods', () => {
@@ -74,6 +75,9 @@ describe('Service Tests', () => {
       it('should update a ItemPlanoAuditoria', () => {
         const returnedFromService = Object.assign(
           {
+            titulo: 'BBBBBB',
+            descricao: 'BBBBBB',
+            modalidade: 'BBBBBB',
             dataInicioPrevisto: currentDate.format(DATE_TIME_FORMAT),
             dataFimPrevisto: currentDate.format(DATE_TIME_FORMAT)
           },
@@ -99,6 +103,9 @@ describe('Service Tests', () => {
       it('should return a list of ItemPlanoAuditoria', () => {
         const returnedFromService = Object.assign(
           {
+            titulo: 'BBBBBB',
+            descricao: 'BBBBBB',
+            modalidade: 'BBBBBB',
             dataInicioPrevisto: currentDate.format(DATE_TIME_FORMAT),
             dataFimPrevisto: currentDate.format(DATE_TIME_FORMAT)
           },

@@ -22,6 +22,9 @@
             <column name="descricao" type="${clobType}">
                 <constraints nullable="true" />
             </column>
+            <column name="habilitado" type="boolean">
+                <constraints nullable="false" />
+            </column>
             <column name="setor_id" type="bigint">
                 <constraints nullable="false" />
             </column>
@@ -31,6 +34,17 @@
 
     <changeSet id="20200208160346-1-relations" author="jhipster">
 
+        <createTable tableName="processo_anexo">
+            <column name="anexo_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="processo_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addPrimaryKey columnNames="processo_id, anexo_id" tableName="processo_anexo"/>
+        
     </changeSet>
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here, do not remove-->
 
@@ -50,6 +64,7 @@
             <column name="id" type="numeric"/>
             <column name="titulo" type="string"/>
             <column name="descricao" type="clob"/>
+            <column name="habilitado" type="boolean"/>
             <column name="setor_id" type="numeric"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here, do not remove-->
         </loadData>

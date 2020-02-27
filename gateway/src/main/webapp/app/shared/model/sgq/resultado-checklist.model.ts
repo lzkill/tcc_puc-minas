@@ -1,26 +1,32 @@
 import { Moment } from 'moment';
-import { IAnexo } from 'app/shared/model/sgq/anexo.model';
 import { IResultadoItemChecklist } from 'app/shared/model/sgq/resultado-item-checklist.model';
+import { INaoConformidade } from 'app/shared/model/sgq/nao-conformidade.model';
+import { IProdutoNaoConforme } from 'app/shared/model/sgq/produto-nao-conforme.model';
 import { IChecklist } from 'app/shared/model/sgq/checklist.model';
+import { IAnexo } from 'app/shared/model/sgq/anexo.model';
 
 export interface IResultadoChecklist {
   id?: number;
   idUsuarioRegistro?: number;
-  titulo?: string;
+  dataRegistro?: Moment;
   dataVerificacao?: Moment;
-  anexos?: IAnexo[];
   resultadoItems?: IResultadoItemChecklist[];
+  naoConformidades?: INaoConformidade[];
+  produtoNaoConformes?: IProdutoNaoConforme[];
   checklist?: IChecklist;
+  anexos?: IAnexo[];
 }
 
 export class ResultadoChecklist implements IResultadoChecklist {
   constructor(
     public id?: number,
     public idUsuarioRegistro?: number,
-    public titulo?: string,
+    public dataRegistro?: Moment,
     public dataVerificacao?: Moment,
-    public anexos?: IAnexo[],
     public resultadoItems?: IResultadoItemChecklist[],
-    public checklist?: IChecklist
+    public naoConformidades?: INaoConformidade[],
+    public produtoNaoConformes?: IProdutoNaoConforme[],
+    public checklist?: IChecklist,
+    public anexos?: IAnexo[]
   ) {}
 }

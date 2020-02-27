@@ -1,11 +1,11 @@
-id;id_usuario_registro;id_usuario_responsavel;titulo;descricao;procedente;data_registro;analise_final;status_sgq;acao_id;produto_id
-1;9286;13611;tan;../fake-data/blob/hipster.txt;false;2020-02-08T05:16:47;../fake-data/blob/hipster.txt;CANCELADO;1;1
-2;16397;35484;Buckinghamshire grid-enabled;../fake-data/blob/hipster.txt;false;2020-02-08T04:37:56;../fake-data/blob/hipster.txt;REGISTRADO;2;2
-3;37133;55862;Kip;../fake-data/blob/hipster.txt;true;2020-02-08T07:27:51;../fake-data/blob/hipster.txt;PENDENTE;3;3
-4;94231;28928;eyeballs Tactics;../fake-data/blob/hipster.txt;true;2020-02-08T08:09:05;../fake-data/blob/hipster.txt;CONCLUIDO;4;4
-5;14009;40035;Horizontal Ohio;../fake-data/blob/hipster.txt;false;2020-02-07T23:48:04;../fake-data/blob/hipster.txt;REGISTRADO;5;5
-6;89216;32063;Creative Intelligent Metal Chicken;../fake-data/blob/hipster.txt;true;2020-02-08T12:00:33;../fake-data/blob/hipster.txt;SUSPENSO;6;6
-7;53435;75161;Montana Borders hard drive;../fake-data/blob/hipster.txt;false;2020-02-08T05:20:36;../fake-data/blob/hipster.txt;CANCELADO;7;7
-8;45147;89519;Borders Object-based Mount;../fake-data/blob/hipster.txt;true;2020-02-08T13:47:24;../fake-data/blob/hipster.txt;PENDENTE;8;8
-9;96241;22540;virtual Investment Account;../fake-data/blob/hipster.txt;true;2020-02-08T05:06:28;../fake-data/blob/hipster.txt;CANCELADO;9;9
-10;99350;77177;Salad microchip feed;../fake-data/blob/hipster.txt;false;2020-02-08T06:37:57;../fake-data/blob/hipster.txt;PENDENTE;10;10
+id;id_usuario_registro;id_usuario_responsavel;titulo;descricao;procedente;data_registro;analise_final;status_sgq;produto_id
+1;9286;13611;tan;../fake-data/blob/hipster.txt;false;2020-02-08T05:16:47;../fake-data/blob/hipster.txt;CANCELADO;1
+2;16397;35484;Buckinghamshire grid-enabled;../fake-data/blob/hipster.txt;false;2020-02-08T04:37:56;../fake-data/blob/hipster.txt;REGISTRADO;2
+3;37133;55862;Kip;../fake-data/blob/hipster.txt;true;2020-02-08T07:27:51;../fake-data/blob/hipster.txt;PENDENTE;3
+4;94231;28928;eyeballs Tactics;../fake-data/blob/hipster.txt;true;2020-02-08T08:09:05;../fake-data/blob/hipster.txt;CONCLUIDO;4
+5;14009;40035;Horizontal Ohio;../fake-data/blob/hipster.txt;false;2020-02-07T23:48:04;../fake-data/blob/hipster.txt;REGISTRADO;5
+6;89216;32063;Creative Intelligent Metal Chicken;../fake-data/blob/hipster.txt;true;2020-02-08T12:00:33;../fake-data/blob/hipster.txt;SUSPENSO;6
+7;53435;75161;Montana Borders hard drive;../fake-data/blob/hipster.txt;false;2020-02-08T05:20:36;../fake-data/blob/hipster.txt;CANCELADO;7
+8;45147;89519;Borders Object-based Mount;../fake-data/blob/hipster.txt;true;2020-02-08T13:47:24;../fake-data/blob/hipster.txt;PENDENTE;8
+9;96241;22540;virtual Investment Account;../fake-data/blob/hipster.txt;true;2020-02-08T05:06:28;../fake-data/blob/hipster.txt;CANCELADO;9
+10;99350;77177;Salad microchip feed;../fake-data/blob/hipster.txt;false;2020-02-08T06:37:57;../fake-data/blob/hipster.txt;PENDENTE;10

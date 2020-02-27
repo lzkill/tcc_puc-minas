@@ -2,34 +2,35 @@
   "gatewayApp": {
     "sgqCampanhaRecall": {
       "home": {
-        "title": "Campanhas de recall",
-        "createLabel": "Adicionar",
-        "createOrEditLabel": "Criar ou editar campanha de recall",
-        "notFound": "Nenhuma campanha recall encontrada"
+        "title": "Campanha Recalls",
+        "createLabel": "Criar novo Campanha Recall",
+        "createOrEditLabel": "Criar ou editar Campanha Recall",
+        "notFound": "Nenhum Campanha Recall encontrado"
       },
       "delete": {
-        "question": "Tem certeza de que deseja excluir a campanha de recall {{ id }}?"
+        "question": "Tem certeza de que deseja excluir Campanha Recall {{ id }}?"
       },
       "detail": {
-        "title": "Campanha de recall"
+        "title": "Campanha Recall"
       },
-      "idUsuarioRegistro": "Usuário de registro",
-      "titulo": "Título",
-      "descricao": "Descrição",
-      "dataRegistro": "Data de registro",
-      "dataInicio": "Data de início",
-      "dataFim": "Data de fim",
-      "resultado": "Resultado",
-      "anexo": "Anexo",
+      "idUsuarioRegistro": "Id Usuario Registro",
+      "titulo": "Titulo",
+      "descricao": "Descricao",
+      "dataRegistro": "Data Registro",
+      "dataInicio": "Data Inicio",
+      "dataFim": "Data Fim",
+      "dataPublicacao": "Data Publicacao",
+      "status": "Status",
       "produto": "Produto",
-      "setorResponsavel": "Setor responsável"
+      "setorResponsavel": "Setor Responsavel",
+      "anexo": "Anexo"
     }
   },
   "sgqApp": {
     "sgqCampanhaRecall": {
-      "created": "Uma nova campanha de recall foi criada com o identificador {{ param }}",
-      "updated": "Uma campanha de recall foi atualizada com o identificador {{ param }}",
-      "deleted": "Uma campanha de recall foi excluída com o identificador {{ param }}"
+      "created": "Um novo Campanha Recall foi criado com o identificador {{ param }}",
+      "updated": "Um Campanha Recall foi atualizado com o identificador {{ param }}",
+      "deleted": "Um Campanha Recall foi excluído com o identificador {{ param }}"
     }
   }
 }

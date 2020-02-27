@@ -25,13 +25,24 @@ describe('Service Tests', () => {
       httpMock = injector.get(HttpTestingController);
       currentDate = moment();
 
-      elemDefault = new EventoOperacional(0, 0, TipoEventoOperacional.PROGRAMADO, 'AAAAAAA', 'AAAAAAA', currentDate, 0, false);
+      elemDefault = new EventoOperacional(
+        0,
+        0,
+        TipoEventoOperacional.FALHA_EQUIPAMENTO,
+        'AAAAAAA',
+        'AAAAAAA',
+        currentDate,
+        currentDate,
+        0,
+        false
+      );
     });
 
     describe('Service methods', () => {
       it('should find an element', () => {
         const returnedFromService = Object.assign(
           {
+            dataRegistro: currentDate.format(DATE_TIME_FORMAT),
             dataEvento: currentDate.format(DATE_TIME_FORMAT)
           },
           elemDefault
@@ -50,12 +61,14 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             id: 0,
+            dataRegistro: currentDate.format(DATE_TIME_FORMAT),
             dataEvento: currentDate.format(DATE_TIME_FORMAT)
           },
           elemDefault
         );
         const expected = Object.assign(
           {
+            dataRegistro: currentDate,
             dataEvento: currentDate
           },
           returnedFromService
@@ -76,6 +89,7 @@ describe('Service Tests', () => {
             tipo: 'BBBBBB',
             titulo: 'BBBBBB',
             descricao: 'BBBBBB',
+            dataRegistro: currentDate.format(DATE_TIME_FORMAT),
             dataEvento: currentDate.format(DATE_TIME_FORMAT),
             duracao: 'BBBBBB',
             houveParadaProducao: true
@@ -85,6 +99,7 @@ describe('Service Tests', () => {
 
         const expected = Object.assign(
           {
+            dataRegistro: currentDate,
             dataEvento: currentDate
           },
           returnedFromService
@@ -105,6 +120,7 @@ describe('Service Tests', () => {
             tipo: 'BBBBBB',
             titulo: 'BBBBBB',
             descricao: 'BBBBBB',
+            dataRegistro: currentDate.format(DATE_TIME_FORMAT),
             dataEvento: currentDate.format(DATE_TIME_FORMAT),
             duracao: 'BBBBBB',
             houveParadaProducao: true
@@ -113,6 +129,7 @@ describe('Service Tests', () => {
         );
         const expected = Object.assign(
           {
+            dataRegistro: currentDate,
             dataEvento: currentDate
           },
           returnedFromService

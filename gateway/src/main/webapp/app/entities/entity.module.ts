@@ -94,10 +94,6 @@ import { RouterModule } from '@angular/router';
         loadChildren: () => import('./sgq/categoria-publicacao/categoria-publicacao.module').then(m => m.SgqCategoriaPublicacaoModule)
       },
       {
-        path: 'empresa-consultoria',
-        loadChildren: () => import('./sgq/empresa-consultoria/empresa-consultoria.module').then(m => m.SgqEmpresaConsultoriaModule)
-      },
-      {
         path: 'norma',
         loadChildren: () => import('./sgq/norma/norma.module').then(m => m.SgqNormaModule)
       },
@@ -106,8 +102,16 @@ import { RouterModule } from '@angular/router';
         loadChildren: () => import('./sgq/analise-consultoria/analise-consultoria.module').then(m => m.SgqAnaliseConsultoriaModule)
       },
       {
-        path: 'resultado-auditoria',
-        loadChildren: () => import('./sgq/resultado-auditoria/resultado-auditoria.module').then(m => m.SgqResultadoAuditoriaModule)
+        path: 'item-auditoria',
+        loadChildren: () => import('./sgq/item-auditoria/item-auditoria.module').then(m => m.SgqItemAuditoriaModule)
+      },
+      {
+        path: 'consultoria',
+        loadChildren: () => import('./sgq/consultoria/consultoria.module').then(m => m.SgqConsultoriaModule)
+      },
+      {
+        path: 'solicitacao-analise',
+        loadChildren: () => import('./sgq/solicitacao-analise/solicitacao-analise.module').then(m => m.SgqSolicitacaoAnaliseModule)
       }
       /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
     ])

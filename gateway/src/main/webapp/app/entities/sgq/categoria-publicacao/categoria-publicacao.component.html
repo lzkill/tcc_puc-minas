@@ -21,6 +21,7 @@
             <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="titulo"><span jhiTranslate="gatewayApp.sgqCategoriaPublicacao.titulo">Titulo</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="descricao"><span jhiTranslate="gatewayApp.sgqCategoriaPublicacao.descricao">Descricao</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="habilitado"><span jhiTranslate="gatewayApp.sgqCategoriaPublicacao.habilitado">Habilitado</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"></th>
             </tr>
             </thead>
@@ -29,6 +30,7 @@
                 <td><a [routerLink]="['/categoria-publicacao', categoriaPublicacao.id, 'view' ]">{{categoriaPublicacao.id}}</a></td>
                 <td>{{categoriaPublicacao.titulo}}</td>
                 <td>{{categoriaPublicacao.descricao}}</td>
+                <td>{{categoriaPublicacao.habilitado}}</td>
                 <td class="text-right">
                     <div class="btn-group">
                         <button type="submit"

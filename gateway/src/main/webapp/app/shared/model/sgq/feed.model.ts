@@ -1,6 +1,5 @@
 import { Moment } from 'moment';
 import { TipoFeed } from 'app/shared/model/enumerations/tipo-feed.model';
-import { StatusFeed } from 'app/shared/model/enumerations/status-feed.model';
 
 export interface IFeed {
   id?: number;
@@ -15,7 +14,7 @@ export interface IFeed {
   alturaImagem?: number;
   larguraImagem?: number;
   dataRegistro?: Moment;
-  status?: StatusFeed;
+  habilitado?: boolean;
 }
 
 export class Feed implements IFeed {
@@ -32,6 +31,8 @@ export class Feed implements IFeed {
     public alturaImagem?: number,
     public larguraImagem?: number,
     public dataRegistro?: Moment,
-    public status?: StatusFeed
-  ) {}
+    public habilitado?: boolean
+  ) {
+    this.habilitado = this.habilitado || false;
+  }
 }

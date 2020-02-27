@@ -1,11 +1,11 @@
-id;nome
-1;EXE input disintermediate
-2;Electronics Mississippi
-3;process improvement Engineer
-4;circuit synthesizing
-5;generate
-6;zero defect
-7;deposit Australian Dollar
-8;Coordinator
-9;Metrics PNG
-10;Refined Concrete Keyboard
+id;nome;habilitado
+1;EXE input disintermediate;false
+2;salmon;false
+3;process improvement Engineer;false
+4;Internal override generate;false
+5;Director;true
+6;Australian Dollar;false
+7;synthesize Metrics PNG;false
+8;compressing;false
+9;payment Sleek Granite Shoes Internal;false
+10;multi-byte;false

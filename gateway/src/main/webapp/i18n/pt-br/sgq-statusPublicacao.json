@@ -3,6 +3,7 @@
     "StatusPublicacao": {
       "null": "",
       "RASCUNHO": "RASCUNHO",
+      "APROVADO": "APROVADO",
       "PUBLICADO": "PUBLICADO"
     }
   }

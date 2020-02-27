@@ -45,6 +45,9 @@ public class CategoriaPublicacaoResourceIT {
     private static final String DEFAULT_DESCRICAO = "AAAAAAAAAA";
     private static final String UPDATED_DESCRICAO = "BBBBBBBBBB";
 
+    private static final Boolean DEFAULT_HABILITADO = false;
+    private static final Boolean UPDATED_HABILITADO = true;
+
     @Autowired
     private CategoriaPublicacaoRepository categoriaPublicacaoRepository;
 
@@ -94,7 +97,8 @@ public class CategoriaPublicacaoResourceIT {
     public static CategoriaPublicacao createEntity(EntityManager em) {
         CategoriaPublicacao categoriaPublicacao = new CategoriaPublicacao()
             .titulo(DEFAULT_TITULO)
-            .descricao(DEFAULT_DESCRICAO);
+            .descricao(DEFAULT_DESCRICAO)
+            .habilitado(DEFAULT_HABILITADO);
         return categoriaPublicacao;
     }
     /**
@@ -106,7 +110,8 @@ public class CategoriaPublicacaoResourceIT {
     public static CategoriaPublicacao createUpdatedEntity(EntityManager em) {
         CategoriaPublicacao categoriaPublicacao = new CategoriaPublicacao()
             .titulo(UPDATED_TITULO)
-            .descricao(UPDATED_DESCRICAO);
+            .descricao(UPDATED_DESCRICAO)
+            .habilitado(UPDATED_HABILITADO);
         return categoriaPublicacao;
     }
 
@@ -132,6 +137,7 @@ public class CategoriaPublicacaoResourceIT {
         CategoriaPublicacao testCategoriaPublicacao = categoriaPublicacaoList.get(categoriaPublicacaoList.size() - 1);
         assertThat(testCategoriaPublicacao.getTitulo()).isEqualTo(DEFAULT_TITULO);
         assertThat(testCategoriaPublicacao.getDescricao()).isEqualTo(DEFAULT_DESCRICAO);
+        assertThat(testCategoriaPublicacao.isHabilitado()).isEqualTo(DEFAULT_HABILITADO);
     }
 
     @Test
@@ -174,6 +180,24 @@ public class CategoriaPublicacaoResourceIT {
 
     @Test
     @Transactional
+    public void checkHabilitadoIsRequired() throws Exception {
+        int databaseSizeBeforeTest = categoriaPublicacaoRepository.findAll().size();
+        // set the field null
+        categoriaPublicacao.setHabilitado(null);
+
+        // Create the CategoriaPublicacao, which fails.
+
+        restCategoriaPublicacaoMockMvc.perform(post("/api/categoria-publicacaos")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(categoriaPublicacao)))
+            .andExpect(status().isBadRequest());
+
+        List<CategoriaPublicacao> categoriaPublicacaoList = categoriaPublicacaoRepository.findAll();
+        assertThat(categoriaPublicacaoList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     public void getAllCategoriaPublicacaos() throws Exception {
         // Initialize the database
         categoriaPublicacaoRepository.saveAndFlush(categoriaPublicacao);
@@ -184,7 +208,8 @@ public class CategoriaPublicacaoResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(categoriaPublicacao.getId().intValue())))
             .andExpect(jsonPath("$.[*].titulo").value(hasItem(DEFAULT_TITULO)))
-            .andExpect(jsonPath("$.[*].descricao").value(hasItem(DEFAULT_DESCRICAO.toString())));
+            .andExpect(jsonPath("$.[*].descricao").value(hasItem(DEFAULT_DESCRICAO.toString())))
+            .andExpect(jsonPath("$.[*].habilitado").value(hasItem(DEFAULT_HABILITADO.booleanValue())));
     }
     
     @Test
@@ -199,7 +224,8 @@ public class CategoriaPublicacaoResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(categoriaPublicacao.getId().intValue()))
             .andExpect(jsonPath("$.titulo").value(DEFAULT_TITULO))
-            .andExpect(jsonPath("$.descricao").value(DEFAULT_DESCRICAO.toString()));
+            .andExpect(jsonPath("$.descricao").value(DEFAULT_DESCRICAO.toString()))
+            .andExpect(jsonPath("$.habilitado").value(DEFAULT_HABILITADO.booleanValue()));
     }
 
 
@@ -302,6 +328,58 @@ public class CategoriaPublicacaoResourceIT {
 
     @Test
     @Transactional
+    public void getAllCategoriaPublicacaosByHabilitadoIsEqualToSomething() throws Exception {
+        // Initialize the database
+        categoriaPublicacaoRepository.saveAndFlush(categoriaPublicacao);
+
+        // Get all the categoriaPublicacaoList where habilitado equals to DEFAULT_HABILITADO
+        defaultCategoriaPublicacaoShouldBeFound("habilitado.equals=" + DEFAULT_HABILITADO);
+
+        // Get all the categoriaPublicacaoList where habilitado equals to UPDATED_HABILITADO
+        defaultCategoriaPublicacaoShouldNotBeFound("habilitado.equals=" + UPDATED_HABILITADO);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCategoriaPublicacaosByHabilitadoIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        categoriaPublicacaoRepository.saveAndFlush(categoriaPublicacao);
+
+        // Get all the categoriaPublicacaoList where habilitado not equals to DEFAULT_HABILITADO
+        defaultCategoriaPublicacaoShouldNotBeFound("habilitado.notEquals=" + DEFAULT_HABILITADO);
+
+        // Get all the categoriaPublicacaoList where habilitado not equals to UPDATED_HABILITADO
+        defaultCategoriaPublicacaoShouldBeFound("habilitado.notEquals=" + UPDATED_HABILITADO);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCategoriaPublicacaosByHabilitadoIsInShouldWork() throws Exception {
+        // Initialize the database
+        categoriaPublicacaoRepository.saveAndFlush(categoriaPublicacao);
+
+        // Get all the categoriaPublicacaoList where habilitado in DEFAULT_HABILITADO or UPDATED_HABILITADO
+        defaultCategoriaPublicacaoShouldBeFound("habilitado.in=" + DEFAULT_HABILITADO + "," + UPDATED_HABILITADO);
+
+        // Get all the categoriaPublicacaoList where habilitado equals to UPDATED_HABILITADO
+        defaultCategoriaPublicacaoShouldNotBeFound("habilitado.in=" + UPDATED_HABILITADO);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCategoriaPublicacaosByHabilitadoIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        categoriaPublicacaoRepository.saveAndFlush(categoriaPublicacao);
+
+        // Get all the categoriaPublicacaoList where habilitado is not null
+        defaultCategoriaPublicacaoShouldBeFound("habilitado.specified=true");
+
+        // Get all the categoriaPublicacaoList where habilitado is null
+        defaultCategoriaPublicacaoShouldNotBeFound("habilitado.specified=false");
+    }
+
+    @Test
+    @Transactional
     public void getAllCategoriaPublicacaosByBoletimIsEqualToSomething() throws Exception {
         // Initialize the database
         categoriaPublicacaoRepository.saveAndFlush(categoriaPublicacao);
@@ -348,7 +426,8 @@ public class CategoriaPublicacaoResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(categoriaPublicacao.getId().intValue())))
             .andExpect(jsonPath("$.[*].titulo").value(hasItem(DEFAULT_TITULO)))
-            .andExpect(jsonPath("$.[*].descricao").value(hasItem(DEFAULT_DESCRICAO.toString())));
+            .andExpect(jsonPath("$.[*].descricao").value(hasItem(DEFAULT_DESCRICAO.toString())))
+            .andExpect(jsonPath("$.[*].habilitado").value(hasItem(DEFAULT_HABILITADO.booleanValue())));
 
         // Check, that the count call also returns 1
         restCategoriaPublicacaoMockMvc.perform(get("/api/categoria-publicacaos/count?sort=id,desc&" + filter))
@@ -397,7 +476,8 @@ public class CategoriaPublicacaoResourceIT {
         em.detach(updatedCategoriaPublicacao);
         updatedCategoriaPublicacao
             .titulo(UPDATED_TITULO)
-            .descricao(UPDATED_DESCRICAO);
+            .descricao(UPDATED_DESCRICAO)
+            .habilitado(UPDATED_HABILITADO);
 
         restCategoriaPublicacaoMockMvc.perform(put("/api/categoria-publicacaos")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -410,6 +490,7 @@ public class CategoriaPublicacaoResourceIT {
         CategoriaPublicacao testCategoriaPublicacao = categoriaPublicacaoList.get(categoriaPublicacaoList.size() - 1);
         assertThat(testCategoriaPublicacao.getTitulo()).isEqualTo(UPDATED_TITULO);
         assertThat(testCategoriaPublicacao.getDescricao()).isEqualTo(UPDATED_DESCRICAO);
+        assertThat(testCategoriaPublicacao.isHabilitado()).isEqualTo(UPDATED_HABILITADO);
     }
 
     @Test

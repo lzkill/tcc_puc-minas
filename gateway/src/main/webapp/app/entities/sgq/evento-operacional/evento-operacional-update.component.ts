@@ -14,9 +14,13 @@ import { EventoOperacionalService } from './evento-operacional.service';
 import { AlertError } from 'app/shared/alert/alert-error.model';
 import { IProcesso } from 'app/shared/model/sgq/processo.model';
 import { ProcessoService } from 'app/entities/sgq/processo/processo.service';
+import { IAnexo } from 'app/shared/model/sgq/anexo.model';
+import { AnexoService } from 'app/entities/sgq/anexo/anexo.service';
 
 import { IUser } from 'app/core/user/user.model';
 import { UserService } from 'app/core/user/user.service';
+
+type SelectableEntity = IProcesso | IAnexo;
 
 @Component({
   selector: 'jhi-evento-operacional-update',
@@ -28,16 +32,20 @@ export class EventoOperacionalUpdateComponent implements OnInit {
   processos: IProcesso[] = [];
   usuarios: IUser[] = [];
 
+  anexos: IAnexo[] = [];
+
   editForm = this.fb.group({
     id: [],
     idUsuarioRegistro: [null, [Validators.required]],
     tipo: [null, [Validators.required]],
     titulo: [null, [Validators.required, Validators.minLength(1), Validators.maxLength(100)]],
     descricao: [null, [Validators.required]],
+    dataRegistro: [null, [Validators.required]],
     dataEvento: [null, [Validators.required]],
     duracao: [],
     houveParadaProducao: [null, [Validators.required]],
-    processo: []
+    processo: [],
+    anexos: []
   });
 
   constructor(
@@ -45,6 +53,7 @@ export class EventoOperacionalUpdateComponent implements OnInit {
     protected eventManager: JhiEventManager,
     protected eventoOperacionalService: EventoOperacionalService,
     protected processoService: ProcessoService,
+    protected anexoService: AnexoService,
     protected activatedRoute: ActivatedRoute,
     protected userService: UserService,
     private fb: FormBuilder
@@ -62,6 +71,15 @@ export class EventoOperacionalUpdateComponent implements OnInit {
           })
         )
         .subscribe((resBody: IProcesso[]) => (this.processos = resBody));
+
+      this.anexoService
+        .query()
+        .pipe(
+          map((res: HttpResponse<IAnexo[]>) => {
+            return res.body ? res.body : [];
+          })
+        )
+        .subscribe((resBody: IAnexo[]) => (this.anexos = resBody));
 
       this.userService
         .query()
@@ -85,10 +103,12 @@ export class EventoOperacionalUpdateComponent implements OnInit {
       tipo: eventoOperacional.tipo,
       titulo: eventoOperacional.titulo,
       descricao: eventoOperacional.descricao,
+      dataRegistro: eventoOperacional.dataRegistro != null ? eventoOperacional.dataRegistro.format(DATE_TIME_FORMAT) : null,
       dataEvento: eventoOperacional.dataEvento != null ? eventoOperacional.dataEvento.format(DATE_TIME_FORMAT) : null,
       duracao: eventoOperacional.duracao,
       houveParadaProducao: eventoOperacional.houveParadaProducao,
-      processo: eventoOperacional.processo
+      processo: eventoOperacional.processo,
+      anexos: eventoOperacional.anexos
     });
   }
 
@@ -130,11 +150,16 @@ export class EventoOperacionalUpdateComponent implements OnInit {
       tipo: this.editForm.get(['tipo'])!.value,
       titulo: this.editForm.get(['titulo'])!.value,
       descricao: this.editForm.get(['descricao'])!.value,
+      dataRegistro:
+        this.editForm.get(['dataRegistro'])!.value != null
+          ? moment(this.editForm.get(['dataRegistro'])!.value, DATE_TIME_FORMAT)
+          : undefined,
       dataEvento:
         this.editForm.get(['dataEvento'])!.value != null ? moment(this.editForm.get(['dataEvento'])!.value, DATE_TIME_FORMAT) : undefined,
       duracao: this.editForm.get(['duracao'])!.value,
       houveParadaProducao: this.editForm.get(['houveParadaProducao'])!.value,
-      processo: this.editForm.get(['processo'])!.value
+      processo: this.editForm.get(['processo'])!.value,
+      anexos: this.editForm.get(['anexos'])!.value
     };
   }
 
@@ -154,7 +179,18 @@ export class EventoOperacionalUpdateComponent implements OnInit {
     this.isSaving = false;
   }
 
-  trackById(index: number, item: IProcesso): any {
+  trackById(index: number, item: SelectableEntity): any {
     return item.id;
+  }
+
+  getSelected(selectedVals: IAnexo[], option: IAnexo): IAnexo {
+    if (selectedVals) {
+      for (let i = 0; i < selectedVals.length; i++) {
+        if (option.id === selectedVals[i].id) {
+          return selectedVals[i];
+        }
+      }
+    }
+    return option;
   }
 }

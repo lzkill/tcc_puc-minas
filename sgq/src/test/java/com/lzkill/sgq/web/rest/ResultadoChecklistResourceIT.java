@@ -2,9 +2,11 @@ package com.lzkill.sgq.web.rest;
 
 import com.lzkill.sgq.SgqApp;
 import com.lzkill.sgq.domain.ResultadoChecklist;
-import com.lzkill.sgq.domain.Anexo;
 import com.lzkill.sgq.domain.ResultadoItemChecklist;
+import com.lzkill.sgq.domain.NaoConformidade;
+import com.lzkill.sgq.domain.ProdutoNaoConforme;
 import com.lzkill.sgq.domain.Checklist;
+import com.lzkill.sgq.domain.Anexo;
 import com.lzkill.sgq.repository.ResultadoChecklistRepository;
 import com.lzkill.sgq.service.ResultadoChecklistService;
 import com.lzkill.sgq.web.rest.errors.ExceptionTranslator;
@@ -13,9 +15,12 @@ import com.lzkill.sgq.service.ResultadoChecklistQueryService;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -27,11 +32,13 @@ import org.springframework.validation.Validator;
 import javax.persistence.EntityManager;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.lzkill.sgq.web.rest.TestUtil.createFormattingConversionService;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -45,14 +52,20 @@ public class ResultadoChecklistResourceIT {
     private static final Integer UPDATED_ID_USUARIO_REGISTRO = 2;
     private static final Integer SMALLER_ID_USUARIO_REGISTRO = 1 - 1;
 
-    private static final String DEFAULT_TITULO = "AAAAAAAAAA";
-    private static final String UPDATED_TITULO = "BBBBBBBBBB";
+    private static final Instant DEFAULT_DATA_REGISTRO = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_DATA_REGISTRO = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
     private static final Instant DEFAULT_DATA_VERIFICACAO = Instant.ofEpochMilli(0L);
     private static final Instant UPDATED_DATA_VERIFICACAO = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
     @Autowired
     private ResultadoChecklistRepository resultadoChecklistRepository;
+
+    @Mock
+    private ResultadoChecklistRepository resultadoChecklistRepositoryMock;
+
+    @Mock
+    private ResultadoChecklistService resultadoChecklistServiceMock;
 
     @Autowired
     private ResultadoChecklistService resultadoChecklistService;
@@ -100,7 +113,7 @@ public class ResultadoChecklistResourceIT {
     public static ResultadoChecklist createEntity(EntityManager em) {
         ResultadoChecklist resultadoChecklist = new ResultadoChecklist()
             .idUsuarioRegistro(DEFAULT_ID_USUARIO_REGISTRO)
-            .titulo(DEFAULT_TITULO)
+            .dataRegistro(DEFAULT_DATA_REGISTRO)
             .dataVerificacao(DEFAULT_DATA_VERIFICACAO);
         // Add required entity
         Checklist checklist;
@@ -123,7 +136,7 @@ public class ResultadoChecklistResourceIT {
     public static ResultadoChecklist createUpdatedEntity(EntityManager em) {
         ResultadoChecklist resultadoChecklist = new ResultadoChecklist()
             .idUsuarioRegistro(UPDATED_ID_USUARIO_REGISTRO)
-            .titulo(UPDATED_TITULO)
+            .dataRegistro(UPDATED_DATA_REGISTRO)
             .dataVerificacao(UPDATED_DATA_VERIFICACAO);
         // Add required entity
         Checklist checklist;
@@ -159,7 +172,7 @@ public class ResultadoChecklistResourceIT {
         assertThat(resultadoChecklistList).hasSize(databaseSizeBeforeCreate + 1);
         ResultadoChecklist testResultadoChecklist = resultadoChecklistList.get(resultadoChecklistList.size() - 1);
         assertThat(testResultadoChecklist.getIdUsuarioRegistro()).isEqualTo(DEFAULT_ID_USUARIO_REGISTRO);
-        assertThat(testResultadoChecklist.getTitulo()).isEqualTo(DEFAULT_TITULO);
+        assertThat(testResultadoChecklist.getDataRegistro()).isEqualTo(DEFAULT_DATA_REGISTRO);
         assertThat(testResultadoChecklist.getDataVerificacao()).isEqualTo(DEFAULT_DATA_VERIFICACAO);
     }
 
@@ -203,10 +216,10 @@ public class ResultadoChecklistResourceIT {
 
     @Test
     @Transactional
-    public void checkTituloIsRequired() throws Exception {
+    public void checkDataRegistroIsRequired() throws Exception {
         int databaseSizeBeforeTest = resultadoChecklistRepository.findAll().size();
         // set the field null
-        resultadoChecklist.setTitulo(null);
+        resultadoChecklist.setDataRegistro(null);
 
         // Create the ResultadoChecklist, which fails.
 
@@ -249,10 +262,43 @@ public class ResultadoChecklistResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(resultadoChecklist.getId().intValue())))
             .andExpect(jsonPath("$.[*].idUsuarioRegistro").value(hasItem(DEFAULT_ID_USUARIO_REGISTRO)))
-            .andExpect(jsonPath("$.[*].titulo").value(hasItem(DEFAULT_TITULO)))
+            .andExpect(jsonPath("$.[*].dataRegistro").value(hasItem(DEFAULT_DATA_REGISTRO.toString())))
             .andExpect(jsonPath("$.[*].dataVerificacao").value(hasItem(DEFAULT_DATA_VERIFICACAO.toString())));
     }
     
+    @SuppressWarnings({"unchecked"})
+    public void getAllResultadoChecklistsWithEagerRelationshipsIsEnabled() throws Exception {
+        ResultadoChecklistResource resultadoChecklistResource = new ResultadoChecklistResource(resultadoChecklistServiceMock, resultadoChecklistQueryService);
+        when(resultadoChecklistServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+
+        MockMvc restResultadoChecklistMockMvc = MockMvcBuilders.standaloneSetup(resultadoChecklistResource)
+            .setCustomArgumentResolvers(pageableArgumentResolver)
+            .setControllerAdvice(exceptionTranslator)
+            .setConversionService(createFormattingConversionService())
+            .setMessageConverters(jacksonMessageConverter).build();
+
+        restResultadoChecklistMockMvc.perform(get("/api/resultado-checklists?eagerload=true"))
+        .andExpect(status().isOk());
+
+        verify(resultadoChecklistServiceMock, times(1)).findAllWithEagerRelationships(any());
+    }
+
+    @SuppressWarnings({"unchecked"})
+    public void getAllResultadoChecklistsWithEagerRelationshipsIsNotEnabled() throws Exception {
+        ResultadoChecklistResource resultadoChecklistResource = new ResultadoChecklistResource(resultadoChecklistServiceMock, resultadoChecklistQueryService);
+            when(resultadoChecklistServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+            MockMvc restResultadoChecklistMockMvc = MockMvcBuilders.standaloneSetup(resultadoChecklistResource)
+            .setCustomArgumentResolvers(pageableArgumentResolver)
+            .setControllerAdvice(exceptionTranslator)
+            .setConversionService(createFormattingConversionService())
+            .setMessageConverters(jacksonMessageConverter).build();
+
+        restResultadoChecklistMockMvc.perform(get("/api/resultado-checklists?eagerload=true"))
+        .andExpect(status().isOk());
+
+            verify(resultadoChecklistServiceMock, times(1)).findAllWithEagerRelationships(any());
+    }
+
     @Test
     @Transactional
     public void getResultadoChecklist() throws Exception {
@@ -265,7 +311,7 @@ public class ResultadoChecklistResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(resultadoChecklist.getId().intValue()))
             .andExpect(jsonPath("$.idUsuarioRegistro").value(DEFAULT_ID_USUARIO_REGISTRO))
-            .andExpect(jsonPath("$.titulo").value(DEFAULT_TITULO))
+            .andExpect(jsonPath("$.dataRegistro").value(DEFAULT_DATA_REGISTRO.toString()))
             .andExpect(jsonPath("$.dataVerificacao").value(DEFAULT_DATA_VERIFICACAO.toString()));
     }
 
@@ -396,81 +442,55 @@ public class ResultadoChecklistResourceIT {
 
     @Test
     @Transactional
-    public void getAllResultadoChecklistsByTituloIsEqualToSomething() throws Exception {
+    public void getAllResultadoChecklistsByDataRegistroIsEqualToSomething() throws Exception {
         // Initialize the database
         resultadoChecklistRepository.saveAndFlush(resultadoChecklist);
 
-        // Get all the resultadoChecklistList where titulo equals to DEFAULT_TITULO
-        defaultResultadoChecklistShouldBeFound("titulo.equals=" + DEFAULT_TITULO);
+        // Get all the resultadoChecklistList where dataRegistro equals to DEFAULT_DATA_REGISTRO
+        defaultResultadoChecklistShouldBeFound("dataRegistro.equals=" + DEFAULT_DATA_REGISTRO);
 
-        // Get all the resultadoChecklistList where titulo equals to UPDATED_TITULO
-        defaultResultadoChecklistShouldNotBeFound("titulo.equals=" + UPDATED_TITULO);
+        // Get all the resultadoChecklistList where dataRegistro equals to UPDATED_DATA_REGISTRO
+        defaultResultadoChecklistShouldNotBeFound("dataRegistro.equals=" + UPDATED_DATA_REGISTRO);
     }
 
     @Test
     @Transactional
-    public void getAllResultadoChecklistsByTituloIsNotEqualToSomething() throws Exception {
+    public void getAllResultadoChecklistsByDataRegistroIsNotEqualToSomething() throws Exception {
         // Initialize the database
         resultadoChecklistRepository.saveAndFlush(resultadoChecklist);
 
-        // Get all the resultadoChecklistList where titulo not equals to DEFAULT_TITULO
-        defaultResultadoChecklistShouldNotBeFound("titulo.notEquals=" + DEFAULT_TITULO);
+        // Get all the resultadoChecklistList where dataRegistro not equals to DEFAULT_DATA_REGISTRO
+        defaultResultadoChecklistShouldNotBeFound("dataRegistro.notEquals=" + DEFAULT_DATA_REGISTRO);
 
-        // Get all the resultadoChecklistList where titulo not equals to UPDATED_TITULO
-        defaultResultadoChecklistShouldBeFound("titulo.notEquals=" + UPDATED_TITULO);
+        // Get all the resultadoChecklistList where dataRegistro not equals to UPDATED_DATA_REGISTRO
+        defaultResultadoChecklistShouldBeFound("dataRegistro.notEquals=" + UPDATED_DATA_REGISTRO);
     }
 
     @Test
     @Transactional
-    public void getAllResultadoChecklistsByTituloIsInShouldWork() throws Exception {
+    public void getAllResultadoChecklistsByDataRegistroIsInShouldWork() throws Exception {
         // Initialize the database
         resultadoChecklistRepository.saveAndFlush(resultadoChecklist);
 
-        // Get all the resultadoChecklistList where titulo in DEFAULT_TITULO or UPDATED_TITULO
-        defaultResultadoChecklistShouldBeFound("titulo.in=" + DEFAULT_TITULO + "," + UPDATED_TITULO);
+        // Get all the resultadoChecklistList where dataRegistro in DEFAULT_DATA_REGISTRO or UPDATED_DATA_REGISTRO
+        defaultResultadoChecklistShouldBeFound("dataRegistro.in=" + DEFAULT_DATA_REGISTRO + "," + UPDATED_DATA_REGISTRO);
 
-        // Get all the resultadoChecklistList where titulo equals to UPDATED_TITULO
-        defaultResultadoChecklistShouldNotBeFound("titulo.in=" + UPDATED_TITULO);
+        // Get all the resultadoChecklistList where dataRegistro equals to UPDATED_DATA_REGISTRO
+        defaultResultadoChecklistShouldNotBeFound("dataRegistro.in=" + UPDATED_DATA_REGISTRO);
     }
 
     @Test
     @Transactional
-    public void getAllResultadoChecklistsByTituloIsNullOrNotNull() throws Exception {
+    public void getAllResultadoChecklistsByDataRegistroIsNullOrNotNull() throws Exception {
         // Initialize the database
         resultadoChecklistRepository.saveAndFlush(resultadoChecklist);
 
-        // Get all the resultadoChecklistList where titulo is not null
-        defaultResultadoChecklistShouldBeFound("titulo.specified=true");
+        // Get all the resultadoChecklistList where dataRegistro is not null
+        defaultResultadoChecklistShouldBeFound("dataRegistro.specified=true");
 
-        // Get all the resultadoChecklistList where titulo is null
-        defaultResultadoChecklistShouldNotBeFound("titulo.specified=false");
+        // Get all the resultadoChecklistList where dataRegistro is null
+        defaultResultadoChecklistShouldNotBeFound("dataRegistro.specified=false");
     }
-                @Test
-    @Transactional
-    public void getAllResultadoChecklistsByTituloContainsSomething() throws Exception {
-        // Initialize the database
-        resultadoChecklistRepository.saveAndFlush(resultadoChecklist);
-
-        // Get all the resultadoChecklistList where titulo contains DEFAULT_TITULO
-        defaultResultadoChecklistShouldBeFound("titulo.contains=" + DEFAULT_TITULO);
-
-        // Get all the resultadoChecklistList where titulo contains UPDATED_TITULO
-        defaultResultadoChecklistShouldNotBeFound("titulo.contains=" + UPDATED_TITULO);
-    }
-
-    @Test
-    @Transactional
-    public void getAllResultadoChecklistsByTituloNotContainsSomething() throws Exception {
-        // Initialize the database
-        resultadoChecklistRepository.saveAndFlush(resultadoChecklist);
-
-        // Get all the resultadoChecklistList where titulo does not contain DEFAULT_TITULO
-        defaultResultadoChecklistShouldNotBeFound("titulo.doesNotContain=" + DEFAULT_TITULO);
-
-        // Get all the resultadoChecklistList where titulo does not contain UPDATED_TITULO
-        defaultResultadoChecklistShouldBeFound("titulo.doesNotContain=" + UPDATED_TITULO);
-    }
-
 
     @Test
     @Transactional
@@ -526,26 +546,6 @@ public class ResultadoChecklistResourceIT {
 
     @Test
     @Transactional
-    public void getAllResultadoChecklistsByAnexoIsEqualToSomething() throws Exception {
-        // Initialize the database
-        resultadoChecklistRepository.saveAndFlush(resultadoChecklist);
-        Anexo anexo = AnexoResourceIT.createEntity(em);
-        em.persist(anexo);
-        em.flush();
-        resultadoChecklist.addAnexo(anexo);
-        resultadoChecklistRepository.saveAndFlush(resultadoChecklist);
-        Long anexoId = anexo.getId();
-
-        // Get all the resultadoChecklistList where anexo equals to anexoId
-        defaultResultadoChecklistShouldBeFound("anexoId.equals=" + anexoId);
-
-        // Get all the resultadoChecklistList where anexo equals to anexoId + 1
-        defaultResultadoChecklistShouldNotBeFound("anexoId.equals=" + (anexoId + 1));
-    }
-
-
-    @Test
-    @Transactional
     public void getAllResultadoChecklistsByResultadoItemIsEqualToSomething() throws Exception {
         // Initialize the database
         resultadoChecklistRepository.saveAndFlush(resultadoChecklist);
@@ -566,6 +566,46 @@ public class ResultadoChecklistResourceIT {
 
     @Test
     @Transactional
+    public void getAllResultadoChecklistsByNaoConformidadeIsEqualToSomething() throws Exception {
+        // Initialize the database
+        resultadoChecklistRepository.saveAndFlush(resultadoChecklist);
+        NaoConformidade naoConformidade = NaoConformidadeResourceIT.createEntity(em);
+        em.persist(naoConformidade);
+        em.flush();
+        resultadoChecklist.addNaoConformidade(naoConformidade);
+        resultadoChecklistRepository.saveAndFlush(resultadoChecklist);
+        Long naoConformidadeId = naoConformidade.getId();
+
+        // Get all the resultadoChecklistList where naoConformidade equals to naoConformidadeId
+        defaultResultadoChecklistShouldBeFound("naoConformidadeId.equals=" + naoConformidadeId);
+
+        // Get all the resultadoChecklistList where naoConformidade equals to naoConformidadeId + 1
+        defaultResultadoChecklistShouldNotBeFound("naoConformidadeId.equals=" + (naoConformidadeId + 1));
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllResultadoChecklistsByProdutoNaoConformeIsEqualToSomething() throws Exception {
+        // Initialize the database
+        resultadoChecklistRepository.saveAndFlush(resultadoChecklist);
+        ProdutoNaoConforme produtoNaoConforme = ProdutoNaoConformeResourceIT.createEntity(em);
+        em.persist(produtoNaoConforme);
+        em.flush();
+        resultadoChecklist.addProdutoNaoConforme(produtoNaoConforme);
+        resultadoChecklistRepository.saveAndFlush(resultadoChecklist);
+        Long produtoNaoConformeId = produtoNaoConforme.getId();
+
+        // Get all the resultadoChecklistList where produtoNaoConforme equals to produtoNaoConformeId
+        defaultResultadoChecklistShouldBeFound("produtoNaoConformeId.equals=" + produtoNaoConformeId);
+
+        // Get all the resultadoChecklistList where produtoNaoConforme equals to produtoNaoConformeId + 1
+        defaultResultadoChecklistShouldNotBeFound("produtoNaoConformeId.equals=" + (produtoNaoConformeId + 1));
+    }
+
+
+    @Test
+    @Transactional
     public void getAllResultadoChecklistsByChecklistIsEqualToSomething() throws Exception {
         // Get already existing entity
         Checklist checklist = resultadoChecklist.getChecklist();
@@ -579,6 +619,26 @@ public class ResultadoChecklistResourceIT {
         defaultResultadoChecklistShouldNotBeFound("checklistId.equals=" + (checklistId + 1));
     }
 
+
+    @Test
+    @Transactional
+    public void getAllResultadoChecklistsByAnexoIsEqualToSomething() throws Exception {
+        // Initialize the database
+        resultadoChecklistRepository.saveAndFlush(resultadoChecklist);
+        Anexo anexo = AnexoResourceIT.createEntity(em);
+        em.persist(anexo);
+        em.flush();
+        resultadoChecklist.addAnexo(anexo);
+        resultadoChecklistRepository.saveAndFlush(resultadoChecklist);
+        Long anexoId = anexo.getId();
+
+        // Get all the resultadoChecklistList where anexo equals to anexoId
+        defaultResultadoChecklistShouldBeFound("anexoId.equals=" + anexoId);
+
+        // Get all the resultadoChecklistList where anexo equals to anexoId + 1
+        defaultResultadoChecklistShouldNotBeFound("anexoId.equals=" + (anexoId + 1));
+    }
+
     /**
      * Executes the search, and checks that the default entity is returned.
      */
@@ -588,7 +648,7 @@ public class ResultadoChecklistResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(resultadoChecklist.getId().intValue())))
             .andExpect(jsonPath("$.[*].idUsuarioRegistro").value(hasItem(DEFAULT_ID_USUARIO_REGISTRO)))
-            .andExpect(jsonPath("$.[*].titulo").value(hasItem(DEFAULT_TITULO)))
+            .andExpect(jsonPath("$.[*].dataRegistro").value(hasItem(DEFAULT_DATA_REGISTRO.toString())))
             .andExpect(jsonPath("$.[*].dataVerificacao").value(hasItem(DEFAULT_DATA_VERIFICACAO.toString())));
 
         // Check, that the count call also returns 1
@@ -638,7 +698,7 @@ public class ResultadoChecklistResourceIT {
         em.detach(updatedResultadoChecklist);
         updatedResultadoChecklist
             .idUsuarioRegistro(UPDATED_ID_USUARIO_REGISTRO)
-            .titulo(UPDATED_TITULO)
+            .dataRegistro(UPDATED_DATA_REGISTRO)
             .dataVerificacao(UPDATED_DATA_VERIFICACAO);
 
         restResultadoChecklistMockMvc.perform(put("/api/resultado-checklists")
@@ -651,7 +711,7 @@ public class ResultadoChecklistResourceIT {
         assertThat(resultadoChecklistList).hasSize(databaseSizeBeforeUpdate);
         ResultadoChecklist testResultadoChecklist = resultadoChecklistList.get(resultadoChecklistList.size() - 1);
         assertThat(testResultadoChecklist.getIdUsuarioRegistro()).isEqualTo(UPDATED_ID_USUARIO_REGISTRO);
-        assertThat(testResultadoChecklist.getTitulo()).isEqualTo(UPDATED_TITULO);
+        assertThat(testResultadoChecklist.getDataRegistro()).isEqualTo(UPDATED_DATA_REGISTRO);
         assertThat(testResultadoChecklist.getDataVerificacao()).isEqualTo(UPDATED_DATA_VERIFICACAO);
     }
 

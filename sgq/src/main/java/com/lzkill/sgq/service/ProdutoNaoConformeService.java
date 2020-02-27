@@ -50,6 +50,15 @@ public class ProdutoNaoConformeService {
         return produtoNaoConformeRepository.findAll(pageable);
     }
 
+    /**
+     * Get all the produtoNaoConformes with eager load of many-to-many relationships.
+     *
+     * @return the list of entities.
+     */
+    public Page<ProdutoNaoConforme> findAllWithEagerRelationships(Pageable pageable) {
+        return produtoNaoConformeRepository.findAllWithEagerRelationships(pageable);
+    }
+    
 
     /**
      * Get one produtoNaoConforme by id.
@@ -60,7 +69,7 @@ public class ProdutoNaoConformeService {
     @Transactional(readOnly = true)
     public Optional<ProdutoNaoConforme> findOne(Long id) {
         log.debug("Request to get ProdutoNaoConforme : {}", id);
-        return produtoNaoConformeRepository.findById(id);
+        return produtoNaoConformeRepository.findOneWithEagerRelationships(id);
     }
 
     /**

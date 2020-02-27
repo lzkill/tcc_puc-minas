@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.Objects;
 import io.github.jhipster.service.Criteria;
 import com.lzkill.sgq.domain.enumeration.TipoFeed;
-import com.lzkill.sgq.domain.enumeration.StatusFeed;
 import io.github.jhipster.service.filter.BooleanFilter;
 import io.github.jhipster.service.filter.DoubleFilter;
 import io.github.jhipster.service.filter.Filter;
@@ -42,24 +41,6 @@ public class FeedCriteria implements Serializable, Criteria {
         }
 
     }
-    /**
-     * Class for filtering StatusFeed
-     */
-    public static class StatusFeedFilter extends Filter<StatusFeed> {
-
-        public StatusFeedFilter() {
-        }
-
-        public StatusFeedFilter(StatusFeedFilter filter) {
-            super(filter);
-        }
-
-        @Override
-        public StatusFeedFilter copy() {
-            return new StatusFeedFilter(this);
-        }
-
-    }
 
     private static final long serialVersionUID = 1L;
 
@@ -87,7 +68,7 @@ public class FeedCriteria implements Serializable, Criteria {
 
     private InstantFilter dataRegistro;
 
-    private StatusFeedFilter status;
+    private BooleanFilter habilitado;
 
     public FeedCriteria(){
     }
@@ -105,7 +86,7 @@ public class FeedCriteria implements Serializable, Criteria {
         this.alturaImagem = other.alturaImagem == null ? null : other.alturaImagem.copy();
         this.larguraImagem = other.larguraImagem == null ? null : other.larguraImagem.copy();
         this.dataRegistro = other.dataRegistro == null ? null : other.dataRegistro.copy();
-        this.status = other.status == null ? null : other.status.copy();
+        this.habilitado = other.habilitado == null ? null : other.habilitado.copy();
     }
 
     @Override
@@ -209,12 +190,12 @@ public class FeedCriteria implements Serializable, Criteria {
         this.dataRegistro = dataRegistro;
     }
 
-    public StatusFeedFilter getStatus() {
-        return status;
+    public BooleanFilter getHabilitado() {
+        return habilitado;
     }
 
-    public void setStatus(StatusFeedFilter status) {
-        this.status = status;
+    public void setHabilitado(BooleanFilter habilitado) {
+        this.habilitado = habilitado;
     }
 
 
@@ -240,7 +221,7 @@ public class FeedCriteria implements Serializable, Criteria {
             Objects.equals(alturaImagem, that.alturaImagem) &&
             Objects.equals(larguraImagem, that.larguraImagem) &&
             Objects.equals(dataRegistro, that.dataRegistro) &&
-            Objects.equals(status, that.status);
+            Objects.equals(habilitado, that.habilitado);
     }
 
     @Override
@@ -258,7 +239,7 @@ public class FeedCriteria implements Serializable, Criteria {
         alturaImagem,
         larguraImagem,
         dataRegistro,
-        status
+        habilitado
         );
     }
 
@@ -277,7 +258,7 @@ public class FeedCriteria implements Serializable, Criteria {
                 (alturaImagem != null ? "alturaImagem=" + alturaImagem + ", " : "") +
                 (larguraImagem != null ? "larguraImagem=" + larguraImagem + ", " : "") +
                 (dataRegistro != null ? "dataRegistro=" + dataRegistro + ", " : "") +
-                (status != null ? "status=" + status + ", " : "") +
+                (habilitado != null ? "habilitado=" + habilitado + ", " : "") +
             "}";
     }
 

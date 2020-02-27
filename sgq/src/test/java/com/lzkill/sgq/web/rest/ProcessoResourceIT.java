@@ -12,9 +12,12 @@ import com.lzkill.sgq.service.ProcessoQueryService;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -25,11 +28,13 @@ import org.springframework.util.Base64Utils;
 import org.springframework.validation.Validator;
 
 import javax.persistence.EntityManager;
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.lzkill.sgq.web.rest.TestUtil.createFormattingConversionService;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -45,8 +50,17 @@ public class ProcessoResourceIT {
     private static final String DEFAULT_DESCRICAO = "AAAAAAAAAA";
     private static final String UPDATED_DESCRICAO = "BBBBBBBBBB";
 
+    private static final Boolean DEFAULT_HABILITADO = false;
+    private static final Boolean UPDATED_HABILITADO = true;
+
     @Autowired
     private ProcessoRepository processoRepository;
+
+    @Mock
+    private ProcessoRepository processoRepositoryMock;
+
+    @Mock
+    private ProcessoService processoServiceMock;
 
     @Autowired
     private ProcessoService processoService;
@@ -94,7 +108,8 @@ public class ProcessoResourceIT {
     public static Processo createEntity(EntityManager em) {
         Processo processo = new Processo()
             .titulo(DEFAULT_TITULO)
-            .descricao(DEFAULT_DESCRICAO);
+            .descricao(DEFAULT_DESCRICAO)
+            .habilitado(DEFAULT_HABILITADO);
         // Add required entity
         Setor setor;
         if (TestUtil.findAll(em, Setor.class).isEmpty()) {
@@ -116,7 +131,8 @@ public class ProcessoResourceIT {
     public static Processo createUpdatedEntity(EntityManager em) {
         Processo processo = new Processo()
             .titulo(UPDATED_TITULO)
-            .descricao(UPDATED_DESCRICAO);
+            .descricao(UPDATED_DESCRICAO)
+            .habilitado(UPDATED_HABILITADO);
         // Add required entity
         Setor setor;
         if (TestUtil.findAll(em, Setor.class).isEmpty()) {
@@ -152,6 +168,7 @@ public class ProcessoResourceIT {
         Processo testProcesso = processoList.get(processoList.size() - 1);
         assertThat(testProcesso.getTitulo()).isEqualTo(DEFAULT_TITULO);
         assertThat(testProcesso.getDescricao()).isEqualTo(DEFAULT_DESCRICAO);
+        assertThat(testProcesso.isHabilitado()).isEqualTo(DEFAULT_HABILITADO);
     }
 
     @Test
@@ -194,6 +211,24 @@ public class ProcessoResourceIT {
 
     @Test
     @Transactional
+    public void checkHabilitadoIsRequired() throws Exception {
+        int databaseSizeBeforeTest = processoRepository.findAll().size();
+        // set the field null
+        processo.setHabilitado(null);
+
+        // Create the Processo, which fails.
+
+        restProcessoMockMvc.perform(post("/api/processos")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(processo)))
+            .andExpect(status().isBadRequest());
+
+        List<Processo> processoList = processoRepository.findAll();
+        assertThat(processoList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     public void getAllProcessos() throws Exception {
         // Initialize the database
         processoRepository.saveAndFlush(processo);
@@ -204,9 +239,43 @@ public class ProcessoResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(processo.getId().intValue())))
             .andExpect(jsonPath("$.[*].titulo").value(hasItem(DEFAULT_TITULO)))
-            .andExpect(jsonPath("$.[*].descricao").value(hasItem(DEFAULT_DESCRICAO.toString())));
+            .andExpect(jsonPath("$.[*].descricao").value(hasItem(DEFAULT_DESCRICAO.toString())))
+            .andExpect(jsonPath("$.[*].habilitado").value(hasItem(DEFAULT_HABILITADO.booleanValue())));
     }
     
+    @SuppressWarnings({"unchecked"})
+    public void getAllProcessosWithEagerRelationshipsIsEnabled() throws Exception {
+        ProcessoResource processoResource = new ProcessoResource(processoServiceMock, processoQueryService);
+        when(processoServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+
+        MockMvc restProcessoMockMvc = MockMvcBuilders.standaloneSetup(processoResource)
+            .setCustomArgumentResolvers(pageableArgumentResolver)
+            .setControllerAdvice(exceptionTranslator)
+            .setConversionService(createFormattingConversionService())
+            .setMessageConverters(jacksonMessageConverter).build();
+
+        restProcessoMockMvc.perform(get("/api/processos?eagerload=true"))
+        .andExpect(status().isOk());
+
+        verify(processoServiceMock, times(1)).findAllWithEagerRelationships(any());
+    }
+
+    @SuppressWarnings({"unchecked"})
+    public void getAllProcessosWithEagerRelationshipsIsNotEnabled() throws Exception {
+        ProcessoResource processoResource = new ProcessoResource(processoServiceMock, processoQueryService);
+            when(processoServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+            MockMvc restProcessoMockMvc = MockMvcBuilders.standaloneSetup(processoResource)
+            .setCustomArgumentResolvers(pageableArgumentResolver)
+            .setControllerAdvice(exceptionTranslator)
+            .setConversionService(createFormattingConversionService())
+            .setMessageConverters(jacksonMessageConverter).build();
+
+        restProcessoMockMvc.perform(get("/api/processos?eagerload=true"))
+        .andExpect(status().isOk());
+
+            verify(processoServiceMock, times(1)).findAllWithEagerRelationships(any());
+    }
+
     @Test
     @Transactional
     public void getProcesso() throws Exception {
@@ -219,7 +288,8 @@ public class ProcessoResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(processo.getId().intValue()))
             .andExpect(jsonPath("$.titulo").value(DEFAULT_TITULO))
-            .andExpect(jsonPath("$.descricao").value(DEFAULT_DESCRICAO.toString()));
+            .andExpect(jsonPath("$.descricao").value(DEFAULT_DESCRICAO.toString()))
+            .andExpect(jsonPath("$.habilitado").value(DEFAULT_HABILITADO.booleanValue()));
     }
 
 
@@ -322,6 +392,58 @@ public class ProcessoResourceIT {
 
     @Test
     @Transactional
+    public void getAllProcessosByHabilitadoIsEqualToSomething() throws Exception {
+        // Initialize the database
+        processoRepository.saveAndFlush(processo);
+
+        // Get all the processoList where habilitado equals to DEFAULT_HABILITADO
+        defaultProcessoShouldBeFound("habilitado.equals=" + DEFAULT_HABILITADO);
+
+        // Get all the processoList where habilitado equals to UPDATED_HABILITADO
+        defaultProcessoShouldNotBeFound("habilitado.equals=" + UPDATED_HABILITADO);
+    }
+
+    @Test
+    @Transactional
+    public void getAllProcessosByHabilitadoIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        processoRepository.saveAndFlush(processo);
+
+        // Get all the processoList where habilitado not equals to DEFAULT_HABILITADO
+        defaultProcessoShouldNotBeFound("habilitado.notEquals=" + DEFAULT_HABILITADO);
+
+        // Get all the processoList where habilitado not equals to UPDATED_HABILITADO
+        defaultProcessoShouldBeFound("habilitado.notEquals=" + UPDATED_HABILITADO);
+    }
+
+    @Test
+    @Transactional
+    public void getAllProcessosByHabilitadoIsInShouldWork() throws Exception {
+        // Initialize the database
+        processoRepository.saveAndFlush(processo);
+
+        // Get all the processoList where habilitado in DEFAULT_HABILITADO or UPDATED_HABILITADO
+        defaultProcessoShouldBeFound("habilitado.in=" + DEFAULT_HABILITADO + "," + UPDATED_HABILITADO);
+
+        // Get all the processoList where habilitado equals to UPDATED_HABILITADO
+        defaultProcessoShouldNotBeFound("habilitado.in=" + UPDATED_HABILITADO);
+    }
+
+    @Test
+    @Transactional
+    public void getAllProcessosByHabilitadoIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        processoRepository.saveAndFlush(processo);
+
+        // Get all the processoList where habilitado is not null
+        defaultProcessoShouldBeFound("habilitado.specified=true");
+
+        // Get all the processoList where habilitado is null
+        defaultProcessoShouldNotBeFound("habilitado.specified=false");
+    }
+
+    @Test
+    @Transactional
     public void getAllProcessosByAnexoIsEqualToSomething() throws Exception {
         // Initialize the database
         processoRepository.saveAndFlush(processo);
@@ -364,7 +486,8 @@ public class ProcessoResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(processo.getId().intValue())))
             .andExpect(jsonPath("$.[*].titulo").value(hasItem(DEFAULT_TITULO)))
-            .andExpect(jsonPath("$.[*].descricao").value(hasItem(DEFAULT_DESCRICAO.toString())));
+            .andExpect(jsonPath("$.[*].descricao").value(hasItem(DEFAULT_DESCRICAO.toString())))
+            .andExpect(jsonPath("$.[*].habilitado").value(hasItem(DEFAULT_HABILITADO.booleanValue())));
 
         // Check, that the count call also returns 1
         restProcessoMockMvc.perform(get("/api/processos/count?sort=id,desc&" + filter))
@@ -413,7 +536,8 @@ public class ProcessoResourceIT {
         em.detach(updatedProcesso);
         updatedProcesso
             .titulo(UPDATED_TITULO)
-            .descricao(UPDATED_DESCRICAO);
+            .descricao(UPDATED_DESCRICAO)
+            .habilitado(UPDATED_HABILITADO);
 
         restProcessoMockMvc.perform(put("/api/processos")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -426,6 +550,7 @@ public class ProcessoResourceIT {
         Processo testProcesso = processoList.get(processoList.size() - 1);
         assertThat(testProcesso.getTitulo()).isEqualTo(UPDATED_TITULO);
         assertThat(testProcesso.getDescricao()).isEqualTo(UPDATED_DESCRICAO);
+        assertThat(testProcesso.isHabilitado()).isEqualTo(UPDATED_HABILITADO);
     }
 
     @Test

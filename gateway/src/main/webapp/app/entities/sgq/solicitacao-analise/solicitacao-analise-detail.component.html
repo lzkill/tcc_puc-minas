@@ -1,0 +1,61 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="solicitacaoAnalise">
+            <h2><span jhiTranslate="gatewayApp.sgqSolicitacaoAnalise.detail.title">Solicitacao Analise</span> {{solicitacaoAnalise.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="gatewayApp.sgqSolicitacaoAnalise.idUsuarioRegistro">Id Usuario Registro</span></dt>
+                <dd>
+                    <span>{{solicitacaoAnalise.idUsuarioRegistro}}</span>
+                </dd>
+                <dt><span jhiTranslate="gatewayApp.sgqSolicitacaoAnalise.dataRegistro">Data Registro</span></dt>
+                <dd>
+                    <span>{{solicitacaoAnalise.dataRegistro}}</span>
+                </dd>
+                <dt><span jhiTranslate="gatewayApp.sgqSolicitacaoAnalise.dataSolicitacao" [ngbTooltip]="'gatewayApp.sgqSolicitacaoAnalise.help.dataSolicitacao' | translate">Data Solicitacao</span></dt>
+                <dd>
+                    <span>{{solicitacaoAnalise.dataSolicitacao}}</span>
+                </dd>
+                <dt><span jhiTranslate="gatewayApp.sgqSolicitacaoAnalise.uuid" [ngbTooltip]="'gatewayApp.sgqSolicitacaoAnalise.help.uuid' | translate">Uuid</span></dt>
+                <dd>
+                    <span>{{solicitacaoAnalise.uuid}}</span>
+                </dd>
+                <dt><span jhiTranslate="gatewayApp.sgqSolicitacaoAnalise.status">Status</span></dt>
+                <dd>
+                    <span jhiTranslate="{{'gatewayApp.StatusSolicitacaoAnalise.' + solicitacaoAnalise.status}}">{{solicitacaoAnalise.status}}</span>
+                </dd>
+                <dt><span jhiTranslate="gatewayApp.sgqSolicitacaoAnalise.naoConformidade">Nao Conformidade</span></dt>
+                <dd>
+                    <div *ngIf="solicitacaoAnalise.naoConformidade">
+                        <a [routerLink]="['/nao-conformidade', solicitacaoAnalise.naoConformidade?.id, 'view']">{{solicitacaoAnalise.naoConformidade?.titulo}}</a>
+                    </div>
+                </dd>
+                <dt><span jhiTranslate="gatewayApp.sgqSolicitacaoAnalise.analiseConsultoria">Analise Consultoria</span></dt>
+                <dd>
+                    <div *ngIf="solicitacaoAnalise.analiseConsultoria">
+                        <a [routerLink]="['/analise-consultoria', solicitacaoAnalise.analiseConsultoria?.id, 'view']">{{solicitacaoAnalise.analiseConsultoria?.id}}</a>
+                    </div>
+                </dd>
+                <dt><span jhiTranslate="gatewayApp.sgqSolicitacaoAnalise.consultoria">Consultoria</span></dt>
+                <dd>
+                    <div *ngIf="solicitacaoAnalise.consultoria">
+                        <a [routerLink]="['/consultoria', solicitacaoAnalise.consultoria?.id, 'view']">{{solicitacaoAnalise.consultoria?.nome}}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/solicitacao-analise', solicitacaoAnalise.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

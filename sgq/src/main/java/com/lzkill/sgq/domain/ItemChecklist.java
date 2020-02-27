@@ -38,8 +38,11 @@ public class ItemChecklist implements Serializable {
     @Column(name = "descricao")
     private String descricao;
 
-    @OneToMany(mappedBy = "itemChecklist")
+    @ManyToMany
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    @JoinTable(name = "item_checklist_anexo",
+               joinColumns = @JoinColumn(name = "item_checklist_id", referencedColumnName = "id"),
+               inverseJoinColumns = @JoinColumn(name = "anexo_id", referencedColumnName = "id"))
     private Set<Anexo> anexos = new HashSet<>();
 
     @ManyToOne(optional = false)
@@ -106,13 +109,13 @@ public class ItemChecklist implements Serializable {
 
     public ItemChecklist addAnexo(Anexo anexo) {
         this.anexos.add(anexo);
-        anexo.setItemChecklist(this);
+        anexo.getItemChecklists().add(this);
         return this;
     }
 
     public ItemChecklist removeAnexo(Anexo anexo) {
         this.anexos.remove(anexo);
-        anexo.setItemChecklist(null);
+        anexo.getItemChecklists().remove(this);
         return this;
     }
 

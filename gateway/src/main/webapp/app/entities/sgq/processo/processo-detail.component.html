@@ -13,6 +13,16 @@
                 <dd>
                     <span>{{processo.descricao}}</span>
                 </dd>
+                <dt><span jhiTranslate="gatewayApp.sgqProcesso.habilitado">Habilitado</span></dt>
+                <dd>
+                    <span>{{processo.habilitado}}</span>
+                </dd>
+                <dt><span jhiTranslate="gatewayApp.sgqProcesso.anexo">Anexo</span></dt>
+                <dd>
+                    <span *ngFor="let anexo of processo.anexos; let last = last">
+                        <a [routerLink]="['/anexo', anexo?.id, 'view' ]">{{anexo.nomeArquivo}}</a>{{last ? '' : ', '}}
+                    </span>
+                </dd>
                 <dt><span jhiTranslate="gatewayApp.sgqProcesso.setor">Setor</span></dt>
                 <dd>
                     <div *ngIf="processo.setor">

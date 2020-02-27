@@ -52,10 +52,6 @@ export class AnaliseConsultoriaService {
 
   protected convertDateFromClient(analiseConsultoria: IAnaliseConsultoria): IAnaliseConsultoria {
     const copy: IAnaliseConsultoria = Object.assign({}, analiseConsultoria, {
-      dataSolicitacaoAnalise:
-        analiseConsultoria.dataSolicitacaoAnalise && analiseConsultoria.dataSolicitacaoAnalise.isValid()
-          ? analiseConsultoria.dataSolicitacaoAnalise.toJSON()
-          : undefined,
       dataAnalise:
         analiseConsultoria.dataAnalise && analiseConsultoria.dataAnalise.isValid() ? analiseConsultoria.dataAnalise.toJSON() : undefined
     });
@@ -64,7 +60,6 @@ export class AnaliseConsultoriaService {
 
   protected convertDateFromServer(res: EntityResponseType): EntityResponseType {
     if (res.body) {
-      res.body.dataSolicitacaoAnalise = res.body.dataSolicitacaoAnalise ? moment(res.body.dataSolicitacaoAnalise) : undefined;
       res.body.dataAnalise = res.body.dataAnalise ? moment(res.body.dataAnalise) : undefined;
     }
     return res;
@@ -73,9 +68,6 @@ export class AnaliseConsultoriaService {
   protected convertDateArrayFromServer(res: EntityArrayResponseType): EntityArrayResponseType {
     if (res.body) {
       res.body.forEach((analiseConsultoria: IAnaliseConsultoria) => {
-        analiseConsultoria.dataSolicitacaoAnalise = analiseConsultoria.dataSolicitacaoAnalise
-          ? moment(analiseConsultoria.dataSolicitacaoAnalise)
-          : undefined;
         analiseConsultoria.dataAnalise = analiseConsultoria.dataAnalise ? moment(analiseConsultoria.dataAnalise) : undefined;
       });
     }

@@ -5,37 +5,27 @@
             <hr>
             <jhi-alert-error></jhi-alert-error>
             <dl class="row-md jh-entity-details">
-                <dt><span jhiTranslate="gatewayApp.sgqAnaliseConsultoria.dataSolicitacaoAnalise">Data Solicitacao Analise</span></dt>
-                <dd>
-                    <span>{{analiseConsultoria.dataSolicitacaoAnalise}}</span>
-                </dd>
                 <dt><span jhiTranslate="gatewayApp.sgqAnaliseConsultoria.dataAnalise">Data Analise</span></dt>
                 <dd>
                     <span>{{analiseConsultoria.dataAnalise}}</span>
                 </dd>
-                <dt><span jhiTranslate="gatewayApp.sgqAnaliseConsultoria.descricao">Descricao</span></dt>
+                <dt><span jhiTranslate="gatewayApp.sgqAnaliseConsultoria.conteudo">Conteudo</span></dt>
                 <dd>
-                    <span>{{analiseConsultoria.descricao}}</span>
+                    <span>{{analiseConsultoria.conteudo}}</span>
                 </dd>
-                <dt><span jhiTranslate="gatewayApp.sgqAnaliseConsultoria.responsavelAnalise">Responsavel Analise</span></dt>
+                <dt><span jhiTranslate="gatewayApp.sgqAnaliseConsultoria.responsavel">Responsavel</span></dt>
                 <dd>
-                    <span>{{analiseConsultoria.responsavelAnalise}}</span>
+                    <span>{{analiseConsultoria.responsavel}}</span>
                 </dd>
                 <dt><span jhiTranslate="gatewayApp.sgqAnaliseConsultoria.status">Status</span></dt>
                 <dd>
-                    <span jhiTranslate="{{'gatewayApp.StatusAnaliseExterna.' + analiseConsultoria.status}}">{{analiseConsultoria.status}}</span>
+                    <span jhiTranslate="{{'gatewayApp.StatusAprovacao.' + analiseConsultoria.status}}">{{analiseConsultoria.status}}</span>
                 </dd>
-                <dt><span jhiTranslate="gatewayApp.sgqAnaliseConsultoria.acao">Acao</span></dt>
+                <dt><span jhiTranslate="gatewayApp.sgqAnaliseConsultoria.anexo">Anexo</span></dt>
                 <dd>
-                    <div *ngIf="analiseConsultoria.acao">
-                        <a [routerLink]="['/acao-sgq', analiseConsultoria.acao?.id, 'view']">{{analiseConsultoria.acao?.titulo}}</a>
-                    </div>
-                </dd>
-                <dt><span jhiTranslate="gatewayApp.sgqAnaliseConsultoria.empresa">Empresa</span></dt>
-                <dd>
-                    <div *ngIf="analiseConsultoria.empresa">
-                        <a [routerLink]="['/empresa-consultoria', analiseConsultoria.empresa?.id, 'view']">{{analiseConsultoria.empresa?.nome}}</a>
-                    </div>
+                    <span *ngFor="let anexo of analiseConsultoria.anexos; let last = last">
+                        <a [routerLink]="['/anexo', anexo?.id, 'view' ]">{{anexo.nomeArquivo}}</a>{{last ? '' : ', '}}
+                    </span>
                 </dd>
             </dl>
 

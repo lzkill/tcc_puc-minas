@@ -12,9 +12,13 @@ import { IResultadoChecklist, ResultadoChecklist } from 'app/shared/model/sgq/re
 import { ResultadoChecklistService } from './resultado-checklist.service';
 import { IChecklist } from 'app/shared/model/sgq/checklist.model';
 import { ChecklistService } from 'app/entities/sgq/checklist/checklist.service';
+import { IAnexo } from 'app/shared/model/sgq/anexo.model';
+import { AnexoService } from 'app/entities/sgq/anexo/anexo.service';
 
 import { IUser } from 'app/core/user/user.model';
 import { UserService } from 'app/core/user/user.service';
+
+type SelectableEntity = IChecklist | IAnexo;
 
 @Component({
   selector: 'jhi-resultado-checklist-update',
@@ -26,17 +30,21 @@ export class ResultadoChecklistUpdateComponent implements OnInit {
   checklists: IChecklist[] = [];
   usuarios: IUser[] = [];
 
+  anexos: IAnexo[] = [];
+
   editForm = this.fb.group({
     id: [],
     idUsuarioRegistro: [null, [Validators.required]],
-    titulo: [null, [Validators.required, Validators.minLength(1), Validators.maxLength(100)]],
+    dataRegistro: [null, [Validators.required]],
     dataVerificacao: [null, [Validators.required]],
-    checklist: [null, Validators.required]
+    checklist: [null, Validators.required],
+    anexos: []
   });
 
   constructor(
     protected resultadoChecklistService: ResultadoChecklistService,
     protected checklistService: ChecklistService,
+    protected anexoService: AnexoService,
     protected activatedRoute: ActivatedRoute,
     protected userService: UserService,
     private fb: FormBuilder
@@ -54,6 +62,15 @@ export class ResultadoChecklistUpdateComponent implements OnInit {
           })
         )
         .subscribe((resBody: IChecklist[]) => (this.checklists = resBody));
+
+      this.anexoService
+        .query()
+        .pipe(
+          map((res: HttpResponse<IAnexo[]>) => {
+            return res.body ? res.body : [];
+          })
+        )
+        .subscribe((resBody: IAnexo[]) => (this.anexos = resBody));
 
       this.userService
         .query()
@@ -74,9 +91,10 @@ export class ResultadoChecklistUpdateComponent implements OnInit {
     this.editForm.patchValue({
       id: resultadoChecklist.id,
       idUsuarioRegistro: resultadoChecklist.idUsuarioRegistro,
-      titulo: resultadoChecklist.titulo,
+      dataRegistro: resultadoChecklist.dataRegistro != null ? resultadoChecklist.dataRegistro.format(DATE_TIME_FORMAT) : null,
       dataVerificacao: resultadoChecklist.dataVerificacao != null ? resultadoChecklist.dataVerificacao.format(DATE_TIME_FORMAT) : null,
-      checklist: resultadoChecklist.checklist
+      checklist: resultadoChecklist.checklist,
+      anexos: resultadoChecklist.anexos
     });
   }
 
@@ -99,12 +117,16 @@ export class ResultadoChecklistUpdateComponent implements OnInit {
       ...new ResultadoChecklist(),
       id: this.editForm.get(['id'])!.value,
       idUsuarioRegistro: this.editForm.get(['idUsuarioRegistro'])!.value,
-      titulo: this.editForm.get(['titulo'])!.value,
+      dataRegistro:
+        this.editForm.get(['dataRegistro'])!.value != null
+          ? moment(this.editForm.get(['dataRegistro'])!.value, DATE_TIME_FORMAT)
+          : undefined,
       dataVerificacao:
         this.editForm.get(['dataVerificacao'])!.value != null
           ? moment(this.editForm.get(['dataVerificacao'])!.value, DATE_TIME_FORMAT)
           : undefined,
-      checklist: this.editForm.get(['checklist'])!.value
+      checklist: this.editForm.get(['checklist'])!.value,
+      anexos: this.editForm.get(['anexos'])!.value
     };
   }
 
@@ -124,7 +146,18 @@ export class ResultadoChecklistUpdateComponent implements OnInit {
     this.isSaving = false;
   }
 
-  trackById(index: number, item: IChecklist): any {
+  trackById(index: number, item: SelectableEntity): any {
     return item.id;
+  }
+
+  getSelected(selectedVals: IAnexo[], option: IAnexo): IAnexo {
+    if (selectedVals) {
+      for (let i = 0; i < selectedVals.length; i++) {
+        if (option.id === selectedVals[i].id) {
+          return selectedVals[i];
+        }
+      }
+    }
+    return option;
   }
 }

@@ -19,24 +19,24 @@
             <thead>
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
             <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  jhiSortBy="tipo"><span jhiTranslate="gatewayApp.sgqAuditoria.tipo">Tipo</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="idUsuarioRegistro"><span jhiTranslate="gatewayApp.sgqAuditoria.idUsuarioRegistro">Id Usuario Registro</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="titulo"><span jhiTranslate="gatewayApp.sgqAuditoria.titulo">Titulo</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="descricao"><span jhiTranslate="gatewayApp.sgqAuditoria.descricao">Descricao</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  jhiSortBy="processo.titulo"><span jhiTranslate="gatewayApp.sgqAuditoria.processo">Processo</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="dataRegistro"><span jhiTranslate="gatewayApp.sgqAuditoria.dataRegistro">Data Registro</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="dataInicio"><span jhiTranslate="gatewayApp.sgqAuditoria.dataInicio">Data Inicio</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="dataFim"><span jhiTranslate="gatewayApp.sgqAuditoria.dataFim">Data Fim</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"></th>
             </tr>
             </thead>
             <tbody>
             <tr *ngFor="let auditoria of auditorias ;trackBy: trackId">
                 <td><a [routerLink]="['/auditoria', auditoria.id, 'view' ]">{{auditoria.id}}</a></td>
-                <td jhiTranslate="{{'gatewayApp.TipoAuditoria.' + auditoria.tipo}}">{{auditoria.tipo}}</td>
+                <td>{{auditoria.idUsuarioRegistro}}</td>
                 <td>{{auditoria.titulo}}</td>
                 <td>{{auditoria.descricao}}</td>
-                <td>
-                    <div *ngIf="auditoria.processo">
-                        <a [routerLink]="['/processo', auditoria.processo?.id, 'view' ]" >{{auditoria.processo?.titulo}}</a>
-                    </div>
-                </td>
+                <td>{{auditoria.dataRegistro | date:'medium'}}</td>
+                <td>{{auditoria.dataInicio | date:'medium'}}</td>
+                <td>{{auditoria.dataFim | date:'medium'}}</td>
                 <td class="text-right">
                     <div class="btn-group">
                         <button type="submit"

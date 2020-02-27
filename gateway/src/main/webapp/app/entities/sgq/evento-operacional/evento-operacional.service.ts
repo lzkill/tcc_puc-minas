@@ -52,6 +52,8 @@ export class EventoOperacionalService {
 
   protected convertDateFromClient(eventoOperacional: IEventoOperacional): IEventoOperacional {
     const copy: IEventoOperacional = Object.assign({}, eventoOperacional, {
+      dataRegistro:
+        eventoOperacional.dataRegistro && eventoOperacional.dataRegistro.isValid() ? eventoOperacional.dataRegistro.toJSON() : undefined,
       dataEvento: eventoOperacional.dataEvento && eventoOperacional.dataEvento.isValid() ? eventoOperacional.dataEvento.toJSON() : undefined
     });
     return copy;
@@ -59,6 +61,7 @@ export class EventoOperacionalService {
 
   protected convertDateFromServer(res: EntityResponseType): EntityResponseType {
     if (res.body) {
+      res.body.dataRegistro = res.body.dataRegistro ? moment(res.body.dataRegistro) : undefined;
       res.body.dataEvento = res.body.dataEvento ? moment(res.body.dataEvento) : undefined;
     }
     return res;
@@ -67,6 +70,7 @@ export class EventoOperacionalService {
   protected convertDateArrayFromServer(res: EntityArrayResponseType): EntityArrayResponseType {
     if (res.body) {
       res.body.forEach((eventoOperacional: IEventoOperacional) => {
+        eventoOperacional.dataRegistro = eventoOperacional.dataRegistro ? moment(eventoOperacional.dataRegistro) : undefined;
         eventoOperacional.dataEvento = eventoOperacional.dataEvento ? moment(eventoOperacional.dataEvento) : undefined;
       });
     }

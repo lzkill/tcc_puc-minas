@@ -28,6 +28,8 @@ public class EmpresaCriteria implements Serializable, Criteria {
 
     private StringFilter nome;
 
+    private BooleanFilter habilitado;
+
     private LongFilter produtoId;
 
     private LongFilter setorId;
@@ -38,6 +40,7 @@ public class EmpresaCriteria implements Serializable, Criteria {
     public EmpresaCriteria(EmpresaCriteria other){
         this.id = other.id == null ? null : other.id.copy();
         this.nome = other.nome == null ? null : other.nome.copy();
+        this.habilitado = other.habilitado == null ? null : other.habilitado.copy();
         this.produtoId = other.produtoId == null ? null : other.produtoId.copy();
         this.setorId = other.setorId == null ? null : other.setorId.copy();
     }
@@ -61,6 +64,14 @@ public class EmpresaCriteria implements Serializable, Criteria {
 
     public void setNome(StringFilter nome) {
         this.nome = nome;
+    }
+
+    public BooleanFilter getHabilitado() {
+        return habilitado;
+    }
+
+    public void setHabilitado(BooleanFilter habilitado) {
+        this.habilitado = habilitado;
     }
 
     public LongFilter getProdutoId() {
@@ -92,6 +103,7 @@ public class EmpresaCriteria implements Serializable, Criteria {
         return
             Objects.equals(id, that.id) &&
             Objects.equals(nome, that.nome) &&
+            Objects.equals(habilitado, that.habilitado) &&
             Objects.equals(produtoId, that.produtoId) &&
             Objects.equals(setorId, that.setorId);
     }
@@ -101,6 +113,7 @@ public class EmpresaCriteria implements Serializable, Criteria {
         return Objects.hash(
         id,
         nome,
+        habilitado,
         produtoId,
         setorId
         );
@@ -111,6 +124,7 @@ public class EmpresaCriteria implements Serializable, Criteria {
         return "EmpresaCriteria{" +
                 (id != null ? "id=" + id + ", " : "") +
                 (nome != null ? "nome=" + nome + ", " : "") +
+                (habilitado != null ? "habilitado=" + habilitado + ", " : "") +
                 (produtoId != null ? "produtoId=" + produtoId + ", " : "") +
                 (setorId != null ? "setorId=" + setorId + ", " : "") +
             "}";

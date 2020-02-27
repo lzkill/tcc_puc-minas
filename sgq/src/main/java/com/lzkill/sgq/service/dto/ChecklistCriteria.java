@@ -49,9 +49,11 @@ public class ChecklistCriteria implements Serializable, Criteria {
 
     private PeriodicidadeFilter periodicidade;
 
-    private LongFilter anexoId;
+    private BooleanFilter habilitado;
 
     private LongFilter itemId;
+
+    private LongFilter anexoId;
 
     private LongFilter setorId;
 
@@ -62,8 +64,9 @@ public class ChecklistCriteria implements Serializable, Criteria {
         this.id = other.id == null ? null : other.id.copy();
         this.titulo = other.titulo == null ? null : other.titulo.copy();
         this.periodicidade = other.periodicidade == null ? null : other.periodicidade.copy();
-        this.anexoId = other.anexoId == null ? null : other.anexoId.copy();
+        this.habilitado = other.habilitado == null ? null : other.habilitado.copy();
         this.itemId = other.itemId == null ? null : other.itemId.copy();
+        this.anexoId = other.anexoId == null ? null : other.anexoId.copy();
         this.setorId = other.setorId == null ? null : other.setorId.copy();
     }
 
@@ -96,12 +99,12 @@ public class ChecklistCriteria implements Serializable, Criteria {
         this.periodicidade = periodicidade;
     }
 
-    public LongFilter getAnexoId() {
-        return anexoId;
+    public BooleanFilter getHabilitado() {
+        return habilitado;
     }
 
-    public void setAnexoId(LongFilter anexoId) {
-        this.anexoId = anexoId;
+    public void setHabilitado(BooleanFilter habilitado) {
+        this.habilitado = habilitado;
     }
 
     public LongFilter getItemId() {
@@ -110,6 +113,14 @@ public class ChecklistCriteria implements Serializable, Criteria {
 
     public void setItemId(LongFilter itemId) {
         this.itemId = itemId;
+    }
+
+    public LongFilter getAnexoId() {
+        return anexoId;
+    }
+
+    public void setAnexoId(LongFilter anexoId) {
+        this.anexoId = anexoId;
     }
 
     public LongFilter getSetorId() {
@@ -134,8 +145,9 @@ public class ChecklistCriteria implements Serializable, Criteria {
             Objects.equals(id, that.id) &&
             Objects.equals(titulo, that.titulo) &&
             Objects.equals(periodicidade, that.periodicidade) &&
-            Objects.equals(anexoId, that.anexoId) &&
+            Objects.equals(habilitado, that.habilitado) &&
             Objects.equals(itemId, that.itemId) &&
+            Objects.equals(anexoId, that.anexoId) &&
             Objects.equals(setorId, that.setorId);
     }
 
@@ -145,8 +157,9 @@ public class ChecklistCriteria implements Serializable, Criteria {
         id,
         titulo,
         periodicidade,
-        anexoId,
+        habilitado,
         itemId,
+        anexoId,
         setorId
         );
     }
@@ -157,8 +170,9 @@ public class ChecklistCriteria implements Serializable, Criteria {
                 (id != null ? "id=" + id + ", " : "") +
                 (titulo != null ? "titulo=" + titulo + ", " : "") +
                 (periodicidade != null ? "periodicidade=" + periodicidade + ", " : "") +
-                (anexoId != null ? "anexoId=" + anexoId + ", " : "") +
+                (habilitado != null ? "habilitado=" + habilitado + ", " : "") +
                 (itemId != null ? "itemId=" + itemId + ", " : "") +
+                (anexoId != null ? "anexoId=" + anexoId + ", " : "") +
                 (setorId != null ? "setorId=" + setorId + ", " : "") +
             "}";
     }

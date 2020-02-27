@@ -8,12 +8,24 @@
     -->
     <changeSet id="20200208160354-2" author="jhipster">
         
-        <addForeignKeyConstraint baseColumnNames="auditoria_id"
+        <addForeignKeyConstraint baseColumnNames="item_auditoria_id"
                                  baseTableName="item_plano_auditoria"
-                                 constraintName="fk_item_plano_auditoria_auditoria_id"
+                                 constraintName="fk_item_plano_auditoria_item_auditoria_id"
                                  referencedColumnNames="id"
-                                 referencedTableName="auditoria"/>
+                                 referencedTableName="item_auditoria"/>
 
+        <addForeignKeyConstraint baseColumnNames="item_plano_auditoria_id"
+                                 baseTableName="item_plano_auditoria_anexo"
+                                 constraintName="fk_item_plano_auditoria_anexo_item_plano_auditoria_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="item_plano_auditoria"/>
+
+        <addForeignKeyConstraint baseColumnNames="anexo_id"
+                                 baseTableName="item_plano_auditoria_anexo"
+                                 constraintName="fk_item_plano_auditoria_anexo_anexo_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="anexo"/>
+        
         <addForeignKeyConstraint baseColumnNames="plano_id"
                                  baseTableName="item_plano_auditoria"
                                  constraintName="fk_item_plano_auditoria_plano_id"

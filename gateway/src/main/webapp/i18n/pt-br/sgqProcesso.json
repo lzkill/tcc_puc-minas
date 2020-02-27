@@ -3,27 +3,28 @@
     "sgqProcesso": {
       "home": {
         "title": "Processos",
-        "createLabel": "Adicionar",
-        "createOrEditLabel": "Criar ou editar processo",
-        "notFound": "Nenhum processo encontrado"
+        "createLabel": "Criar novo Processo",
+        "createOrEditLabel": "Criar ou editar Processo",
+        "notFound": "Nenhum Processo encontrado"
       },
       "delete": {
-        "question": "Tem certeza de que deseja excluir o processo {{ id }}?"
+        "question": "Tem certeza de que deseja excluir Processo {{ id }}?"
       },
       "detail": {
         "title": "Processo"
       },
-      "titulo": "Título",
-      "descricao": "Descrição",
+      "titulo": "Titulo",
+      "descricao": "Descricao",
+      "habilitado": "Habilitado",
       "anexo": "Anexo",
       "setor": "Setor"
     }
   },
   "sgqApp": {
-    "sgqprocesso": {
-      "created": "Um novo processo foi criado com o identificador {{ param }}",
-      "updated": "Um processo foi atualizado com o identificador {{ param }}",
-      "deleted": "Um processo foi excluído com o identificador {{ param }}"
+    "sgqProcesso": {
+      "created": "Um novo Processo foi criado com o identificador {{ param }}",
+      "updated": "Um Processo foi atualizado com o identificador {{ param }}",
+      "deleted": "Um Processo foi excluído com o identificador {{ param }}"
     }
   }
 }

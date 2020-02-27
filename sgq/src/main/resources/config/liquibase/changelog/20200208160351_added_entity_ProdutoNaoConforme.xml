@@ -20,7 +20,7 @@
                 <constraints nullable="false" />
             </column>
             <column name="id_usuario_responsavel" type="integer">
-                <constraints nullable="false" />
+                <constraints nullable="true" />
             </column>
             <column name="titulo" type="varchar(100)">
                 <constraints nullable="false" />
@@ -28,8 +28,8 @@
             <column name="descricao" type="${clobType}">
                 <constraints nullable="false" />
             </column>
-            <column name="procedente" type="boolean" remarks="O fato descrito configura de fato um PNC">
-                <constraints nullable="false" />
+            <column name="procedente" type="boolean" remarks="O fato descrito configura de fato um PNC?">
+                <constraints nullable="true" />
             </column>
             <column name="data_registro" type="datetime">
                 <constraints nullable="false" />
@@ -41,7 +41,7 @@
                 <constraints nullable="false" />
             </column>
             <column name="acao_id" type="bigint">
-                <constraints unique="true" nullable="false" uniqueConstraintName="ux_produto_nao_conforme_acao_id" />
+                <constraints unique="true" nullable="true" uniqueConstraintName="ux_produto_nao_conforme_acao_id" />
             </column>
             <column name="nao_conformidade_id" type="bigint">
                 <constraints unique="true" nullable="true" uniqueConstraintName="ux_produto_nao_conforme_nao_conformidade_id" />
@@ -49,10 +49,7 @@
             <column name="produto_id" type="bigint">
                 <constraints nullable="false" />
             </column>
-            <column name="resultado_auditoria_id" type="bigint">
-                <constraints nullable="true" />
-            </column>
-            <column name="resultado_item_checklist_id" type="bigint">
+            <column name="resultado_checklist_id" type="bigint">
                 <constraints nullable="true" />
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
@@ -62,6 +59,17 @@
 
     <changeSet id="20200208160351-1-relations" author="jhipster">
 
+        <createTable tableName="produto_nao_conforme_anexo">
+            <column name="anexo_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="produto_nao_conforme_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addPrimaryKey columnNames="produto_nao_conforme_id, anexo_id" tableName="produto_nao_conforme_anexo"/>
+        
     </changeSet>
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here, do not remove-->
 
@@ -87,7 +95,6 @@
             <column name="data_registro" type="datetime"/>
             <column name="analise_final" type="clob"/>
             <column name="status_sgq" type="string"/>
-            <column name="acao_id" type="numeric"/>
             <column name="produto_id" type="numeric"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here, do not remove-->
         </loadData>

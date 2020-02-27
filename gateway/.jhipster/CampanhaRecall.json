@@ -40,18 +40,19 @@
             "fieldType": "Instant"
         },
         {
-            "fieldName": "resultado",
-            "fieldType": "byte[]",
-            "fieldTypeBlobContent": "text"
+            "fieldName": "dataPublicacao",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "status",
+            "fieldType": "StatusPublicacao",
+            "fieldValues": "RASCUNHO,APROVADO,PUBLICADO",
+            "fieldValidateRules": [
+                "required"
+            ]
         }
     ],
     "relationships": [
-        {
-            "relationshipType": "one-to-many",
-            "otherEntityName": "anexo",
-            "otherEntityRelationshipName": "campanhaRecall",
-            "relationshipName": "anexo"
-        },
         {
             "relationshipType": "many-to-one",
             "otherEntityName": "produto",
@@ -67,6 +68,14 @@
             "relationshipValidateRules": "required",
             "relationshipName": "setorResponsavel",
             "otherEntityField": "nome"
+        },
+        {
+            "relationshipType": "many-to-many",
+            "otherEntityName": "anexo",
+            "otherEntityRelationshipName": "campanhaRecall",
+            "relationshipName": "anexo",
+            "otherEntityField": "nomeArquivo",
+            "ownerSide": true
         }
     ],
     "changelogDate": "20200208160400",

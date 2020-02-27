@@ -100,9 +100,11 @@ public class CampanhaRecallQueryService extends QueryService<CampanhaRecall> {
             if (criteria.getDataFim() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getDataFim(), CampanhaRecall_.dataFim));
             }
-            if (criteria.getAnexoId() != null) {
-                specification = specification.and(buildSpecification(criteria.getAnexoId(),
-                    root -> root.join(CampanhaRecall_.anexos, JoinType.LEFT).get(Anexo_.id)));
+            if (criteria.getDataPublicacao() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getDataPublicacao(), CampanhaRecall_.dataPublicacao));
+            }
+            if (criteria.getStatus() != null) {
+                specification = specification.and(buildSpecification(criteria.getStatus(), CampanhaRecall_.status));
             }
             if (criteria.getProdutoId() != null) {
                 specification = specification.and(buildSpecification(criteria.getProdutoId(),
@@ -111,6 +113,10 @@ public class CampanhaRecallQueryService extends QueryService<CampanhaRecall> {
             if (criteria.getSetorResponsavelId() != null) {
                 specification = specification.and(buildSpecification(criteria.getSetorResponsavelId(),
                     root -> root.join(CampanhaRecall_.setorResponsavel, JoinType.LEFT).get(Setor_.id)));
+            }
+            if (criteria.getAnexoId() != null) {
+                specification = specification.and(buildSpecification(criteria.getAnexoId(),
+                    root -> root.join(CampanhaRecall_.anexos, JoinType.LEFT).get(Anexo_.id)));
             }
         }
         return specification;

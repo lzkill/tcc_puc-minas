@@ -2,18 +2,14 @@
     "name": "AnaliseConsultoria",
     "fields": [
         {
-            "fieldName": "dataSolicitacaoAnalise",
+            "fieldName": "dataAnalise",
             "fieldType": "Instant",
             "fieldValidateRules": [
                 "required"
             ]
         },
         {
-            "fieldName": "dataAnalise",
-            "fieldType": "Instant"
-        },
-        {
-            "fieldName": "descricao",
+            "fieldName": "conteudo",
             "fieldType": "byte[]",
             "fieldTypeBlobContent": "text",
             "fieldValidateRules": [
@@ -21,7 +17,7 @@
             ]
         },
         {
-            "fieldName": "responsavelAnalise",
+            "fieldName": "responsavel",
             "fieldType": "String",
             "fieldValidateRules": [
                 "required",
@@ -33,8 +29,8 @@
         },
         {
             "fieldName": "status",
-            "fieldType": "StatusAnaliseExterna",
-            "fieldValues": "PENDENTE,APROVADO,REPROVADO",
+            "fieldType": "StatusAprovacao",
+            "fieldValues": "APROVADO,APROVADO_PARCIALMENTE,REPROVADO",
             "fieldValidateRules": [
                 "required"
             ]
@@ -42,31 +38,23 @@
     ],
     "relationships": [
         {
-            "relationshipType": "one-to-one",
-            "otherEntityName": "acaoSGQ",
+            "relationshipType": "many-to-many",
+            "otherEntityName": "anexo",
             "otherEntityRelationshipName": "analiseConsultoria",
-            "relationshipValidateRules": "required",
-            "relationshipName": "acao",
-            "otherEntityField": "titulo",
+            "relationshipName": "anexo",
+            "otherEntityField": "nomeArquivo",
             "ownerSide": true
         },
         {
-            "relationshipType": "one-to-many",
-            "otherEntityName": "anexo",
-            "otherEntityRelationshipName": "analiseConsultoria",
-            "relationshipName": "anexo"
-        },
-        {
-            "relationshipType": "many-to-one",
-            "otherEntityName": "empresaConsultoria",
+            "relationshipType": "one-to-one",
+            "otherEntityName": "solicitacaoAnalise",
             "otherEntityRelationshipName": "analiseConsultoria",
             "relationshipValidateRules": "required",
-            "relationshipName": "empresa",
-            "otherEntityField": "nome"
+            "relationshipName": "solicitacaoAnalise",
+            "ownerSide": false
         }
     ],
     "changelogDate": "20200208160409",
-    "javadoc": "Os itens do plano de ação podem ser analisados pela consultoria antes da\\nimplementação na prática",
     "entityTableName": "analise_consultoria",
     "dto": "no",
     "pagination": "pagination",

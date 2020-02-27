@@ -34,8 +34,7 @@ public class NaoConformidade implements Serializable {
     @Column(name = "id_usuario_registro", nullable = false)
     private Integer idUsuarioRegistro;
 
-    @NotNull
-    @Column(name = "id_usuario_responsavel", nullable = false)
+    @Column(name = "id_usuario_responsavel")
     private Integer idUsuarioResponsavel;
 
     @NotNull
@@ -45,15 +44,14 @@ public class NaoConformidade implements Serializable {
 
     
     @Lob
-    @Column(name = "fato", nullable = false)
-    private String fato;
+    @Column(name = "descricao", nullable = false)
+    private String descricao;
 
     /**
-     * O fato descrito implica de fato uma NC
+     * O fato descrito implica de fato uma NC?
      */
-    @NotNull
-    @ApiModelProperty(value = "O fato descrito implica de fato uma NC", required = true)
-    @Column(name = "procedente", nullable = false)
+    @ApiModelProperty(value = "O fato descrito implica de fato uma NC?")
+    @Column(name = "procedente")
     private Boolean procedente;
 
     /**
@@ -64,8 +62,7 @@ public class NaoConformidade implements Serializable {
     @Column(name = "causa")
     private String causa;
 
-    @NotNull
-    @Column(name = "prazo_conclusao", nullable = false)
+    @Column(name = "prazo_conclusao")
     private Instant prazoConclusao;
 
     @Column(name = "novo_prazo_conclusao")
@@ -93,19 +90,22 @@ public class NaoConformidade implements Serializable {
 
     @OneToMany(mappedBy = "naoConformidade")
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<Anexo> anexos = new HashSet<>();
-
-    @OneToMany(mappedBy = "naoConformidade")
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<AcaoSGQ> acaoSGQS = new HashSet<>();
 
-    @ManyToOne
-    @JsonIgnoreProperties("naoConformidades")
-    private ResultadoAuditoria resultadoAuditoria;
+    @ManyToMany
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    @JoinTable(name = "nao_conformidade_anexo",
+               joinColumns = @JoinColumn(name = "nao_conformidade_id", referencedColumnName = "id"),
+               inverseJoinColumns = @JoinColumn(name = "anexo_id", referencedColumnName = "id"))
+    private Set<Anexo> anexos = new HashSet<>();
 
     @ManyToOne
     @JsonIgnoreProperties("naoConformidades")
-    private ResultadoItemChecklist resultadoItemChecklist;
+    private Auditoria auditoria;
+
+    @ManyToOne
+    @JsonIgnoreProperties("naoConformidades")
+    private ResultadoChecklist resultadoChecklist;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -155,17 +155,17 @@ public class NaoConformidade implements Serializable {
         this.titulo = titulo;
     }
 
-    public String getFato() {
-        return fato;
+    public String getDescricao() {
+        return descricao;
     }
 
-    public NaoConformidade fato(String fato) {
-        this.fato = fato;
+    public NaoConformidade descricao(String descricao) {
+        this.descricao = descricao;
         return this;
     }
 
-    public void setFato(String fato) {
-        this.fato = fato;
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
     }
 
     public Boolean isProcedente() {
@@ -272,31 +272,6 @@ public class NaoConformidade implements Serializable {
         this.statusSGQ = statusSGQ;
     }
 
-    public Set<Anexo> getAnexos() {
-        return anexos;
-    }
-
-    public NaoConformidade anexos(Set<Anexo> anexos) {
-        this.anexos = anexos;
-        return this;
-    }
-
-    public NaoConformidade addAnexo(Anexo anexo) {
-        this.anexos.add(anexo);
-        anexo.setNaoConformidade(this);
-        return this;
-    }
-
-    public NaoConformidade removeAnexo(Anexo anexo) {
-        this.anexos.remove(anexo);
-        anexo.setNaoConformidade(null);
-        return this;
-    }
-
-    public void setAnexos(Set<Anexo> anexos) {
-        this.anexos = anexos;
-    }
-
     public Set<AcaoSGQ> getAcaoSGQS() {
         return acaoSGQS;
     }
@@ -322,30 +297,55 @@ public class NaoConformidade implements Serializable {
         this.acaoSGQS = acaoSGQS;
     }
 
-    public ResultadoAuditoria getResultadoAuditoria() {
-        return resultadoAuditoria;
+    public Set<Anexo> getAnexos() {
+        return anexos;
     }
 
-    public NaoConformidade resultadoAuditoria(ResultadoAuditoria resultadoAuditoria) {
-        this.resultadoAuditoria = resultadoAuditoria;
+    public NaoConformidade anexos(Set<Anexo> anexos) {
+        this.anexos = anexos;
         return this;
     }
 
-    public void setResultadoAuditoria(ResultadoAuditoria resultadoAuditoria) {
-        this.resultadoAuditoria = resultadoAuditoria;
-    }
-
-    public ResultadoItemChecklist getResultadoItemChecklist() {
-        return resultadoItemChecklist;
-    }
-
-    public NaoConformidade resultadoItemChecklist(ResultadoItemChecklist resultadoItemChecklist) {
-        this.resultadoItemChecklist = resultadoItemChecklist;
+    public NaoConformidade addAnexo(Anexo anexo) {
+        this.anexos.add(anexo);
+        anexo.getNaoConformidades().add(this);
         return this;
     }
 
-    public void setResultadoItemChecklist(ResultadoItemChecklist resultadoItemChecklist) {
-        this.resultadoItemChecklist = resultadoItemChecklist;
+    public NaoConformidade removeAnexo(Anexo anexo) {
+        this.anexos.remove(anexo);
+        anexo.getNaoConformidades().remove(this);
+        return this;
+    }
+
+    public void setAnexos(Set<Anexo> anexos) {
+        this.anexos = anexos;
+    }
+
+    public Auditoria getAuditoria() {
+        return auditoria;
+    }
+
+    public NaoConformidade auditoria(Auditoria auditoria) {
+        this.auditoria = auditoria;
+        return this;
+    }
+
+    public void setAuditoria(Auditoria auditoria) {
+        this.auditoria = auditoria;
+    }
+
+    public ResultadoChecklist getResultadoChecklist() {
+        return resultadoChecklist;
+    }
+
+    public NaoConformidade resultadoChecklist(ResultadoChecklist resultadoChecklist) {
+        this.resultadoChecklist = resultadoChecklist;
+        return this;
+    }
+
+    public void setResultadoChecklist(ResultadoChecklist resultadoChecklist) {
+        this.resultadoChecklist = resultadoChecklist;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
@@ -372,7 +372,7 @@ public class NaoConformidade implements Serializable {
             ", idUsuarioRegistro=" + getIdUsuarioRegistro() +
             ", idUsuarioResponsavel=" + getIdUsuarioResponsavel() +
             ", titulo='" + getTitulo() + "'" +
-            ", fato='" + getFato() + "'" +
+            ", descricao='" + getDescricao() + "'" +
             ", procedente='" + isProcedente() + "'" +
             ", causa='" + getCausa() + "'" +
             ", prazoConclusao='" + getPrazoConclusao() + "'" +

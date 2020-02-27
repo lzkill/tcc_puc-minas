@@ -3,7 +3,7 @@ package com.lzkill.sgq.service.dto;
 import java.io.Serializable;
 import java.util.Objects;
 import io.github.jhipster.service.Criteria;
-import com.lzkill.sgq.domain.enumeration.StatusAnaliseExterna;
+import com.lzkill.sgq.domain.enumeration.StatusAprovacao;
 import io.github.jhipster.service.filter.BooleanFilter;
 import io.github.jhipster.service.filter.DoubleFilter;
 import io.github.jhipster.service.filter.Filter;
@@ -24,20 +24,20 @@ import io.github.jhipster.service.filter.InstantFilter;
  */
 public class AnaliseConsultoriaCriteria implements Serializable, Criteria {
     /**
-     * Class for filtering StatusAnaliseExterna
+     * Class for filtering StatusAprovacao
      */
-    public static class StatusAnaliseExternaFilter extends Filter<StatusAnaliseExterna> {
+    public static class StatusAprovacaoFilter extends Filter<StatusAprovacao> {
 
-        public StatusAnaliseExternaFilter() {
+        public StatusAprovacaoFilter() {
         }
 
-        public StatusAnaliseExternaFilter(StatusAnaliseExternaFilter filter) {
+        public StatusAprovacaoFilter(StatusAprovacaoFilter filter) {
             super(filter);
         }
 
         @Override
-        public StatusAnaliseExternaFilter copy() {
-            return new StatusAnaliseExternaFilter(this);
+        public StatusAprovacaoFilter copy() {
+            return new StatusAprovacaoFilter(this);
         }
 
     }
@@ -46,32 +46,26 @@ public class AnaliseConsultoriaCriteria implements Serializable, Criteria {
 
     private LongFilter id;
 
-    private InstantFilter dataSolicitacaoAnalise;
-
     private InstantFilter dataAnalise;
 
-    private StringFilter responsavelAnalise;
+    private StringFilter responsavel;
 
-    private StatusAnaliseExternaFilter status;
-
-    private LongFilter acaoId;
+    private StatusAprovacaoFilter status;
 
     private LongFilter anexoId;
 
-    private LongFilter empresaId;
+    private LongFilter solicitacaoAnaliseId;
 
     public AnaliseConsultoriaCriteria(){
     }
 
     public AnaliseConsultoriaCriteria(AnaliseConsultoriaCriteria other){
         this.id = other.id == null ? null : other.id.copy();
-        this.dataSolicitacaoAnalise = other.dataSolicitacaoAnalise == null ? null : other.dataSolicitacaoAnalise.copy();
         this.dataAnalise = other.dataAnalise == null ? null : other.dataAnalise.copy();
-        this.responsavelAnalise = other.responsavelAnalise == null ? null : other.responsavelAnalise.copy();
+        this.responsavel = other.responsavel == null ? null : other.responsavel.copy();
         this.status = other.status == null ? null : other.status.copy();
-        this.acaoId = other.acaoId == null ? null : other.acaoId.copy();
         this.anexoId = other.anexoId == null ? null : other.anexoId.copy();
-        this.empresaId = other.empresaId == null ? null : other.empresaId.copy();
+        this.solicitacaoAnaliseId = other.solicitacaoAnaliseId == null ? null : other.solicitacaoAnaliseId.copy();
     }
 
     @Override
@@ -87,14 +81,6 @@ public class AnaliseConsultoriaCriteria implements Serializable, Criteria {
         this.id = id;
     }
 
-    public InstantFilter getDataSolicitacaoAnalise() {
-        return dataSolicitacaoAnalise;
-    }
-
-    public void setDataSolicitacaoAnalise(InstantFilter dataSolicitacaoAnalise) {
-        this.dataSolicitacaoAnalise = dataSolicitacaoAnalise;
-    }
-
     public InstantFilter getDataAnalise() {
         return dataAnalise;
     }
@@ -103,28 +89,20 @@ public class AnaliseConsultoriaCriteria implements Serializable, Criteria {
         this.dataAnalise = dataAnalise;
     }
 
-    public StringFilter getResponsavelAnalise() {
-        return responsavelAnalise;
+    public StringFilter getResponsavel() {
+        return responsavel;
     }
 
-    public void setResponsavelAnalise(StringFilter responsavelAnalise) {
-        this.responsavelAnalise = responsavelAnalise;
+    public void setResponsavel(StringFilter responsavel) {
+        this.responsavel = responsavel;
     }
 
-    public StatusAnaliseExternaFilter getStatus() {
+    public StatusAprovacaoFilter getStatus() {
         return status;
     }
 
-    public void setStatus(StatusAnaliseExternaFilter status) {
+    public void setStatus(StatusAprovacaoFilter status) {
         this.status = status;
-    }
-
-    public LongFilter getAcaoId() {
-        return acaoId;
-    }
-
-    public void setAcaoId(LongFilter acaoId) {
-        this.acaoId = acaoId;
     }
 
     public LongFilter getAnexoId() {
@@ -135,12 +113,12 @@ public class AnaliseConsultoriaCriteria implements Serializable, Criteria {
         this.anexoId = anexoId;
     }
 
-    public LongFilter getEmpresaId() {
-        return empresaId;
+    public LongFilter getSolicitacaoAnaliseId() {
+        return solicitacaoAnaliseId;
     }
 
-    public void setEmpresaId(LongFilter empresaId) {
-        this.empresaId = empresaId;
+    public void setSolicitacaoAnaliseId(LongFilter solicitacaoAnaliseId) {
+        this.solicitacaoAnaliseId = solicitacaoAnaliseId;
     }
 
 
@@ -155,26 +133,22 @@ public class AnaliseConsultoriaCriteria implements Serializable, Criteria {
         final AnaliseConsultoriaCriteria that = (AnaliseConsultoriaCriteria) o;
         return
             Objects.equals(id, that.id) &&
-            Objects.equals(dataSolicitacaoAnalise, that.dataSolicitacaoAnalise) &&
             Objects.equals(dataAnalise, that.dataAnalise) &&
-            Objects.equals(responsavelAnalise, that.responsavelAnalise) &&
+            Objects.equals(responsavel, that.responsavel) &&
             Objects.equals(status, that.status) &&
-            Objects.equals(acaoId, that.acaoId) &&
             Objects.equals(anexoId, that.anexoId) &&
-            Objects.equals(empresaId, that.empresaId);
+            Objects.equals(solicitacaoAnaliseId, that.solicitacaoAnaliseId);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(
         id,
-        dataSolicitacaoAnalise,
         dataAnalise,
-        responsavelAnalise,
+        responsavel,
         status,
-        acaoId,
         anexoId,
-        empresaId
+        solicitacaoAnaliseId
         );
     }
 
@@ -182,13 +156,11 @@ public class AnaliseConsultoriaCriteria implements Serializable, Criteria {
     public String toString() {
         return "AnaliseConsultoriaCriteria{" +
                 (id != null ? "id=" + id + ", " : "") +
-                (dataSolicitacaoAnalise != null ? "dataSolicitacaoAnalise=" + dataSolicitacaoAnalise + ", " : "") +
                 (dataAnalise != null ? "dataAnalise=" + dataAnalise + ", " : "") +
-                (responsavelAnalise != null ? "responsavelAnalise=" + responsavelAnalise + ", " : "") +
+                (responsavel != null ? "responsavel=" + responsavel + ", " : "") +
                 (status != null ? "status=" + status + ", " : "") +
-                (acaoId != null ? "acaoId=" + acaoId + ", " : "") +
                 (anexoId != null ? "anexoId=" + anexoId + ", " : "") +
-                (empresaId != null ? "empresaId=" + empresaId + ", " : "") +
+                (solicitacaoAnaliseId != null ? "solicitacaoAnaliseId=" + solicitacaoAnaliseId + ", " : "") +
             "}";
     }
 

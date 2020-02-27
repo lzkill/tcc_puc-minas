@@ -28,6 +28,8 @@ public class SetorCriteria implements Serializable, Criteria {
 
     private StringFilter nome;
 
+    private BooleanFilter habilitado;
+
     private LongFilter checklistId;
 
     private LongFilter processoId;
@@ -40,6 +42,7 @@ public class SetorCriteria implements Serializable, Criteria {
     public SetorCriteria(SetorCriteria other){
         this.id = other.id == null ? null : other.id.copy();
         this.nome = other.nome == null ? null : other.nome.copy();
+        this.habilitado = other.habilitado == null ? null : other.habilitado.copy();
         this.checklistId = other.checklistId == null ? null : other.checklistId.copy();
         this.processoId = other.processoId == null ? null : other.processoId.copy();
         this.empresaId = other.empresaId == null ? null : other.empresaId.copy();
@@ -64,6 +67,14 @@ public class SetorCriteria implements Serializable, Criteria {
 
     public void setNome(StringFilter nome) {
         this.nome = nome;
+    }
+
+    public BooleanFilter getHabilitado() {
+        return habilitado;
+    }
+
+    public void setHabilitado(BooleanFilter habilitado) {
+        this.habilitado = habilitado;
     }
 
     public LongFilter getChecklistId() {
@@ -103,6 +114,7 @@ public class SetorCriteria implements Serializable, Criteria {
         return
             Objects.equals(id, that.id) &&
             Objects.equals(nome, that.nome) &&
+            Objects.equals(habilitado, that.habilitado) &&
             Objects.equals(checklistId, that.checklistId) &&
             Objects.equals(processoId, that.processoId) &&
             Objects.equals(empresaId, that.empresaId);
@@ -113,6 +125,7 @@ public class SetorCriteria implements Serializable, Criteria {
         return Objects.hash(
         id,
         nome,
+        habilitado,
         checklistId,
         processoId,
         empresaId
@@ -124,6 +137,7 @@ public class SetorCriteria implements Serializable, Criteria {
         return "SetorCriteria{" +
                 (id != null ? "id=" + id + ", " : "") +
                 (nome != null ? "nome=" + nome + ", " : "") +
+                (habilitado != null ? "habilitado=" + habilitado + ", " : "") +
                 (checklistId != null ? "checklistId=" + checklistId + ", " : "") +
                 (processoId != null ? "processoId=" + processoId + ", " : "") +
                 (empresaId != null ? "empresaId=" + empresaId + ", " : "") +

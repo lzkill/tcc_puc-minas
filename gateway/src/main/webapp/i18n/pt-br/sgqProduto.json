@@ -3,27 +3,28 @@
     "sgqProduto": {
       "home": {
         "title": "Produtos",
-        "createLabel": "Adicionar",
-        "createOrEditLabel": "Criar ou editar produto",
-        "notFound": "Nenhum produto encontrado"
+        "createLabel": "Criar novo Produto",
+        "createOrEditLabel": "Criar ou editar Produto",
+        "notFound": "Nenhum Produto encontrado"
       },
       "delete": {
-        "question": "Tem certeza de que deseja excluir o produto {{ id }}?"
+        "question": "Tem certeza de que deseja excluir Produto {{ id }}?"
       },
       "detail": {
         "title": "Produto"
       },
       "nome": "Nome",
-      "descricao": "Descrição",
+      "descricao": "Descricao",
+      "habilitado": "Habilitado",
       "anexo": "Anexo",
       "empresa": "Empresa"
     }
   },
   "sgqApp": {
-    "sgqproduto": {
-      "created": "Um novo produto foi criado com o identificador {{ param }}",
-      "updated": "Um produto foi atualizado com o identificador {{ param }}",
-      "deleted": "Um produto foi excluído com o identificador {{ param }}"
+    "sgqProduto": {
+      "created": "Um novo Produto foi criado com o identificador {{ param }}",
+      "updated": "Um Produto foi atualizado com o identificador {{ param }}",
+      "deleted": "Um Produto foi excluído com o identificador {{ param }}"
     }
   }
 }

@@ -26,5 +26,17 @@
                                  referencedColumnNames="id"
                                  referencedTableName="categoria_publicacao"/>
         
+        <addForeignKeyConstraint baseColumnNames="boletim_informativo_id"
+                                 baseTableName="boletim_informativo_anexo"
+                                 constraintName="fk_boletim_informativo_anexo_boletim_informativo_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="boletim_informativo"/>
+
+        <addForeignKeyConstraint baseColumnNames="anexo_id"
+                                 baseTableName="boletim_informativo_anexo"
+                                 constraintName="fk_boletim_informativo_anexo_anexo_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="anexo"/>
+        
     </changeSet>
 </databaseChangeLog>

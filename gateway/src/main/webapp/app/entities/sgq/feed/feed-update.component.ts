@@ -4,7 +4,6 @@ import { HttpResponse } from '@angular/common/http';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 import * as moment from 'moment';
 import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 
@@ -13,6 +12,7 @@ import { FeedService } from './feed.service';
 
 import { IUser } from 'app/core/user/user.model';
 import { UserService } from 'app/core/user/user.service';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'jhi-feed-update',
@@ -36,7 +36,7 @@ export class FeedUpdateComponent implements OnInit {
     alturaImagem: [null, [Validators.min(32), Validators.max(1024)]],
     larguraImagem: [null, [Validators.min(32), Validators.max(1024)]],
     dataRegistro: [null, [Validators.required]],
-    status: [null, [Validators.required]]
+    habilitado: [null, [Validators.required]]
   });
 
   constructor(
@@ -79,7 +79,7 @@ export class FeedUpdateComponent implements OnInit {
       alturaImagem: feed.alturaImagem,
       larguraImagem: feed.larguraImagem,
       dataRegistro: feed.dataRegistro != null ? feed.dataRegistro.format(DATE_TIME_FORMAT) : null,
-      status: feed.status
+      habilitado: feed.habilitado
     });
   }
 
@@ -115,7 +115,7 @@ export class FeedUpdateComponent implements OnInit {
         this.editForm.get(['dataRegistro'])!.value != null
           ? moment(this.editForm.get(['dataRegistro'])!.value, DATE_TIME_FORMAT)
           : undefined,
-      status: this.editForm.get(['status'])!.value
+      habilitado: this.editForm.get(['habilitado'])!.value
     };
   }
 

@@ -1,6 +1,4 @@
 package com.lzkill.sgq.domain;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import io.swagger.annotations.ApiModelProperty;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -8,8 +6,9 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 
 import java.io.Serializable;
-
-import com.lzkill.sgq.domain.enumeration.TipoAuditoria;
+import java.time.Instant;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * A Auditoria.
@@ -26,26 +25,45 @@ public class Auditoria implements Serializable {
     private Long id;
 
     @NotNull
-    @Enumerated(EnumType.STRING)
-    @Column(name = "tipo", nullable = false)
-    private TipoAuditoria tipo;
+    @Column(name = "id_usuario_registro", nullable = false)
+    private Integer idUsuarioRegistro;
 
     @NotNull
     @Size(min = 1, max = 100)
     @Column(name = "titulo", length = 100, nullable = false)
     private String titulo;
 
-    /**
-     * Requisitos abordados, objetivos, etc
-     */
-    @ApiModelProperty(value = "Requisitos abordados, objetivos, etc")
     @Lob
     @Column(name = "descricao")
     private String descricao;
 
-    @ManyToOne
-    @JsonIgnoreProperties("auditorias")
-    private Processo processo;
+    @NotNull
+    @Column(name = "data_registro", nullable = false)
+    private Instant dataRegistro;
+
+    @Column(name = "data_inicio")
+    private Instant dataInicio;
+
+    @Column(name = "data_fim")
+    private Instant dataFim;
+
+    @OneToMany(mappedBy = "auditoria")
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<NaoConformidade> naoConformidades = new HashSet<>();
+
+    @ManyToMany
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    @JoinTable(name = "auditoria_item_auditoria",
+               joinColumns = @JoinColumn(name = "auditoria_id", referencedColumnName = "id"),
+               inverseJoinColumns = @JoinColumn(name = "item_auditoria_id", referencedColumnName = "id"))
+    private Set<ItemAuditoria> itemAuditorias = new HashSet<>();
+
+    @ManyToMany
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    @JoinTable(name = "auditoria_anexo",
+               joinColumns = @JoinColumn(name = "auditoria_id", referencedColumnName = "id"),
+               inverseJoinColumns = @JoinColumn(name = "anexo_id", referencedColumnName = "id"))
+    private Set<Anexo> anexos = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -56,17 +74,17 @@ public class Auditoria implements Serializable {
         this.id = id;
     }
 
-    public TipoAuditoria getTipo() {
-        return tipo;
+    public Integer getIdUsuarioRegistro() {
+        return idUsuarioRegistro;
     }
 
-    public Auditoria tipo(TipoAuditoria tipo) {
-        this.tipo = tipo;
+    public Auditoria idUsuarioRegistro(Integer idUsuarioRegistro) {
+        this.idUsuarioRegistro = idUsuarioRegistro;
         return this;
     }
 
-    public void setTipo(TipoAuditoria tipo) {
-        this.tipo = tipo;
+    public void setIdUsuarioRegistro(Integer idUsuarioRegistro) {
+        this.idUsuarioRegistro = idUsuarioRegistro;
     }
 
     public String getTitulo() {
@@ -95,17 +113,118 @@ public class Auditoria implements Serializable {
         this.descricao = descricao;
     }
 
-    public Processo getProcesso() {
-        return processo;
+    public Instant getDataRegistro() {
+        return dataRegistro;
     }
 
-    public Auditoria processo(Processo processo) {
-        this.processo = processo;
+    public Auditoria dataRegistro(Instant dataRegistro) {
+        this.dataRegistro = dataRegistro;
         return this;
     }
 
-    public void setProcesso(Processo processo) {
-        this.processo = processo;
+    public void setDataRegistro(Instant dataRegistro) {
+        this.dataRegistro = dataRegistro;
+    }
+
+    public Instant getDataInicio() {
+        return dataInicio;
+    }
+
+    public Auditoria dataInicio(Instant dataInicio) {
+        this.dataInicio = dataInicio;
+        return this;
+    }
+
+    public void setDataInicio(Instant dataInicio) {
+        this.dataInicio = dataInicio;
+    }
+
+    public Instant getDataFim() {
+        return dataFim;
+    }
+
+    public Auditoria dataFim(Instant dataFim) {
+        this.dataFim = dataFim;
+        return this;
+    }
+
+    public void setDataFim(Instant dataFim) {
+        this.dataFim = dataFim;
+    }
+
+    public Set<NaoConformidade> getNaoConformidades() {
+        return naoConformidades;
+    }
+
+    public Auditoria naoConformidades(Set<NaoConformidade> naoConformidades) {
+        this.naoConformidades = naoConformidades;
+        return this;
+    }
+
+    public Auditoria addNaoConformidade(NaoConformidade naoConformidade) {
+        this.naoConformidades.add(naoConformidade);
+        naoConformidade.setAuditoria(this);
+        return this;
+    }
+
+    public Auditoria removeNaoConformidade(NaoConformidade naoConformidade) {
+        this.naoConformidades.remove(naoConformidade);
+        naoConformidade.setAuditoria(null);
+        return this;
+    }
+
+    public void setNaoConformidades(Set<NaoConformidade> naoConformidades) {
+        this.naoConformidades = naoConformidades;
+    }
+
+    public Set<ItemAuditoria> getItemAuditorias() {
+        return itemAuditorias;
+    }
+
+    public Auditoria itemAuditorias(Set<ItemAuditoria> itemAuditorias) {
+        this.itemAuditorias = itemAuditorias;
+        return this;
+    }
+
+    public Auditoria addItemAuditoria(ItemAuditoria itemAuditoria) {
+        this.itemAuditorias.add(itemAuditoria);
+        itemAuditoria.getAuditorias().add(this);
+        return this;
+    }
+
+    public Auditoria removeItemAuditoria(ItemAuditoria itemAuditoria) {
+        this.itemAuditorias.remove(itemAuditoria);
+        itemAuditoria.getAuditorias().remove(this);
+        return this;
+    }
+
+    public void setItemAuditorias(Set<ItemAuditoria> itemAuditorias) {
+        this.itemAuditorias = itemAuditorias;
+    }
+
+    public Set<Anexo> getAnexos() {
+        return anexos;
+    }
+
+    public Auditoria anexos(Set<Anexo> anexos) {
+        this.anexos = anexos;
+        return this;
+    }
+
+    public Auditoria addAnexo(Anexo anexo) {
+        this.anexos.add(anexo);
+        anexo.getAuditorias().add(this);
+        return this;
+    }
+
+    public Auditoria removeAnexo(Anexo anexo) {
+        this.anexos.remove(anexo);
+        anexo.getAuditorias().remove(this);
+        return this;
+    }
+
+    public void setAnexos(Set<Anexo> anexos) {
+        this.anexos = anexos;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
@@ -129,9 +248,12 @@ public class Auditoria implements Serializable {
     public String toString() {
         return "Auditoria{" +
             "id=" + getId() +
-            ", tipo='" + getTipo() + "'" +
+            ", idUsuarioRegistro=" + getIdUsuarioRegistro() +
             ", titulo='" + getTitulo() + "'" +
             ", descricao='" + getDescricao() + "'" +
+            ", dataRegistro='" + getDataRegistro() + "'" +
+            ", dataInicio='" + getDataInicio() + "'" +
+            ", dataFim='" + getDataFim() + "'" +
             "}";
     }
 }

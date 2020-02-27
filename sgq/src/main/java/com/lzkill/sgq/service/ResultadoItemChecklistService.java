@@ -50,6 +50,15 @@ public class ResultadoItemChecklistService {
         return resultadoItemChecklistRepository.findAll(pageable);
     }
 
+    /**
+     * Get all the resultadoItemChecklists with eager load of many-to-many relationships.
+     *
+     * @return the list of entities.
+     */
+    public Page<ResultadoItemChecklist> findAllWithEagerRelationships(Pageable pageable) {
+        return resultadoItemChecklistRepository.findAllWithEagerRelationships(pageable);
+    }
+    
 
     /**
      * Get one resultadoItemChecklist by id.
@@ -60,7 +69,7 @@ public class ResultadoItemChecklistService {
     @Transactional(readOnly = true)
     public Optional<ResultadoItemChecklist> findOne(Long id) {
         log.debug("Request to get ResultadoItemChecklist : {}", id);
-        return resultadoItemChecklistRepository.findById(id);
+        return resultadoItemChecklistRepository.findOneWithEagerRelationships(id);
     }
 
     /**

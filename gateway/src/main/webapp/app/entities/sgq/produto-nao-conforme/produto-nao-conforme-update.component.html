@@ -73,12 +73,6 @@
                     <label class="form-control-label" jhiTranslate="gatewayApp.sgqProdutoNaoConforme.procedente" for="field_procedente" [ngbTooltip]="'gatewayApp.sgqProdutoNaoConforme.help.procedente' | translate">Procedente</label>
                     <input type="checkbox" class="form-control" name="procedente" id="field_procedente"
                            formControlName="procedente"/>
-                    <div *ngIf="editForm.get('procedente')!.invalid && (editForm.get('procedente')!.dirty || editForm.get('procedente')!.touched)">
-                        <small class="form-text text-danger"
-                               *ngIf="editForm.get('procedente')?.errors?.required" jhiTranslate="entity.validation.required">
-                        This field is required.
-                        </small>
-                    </div>
                 </div>
                 <div class="form-group">
                     <label class="form-control-label" jhiTranslate="gatewayApp.sgqProdutoNaoConforme.dataRegistro" for="field_dataRegistro">Data Registro</label>
@@ -121,15 +115,9 @@
                 <div class="form-group">
                     <label class="form-control-label" jhiTranslate="gatewayApp.sgqProdutoNaoConforme.acao" for="field_acao">Acao</label>
                     <select class="form-control" id="field_acao" name="acao" formControlName="acao">
-                        <option *ngIf="!editForm.get('acao')!.value" [ngValue]="null" selected></option>
+                        <option [ngValue]="null"></option>
                         <option [ngValue]="acaoSGQOption.id === editForm.get('acao')!.value?.id ? editForm.get('acao')!.value : acaoSGQOption" *ngFor="let acaoSGQOption of acaos; trackBy: trackById">{{acaoSGQOption.titulo}}</option>
                     </select>
-                </div>
-                <div *ngIf="editForm.get('acao')!.invalid && (editForm.get('acao')!.dirty || editForm.get('acao')!.touched)">
-                    <small class="form-text text-danger"
-                           *ngIf="editForm.get('acao')?.errors?.required" jhiTranslate="entity.validation.required">
-                        This field is required.
-                    </small>
                 </div>
                 <div class="form-group">
                     <label class="form-control-label" jhiTranslate="gatewayApp.sgqProdutoNaoConforme.naoConformidade" for="field_naoConformidade">Nao Conformidade</label>
@@ -152,17 +140,16 @@
                     </small>
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="gatewayApp.sgqProdutoNaoConforme.resultadoAuditoria" for="field_resultadoAuditoria">Resultado Auditoria</label>
-                    <select class="form-control" id="field_resultadoAuditoria" name="resultadoAuditoria" formControlName="resultadoAuditoria">
-                        <option [ngValue]="null"></option>
-                        <option [ngValue]="resultadoAuditoriaOption.id === editForm.get('resultadoAuditoria')!.value?.id ? editForm.get('resultadoAuditoria')!.value : resultadoAuditoriaOption" *ngFor="let resultadoAuditoriaOption of resultadoauditorias; trackBy: trackById">{{resultadoAuditoriaOption.id}}</option>
+                    <label jhiTranslate="gatewayApp.sgqProdutoNaoConforme.anexo" for="field_anexos">Anexo</label>
+                    <select class="form-control" id="field_anexos" multiple name="anexos" formControlName="anexos">
+                        <option [ngValue]="getSelected(editForm.get('anexos')!.value, anexoOption)" *ngFor="let anexoOption of anexos; trackBy: trackById">{{anexoOption.nomeArquivo}}</option>
                     </select>
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="gatewayApp.sgqProdutoNaoConforme.resultadoItemChecklist" for="field_resultadoItemChecklist">Resultado Item Checklist</label>
-                    <select class="form-control" id="field_resultadoItemChecklist" name="resultadoItemChecklist" formControlName="resultadoItemChecklist">
+                    <label class="form-control-label" jhiTranslate="gatewayApp.sgqProdutoNaoConforme.resultadoChecklist" for="field_resultadoChecklist">Resultado Checklist</label>
+                    <select class="form-control" id="field_resultadoChecklist" name="resultadoChecklist" formControlName="resultadoChecklist">
                         <option [ngValue]="null"></option>
-                        <option [ngValue]="resultadoItemChecklistOption.id === editForm.get('resultadoItemChecklist')!.value?.id ? editForm.get('resultadoItemChecklist')!.value : resultadoItemChecklistOption" *ngFor="let resultadoItemChecklistOption of resultadoitemchecklists; trackBy: trackById">{{resultadoItemChecklistOption.id}}</option>
+                        <option [ngValue]="resultadoChecklistOption.id === editForm.get('resultadoChecklist')!.value?.id ? editForm.get('resultadoChecklist')!.value : resultadoChecklistOption" *ngFor="let resultadoChecklistOption of resultadochecklists; trackBy: trackById">{{resultadoChecklistOption.id}}</option>
                     </select>
                 </div>
             </div>

@@ -22,7 +22,7 @@
             <th scope="col"  jhiSortBy="idUsuarioRegistro"><span jhiTranslate="gatewayApp.sgqNaoConformidade.idUsuarioRegistro">Id Usuario Registro</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="idUsuarioResponsavel"><span jhiTranslate="gatewayApp.sgqNaoConformidade.idUsuarioResponsavel">Id Usuario Responsavel</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="titulo"><span jhiTranslate="gatewayApp.sgqNaoConformidade.titulo">Titulo</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  jhiSortBy="fato"><span jhiTranslate="gatewayApp.sgqNaoConformidade.fato">Fato</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="descricao"><span jhiTranslate="gatewayApp.sgqNaoConformidade.descricao">Descricao</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="procedente"><span jhiTranslate="gatewayApp.sgqNaoConformidade.procedente">Procedente</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="causa"><span jhiTranslate="gatewayApp.sgqNaoConformidade.causa">Causa</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="prazoConclusao"><span jhiTranslate="gatewayApp.sgqNaoConformidade.prazoConclusao">Prazo Conclusao</span> <fa-icon [icon]="'sort'"></fa-icon></th>
@@ -31,8 +31,8 @@
             <th scope="col"  jhiSortBy="dataConclusao"><span jhiTranslate="gatewayApp.sgqNaoConformidade.dataConclusao">Data Conclusao</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="analiseFinal"><span jhiTranslate="gatewayApp.sgqNaoConformidade.analiseFinal">Analise Final</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="statusSGQ"><span jhiTranslate="gatewayApp.sgqNaoConformidade.statusSGQ">Status SGQ</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  jhiSortBy="resultadoAuditoria.id"><span jhiTranslate="gatewayApp.sgqNaoConformidade.resultadoAuditoria">Resultado Auditoria</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  jhiSortBy="resultadoItemChecklist.id"><span jhiTranslate="gatewayApp.sgqNaoConformidade.resultadoItemChecklist">Resultado Item Checklist</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="auditoria.id"><span jhiTranslate="gatewayApp.sgqNaoConformidade.auditoria">Auditoria</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="resultadoChecklist.id"><span jhiTranslate="gatewayApp.sgqNaoConformidade.resultadoChecklist">Resultado Checklist</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"></th>
             </tr>
             </thead>
@@ -42,7 +42,7 @@
                 <td>{{usuarios.has(naoConformidade.idUsuarioRegistro) ? usuarios.get(naoConformidade.idUsuarioRegistro).login : ""}}</td>
                 <td>{{usuarios.has(naoConformidade.idUsuarioResponsavel) ? usuarios.get(naoConformidade.idUsuarioResponsavel).login : ""}}</td>
                 <td>{{naoConformidade.titulo}}</td>
-                <td>{{naoConformidade.fato}}</td>
+                <td>{{naoConformidade.descricao}}</td>
                 <td>{{naoConformidade.procedente}}</td>
                 <td>{{naoConformidade.causa}}</td>
                 <td>{{naoConformidade.prazoConclusao | date:'medium'}}</td>
@@ -52,13 +52,13 @@
                 <td>{{naoConformidade.analiseFinal}}</td>
                 <td jhiTranslate="{{'gatewayApp.StatusSGQ.' + naoConformidade.statusSGQ}}">{{naoConformidade.statusSGQ}}</td>
                 <td>
-                    <div *ngIf="naoConformidade.resultadoAuditoria">
-                        <a [routerLink]="['/resultado-auditoria', naoConformidade.resultadoAuditoria?.id, 'view' ]" >{{naoConformidade.resultadoAuditoria?.id}}</a>
+                    <div *ngIf="naoConformidade.auditoria">
+                        <a [routerLink]="['/auditoria', naoConformidade.auditoria?.id, 'view' ]" >{{naoConformidade.auditoria?.id}}</a>
                     </div>
                 </td>
                 <td>
-                    <div *ngIf="naoConformidade.resultadoItemChecklist">
-                        <a [routerLink]="['/resultado-item-checklist', naoConformidade.resultadoItemChecklist?.id, 'view' ]" >{{naoConformidade.resultadoItemChecklist?.id}}</a>
+                    <div *ngIf="naoConformidade.resultadoChecklist">
+                        <a [routerLink]="['/resultado-checklist', naoConformidade.resultadoChecklist?.id, 'view' ]" >{{naoConformidade.resultadoChecklist?.id}}</a>
                     </div>
                 </td>
                 <td class="text-right">

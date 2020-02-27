@@ -2,9 +2,8 @@
     "name": "Auditoria",
     "fields": [
         {
-            "fieldName": "tipo",
-            "fieldType": "TipoAuditoria",
-            "fieldValues": "INTERNA,EXTERNA",
+            "fieldName": "idUsuarioRegistro",
+            "fieldType": "Integer",
             "fieldValidateRules": [
                 "required"
             ]
@@ -22,18 +21,47 @@
         },
         {
             "fieldName": "descricao",
-            "javadoc": "Requisitos abordados, objetivos, etc",
             "fieldType": "byte[]",
             "fieldTypeBlobContent": "text"
+        },
+        {
+            "fieldName": "dataRegistro",
+            "fieldType": "Instant",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "dataInicio",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "dataFim",
+            "fieldType": "Instant"
         }
     ],
     "relationships": [
         {
-            "relationshipType": "many-to-one",
-            "otherEntityName": "processo",
+            "relationshipType": "one-to-many",
+            "otherEntityName": "naoConformidade",
             "otherEntityRelationshipName": "auditoria",
-            "relationshipName": "processo",
-            "otherEntityField": "titulo"
+            "relationshipName": "naoConformidade"
+        },
+        {
+            "relationshipType": "many-to-many",
+            "otherEntityName": "itemAuditoria",
+            "otherEntityRelationshipName": "auditoria",
+            "relationshipName": "itemAuditoria",
+            "otherEntityField": "titulo",
+            "ownerSide": true
+        },
+        {
+            "relationshipType": "many-to-many",
+            "otherEntityName": "anexo",
+            "otherEntityRelationshipName": "auditoria",
+            "relationshipName": "anexo",
+            "otherEntityField": "nomeArquivo",
+            "ownerSide": true
         }
     ],
     "changelogDate": "20200208160352",

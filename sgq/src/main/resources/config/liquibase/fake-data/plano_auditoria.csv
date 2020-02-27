@@ -1,11 +1,11 @@
-id;titulo;descricao
-1;Divide;../fake-data/blob/hipster.txt
-2;Montana Down-sized synergies;../fake-data/blob/hipster.txt
-3;South Dakota;../fake-data/blob/hipster.txt
-4;calculating Solutions AI;../fake-data/blob/hipster.txt
-5;salmon;../fake-data/blob/hipster.txt
-6;Cotton;../fake-data/blob/hipster.txt
-7;Spain;../fake-data/blob/hipster.txt
-8;object-oriented Berkshire Intelligent;../fake-data/blob/hipster.txt
-9;Garden didactic Steel;../fake-data/blob/hipster.txt
-10;XSS;../fake-data/blob/hipster.txt
+id;titulo;descricao;habilitado
+1;Divide;../fake-data/blob/hipster.txt;true
+2;Bedfordshire violet;../fake-data/blob/hipster.txt;false
+3;South Dakota;../fake-data/blob/hipster.txt;true
+4;matrix Outdoors integrate;../fake-data/blob/hipster.txt;false
+5;Cross-platform infrastructures;../fake-data/blob/hipster.txt;true
+6;compressing firewall evolve;../fake-data/blob/hipster.txt;false
+7;Garden didactic Steel;../fake-data/blob/hipster.txt;false
+8;Optimization Personal Loan Account Sausages;../fake-data/blob/hipster.txt;true
+9;Rubber;../fake-data/blob/hipster.txt;false
+10;Bacon transmit;../fake-data/blob/hipster.txt;true

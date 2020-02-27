@@ -32,13 +32,20 @@ public class PlanoAuditoria implements Serializable {
     @Column(name = "descricao")
     private String descricao;
 
-    @OneToMany(mappedBy = "planoAuditoria")
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<Anexo> anexos = new HashSet<>();
+    @NotNull
+    @Column(name = "habilitado", nullable = false)
+    private Boolean habilitado;
 
     @OneToMany(mappedBy = "plano")
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<ItemPlanoAuditoria> items = new HashSet<>();
+
+    @ManyToMany
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    @JoinTable(name = "plano_auditoria_anexo",
+               joinColumns = @JoinColumn(name = "plano_auditoria_id", referencedColumnName = "id"),
+               inverseJoinColumns = @JoinColumn(name = "anexo_id", referencedColumnName = "id"))
+    private Set<Anexo> anexos = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -75,29 +82,17 @@ public class PlanoAuditoria implements Serializable {
         this.descricao = descricao;
     }
 
-    public Set<Anexo> getAnexos() {
-        return anexos;
+    public Boolean isHabilitado() {
+        return habilitado;
     }
 
-    public PlanoAuditoria anexos(Set<Anexo> anexos) {
-        this.anexos = anexos;
+    public PlanoAuditoria habilitado(Boolean habilitado) {
+        this.habilitado = habilitado;
         return this;
     }
 
-    public PlanoAuditoria addAnexo(Anexo anexo) {
-        this.anexos.add(anexo);
-        anexo.setPlanoAuditoria(this);
-        return this;
-    }
-
-    public PlanoAuditoria removeAnexo(Anexo anexo) {
-        this.anexos.remove(anexo);
-        anexo.setPlanoAuditoria(null);
-        return this;
-    }
-
-    public void setAnexos(Set<Anexo> anexos) {
-        this.anexos = anexos;
+    public void setHabilitado(Boolean habilitado) {
+        this.habilitado = habilitado;
     }
 
     public Set<ItemPlanoAuditoria> getItems() {
@@ -124,6 +119,31 @@ public class PlanoAuditoria implements Serializable {
     public void setItems(Set<ItemPlanoAuditoria> itemPlanoAuditorias) {
         this.items = itemPlanoAuditorias;
     }
+
+    public Set<Anexo> getAnexos() {
+        return anexos;
+    }
+
+    public PlanoAuditoria anexos(Set<Anexo> anexos) {
+        this.anexos = anexos;
+        return this;
+    }
+
+    public PlanoAuditoria addAnexo(Anexo anexo) {
+        this.anexos.add(anexo);
+        anexo.getPlanoAuditorias().add(this);
+        return this;
+    }
+
+    public PlanoAuditoria removeAnexo(Anexo anexo) {
+        this.anexos.remove(anexo);
+        anexo.getPlanoAuditorias().remove(this);
+        return this;
+    }
+
+    public void setAnexos(Set<Anexo> anexos) {
+        this.anexos = anexos;
+    }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
     @Override
@@ -148,6 +168,7 @@ public class PlanoAuditoria implements Serializable {
             "id=" + getId() +
             ", titulo='" + getTitulo() + "'" +
             ", descricao='" + getDescricao() + "'" +
+            ", habilitado='" + isHabilitado() + "'" +
             "}";
     }
 }

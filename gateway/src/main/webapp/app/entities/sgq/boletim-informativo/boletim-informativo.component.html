@@ -1,7 +1,7 @@
 <div>
     <h2 id="page-heading">
         <span jhiTranslate="gatewayApp.sgqBoletimInformativo.home.title">Boletim Informativos</span>
-        <button *jhiHasAnyAuthority="'ROLE_ADMIN_SGQ'" id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-boletim-informativo" [routerLink]="['/boletim-informativo/new']">
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-boletim-informativo" [routerLink]="['/boletim-informativo/new']">
             <fa-icon [icon]="'plus'"></fa-icon>
             <span  jhiTranslate="gatewayApp.sgqBoletimInformativo.home.createLabel">
             Create a new Boletim Informativo

@@ -2,8 +2,8 @@ package com.lzkill.sgq.web.rest;
 
 import com.lzkill.sgq.SgqApp;
 import com.lzkill.sgq.domain.PlanoAuditoria;
-import com.lzkill.sgq.domain.Anexo;
 import com.lzkill.sgq.domain.ItemPlanoAuditoria;
+import com.lzkill.sgq.domain.Anexo;
 import com.lzkill.sgq.repository.PlanoAuditoriaRepository;
 import com.lzkill.sgq.service.PlanoAuditoriaService;
 import com.lzkill.sgq.web.rest.errors.ExceptionTranslator;
@@ -12,9 +12,12 @@ import com.lzkill.sgq.service.PlanoAuditoriaQueryService;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -25,11 +28,13 @@ import org.springframework.util.Base64Utils;
 import org.springframework.validation.Validator;
 
 import javax.persistence.EntityManager;
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.lzkill.sgq.web.rest.TestUtil.createFormattingConversionService;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -45,8 +50,17 @@ public class PlanoAuditoriaResourceIT {
     private static final String DEFAULT_DESCRICAO = "AAAAAAAAAA";
     private static final String UPDATED_DESCRICAO = "BBBBBBBBBB";
 
+    private static final Boolean DEFAULT_HABILITADO = false;
+    private static final Boolean UPDATED_HABILITADO = true;
+
     @Autowired
     private PlanoAuditoriaRepository planoAuditoriaRepository;
+
+    @Mock
+    private PlanoAuditoriaRepository planoAuditoriaRepositoryMock;
+
+    @Mock
+    private PlanoAuditoriaService planoAuditoriaServiceMock;
 
     @Autowired
     private PlanoAuditoriaService planoAuditoriaService;
@@ -94,7 +108,8 @@ public class PlanoAuditoriaResourceIT {
     public static PlanoAuditoria createEntity(EntityManager em) {
         PlanoAuditoria planoAuditoria = new PlanoAuditoria()
             .titulo(DEFAULT_TITULO)
-            .descricao(DEFAULT_DESCRICAO);
+            .descricao(DEFAULT_DESCRICAO)
+            .habilitado(DEFAULT_HABILITADO);
         return planoAuditoria;
     }
     /**
@@ -106,7 +121,8 @@ public class PlanoAuditoriaResourceIT {
     public static PlanoAuditoria createUpdatedEntity(EntityManager em) {
         PlanoAuditoria planoAuditoria = new PlanoAuditoria()
             .titulo(UPDATED_TITULO)
-            .descricao(UPDATED_DESCRICAO);
+            .descricao(UPDATED_DESCRICAO)
+            .habilitado(UPDATED_HABILITADO);
         return planoAuditoria;
     }
 
@@ -132,6 +148,7 @@ public class PlanoAuditoriaResourceIT {
         PlanoAuditoria testPlanoAuditoria = planoAuditoriaList.get(planoAuditoriaList.size() - 1);
         assertThat(testPlanoAuditoria.getTitulo()).isEqualTo(DEFAULT_TITULO);
         assertThat(testPlanoAuditoria.getDescricao()).isEqualTo(DEFAULT_DESCRICAO);
+        assertThat(testPlanoAuditoria.isHabilitado()).isEqualTo(DEFAULT_HABILITADO);
     }
 
     @Test
@@ -174,6 +191,24 @@ public class PlanoAuditoriaResourceIT {
 
     @Test
     @Transactional
+    public void checkHabilitadoIsRequired() throws Exception {
+        int databaseSizeBeforeTest = planoAuditoriaRepository.findAll().size();
+        // set the field null
+        planoAuditoria.setHabilitado(null);
+
+        // Create the PlanoAuditoria, which fails.
+
+        restPlanoAuditoriaMockMvc.perform(post("/api/plano-auditorias")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(planoAuditoria)))
+            .andExpect(status().isBadRequest());
+
+        List<PlanoAuditoria> planoAuditoriaList = planoAuditoriaRepository.findAll();
+        assertThat(planoAuditoriaList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     public void getAllPlanoAuditorias() throws Exception {
         // Initialize the database
         planoAuditoriaRepository.saveAndFlush(planoAuditoria);
@@ -184,9 +219,43 @@ public class PlanoAuditoriaResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(planoAuditoria.getId().intValue())))
             .andExpect(jsonPath("$.[*].titulo").value(hasItem(DEFAULT_TITULO)))
-            .andExpect(jsonPath("$.[*].descricao").value(hasItem(DEFAULT_DESCRICAO.toString())));
+            .andExpect(jsonPath("$.[*].descricao").value(hasItem(DEFAULT_DESCRICAO.toString())))
+            .andExpect(jsonPath("$.[*].habilitado").value(hasItem(DEFAULT_HABILITADO.booleanValue())));
     }
     
+    @SuppressWarnings({"unchecked"})
+    public void getAllPlanoAuditoriasWithEagerRelationshipsIsEnabled() throws Exception {
+        PlanoAuditoriaResource planoAuditoriaResource = new PlanoAuditoriaResource(planoAuditoriaServiceMock, planoAuditoriaQueryService);
+        when(planoAuditoriaServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+
+        MockMvc restPlanoAuditoriaMockMvc = MockMvcBuilders.standaloneSetup(planoAuditoriaResource)
+            .setCustomArgumentResolvers(pageableArgumentResolver)
+            .setControllerAdvice(exceptionTranslator)
+            .setConversionService(createFormattingConversionService())
+            .setMessageConverters(jacksonMessageConverter).build();
+
+        restPlanoAuditoriaMockMvc.perform(get("/api/plano-auditorias?eagerload=true"))
+        .andExpect(status().isOk());
+
+        verify(planoAuditoriaServiceMock, times(1)).findAllWithEagerRelationships(any());
+    }
+
+    @SuppressWarnings({"unchecked"})
+    public void getAllPlanoAuditoriasWithEagerRelationshipsIsNotEnabled() throws Exception {
+        PlanoAuditoriaResource planoAuditoriaResource = new PlanoAuditoriaResource(planoAuditoriaServiceMock, planoAuditoriaQueryService);
+            when(planoAuditoriaServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+            MockMvc restPlanoAuditoriaMockMvc = MockMvcBuilders.standaloneSetup(planoAuditoriaResource)
+            .setCustomArgumentResolvers(pageableArgumentResolver)
+            .setControllerAdvice(exceptionTranslator)
+            .setConversionService(createFormattingConversionService())
+            .setMessageConverters(jacksonMessageConverter).build();
+
+        restPlanoAuditoriaMockMvc.perform(get("/api/plano-auditorias?eagerload=true"))
+        .andExpect(status().isOk());
+
+            verify(planoAuditoriaServiceMock, times(1)).findAllWithEagerRelationships(any());
+    }
+
     @Test
     @Transactional
     public void getPlanoAuditoria() throws Exception {
@@ -199,7 +268,8 @@ public class PlanoAuditoriaResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(planoAuditoria.getId().intValue()))
             .andExpect(jsonPath("$.titulo").value(DEFAULT_TITULO))
-            .andExpect(jsonPath("$.descricao").value(DEFAULT_DESCRICAO.toString()));
+            .andExpect(jsonPath("$.descricao").value(DEFAULT_DESCRICAO.toString()))
+            .andExpect(jsonPath("$.habilitado").value(DEFAULT_HABILITADO.booleanValue()));
     }
 
 
@@ -302,23 +372,55 @@ public class PlanoAuditoriaResourceIT {
 
     @Test
     @Transactional
-    public void getAllPlanoAuditoriasByAnexoIsEqualToSomething() throws Exception {
+    public void getAllPlanoAuditoriasByHabilitadoIsEqualToSomething() throws Exception {
         // Initialize the database
         planoAuditoriaRepository.saveAndFlush(planoAuditoria);
-        Anexo anexo = AnexoResourceIT.createEntity(em);
-        em.persist(anexo);
-        em.flush();
-        planoAuditoria.addAnexo(anexo);
-        planoAuditoriaRepository.saveAndFlush(planoAuditoria);
-        Long anexoId = anexo.getId();
 
-        // Get all the planoAuditoriaList where anexo equals to anexoId
-        defaultPlanoAuditoriaShouldBeFound("anexoId.equals=" + anexoId);
+        // Get all the planoAuditoriaList where habilitado equals to DEFAULT_HABILITADO
+        defaultPlanoAuditoriaShouldBeFound("habilitado.equals=" + DEFAULT_HABILITADO);
 
-        // Get all the planoAuditoriaList where anexo equals to anexoId + 1
-        defaultPlanoAuditoriaShouldNotBeFound("anexoId.equals=" + (anexoId + 1));
+        // Get all the planoAuditoriaList where habilitado equals to UPDATED_HABILITADO
+        defaultPlanoAuditoriaShouldNotBeFound("habilitado.equals=" + UPDATED_HABILITADO);
     }
 
+    @Test
+    @Transactional
+    public void getAllPlanoAuditoriasByHabilitadoIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        planoAuditoriaRepository.saveAndFlush(planoAuditoria);
+
+        // Get all the planoAuditoriaList where habilitado not equals to DEFAULT_HABILITADO
+        defaultPlanoAuditoriaShouldNotBeFound("habilitado.notEquals=" + DEFAULT_HABILITADO);
+
+        // Get all the planoAuditoriaList where habilitado not equals to UPDATED_HABILITADO
+        defaultPlanoAuditoriaShouldBeFound("habilitado.notEquals=" + UPDATED_HABILITADO);
+    }
+
+    @Test
+    @Transactional
+    public void getAllPlanoAuditoriasByHabilitadoIsInShouldWork() throws Exception {
+        // Initialize the database
+        planoAuditoriaRepository.saveAndFlush(planoAuditoria);
+
+        // Get all the planoAuditoriaList where habilitado in DEFAULT_HABILITADO or UPDATED_HABILITADO
+        defaultPlanoAuditoriaShouldBeFound("habilitado.in=" + DEFAULT_HABILITADO + "," + UPDATED_HABILITADO);
+
+        // Get all the planoAuditoriaList where habilitado equals to UPDATED_HABILITADO
+        defaultPlanoAuditoriaShouldNotBeFound("habilitado.in=" + UPDATED_HABILITADO);
+    }
+
+    @Test
+    @Transactional
+    public void getAllPlanoAuditoriasByHabilitadoIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        planoAuditoriaRepository.saveAndFlush(planoAuditoria);
+
+        // Get all the planoAuditoriaList where habilitado is not null
+        defaultPlanoAuditoriaShouldBeFound("habilitado.specified=true");
+
+        // Get all the planoAuditoriaList where habilitado is null
+        defaultPlanoAuditoriaShouldNotBeFound("habilitado.specified=false");
+    }
 
     @Test
     @Transactional
@@ -339,6 +441,26 @@ public class PlanoAuditoriaResourceIT {
         defaultPlanoAuditoriaShouldNotBeFound("itemId.equals=" + (itemId + 1));
     }
 
+
+    @Test
+    @Transactional
+    public void getAllPlanoAuditoriasByAnexoIsEqualToSomething() throws Exception {
+        // Initialize the database
+        planoAuditoriaRepository.saveAndFlush(planoAuditoria);
+        Anexo anexo = AnexoResourceIT.createEntity(em);
+        em.persist(anexo);
+        em.flush();
+        planoAuditoria.addAnexo(anexo);
+        planoAuditoriaRepository.saveAndFlush(planoAuditoria);
+        Long anexoId = anexo.getId();
+
+        // Get all the planoAuditoriaList where anexo equals to anexoId
+        defaultPlanoAuditoriaShouldBeFound("anexoId.equals=" + anexoId);
+
+        // Get all the planoAuditoriaList where anexo equals to anexoId + 1
+        defaultPlanoAuditoriaShouldNotBeFound("anexoId.equals=" + (anexoId + 1));
+    }
+
     /**
      * Executes the search, and checks that the default entity is returned.
      */
@@ -348,7 +470,8 @@ public class PlanoAuditoriaResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(planoAuditoria.getId().intValue())))
             .andExpect(jsonPath("$.[*].titulo").value(hasItem(DEFAULT_TITULO)))
-            .andExpect(jsonPath("$.[*].descricao").value(hasItem(DEFAULT_DESCRICAO.toString())));
+            .andExpect(jsonPath("$.[*].descricao").value(hasItem(DEFAULT_DESCRICAO.toString())))
+            .andExpect(jsonPath("$.[*].habilitado").value(hasItem(DEFAULT_HABILITADO.booleanValue())));
 
         // Check, that the count call also returns 1
         restPlanoAuditoriaMockMvc.perform(get("/api/plano-auditorias/count?sort=id,desc&" + filter))
@@ -397,7 +520,8 @@ public class PlanoAuditoriaResourceIT {
         em.detach(updatedPlanoAuditoria);
         updatedPlanoAuditoria
             .titulo(UPDATED_TITULO)
-            .descricao(UPDATED_DESCRICAO);
+            .descricao(UPDATED_DESCRICAO)
+            .habilitado(UPDATED_HABILITADO);
 
         restPlanoAuditoriaMockMvc.perform(put("/api/plano-auditorias")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -410,6 +534,7 @@ public class PlanoAuditoriaResourceIT {
         PlanoAuditoria testPlanoAuditoria = planoAuditoriaList.get(planoAuditoriaList.size() - 1);
         assertThat(testPlanoAuditoria.getTitulo()).isEqualTo(UPDATED_TITULO);
         assertThat(testPlanoAuditoria.getDescricao()).isEqualTo(UPDATED_DESCRICAO);
+        assertThat(testPlanoAuditoria.isHabilitado()).isEqualTo(UPDATED_HABILITADO);
     }
 
     @Test

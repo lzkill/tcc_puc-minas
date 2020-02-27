@@ -8,17 +8,17 @@
     -->
     <changeSet id="20200208160409-2" author="jhipster">
         
-        <addForeignKeyConstraint baseColumnNames="acao_id"
-                                 baseTableName="analise_consultoria"
-                                 constraintName="fk_analise_consultoria_acao_id"
+        <addForeignKeyConstraint baseColumnNames="analise_consultoria_id"
+                                 baseTableName="analise_consultoria_anexo"
+                                 constraintName="fk_analise_consultoria_anexo_analise_consultoria_id"
                                  referencedColumnNames="id"
-                                 referencedTableName="acao_sgq"/>
+                                 referencedTableName="analise_consultoria"/>
 
-        <addForeignKeyConstraint baseColumnNames="empresa_id"
-                                 baseTableName="analise_consultoria"
-                                 constraintName="fk_analise_consultoria_empresa_id"
+        <addForeignKeyConstraint baseColumnNames="anexo_id"
+                                 baseTableName="analise_consultoria_anexo"
+                                 constraintName="fk_analise_consultoria_anexo_anexo_id"
                                  referencedColumnNames="id"
-                                 referencedTableName="empresa_consultoria"/>
-
+                                 referencedTableName="anexo"/>
+        
     </changeSet>
 </databaseChangeLog>

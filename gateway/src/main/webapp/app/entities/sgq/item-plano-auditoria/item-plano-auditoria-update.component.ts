@@ -7,15 +7,19 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import * as moment from 'moment';
 import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
+import { JhiDataUtils, JhiFileLoadError, JhiEventManager, JhiEventWithContent } from 'ng-jhipster';
 
 import { IItemPlanoAuditoria, ItemPlanoAuditoria } from 'app/shared/model/sgq/item-plano-auditoria.model';
 import { ItemPlanoAuditoriaService } from './item-plano-auditoria.service';
-import { IAuditoria } from 'app/shared/model/sgq/auditoria.model';
-import { AuditoriaService } from 'app/entities/sgq/auditoria/auditoria.service';
+import { AlertError } from 'app/shared/alert/alert-error.model';
+import { IItemAuditoria } from 'app/shared/model/sgq/item-auditoria.model';
+import { ItemAuditoriaService } from 'app/entities/sgq/item-auditoria/item-auditoria.service';
+import { IAnexo } from 'app/shared/model/sgq/anexo.model';
+import { AnexoService } from 'app/entities/sgq/anexo/anexo.service';
 import { IPlanoAuditoria } from 'app/shared/model/sgq/plano-auditoria.model';
 import { PlanoAuditoriaService } from 'app/entities/sgq/plano-auditoria/plano-auditoria.service';
 
-type SelectableEntity = IAuditoria | IPlanoAuditoria;
+type SelectableEntity = IItemAuditoria | IAnexo | IPlanoAuditoria;
 
 @Component({
   selector: 'jhi-item-plano-auditoria-update',
@@ -24,21 +28,30 @@ type SelectableEntity = IAuditoria | IPlanoAuditoria;
 export class ItemPlanoAuditoriaUpdateComponent implements OnInit {
   isSaving = false;
 
-  auditorias: IAuditoria[] = [];
+  itemauditorias: IItemAuditoria[] = [];
+
+  anexos: IAnexo[] = [];
 
   planoauditorias: IPlanoAuditoria[] = [];
 
   editForm = this.fb.group({
     id: [],
-    dataInicioPrevisto: [],
+    titulo: [null, [Validators.required, Validators.minLength(1), Validators.maxLength(100)]],
+    descricao: [],
+    modalidade: [null, [Validators.required]],
+    dataInicioPrevisto: [null, [Validators.required]],
     dataFimPrevisto: [],
-    auditoria: [null, Validators.required],
+    itemAuditoria: [],
+    anexos: [],
     plano: [null, Validators.required]
   });
 
   constructor(
+    protected dataUtils: JhiDataUtils,
+    protected eventManager: JhiEventManager,
     protected itemPlanoAuditoriaService: ItemPlanoAuditoriaService,
-    protected auditoriaService: AuditoriaService,
+    protected itemAuditoriaService: ItemAuditoriaService,
+    protected anexoService: AnexoService,
     protected planoAuditoriaService: PlanoAuditoriaService,
     protected activatedRoute: ActivatedRoute,
     private fb: FormBuilder
@@ -48,14 +61,23 @@ export class ItemPlanoAuditoriaUpdateComponent implements OnInit {
     this.activatedRoute.data.subscribe(({ itemPlanoAuditoria }) => {
       this.updateForm(itemPlanoAuditoria);
 
-      this.auditoriaService
+      this.itemAuditoriaService
         .query()
         .pipe(
-          map((res: HttpResponse<IAuditoria[]>) => {
+          map((res: HttpResponse<IItemAuditoria[]>) => {
             return res.body ? res.body : [];
           })
         )
-        .subscribe((resBody: IAuditoria[]) => (this.auditorias = resBody));
+        .subscribe((resBody: IItemAuditoria[]) => (this.itemauditorias = resBody));
+
+      this.anexoService
+        .query()
+        .pipe(
+          map((res: HttpResponse<IAnexo[]>) => {
+            return res.body ? res.body : [];
+          })
+        )
+        .subscribe((resBody: IAnexo[]) => (this.anexos = resBody));
 
       this.planoAuditoriaService
         .query()
@@ -71,11 +93,31 @@ export class ItemPlanoAuditoriaUpdateComponent implements OnInit {
   updateForm(itemPlanoAuditoria: IItemPlanoAuditoria): void {
     this.editForm.patchValue({
       id: itemPlanoAuditoria.id,
+      titulo: itemPlanoAuditoria.titulo,
+      descricao: itemPlanoAuditoria.descricao,
+      modalidade: itemPlanoAuditoria.modalidade,
       dataInicioPrevisto:
         itemPlanoAuditoria.dataInicioPrevisto != null ? itemPlanoAuditoria.dataInicioPrevisto.format(DATE_TIME_FORMAT) : null,
       dataFimPrevisto: itemPlanoAuditoria.dataFimPrevisto != null ? itemPlanoAuditoria.dataFimPrevisto.format(DATE_TIME_FORMAT) : null,
-      auditoria: itemPlanoAuditoria.auditoria,
+      itemAuditoria: itemPlanoAuditoria.itemAuditoria,
+      anexos: itemPlanoAuditoria.anexos,
       plano: itemPlanoAuditoria.plano
+    });
+  }
+
+  byteSize(base64String: string): string {
+    return this.dataUtils.byteSize(base64String);
+  }
+
+  openFile(contentType: string, base64String: string): void {
+    this.dataUtils.openFile(contentType, base64String);
+  }
+
+  setFileData(event: Event, field: string, isImage: boolean): void {
+    this.dataUtils.loadFileToForm(event, this.editForm, field, isImage).subscribe(null, (err: JhiFileLoadError) => {
+      this.eventManager.broadcast(
+        new JhiEventWithContent<AlertError>('gatewayApp.error', { ...err, key: 'error.file.' + err.key })
+      );
     });
   }
 
@@ -97,6 +139,9 @@ export class ItemPlanoAuditoriaUpdateComponent implements OnInit {
     return {
       ...new ItemPlanoAuditoria(),
       id: this.editForm.get(['id'])!.value,
+      titulo: this.editForm.get(['titulo'])!.value,
+      descricao: this.editForm.get(['descricao'])!.value,
+      modalidade: this.editForm.get(['modalidade'])!.value,
       dataInicioPrevisto:
         this.editForm.get(['dataInicioPrevisto'])!.value != null
           ? moment(this.editForm.get(['dataInicioPrevisto'])!.value, DATE_TIME_FORMAT)
@@ -105,7 +150,8 @@ export class ItemPlanoAuditoriaUpdateComponent implements OnInit {
         this.editForm.get(['dataFimPrevisto'])!.value != null
           ? moment(this.editForm.get(['dataFimPrevisto'])!.value, DATE_TIME_FORMAT)
           : undefined,
-      auditoria: this.editForm.get(['auditoria'])!.value,
+      itemAuditoria: this.editForm.get(['itemAuditoria'])!.value,
+      anexos: this.editForm.get(['anexos'])!.value,
       plano: this.editForm.get(['plano'])!.value
     };
   }
@@ -128,5 +174,16 @@ export class ItemPlanoAuditoriaUpdateComponent implements OnInit {
 
   trackById(index: number, item: SelectableEntity): any {
     return item.id;
+  }
+
+  getSelected(selectedVals: IAnexo[], option: IAnexo): IAnexo {
+    if (selectedVals) {
+      for (let i = 0; i < selectedVals.length; i++) {
+        if (option.id === selectedVals[i].id) {
+          return selectedVals[i];
+        }
+      }
+    }
+    return option;
   }
 }

@@ -2,8 +2,35 @@
     "name": "ItemPlanoAuditoria",
     "fields": [
         {
+            "fieldName": "titulo",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required",
+                "minlength",
+                "maxlength"
+            ],
+            "fieldValidateRulesMinlength": 1,
+            "fieldValidateRulesMaxlength": 100
+        },
+        {
+            "fieldName": "descricao",
+            "fieldType": "byte[]",
+            "fieldTypeBlobContent": "text"
+        },
+        {
+            "fieldName": "modalidade",
+            "fieldType": "ModalidadeAuditoria",
+            "fieldValues": "INTERNA,EXTERNA",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
             "fieldName": "dataInicioPrevisto",
-            "fieldType": "Instant"
+            "fieldType": "Instant",
+            "fieldValidateRules": [
+                "required"
+            ]
         },
         {
             "fieldName": "dataFimPrevisto",
@@ -12,18 +39,19 @@
     ],
     "relationships": [
         {
-            "relationshipType": "one-to-many",
-            "otherEntityName": "anexo",
+            "relationshipType": "many-to-one",
+            "otherEntityName": "itemAuditoria",
             "otherEntityRelationshipName": "itemPlanoAuditoria",
-            "relationshipName": "anexo"
+            "relationshipName": "itemAuditoria",
+            "otherEntityField": "titulo"
         },
         {
-            "relationshipType": "many-to-one",
-            "otherEntityName": "auditoria",
+            "relationshipType": "many-to-many",
+            "otherEntityName": "anexo",
             "otherEntityRelationshipName": "itemPlanoAuditoria",
-            "relationshipValidateRules": "required",
-            "relationshipName": "auditoria",
-            "otherEntityField": "titulo"
+            "relationshipName": "anexo",
+            "otherEntityField": "nomeArquivo",
+            "ownerSide": true
         },
         {
             "relationshipType": "many-to-one",

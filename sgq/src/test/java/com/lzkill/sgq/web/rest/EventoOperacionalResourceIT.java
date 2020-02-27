@@ -2,8 +2,8 @@ package com.lzkill.sgq.web.rest;
 
 import com.lzkill.sgq.SgqApp;
 import com.lzkill.sgq.domain.EventoOperacional;
-import com.lzkill.sgq.domain.Anexo;
 import com.lzkill.sgq.domain.Processo;
+import com.lzkill.sgq.domain.Anexo;
 import com.lzkill.sgq.repository.EventoOperacionalRepository;
 import com.lzkill.sgq.service.EventoOperacionalService;
 import com.lzkill.sgq.web.rest.errors.ExceptionTranslator;
@@ -12,9 +12,12 @@ import com.lzkill.sgq.service.EventoOperacionalQueryService;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -28,11 +31,13 @@ import javax.persistence.EntityManager;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.lzkill.sgq.web.rest.TestUtil.createFormattingConversionService;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -47,14 +52,17 @@ public class EventoOperacionalResourceIT {
     private static final Integer UPDATED_ID_USUARIO_REGISTRO = 2;
     private static final Integer SMALLER_ID_USUARIO_REGISTRO = 1 - 1;
 
-    private static final TipoEventoOperacional DEFAULT_TIPO = TipoEventoOperacional.PROGRAMADO;
-    private static final TipoEventoOperacional UPDATED_TIPO = TipoEventoOperacional.NAO_PROGRAMADO;
+    private static final TipoEventoOperacional DEFAULT_TIPO = TipoEventoOperacional.FALHA_EQUIPAMENTO;
+    private static final TipoEventoOperacional UPDATED_TIPO = TipoEventoOperacional.FALHA_INFRA_ESTRUTURA;
 
     private static final String DEFAULT_TITULO = "AAAAAAAAAA";
     private static final String UPDATED_TITULO = "BBBBBBBBBB";
 
     private static final String DEFAULT_DESCRICAO = "AAAAAAAAAA";
     private static final String UPDATED_DESCRICAO = "BBBBBBBBBB";
+
+    private static final Instant DEFAULT_DATA_REGISTRO = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_DATA_REGISTRO = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
     private static final Instant DEFAULT_DATA_EVENTO = Instant.ofEpochMilli(0L);
     private static final Instant UPDATED_DATA_EVENTO = Instant.now().truncatedTo(ChronoUnit.MILLIS);
@@ -68,6 +76,12 @@ public class EventoOperacionalResourceIT {
 
     @Autowired
     private EventoOperacionalRepository eventoOperacionalRepository;
+
+    @Mock
+    private EventoOperacionalRepository eventoOperacionalRepositoryMock;
+
+    @Mock
+    private EventoOperacionalService eventoOperacionalServiceMock;
 
     @Autowired
     private EventoOperacionalService eventoOperacionalService;
@@ -118,6 +132,7 @@ public class EventoOperacionalResourceIT {
             .tipo(DEFAULT_TIPO)
             .titulo(DEFAULT_TITULO)
             .descricao(DEFAULT_DESCRICAO)
+            .dataRegistro(DEFAULT_DATA_REGISTRO)
             .dataEvento(DEFAULT_DATA_EVENTO)
             .duracao(DEFAULT_DURACAO)
             .houveParadaProducao(DEFAULT_HOUVE_PARADA_PRODUCAO);
@@ -135,6 +150,7 @@ public class EventoOperacionalResourceIT {
             .tipo(UPDATED_TIPO)
             .titulo(UPDATED_TITULO)
             .descricao(UPDATED_DESCRICAO)
+            .dataRegistro(UPDATED_DATA_REGISTRO)
             .dataEvento(UPDATED_DATA_EVENTO)
             .duracao(UPDATED_DURACAO)
             .houveParadaProducao(UPDATED_HOUVE_PARADA_PRODUCAO);
@@ -165,6 +181,7 @@ public class EventoOperacionalResourceIT {
         assertThat(testEventoOperacional.getTipo()).isEqualTo(DEFAULT_TIPO);
         assertThat(testEventoOperacional.getTitulo()).isEqualTo(DEFAULT_TITULO);
         assertThat(testEventoOperacional.getDescricao()).isEqualTo(DEFAULT_DESCRICAO);
+        assertThat(testEventoOperacional.getDataRegistro()).isEqualTo(DEFAULT_DATA_REGISTRO);
         assertThat(testEventoOperacional.getDataEvento()).isEqualTo(DEFAULT_DATA_EVENTO);
         assertThat(testEventoOperacional.getDuracao()).isEqualTo(DEFAULT_DURACAO);
         assertThat(testEventoOperacional.isHouveParadaProducao()).isEqualTo(DEFAULT_HOUVE_PARADA_PRODUCAO);
@@ -246,6 +263,24 @@ public class EventoOperacionalResourceIT {
 
     @Test
     @Transactional
+    public void checkDataRegistroIsRequired() throws Exception {
+        int databaseSizeBeforeTest = eventoOperacionalRepository.findAll().size();
+        // set the field null
+        eventoOperacional.setDataRegistro(null);
+
+        // Create the EventoOperacional, which fails.
+
+        restEventoOperacionalMockMvc.perform(post("/api/evento-operacionals")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(eventoOperacional)))
+            .andExpect(status().isBadRequest());
+
+        List<EventoOperacional> eventoOperacionalList = eventoOperacionalRepository.findAll();
+        assertThat(eventoOperacionalList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     public void checkDataEventoIsRequired() throws Exception {
         int databaseSizeBeforeTest = eventoOperacionalRepository.findAll().size();
         // set the field null
@@ -295,11 +330,45 @@ public class EventoOperacionalResourceIT {
             .andExpect(jsonPath("$.[*].tipo").value(hasItem(DEFAULT_TIPO.toString())))
             .andExpect(jsonPath("$.[*].titulo").value(hasItem(DEFAULT_TITULO)))
             .andExpect(jsonPath("$.[*].descricao").value(hasItem(DEFAULT_DESCRICAO.toString())))
+            .andExpect(jsonPath("$.[*].dataRegistro").value(hasItem(DEFAULT_DATA_REGISTRO.toString())))
             .andExpect(jsonPath("$.[*].dataEvento").value(hasItem(DEFAULT_DATA_EVENTO.toString())))
             .andExpect(jsonPath("$.[*].duracao").value(hasItem(DEFAULT_DURACAO.toString())))
             .andExpect(jsonPath("$.[*].houveParadaProducao").value(hasItem(DEFAULT_HOUVE_PARADA_PRODUCAO.booleanValue())));
     }
     
+    @SuppressWarnings({"unchecked"})
+    public void getAllEventoOperacionalsWithEagerRelationshipsIsEnabled() throws Exception {
+        EventoOperacionalResource eventoOperacionalResource = new EventoOperacionalResource(eventoOperacionalServiceMock, eventoOperacionalQueryService);
+        when(eventoOperacionalServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+
+        MockMvc restEventoOperacionalMockMvc = MockMvcBuilders.standaloneSetup(eventoOperacionalResource)
+            .setCustomArgumentResolvers(pageableArgumentResolver)
+            .setControllerAdvice(exceptionTranslator)
+            .setConversionService(createFormattingConversionService())
+            .setMessageConverters(jacksonMessageConverter).build();
+
+        restEventoOperacionalMockMvc.perform(get("/api/evento-operacionals?eagerload=true"))
+        .andExpect(status().isOk());
+
+        verify(eventoOperacionalServiceMock, times(1)).findAllWithEagerRelationships(any());
+    }
+
+    @SuppressWarnings({"unchecked"})
+    public void getAllEventoOperacionalsWithEagerRelationshipsIsNotEnabled() throws Exception {
+        EventoOperacionalResource eventoOperacionalResource = new EventoOperacionalResource(eventoOperacionalServiceMock, eventoOperacionalQueryService);
+            when(eventoOperacionalServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+            MockMvc restEventoOperacionalMockMvc = MockMvcBuilders.standaloneSetup(eventoOperacionalResource)
+            .setCustomArgumentResolvers(pageableArgumentResolver)
+            .setControllerAdvice(exceptionTranslator)
+            .setConversionService(createFormattingConversionService())
+            .setMessageConverters(jacksonMessageConverter).build();
+
+        restEventoOperacionalMockMvc.perform(get("/api/evento-operacionals?eagerload=true"))
+        .andExpect(status().isOk());
+
+            verify(eventoOperacionalServiceMock, times(1)).findAllWithEagerRelationships(any());
+    }
+
     @Test
     @Transactional
     public void getEventoOperacional() throws Exception {
@@ -315,6 +384,7 @@ public class EventoOperacionalResourceIT {
             .andExpect(jsonPath("$.tipo").value(DEFAULT_TIPO.toString()))
             .andExpect(jsonPath("$.titulo").value(DEFAULT_TITULO))
             .andExpect(jsonPath("$.descricao").value(DEFAULT_DESCRICAO.toString()))
+            .andExpect(jsonPath("$.dataRegistro").value(DEFAULT_DATA_REGISTRO.toString()))
             .andExpect(jsonPath("$.dataEvento").value(DEFAULT_DATA_EVENTO.toString()))
             .andExpect(jsonPath("$.duracao").value(DEFAULT_DURACAO.toString()))
             .andExpect(jsonPath("$.houveParadaProducao").value(DEFAULT_HOUVE_PARADA_PRODUCAO.booleanValue()));
@@ -577,6 +647,58 @@ public class EventoOperacionalResourceIT {
 
     @Test
     @Transactional
+    public void getAllEventoOperacionalsByDataRegistroIsEqualToSomething() throws Exception {
+        // Initialize the database
+        eventoOperacionalRepository.saveAndFlush(eventoOperacional);
+
+        // Get all the eventoOperacionalList where dataRegistro equals to DEFAULT_DATA_REGISTRO
+        defaultEventoOperacionalShouldBeFound("dataRegistro.equals=" + DEFAULT_DATA_REGISTRO);
+
+        // Get all the eventoOperacionalList where dataRegistro equals to UPDATED_DATA_REGISTRO
+        defaultEventoOperacionalShouldNotBeFound("dataRegistro.equals=" + UPDATED_DATA_REGISTRO);
+    }
+
+    @Test
+    @Transactional
+    public void getAllEventoOperacionalsByDataRegistroIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        eventoOperacionalRepository.saveAndFlush(eventoOperacional);
+
+        // Get all the eventoOperacionalList where dataRegistro not equals to DEFAULT_DATA_REGISTRO
+        defaultEventoOperacionalShouldNotBeFound("dataRegistro.notEquals=" + DEFAULT_DATA_REGISTRO);
+
+        // Get all the eventoOperacionalList where dataRegistro not equals to UPDATED_DATA_REGISTRO
+        defaultEventoOperacionalShouldBeFound("dataRegistro.notEquals=" + UPDATED_DATA_REGISTRO);
+    }
+
+    @Test
+    @Transactional
+    public void getAllEventoOperacionalsByDataRegistroIsInShouldWork() throws Exception {
+        // Initialize the database
+        eventoOperacionalRepository.saveAndFlush(eventoOperacional);
+
+        // Get all the eventoOperacionalList where dataRegistro in DEFAULT_DATA_REGISTRO or UPDATED_DATA_REGISTRO
+        defaultEventoOperacionalShouldBeFound("dataRegistro.in=" + DEFAULT_DATA_REGISTRO + "," + UPDATED_DATA_REGISTRO);
+
+        // Get all the eventoOperacionalList where dataRegistro equals to UPDATED_DATA_REGISTRO
+        defaultEventoOperacionalShouldNotBeFound("dataRegistro.in=" + UPDATED_DATA_REGISTRO);
+    }
+
+    @Test
+    @Transactional
+    public void getAllEventoOperacionalsByDataRegistroIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        eventoOperacionalRepository.saveAndFlush(eventoOperacional);
+
+        // Get all the eventoOperacionalList where dataRegistro is not null
+        defaultEventoOperacionalShouldBeFound("dataRegistro.specified=true");
+
+        // Get all the eventoOperacionalList where dataRegistro is null
+        defaultEventoOperacionalShouldNotBeFound("dataRegistro.specified=false");
+    }
+
+    @Test
+    @Transactional
     public void getAllEventoOperacionalsByDataEventoIsEqualToSomething() throws Exception {
         // Initialize the database
         eventoOperacionalRepository.saveAndFlush(eventoOperacional);
@@ -786,26 +908,6 @@ public class EventoOperacionalResourceIT {
 
     @Test
     @Transactional
-    public void getAllEventoOperacionalsByAnexoIsEqualToSomething() throws Exception {
-        // Initialize the database
-        eventoOperacionalRepository.saveAndFlush(eventoOperacional);
-        Anexo anexo = AnexoResourceIT.createEntity(em);
-        em.persist(anexo);
-        em.flush();
-        eventoOperacional.addAnexo(anexo);
-        eventoOperacionalRepository.saveAndFlush(eventoOperacional);
-        Long anexoId = anexo.getId();
-
-        // Get all the eventoOperacionalList where anexo equals to anexoId
-        defaultEventoOperacionalShouldBeFound("anexoId.equals=" + anexoId);
-
-        // Get all the eventoOperacionalList where anexo equals to anexoId + 1
-        defaultEventoOperacionalShouldNotBeFound("anexoId.equals=" + (anexoId + 1));
-    }
-
-
-    @Test
-    @Transactional
     public void getAllEventoOperacionalsByProcessoIsEqualToSomething() throws Exception {
         // Initialize the database
         eventoOperacionalRepository.saveAndFlush(eventoOperacional);
@@ -823,6 +925,26 @@ public class EventoOperacionalResourceIT {
         defaultEventoOperacionalShouldNotBeFound("processoId.equals=" + (processoId + 1));
     }
 
+
+    @Test
+    @Transactional
+    public void getAllEventoOperacionalsByAnexoIsEqualToSomething() throws Exception {
+        // Initialize the database
+        eventoOperacionalRepository.saveAndFlush(eventoOperacional);
+        Anexo anexo = AnexoResourceIT.createEntity(em);
+        em.persist(anexo);
+        em.flush();
+        eventoOperacional.addAnexo(anexo);
+        eventoOperacionalRepository.saveAndFlush(eventoOperacional);
+        Long anexoId = anexo.getId();
+
+        // Get all the eventoOperacionalList where anexo equals to anexoId
+        defaultEventoOperacionalShouldBeFound("anexoId.equals=" + anexoId);
+
+        // Get all the eventoOperacionalList where anexo equals to anexoId + 1
+        defaultEventoOperacionalShouldNotBeFound("anexoId.equals=" + (anexoId + 1));
+    }
+
     /**
      * Executes the search, and checks that the default entity is returned.
      */
@@ -835,6 +957,7 @@ public class EventoOperacionalResourceIT {
             .andExpect(jsonPath("$.[*].tipo").value(hasItem(DEFAULT_TIPO.toString())))
             .andExpect(jsonPath("$.[*].titulo").value(hasItem(DEFAULT_TITULO)))
             .andExpect(jsonPath("$.[*].descricao").value(hasItem(DEFAULT_DESCRICAO.toString())))
+            .andExpect(jsonPath("$.[*].dataRegistro").value(hasItem(DEFAULT_DATA_REGISTRO.toString())))
             .andExpect(jsonPath("$.[*].dataEvento").value(hasItem(DEFAULT_DATA_EVENTO.toString())))
             .andExpect(jsonPath("$.[*].duracao").value(hasItem(DEFAULT_DURACAO.toString())))
             .andExpect(jsonPath("$.[*].houveParadaProducao").value(hasItem(DEFAULT_HOUVE_PARADA_PRODUCAO.booleanValue())));
@@ -889,6 +1012,7 @@ public class EventoOperacionalResourceIT {
             .tipo(UPDATED_TIPO)
             .titulo(UPDATED_TITULO)
             .descricao(UPDATED_DESCRICAO)
+            .dataRegistro(UPDATED_DATA_REGISTRO)
             .dataEvento(UPDATED_DATA_EVENTO)
             .duracao(UPDATED_DURACAO)
             .houveParadaProducao(UPDATED_HOUVE_PARADA_PRODUCAO);
@@ -906,6 +1030,7 @@ public class EventoOperacionalResourceIT {
         assertThat(testEventoOperacional.getTipo()).isEqualTo(UPDATED_TIPO);
         assertThat(testEventoOperacional.getTitulo()).isEqualTo(UPDATED_TITULO);
         assertThat(testEventoOperacional.getDescricao()).isEqualTo(UPDATED_DESCRICAO);
+        assertThat(testEventoOperacional.getDataRegistro()).isEqualTo(UPDATED_DATA_REGISTRO);
         assertThat(testEventoOperacional.getDataEvento()).isEqualTo(UPDATED_DATA_EVENTO);
         assertThat(testEventoOperacional.getDuracao()).isEqualTo(UPDATED_DURACAO);
         assertThat(testEventoOperacional.isHouveParadaProducao()).isEqualTo(UPDATED_HOUVE_PARADA_PRODUCAO);

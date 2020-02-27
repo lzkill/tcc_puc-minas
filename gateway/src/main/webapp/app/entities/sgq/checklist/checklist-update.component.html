@@ -31,7 +31,7 @@
                 <div class="form-group">
                     <label class="form-control-label" jhiTranslate="gatewayApp.sgqChecklist.periodicidade" for="field_periodicidade">Periodicidade</label>
                     <select class="form-control" name="periodicidade" formControlName="periodicidade" id="field_periodicidade">
-                        <option value="DIARIO">{{'gatewayApp.Periodicidade.DIARIO' | translate}}</option>
+                        <option value="DIARIA">{{'gatewayApp.Periodicidade.DIARIA' | translate}}</option>
                         <option value="SEMANAL">{{'gatewayApp.Periodicidade.SEMANAL' | translate}}</option>
                         <option value="QUINZENAL">{{'gatewayApp.Periodicidade.QUINZENAL' | translate}}</option>
                         <option value="MENSAL">{{'gatewayApp.Periodicidade.MENSAL' | translate}}</option>
@@ -41,7 +41,24 @@
                         <option value="ANUAL">{{'gatewayApp.Periodicidade.ANUAL' | translate}}</option>
                     </select>
                 </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="gatewayApp.sgqChecklist.habilitado" for="field_habilitado">Habilitado</label>
+                    <input type="checkbox" class="form-control" name="habilitado" id="field_habilitado"
+                           formControlName="habilitado"/>
+                    <div *ngIf="editForm.get('habilitado')!.invalid && (editForm.get('habilitado')!.dirty || editForm.get('habilitado')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('habilitado')?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
 
+                <div class="form-group">
+                    <label jhiTranslate="gatewayApp.sgqChecklist.anexo" for="field_anexos">Anexo</label>
+                    <select class="form-control" id="field_anexos" multiple name="anexos" formControlName="anexos">
+                        <option [ngValue]="getSelected(editForm.get('anexos')!.value, anexoOption)" *ngFor="let anexoOption of anexos; trackBy: trackById">{{anexoOption.nomeArquivo}}</option>
+                    </select>
+                </div>
                 <div class="form-group">
                     <label class="form-control-label" jhiTranslate="gatewayApp.sgqChecklist.setor" for="field_setor">Setor</label>
                     <select class="form-control" id="field_setor" name="setor" formControlName="setor">

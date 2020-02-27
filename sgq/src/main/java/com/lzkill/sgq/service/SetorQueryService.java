@@ -88,6 +88,9 @@ public class SetorQueryService extends QueryService<Setor> {
             if (criteria.getNome() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getNome(), Setor_.nome));
             }
+            if (criteria.getHabilitado() != null) {
+                specification = specification.and(buildSpecification(criteria.getHabilitado(), Setor_.habilitado));
+            }
             if (criteria.getChecklistId() != null) {
                 specification = specification.and(buildSpecification(criteria.getChecklistId(),
                     root -> root.join(Setor_.checklists, JoinType.LEFT).get(Checklist_.id)));

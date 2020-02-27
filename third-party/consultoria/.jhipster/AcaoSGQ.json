@@ -1,0 +1,69 @@
+{
+    "name": "AcaoSGQ",
+    "fields": [
+        {
+            "fieldName": "tipo",
+            "fieldType": "TipoAcaoSGQ",
+            "fieldValues": "ACAO_CORRETIVA,ACAO_PREVENTIVA,CORRECAO_PONTUAL",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "titulo",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required",
+                "minlength",
+                "maxlength"
+            ],
+            "fieldValidateRulesMinlength": 1,
+            "fieldValidateRulesMaxlength": 100
+        },
+        {
+            "fieldName": "descricao",
+            "fieldType": "byte[]",
+            "fieldTypeBlobContent": "text",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "prazoConclusao",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "novoPrazoConclusao",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "dataRegistro",
+            "fieldType": "Instant",
+            "fieldValidateRules": [
+                "required"
+            ]
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "naoConformidade",
+            "otherEntityRelationshipName": "acaoSGQ",
+            "relationshipName": "naoConformidade",
+            "otherEntityField": "titulo"
+        }
+    ],
+    "changelogDate": "20200227165229",
+    "entityTableName": "acao_sgq",
+    "dto": "no",
+    "pagination": "pagination",
+    "service": "serviceClass",
+    "jpaMetamodelFiltering": true,
+    "fluentMethods": true,
+    "readOnly": false,
+    "clientRootFolder": "",
+    "applications": [
+        "consultoria"
+    ],
+    "microserviceName": "consultoria"
+}

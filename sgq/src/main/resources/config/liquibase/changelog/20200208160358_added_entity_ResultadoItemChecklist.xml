@@ -34,6 +34,17 @@
 
     <changeSet id="20200208160358-1-relations" author="jhipster">
 
+        <createTable tableName="resultado_item_checklist_anexo">
+            <column name="anexo_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="resultado_item_checklist_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addPrimaryKey columnNames="resultado_item_checklist_id, anexo_id" tableName="resultado_item_checklist_anexo"/>
+        
     </changeSet>
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here, do not remove-->
 

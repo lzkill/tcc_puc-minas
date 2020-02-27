@@ -21,6 +21,10 @@
                 <dd>
                     <span>{{eventoOperacional.descricao}}</span>
                 </dd>
+                <dt><span jhiTranslate="gatewayApp.sgqEventoOperacional.dataRegistro">Data Registro</span></dt>
+                <dd>
+                    <span>{{eventoOperacional.dataRegistro}}</span>
+                </dd>
                 <dt><span jhiTranslate="gatewayApp.sgqEventoOperacional.dataEvento">Data Evento</span></dt>
                 <dd>
                     <span>{{eventoOperacional.dataEvento}}</span>
@@ -38,6 +42,12 @@
                     <div *ngIf="eventoOperacional.processo">
                         <a [routerLink]="['/processo', eventoOperacional.processo?.id, 'view']">{{eventoOperacional.processo?.titulo}}</a>
                     </div>
+                </dd>
+                <dt><span jhiTranslate="gatewayApp.sgqEventoOperacional.anexo">Anexo</span></dt>
+                <dd>
+                    <span *ngFor="let anexo of eventoOperacional.anexos; let last = last">
+                        <a [routerLink]="['/anexo', anexo?.id, 'view' ]">{{anexo.nomeArquivo}}</a>{{last ? '' : ', '}}
+                    </span>
                 </dd>
             </dl>
 

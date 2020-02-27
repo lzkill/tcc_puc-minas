@@ -2,28 +2,29 @@
   "gatewayApp": {
     "sgqCategoriaPublicacao": {
       "home": {
-        "title": "Categorias de publicação",
-        "createLabel": "Adicionar",
-        "createOrEditLabel": "Criar ou editar categoria de publicação",
-        "notFound": "Nenhuma categoria de publicação encontrada"
+        "title": "Categoria Publicacaos",
+        "createLabel": "Criar novo Categoria Publicacao",
+        "createOrEditLabel": "Criar ou editar Categoria Publicacao",
+        "notFound": "Nenhum Categoria Publicacao encontrado"
       },
       "delete": {
-        "question": "Tem certeza de que deseja excluir a categoria de publicação {{ id }}?"
+        "question": "Tem certeza de que deseja excluir Categoria Publicacao {{ id }}?"
       },
       "detail": {
-        "title": "Categoria de publicação"
+        "title": "Categoria Publicacao"
       },
-      "titulo": "Título",
-      "descricao": "Descrição",
+      "titulo": "Titulo",
+      "descricao": "Descricao",
+      "habilitado": "Habilitado",
       "boletim": "Boletim",
-      "publicacao": "Publicação"
+      "publicacao": "Publicacao"
     }
   },
   "sgqApp": {
     "sgqCategoriaPublicacao": {
-      "created": "Uma nova categoria de publicação foi criada com o identificador {{ param }}",
-      "updated": "Uma categoria de publicação foi atualizada com o identificador {{ param }}",
-      "deleted": "Uma categoria de publicação foi excluída com o identificador {{ param }}"
+      "created": "Um novo Categoria Publicacao foi criado com o identificador {{ param }}",
+      "updated": "Um Categoria Publicacao foi atualizado com o identificador {{ param }}",
+      "deleted": "Um Categoria Publicacao foi excluído com o identificador {{ param }}"
     }
   }
 }

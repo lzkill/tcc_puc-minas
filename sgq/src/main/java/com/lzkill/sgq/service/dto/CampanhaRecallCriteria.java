@@ -3,6 +3,7 @@ package com.lzkill.sgq.service.dto;
 import java.io.Serializable;
 import java.util.Objects;
 import io.github.jhipster.service.Criteria;
+import com.lzkill.sgq.domain.enumeration.StatusPublicacao;
 import io.github.jhipster.service.filter.BooleanFilter;
 import io.github.jhipster.service.filter.DoubleFilter;
 import io.github.jhipster.service.filter.Filter;
@@ -22,6 +23,24 @@ import io.github.jhipster.service.filter.InstantFilter;
  * fix type specific filters.
  */
 public class CampanhaRecallCriteria implements Serializable, Criteria {
+    /**
+     * Class for filtering StatusPublicacao
+     */
+    public static class StatusPublicacaoFilter extends Filter<StatusPublicacao> {
+
+        public StatusPublicacaoFilter() {
+        }
+
+        public StatusPublicacaoFilter(StatusPublicacaoFilter filter) {
+            super(filter);
+        }
+
+        @Override
+        public StatusPublicacaoFilter copy() {
+            return new StatusPublicacaoFilter(this);
+        }
+
+    }
 
     private static final long serialVersionUID = 1L;
 
@@ -37,11 +56,15 @@ public class CampanhaRecallCriteria implements Serializable, Criteria {
 
     private InstantFilter dataFim;
 
-    private LongFilter anexoId;
+    private InstantFilter dataPublicacao;
+
+    private StatusPublicacaoFilter status;
 
     private LongFilter produtoId;
 
     private LongFilter setorResponsavelId;
+
+    private LongFilter anexoId;
 
     public CampanhaRecallCriteria(){
     }
@@ -53,9 +76,11 @@ public class CampanhaRecallCriteria implements Serializable, Criteria {
         this.dataRegistro = other.dataRegistro == null ? null : other.dataRegistro.copy();
         this.dataInicio = other.dataInicio == null ? null : other.dataInicio.copy();
         this.dataFim = other.dataFim == null ? null : other.dataFim.copy();
-        this.anexoId = other.anexoId == null ? null : other.anexoId.copy();
+        this.dataPublicacao = other.dataPublicacao == null ? null : other.dataPublicacao.copy();
+        this.status = other.status == null ? null : other.status.copy();
         this.produtoId = other.produtoId == null ? null : other.produtoId.copy();
         this.setorResponsavelId = other.setorResponsavelId == null ? null : other.setorResponsavelId.copy();
+        this.anexoId = other.anexoId == null ? null : other.anexoId.copy();
     }
 
     @Override
@@ -111,12 +136,20 @@ public class CampanhaRecallCriteria implements Serializable, Criteria {
         this.dataFim = dataFim;
     }
 
-    public LongFilter getAnexoId() {
-        return anexoId;
+    public InstantFilter getDataPublicacao() {
+        return dataPublicacao;
     }
 
-    public void setAnexoId(LongFilter anexoId) {
-        this.anexoId = anexoId;
+    public void setDataPublicacao(InstantFilter dataPublicacao) {
+        this.dataPublicacao = dataPublicacao;
+    }
+
+    public StatusPublicacaoFilter getStatus() {
+        return status;
+    }
+
+    public void setStatus(StatusPublicacaoFilter status) {
+        this.status = status;
     }
 
     public LongFilter getProdutoId() {
@@ -133,6 +166,14 @@ public class CampanhaRecallCriteria implements Serializable, Criteria {
 
     public void setSetorResponsavelId(LongFilter setorResponsavelId) {
         this.setorResponsavelId = setorResponsavelId;
+    }
+
+    public LongFilter getAnexoId() {
+        return anexoId;
+    }
+
+    public void setAnexoId(LongFilter anexoId) {
+        this.anexoId = anexoId;
     }
 
 
@@ -152,9 +193,11 @@ public class CampanhaRecallCriteria implements Serializable, Criteria {
             Objects.equals(dataRegistro, that.dataRegistro) &&
             Objects.equals(dataInicio, that.dataInicio) &&
             Objects.equals(dataFim, that.dataFim) &&
-            Objects.equals(anexoId, that.anexoId) &&
+            Objects.equals(dataPublicacao, that.dataPublicacao) &&
+            Objects.equals(status, that.status) &&
             Objects.equals(produtoId, that.produtoId) &&
-            Objects.equals(setorResponsavelId, that.setorResponsavelId);
+            Objects.equals(setorResponsavelId, that.setorResponsavelId) &&
+            Objects.equals(anexoId, that.anexoId);
     }
 
     @Override
@@ -166,9 +209,11 @@ public class CampanhaRecallCriteria implements Serializable, Criteria {
         dataRegistro,
         dataInicio,
         dataFim,
-        anexoId,
+        dataPublicacao,
+        status,
         produtoId,
-        setorResponsavelId
+        setorResponsavelId,
+        anexoId
         );
     }
 
@@ -181,9 +226,11 @@ public class CampanhaRecallCriteria implements Serializable, Criteria {
                 (dataRegistro != null ? "dataRegistro=" + dataRegistro + ", " : "") +
                 (dataInicio != null ? "dataInicio=" + dataInicio + ", " : "") +
                 (dataFim != null ? "dataFim=" + dataFim + ", " : "") +
-                (anexoId != null ? "anexoId=" + anexoId + ", " : "") +
+                (dataPublicacao != null ? "dataPublicacao=" + dataPublicacao + ", " : "") +
+                (status != null ? "status=" + status + ", " : "") +
                 (produtoId != null ? "produtoId=" + produtoId + ", " : "") +
                 (setorResponsavelId != null ? "setorResponsavelId=" + setorResponsavelId + ", " : "") +
+                (anexoId != null ? "anexoId=" + anexoId + ", " : "") +
             "}";
     }
 

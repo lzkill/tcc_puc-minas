@@ -33,8 +33,7 @@ public class AcaoSGQ implements Serializable {
     @Column(name = "id_usuario_registro", nullable = false)
     private Integer idUsuarioRegistro;
 
-    @NotNull
-    @Column(name = "id_usuario_responsavel", nullable = false)
+    @Column(name = "id_usuario_responsavel")
     private Integer idUsuarioResponsavel;
 
     @NotNull
@@ -52,8 +51,7 @@ public class AcaoSGQ implements Serializable {
     @Column(name = "descricao", nullable = false)
     private String descricao;
 
-    @NotNull
-    @Column(name = "prazo_conclusao", nullable = false)
+    @Column(name = "prazo_conclusao")
     private Instant prazoConclusao;
 
     @Column(name = "novo_prazo_conclusao")
@@ -75,8 +73,11 @@ public class AcaoSGQ implements Serializable {
     @Column(name = "status_sgq", nullable = false)
     private StatusSGQ statusSGQ;
 
-    @OneToMany(mappedBy = "acaoSGQ")
+    @ManyToMany
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    @JoinTable(name = "acao_sgq_anexo",
+               joinColumns = @JoinColumn(name = "acaosgq_id", referencedColumnName = "id"),
+               inverseJoinColumns = @JoinColumn(name = "anexo_id", referencedColumnName = "id"))
     private Set<Anexo> anexos = new HashSet<>();
 
     @ManyToOne
@@ -246,13 +247,13 @@ public class AcaoSGQ implements Serializable {
 
     public AcaoSGQ addAnexo(Anexo anexo) {
         this.anexos.add(anexo);
-        anexo.setAcaoSGQ(this);
+        anexo.getAcaoSGQS().add(this);
         return this;
     }
 
     public AcaoSGQ removeAnexo(Anexo anexo) {
         this.anexos.remove(anexo);
-        anexo.setAcaoSGQ(null);
+        anexo.getAcaoSGQS().remove(this);
         return this;
     }
 

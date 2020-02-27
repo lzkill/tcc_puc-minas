@@ -1,0 +1,69 @@
+{
+    "name": "NaoConformidade",
+    "fields": [
+        {
+            "fieldName": "titulo",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required",
+                "minlength",
+                "maxlength"
+            ],
+            "fieldValidateRulesMinlength": 1,
+            "fieldValidateRulesMaxlength": 100
+        },
+        {
+            "fieldName": "descricao",
+            "fieldType": "byte[]",
+            "fieldTypeBlobContent": "text",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "procedente",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "causa",
+            "fieldType": "byte[]",
+            "fieldTypeBlobContent": "text"
+        },
+        {
+            "fieldName": "prazoConclusao",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "novoPrazoConclusao",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "dataRegistro",
+            "fieldType": "Instant",
+            "fieldValidateRules": [
+                "required"
+            ]
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "one-to-many",
+            "otherEntityName": "acaoSGQ",
+            "otherEntityRelationshipName": "naoConformidade",
+            "relationshipName": "acaoSGQ"
+        }
+    ],
+    "changelogDate": "20200227165228",
+    "entityTableName": "nao_conformidade",
+    "dto": "no",
+    "pagination": "pagination",
+    "service": "serviceClass",
+    "jpaMetamodelFiltering": true,
+    "fluentMethods": true,
+    "readOnly": false,
+    "clientRootFolder": "",
+    "applications": [
+        "consultoria"
+    ],
+    "microserviceName": "consultoria"
+}

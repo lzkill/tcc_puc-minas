@@ -19,7 +19,7 @@
             <column name="id_usuario_registro" type="integer">
                 <constraints nullable="false" />
             </column>
-            <column name="titulo" type="varchar(100)">
+            <column name="data_registro" type="datetime">
                 <constraints nullable="false" />
             </column>
             <column name="data_verificacao" type="datetime">
@@ -30,11 +30,23 @@
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
         </createTable>
+        <dropDefaultValue tableName="resultado_checklist" columnName="data_registro" columnDataType="datetime"/>
         <dropDefaultValue tableName="resultado_checklist" columnName="data_verificacao" columnDataType="datetime"/>
     </changeSet>
 
     <changeSet id="20200208160357-1-relations" author="jhipster">
 
+        <createTable tableName="resultado_checklist_anexo">
+            <column name="anexo_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="resultado_checklist_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addPrimaryKey columnNames="resultado_checklist_id, anexo_id" tableName="resultado_checklist_anexo"/>
+        
     </changeSet>
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here, do not remove-->
 
@@ -53,7 +65,7 @@
                   tableName="resultado_checklist">
             <column name="id" type="numeric"/>
             <column name="id_usuario_registro" type="numeric"/>
-            <column name="titulo" type="string"/>
+            <column name="data_registro" type="datetime"/>
             <column name="data_verificacao" type="datetime"/>
             <column name="checklist_id" type="numeric"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here, do not remove-->

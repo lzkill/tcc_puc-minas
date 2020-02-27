@@ -1,7 +1,7 @@
 import { Moment } from 'moment';
-import { IAnexo } from 'app/shared/model/sgq/anexo.model';
 import { IPublicoAlvo } from 'app/shared/model/sgq/publico-alvo.model';
 import { ICategoriaPublicacao } from 'app/shared/model/sgq/categoria-publicacao.model';
+import { IAnexo } from 'app/shared/model/sgq/anexo.model';
 import { StatusPublicacao } from 'app/shared/model/enumerations/status-publicacao.model';
 
 export interface IBoletimInformativo {
@@ -12,9 +12,9 @@ export interface IBoletimInformativo {
   dataRegistro?: Moment;
   dataPublicacao?: Moment;
   status?: StatusPublicacao;
-  anexos?: IAnexo[];
   publicoAlvo?: IPublicoAlvo;
   categorias?: ICategoriaPublicacao[];
+  anexos?: IAnexo[];
 }
 
 export class BoletimInformativo implements IBoletimInformativo {
@@ -26,8 +26,8 @@ export class BoletimInformativo implements IBoletimInformativo {
     public dataRegistro?: Moment,
     public dataPublicacao?: Moment,
     public status?: StatusPublicacao,
-    public anexos?: IAnexo[],
     public publicoAlvo?: IPublicoAlvo,
-    public categorias?: ICategoriaPublicacao[]
+    public categorias?: ICategoriaPublicacao[],
+    public anexos?: IAnexo[]
   ) {}
 }

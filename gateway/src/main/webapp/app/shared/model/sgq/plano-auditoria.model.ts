@@ -1,12 +1,13 @@
-import { IAnexo } from 'app/shared/model/sgq/anexo.model';
 import { IItemPlanoAuditoria } from 'app/shared/model/sgq/item-plano-auditoria.model';
+import { IAnexo } from 'app/shared/model/sgq/anexo.model';
 
 export interface IPlanoAuditoria {
   id?: number;
   titulo?: string;
   descricao?: any;
-  anexos?: IAnexo[];
+  habilitado?: boolean;
   items?: IItemPlanoAuditoria[];
+  anexos?: IAnexo[];
 }
 
 export class PlanoAuditoria implements IPlanoAuditoria {
@@ -14,7 +15,10 @@ export class PlanoAuditoria implements IPlanoAuditoria {
     public id?: number,
     public titulo?: string,
     public descricao?: any,
-    public anexos?: IAnexo[],
-    public items?: IItemPlanoAuditoria[]
-  ) {}
+    public habilitado?: boolean,
+    public items?: IItemPlanoAuditoria[],
+    public anexos?: IAnexo[]
+  ) {
+    this.habilitado = this.habilitado || false;
+  }
 }

@@ -26,5 +26,17 @@
                                  referencedColumnNames="id"
                                  referencedTableName="categoria_publicacao"/>
         
+        <addForeignKeyConstraint baseColumnNames="publicacao_feed_id"
+                                 baseTableName="publicacao_feed_anexo"
+                                 constraintName="fk_publicacao_feed_anexo_publicacao_feed_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="publicacao_feed"/>
+
+        <addForeignKeyConstraint baseColumnNames="anexo_id"
+                                 baseTableName="publicacao_feed_anexo"
+                                 constraintName="fk_publicacao_feed_anexo_anexo_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="anexo"/>
+        
     </changeSet>
 </databaseChangeLog>

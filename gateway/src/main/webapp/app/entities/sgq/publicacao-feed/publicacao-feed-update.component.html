@@ -126,21 +126,12 @@
                     <div class="d-flex">
                         <input id="field_dataPublicacao" type="datetime-local" class="form-control" name="dataPublicacao" formControlName="dataPublicacao" placeholder="YYYY-MM-DD HH:mm"/>
                     </div>
-                    <div *ngIf="editForm.get('dataPublicacao')!.invalid && (editForm.get('dataPublicacao')!.dirty || editForm.get('dataPublicacao')!.touched)">
-                        <small class="form-text text-danger"
-                               *ngIf="editForm.get('dataPublicacao')?.errors?.required" jhiTranslate="entity.validation.required">
-                        This field is required.
-                        </small>
-                        <small class="form-text text-danger"
-                            [hidden]="!editForm.get('dataPublicacao')?.errors?.ZonedDateTimelocal" jhiTranslate="entity.validation.ZonedDateTimelocal">
-                            This field should be a date and time.
-                        </small>
                     </div>
-                </div>
                 <div class="form-group">
                     <label class="form-control-label" jhiTranslate="gatewayApp.sgqPublicacaoFeed.status" for="field_status">Status</label>
                     <select class="form-control" name="status" formControlName="status" id="field_status">
                         <option value="RASCUNHO">{{'gatewayApp.StatusPublicacao.RASCUNHO' | translate}}</option>
+                        <option value="APROVADO">{{'gatewayApp.StatusPublicacao.APROVADO' | translate}}</option>
                         <option value="PUBLICADO">{{'gatewayApp.StatusPublicacao.PUBLICADO' | translate}}</option>
                     </select>
                     <div *ngIf="editForm.get('status')!.invalid && (editForm.get('status')!.dirty || editForm.get('status')!.touched)">
@@ -175,6 +166,12 @@
                            *ngIf="editForm.get('categorias')?.errors?.required" jhiTranslate="entity.validation.required">
                         This field is required.
                     </small>
+                </div>
+                <div class="form-group">
+                    <label jhiTranslate="gatewayApp.sgqPublicacaoFeed.anexo" for="field_anexos">Anexo</label>
+                    <select class="form-control" id="field_anexos" multiple name="anexos" formControlName="anexos">
+                        <option [ngValue]="getSelected(editForm.get('anexos')!.value, anexoOption)" *ngFor="let anexoOption of anexos; trackBy: trackById">{{anexoOption.nomeArquivo}}</option>
+                    </select>
                 </div>
             </div>
             <div>

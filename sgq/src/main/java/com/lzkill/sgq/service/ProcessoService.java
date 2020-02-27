@@ -50,6 +50,15 @@ public class ProcessoService {
         return processoRepository.findAll(pageable);
     }
 
+    /**
+     * Get all the processos with eager load of many-to-many relationships.
+     *
+     * @return the list of entities.
+     */
+    public Page<Processo> findAllWithEagerRelationships(Pageable pageable) {
+        return processoRepository.findAllWithEagerRelationships(pageable);
+    }
+    
 
     /**
      * Get one processo by id.
@@ -60,7 +69,7 @@ public class ProcessoService {
     @Transactional(readOnly = true)
     public Optional<Processo> findOne(Long id) {
         log.debug("Request to get Processo : {}", id);
-        return processoRepository.findById(id);
+        return processoRepository.findOneWithEagerRelationships(id);
     }
 
     /**

@@ -30,6 +30,10 @@ public class PublicoAlvo implements Serializable {
     @Column(name = "descricao")
     private String descricao;
 
+    @NotNull
+    @Column(name = "habilitado", nullable = false)
+    private Boolean habilitado;
+
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
         return id;
@@ -64,6 +68,19 @@ public class PublicoAlvo implements Serializable {
     public void setDescricao(String descricao) {
         this.descricao = descricao;
     }
+
+    public Boolean isHabilitado() {
+        return habilitado;
+    }
+
+    public PublicoAlvo habilitado(Boolean habilitado) {
+        this.habilitado = habilitado;
+        return this;
+    }
+
+    public void setHabilitado(Boolean habilitado) {
+        this.habilitado = habilitado;
+    }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
     @Override
@@ -88,6 +105,7 @@ public class PublicoAlvo implements Serializable {
             "id=" + getId() +
             ", nome='" + getNome() + "'" +
             ", descricao='" + getDescricao() + "'" +
+            ", habilitado='" + isHabilitado() + "'" +
             "}";
     }
 }

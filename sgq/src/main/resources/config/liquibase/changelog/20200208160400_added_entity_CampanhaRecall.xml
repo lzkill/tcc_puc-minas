@@ -34,8 +34,11 @@
             <column name="data_fim" type="datetime">
                 <constraints nullable="true" />
             </column>
-            <column name="resultado" type="${clobType}">
+            <column name="data_publicacao" type="datetime">
                 <constraints nullable="true" />
+            </column>
+            <column name="status" type="varchar(255)">
+                <constraints nullable="false" />
             </column>
             <column name="produto_id" type="bigint">
                 <constraints nullable="false" />
@@ -48,10 +51,22 @@
         <dropDefaultValue tableName="campanha_recall" columnName="data_registro" columnDataType="datetime"/>
         <dropDefaultValue tableName="campanha_recall" columnName="data_inicio" columnDataType="datetime"/>
         <dropDefaultValue tableName="campanha_recall" columnName="data_fim" columnDataType="datetime"/>
+        <dropDefaultValue tableName="campanha_recall" columnName="data_publicacao" columnDataType="datetime"/>
     </changeSet>
 
     <changeSet id="20200208160400-1-relations" author="jhipster">
 
+        <createTable tableName="campanha_recall_anexo">
+            <column name="anexo_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="campanha_recall_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addPrimaryKey columnNames="campanha_recall_id, anexo_id" tableName="campanha_recall_anexo"/>
+        
     </changeSet>
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here, do not remove-->
 
@@ -75,7 +90,8 @@
             <column name="data_registro" type="datetime"/>
             <column name="data_inicio" type="datetime"/>
             <column name="data_fim" type="datetime"/>
-            <column name="resultado" type="clob"/>
+            <column name="data_publicacao" type="datetime"/>
+            <column name="status" type="string"/>
             <column name="produto_id" type="numeric"/>
             <column name="setor_responsavel_id" type="numeric"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here, do not remove-->

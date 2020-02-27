@@ -30,8 +30,7 @@
             <th scope="col"  jhiSortBy="acao.titulo"><span jhiTranslate="gatewayApp.sgqProdutoNaoConforme.acao">Acao</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="naoConformidade.titulo"><span jhiTranslate="gatewayApp.sgqProdutoNaoConforme.naoConformidade">Nao Conformidade</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="produto.nome"><span jhiTranslate="gatewayApp.sgqProdutoNaoConforme.produto">Produto</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  jhiSortBy="resultadoAuditoria.id"><span jhiTranslate="gatewayApp.sgqProdutoNaoConforme.resultadoAuditoria">Resultado Auditoria</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  jhiSortBy="resultadoItemChecklist.id"><span jhiTranslate="gatewayApp.sgqProdutoNaoConforme.resultadoItemChecklist">Resultado Item Checklist</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="resultadoChecklist.id"><span jhiTranslate="gatewayApp.sgqProdutoNaoConforme.resultadoChecklist">Resultado Checklist</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"></th>
             </tr>
             </thead>
@@ -62,13 +61,8 @@
                     </div>
                 </td>
                 <td>
-                    <div *ngIf="produtoNaoConforme.resultadoAuditoria">
-                        <a [routerLink]="['/resultado-auditoria', produtoNaoConforme.resultadoAuditoria?.id, 'view' ]" >{{produtoNaoConforme.resultadoAuditoria?.id}}</a>
-                    </div>
-                </td>
-                <td>
-                    <div *ngIf="produtoNaoConforme.resultadoItemChecklist">
-                        <a [routerLink]="['/resultado-item-checklist', produtoNaoConforme.resultadoItemChecklist?.id, 'view' ]" >{{produtoNaoConforme.resultadoItemChecklist?.id}}</a>
+                    <div *ngIf="produtoNaoConforme.resultadoChecklist">
+                        <a [routerLink]="['/resultado-checklist', produtoNaoConforme.resultadoChecklist?.id, 'view' ]" >{{produtoNaoConforme.resultadoChecklist?.id}}</a>
                     </div>
                 </td>
                 <td class="text-right">

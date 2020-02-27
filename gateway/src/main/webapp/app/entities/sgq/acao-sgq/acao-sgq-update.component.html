@@ -84,16 +84,6 @@
                     <div class="d-flex">
                         <input id="field_prazoConclusao" type="datetime-local" class="form-control" name="prazoConclusao" formControlName="prazoConclusao" placeholder="YYYY-MM-DD HH:mm"/>
                     </div>
-                    <div *ngIf="editForm.get('prazoConclusao')!.invalid && (editForm.get('prazoConclusao')!.dirty || editForm.get('prazoConclusao')!.touched)">
-                        <small class="form-text text-danger"
-                               *ngIf="editForm.get('prazoConclusao')?.errors?.required" jhiTranslate="entity.validation.required">
-                        This field is required.
-                        </small>
-                        <small class="form-text text-danger"
-                            [hidden]="!editForm.get('prazoConclusao')?.errors?.ZonedDateTimelocal" jhiTranslate="entity.validation.ZonedDateTimelocal">
-                            This field should be a date and time.
-                        </small>
-                    </div>
                 </div>
                 <div class="form-group">
                     <label class="form-control-label" jhiTranslate="gatewayApp.sgqAcaoSgq.novoPrazoConclusao" for="field_novoPrazoConclusao">Novo Prazo Conclusao</label>
@@ -145,6 +135,12 @@
                     </div>
                 </div>
 
+                <div class="form-group">
+                    <label jhiTranslate="gatewayApp.sgqAcaoSgq.anexo" for="field_anexos">Anexo</label>
+                    <select class="form-control" id="field_anexos" multiple name="anexos" formControlName="anexos">
+                        <option [ngValue]="getSelected(editForm.get('anexos')!.value, anexoOption)" *ngFor="let anexoOption of anexos; trackBy: trackById">{{anexoOption.nomeArquivo}}</option>
+                    </select>
+                </div>
                 <div class="form-group">
                     <label class="form-control-label" jhiTranslate="gatewayApp.sgqAcaoSgq.naoConformidade" for="field_naoConformidade">Nao Conformidade</label>
                     <select class="form-control" id="field_naoConformidade" name="naoConformidade" formControlName="naoConformidade">

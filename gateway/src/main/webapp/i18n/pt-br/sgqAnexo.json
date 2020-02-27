@@ -3,41 +3,45 @@
     "sgqAnexo": {
       "home": {
         "title": "Anexos",
-        "createLabel": "Adicionar",
-        "createOrEditLabel": "Criar ou editar anexo",
-        "notFound": "Nenhum anexo encontrado"
+        "createLabel": "Criar novo Anexo",
+        "createOrEditLabel": "Criar ou editar Anexo",
+        "notFound": "Nenhum Anexo encontrado"
       },
       "delete": {
-        "question": "Tem certeza de que deseja excluir o anexo {{ id }}?"
+        "question": "Tem certeza de que deseja excluir Anexo {{ id }}?"
       },
       "detail": {
         "title": "Anexo"
       },
-      "nomeArquivo": "Nome do arquivo",
-      "conteudo": "Conteúdo",
-      "acaoSGQ": "Ação SGQ",
-      "analiseConsultoria": "Análise de consultoria",
+      "idUsuarioRegistro": "Id Usuario Registro",
+      "dataRegistro": "Data Registro",
+      "nomeArquivo": "Nome Arquivo",
+      "conteudo": "Conteudo",
+      "acaoSGQ": "Acao SGQ",
+      "auditoria": "Auditoria",
+      "analiseConsultoria": "Analise Consultoria",
+      "boletimInformativo": "Boletim Informativo",
+      "campanhaRecall": "Campanha Recall",
       "checklist": "Checklist",
-      "boletimInformativo": "Boletim informativo",
-      "campanhaRecall": "Campanha de recall",
-      "eventoOperacional": "Evento operacional",
-      "itemChecklist": "Item de checklist",
-      "itemPlanoAuditoria": "Item de plano de auditoria",
-      "naoConformidade": "Não conformidade",
+      "eventoOperacional": "Evento Operacional",
+      "itemAuditoria": "Item Auditoria",
+      "itemChecklist": "Item Checklist",
+      "itemPlanoAuditoria": "Item Plano Auditoria",
+      "naoConformidade": "Nao Conformidade",
       "processo": "Processo",
       "produto": "Produto",
-      "planoAuditoria": "Plano de auditoria",
-      "produtoNaoConforme": "Produto não conforme",
-      "publicacaoFeed": "Publicação de feed",
-      "resultadoChecklist": "Resultado de checklist",
-      "resultadoItemChecklist": "Resultado de item de checklist"
+      "planoAuditoria": "Plano Auditoria",
+      "produtoNaoConforme": "Produto Nao Conforme",
+      "publicacaoFeed": "Publicacao Feed",
+      "resultadoChecklist": "Resultado Checklist",
+      "resultadoItemChecklist": "Resultado Item Checklist"
     }
   },
   "sgqApp": {
     "sgqAnexo": {
-      "created": "Um novo anexo foi criado com o identificador {{ param }}",
-      "updated": "Um anexo foi atualizado com o identificador {{ param }}",
-      "deleted": "Um anexo foi excluído com o identificador {{ param }}"
+      "created": "Um novo Anexo foi criado com o identificador {{ param }}",
+      "updated": "Um Anexo foi atualizado com o identificador {{ param }}",
+      "deleted": "Um Anexo foi excluído com o identificador {{ param }}"
     }
   }
 }

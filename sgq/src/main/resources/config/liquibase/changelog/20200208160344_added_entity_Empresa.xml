@@ -19,6 +19,9 @@
             <column name="nome" type="varchar(100)">
                 <constraints nullable="false" />
             </column>
+            <column name="habilitado" type="boolean">
+                <constraints nullable="false" />
+            </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
         </createTable>
     </changeSet>
@@ -43,6 +46,7 @@
                   tableName="empresa">
             <column name="id" type="numeric"/>
             <column name="nome" type="string"/>
+            <column name="habilitado" type="boolean"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here, do not remove-->
         </loadData>
     </changeSet>

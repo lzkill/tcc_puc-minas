@@ -13,6 +13,16 @@
                 <dd>
                     <span>{{planoAuditoria.descricao}}</span>
                 </dd>
+                <dt><span jhiTranslate="gatewayApp.sgqPlanoAuditoria.habilitado">Habilitado</span></dt>
+                <dd>
+                    <span>{{planoAuditoria.habilitado}}</span>
+                </dd>
+                <dt><span jhiTranslate="gatewayApp.sgqPlanoAuditoria.anexo">Anexo</span></dt>
+                <dd>
+                    <span *ngFor="let anexo of planoAuditoria.anexos; let last = last">
+                        <a [routerLink]="['/anexo', anexo?.id, 'view' ]">{{anexo.nomeArquivo}}</a>{{last ? '' : ', '}}
+                    </span>
+                </dd>
             </dl>
 
             <button type="submit"

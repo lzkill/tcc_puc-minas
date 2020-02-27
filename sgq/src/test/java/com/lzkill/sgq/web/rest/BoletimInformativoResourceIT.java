@@ -2,9 +2,9 @@ package com.lzkill.sgq.web.rest;
 
 import com.lzkill.sgq.SgqApp;
 import com.lzkill.sgq.domain.BoletimInformativo;
-import com.lzkill.sgq.domain.Anexo;
 import com.lzkill.sgq.domain.PublicoAlvo;
 import com.lzkill.sgq.domain.CategoriaPublicacao;
+import com.lzkill.sgq.domain.Anexo;
 import com.lzkill.sgq.repository.BoletimInformativoRepository;
 import com.lzkill.sgq.service.BoletimInformativoService;
 import com.lzkill.sgq.web.rest.errors.ExceptionTranslator;
@@ -65,7 +65,7 @@ public class BoletimInformativoResourceIT {
     private static final Instant UPDATED_DATA_PUBLICACAO = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
     private static final StatusPublicacao DEFAULT_STATUS = StatusPublicacao.RASCUNHO;
-    private static final StatusPublicacao UPDATED_STATUS = StatusPublicacao.PUBLICADO;
+    private static final StatusPublicacao UPDATED_STATUS = StatusPublicacao.APROVADO;
 
     @Autowired
     private BoletimInformativoRepository boletimInformativoRepository;
@@ -324,7 +324,7 @@ public class BoletimInformativoResourceIT {
             .andExpect(jsonPath("$.[*].dataPublicacao").value(hasItem(DEFAULT_DATA_PUBLICACAO.toString())))
             .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())));
     }
-
+    
     @SuppressWarnings({"unchecked"})
     public void getAllBoletimInformativosWithEagerRelationshipsIsEnabled() throws Exception {
         BoletimInformativoResource boletimInformativoResource = new BoletimInformativoResource(boletimInformativoServiceMock, boletimInformativoQueryService);
@@ -738,6 +738,38 @@ public class BoletimInformativoResourceIT {
 
     @Test
     @Transactional
+    public void getAllBoletimInformativosByPublicoAlvoIsEqualToSomething() throws Exception {
+        // Get already existing entity
+        PublicoAlvo publicoAlvo = boletimInformativo.getPublicoAlvo();
+        boletimInformativoRepository.saveAndFlush(boletimInformativo);
+        Long publicoAlvoId = publicoAlvo.getId();
+
+        // Get all the boletimInformativoList where publicoAlvo equals to publicoAlvoId
+        defaultBoletimInformativoShouldBeFound("publicoAlvoId.equals=" + publicoAlvoId);
+
+        // Get all the boletimInformativoList where publicoAlvo equals to publicoAlvoId + 1
+        defaultBoletimInformativoShouldNotBeFound("publicoAlvoId.equals=" + (publicoAlvoId + 1));
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllBoletimInformativosByCategoriaIsEqualToSomething() throws Exception {
+        // Get already existing entity
+        CategoriaPublicacao categoria = boletimInformativo.getCategoria();
+        boletimInformativoRepository.saveAndFlush(boletimInformativo);
+        Long categoriaId = categoria.getId();
+
+        // Get all the boletimInformativoList where categoria equals to categoriaId
+        defaultBoletimInformativoShouldBeFound("categoriaId.equals=" + categoriaId);
+
+        // Get all the boletimInformativoList where categoria equals to categoriaId + 1
+        defaultBoletimInformativoShouldNotBeFound("categoriaId.equals=" + (categoriaId + 1));
+    }
+
+
+    @Test
+    @Transactional
     public void getAllBoletimInformativosByAnexoIsEqualToSomething() throws Exception {
         // Initialize the database
         boletimInformativoRepository.saveAndFlush(boletimInformativo);
@@ -754,39 +786,6 @@ public class BoletimInformativoResourceIT {
         // Get all the boletimInformativoList where anexo equals to anexoId + 1
         defaultBoletimInformativoShouldNotBeFound("anexoId.equals=" + (anexoId + 1));
     }
-
-
-    @Test
-    @Transactional
-    public void getAllBoletimInformativosByPublicoAlvoIsEqualToSomething() throws Exception {
-        // Get already existing entity
-        PublicoAlvo publicoAlvo = boletimInformativo.getPublicoAlvo();
-        boletimInformativoRepository.saveAndFlush(boletimInformativo);
-        Long publicoAlvoId = publicoAlvo.getId();
-
-        // Get all the boletimInformativoList where publicoAlvo equals to publicoAlvoId
-        defaultBoletimInformativoShouldBeFound("publicoAlvoId.equals=" + publicoAlvoId);
-
-        // Get all the boletimInformativoList where publicoAlvo equals to publicoAlvoId + 1
-        defaultBoletimInformativoShouldNotBeFound("publicoAlvoId.equals=" + (publicoAlvoId + 1));
-    }
-
-/*
-    @Test
-    @Transactional
-    public void getAllBoletimInformativosByCategoriaIsEqualToSomething() throws Exception {
-        // Get already existing entity
-        CategoriaPublicacao categoria = boletimInformativo.getCategoria();
-        boletimInformativoRepository.saveAndFlush(boletimInformativo);
-        Long categoriaId = categoria.getId();
-
-        // Get all the boletimInformativoList where categoria equals to categoriaId
-        defaultBoletimInformativoShouldBeFound("categoriaId.equals=" + categoriaId);
-
-        // Get all the boletimInformativoList where categoria equals to categoriaId + 1
-        defaultBoletimInformativoShouldNotBeFound("categoriaId.equals=" + (categoriaId + 1));
-    }
-*/
 
     /**
      * Executes the search, and checks that the default entity is returned.

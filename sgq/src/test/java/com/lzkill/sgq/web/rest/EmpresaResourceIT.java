@@ -41,6 +41,9 @@ public class EmpresaResourceIT {
     private static final String DEFAULT_NOME = "AAAAAAAAAA";
     private static final String UPDATED_NOME = "BBBBBBBBBB";
 
+    private static final Boolean DEFAULT_HABILITADO = false;
+    private static final Boolean UPDATED_HABILITADO = true;
+
     @Autowired
     private EmpresaRepository empresaRepository;
 
@@ -89,7 +92,8 @@ public class EmpresaResourceIT {
      */
     public static Empresa createEntity(EntityManager em) {
         Empresa empresa = new Empresa()
-            .nome(DEFAULT_NOME);
+            .nome(DEFAULT_NOME)
+            .habilitado(DEFAULT_HABILITADO);
         return empresa;
     }
     /**
@@ -100,7 +104,8 @@ public class EmpresaResourceIT {
      */
     public static Empresa createUpdatedEntity(EntityManager em) {
         Empresa empresa = new Empresa()
-            .nome(UPDATED_NOME);
+            .nome(UPDATED_NOME)
+            .habilitado(UPDATED_HABILITADO);
         return empresa;
     }
 
@@ -125,6 +130,7 @@ public class EmpresaResourceIT {
         assertThat(empresaList).hasSize(databaseSizeBeforeCreate + 1);
         Empresa testEmpresa = empresaList.get(empresaList.size() - 1);
         assertThat(testEmpresa.getNome()).isEqualTo(DEFAULT_NOME);
+        assertThat(testEmpresa.isHabilitado()).isEqualTo(DEFAULT_HABILITADO);
     }
 
     @Test
@@ -167,6 +173,24 @@ public class EmpresaResourceIT {
 
     @Test
     @Transactional
+    public void checkHabilitadoIsRequired() throws Exception {
+        int databaseSizeBeforeTest = empresaRepository.findAll().size();
+        // set the field null
+        empresa.setHabilitado(null);
+
+        // Create the Empresa, which fails.
+
+        restEmpresaMockMvc.perform(post("/api/empresas")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(empresa)))
+            .andExpect(status().isBadRequest());
+
+        List<Empresa> empresaList = empresaRepository.findAll();
+        assertThat(empresaList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     public void getAllEmpresas() throws Exception {
         // Initialize the database
         empresaRepository.saveAndFlush(empresa);
@@ -176,7 +200,8 @@ public class EmpresaResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(empresa.getId().intValue())))
-            .andExpect(jsonPath("$.[*].nome").value(hasItem(DEFAULT_NOME)));
+            .andExpect(jsonPath("$.[*].nome").value(hasItem(DEFAULT_NOME)))
+            .andExpect(jsonPath("$.[*].habilitado").value(hasItem(DEFAULT_HABILITADO.booleanValue())));
     }
     
     @Test
@@ -190,7 +215,8 @@ public class EmpresaResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(empresa.getId().intValue()))
-            .andExpect(jsonPath("$.nome").value(DEFAULT_NOME));
+            .andExpect(jsonPath("$.nome").value(DEFAULT_NOME))
+            .andExpect(jsonPath("$.habilitado").value(DEFAULT_HABILITADO.booleanValue()));
     }
 
 
@@ -293,6 +319,58 @@ public class EmpresaResourceIT {
 
     @Test
     @Transactional
+    public void getAllEmpresasByHabilitadoIsEqualToSomething() throws Exception {
+        // Initialize the database
+        empresaRepository.saveAndFlush(empresa);
+
+        // Get all the empresaList where habilitado equals to DEFAULT_HABILITADO
+        defaultEmpresaShouldBeFound("habilitado.equals=" + DEFAULT_HABILITADO);
+
+        // Get all the empresaList where habilitado equals to UPDATED_HABILITADO
+        defaultEmpresaShouldNotBeFound("habilitado.equals=" + UPDATED_HABILITADO);
+    }
+
+    @Test
+    @Transactional
+    public void getAllEmpresasByHabilitadoIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        empresaRepository.saveAndFlush(empresa);
+
+        // Get all the empresaList where habilitado not equals to DEFAULT_HABILITADO
+        defaultEmpresaShouldNotBeFound("habilitado.notEquals=" + DEFAULT_HABILITADO);
+
+        // Get all the empresaList where habilitado not equals to UPDATED_HABILITADO
+        defaultEmpresaShouldBeFound("habilitado.notEquals=" + UPDATED_HABILITADO);
+    }
+
+    @Test
+    @Transactional
+    public void getAllEmpresasByHabilitadoIsInShouldWork() throws Exception {
+        // Initialize the database
+        empresaRepository.saveAndFlush(empresa);
+
+        // Get all the empresaList where habilitado in DEFAULT_HABILITADO or UPDATED_HABILITADO
+        defaultEmpresaShouldBeFound("habilitado.in=" + DEFAULT_HABILITADO + "," + UPDATED_HABILITADO);
+
+        // Get all the empresaList where habilitado equals to UPDATED_HABILITADO
+        defaultEmpresaShouldNotBeFound("habilitado.in=" + UPDATED_HABILITADO);
+    }
+
+    @Test
+    @Transactional
+    public void getAllEmpresasByHabilitadoIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        empresaRepository.saveAndFlush(empresa);
+
+        // Get all the empresaList where habilitado is not null
+        defaultEmpresaShouldBeFound("habilitado.specified=true");
+
+        // Get all the empresaList where habilitado is null
+        defaultEmpresaShouldNotBeFound("habilitado.specified=false");
+    }
+
+    @Test
+    @Transactional
     public void getAllEmpresasByProdutoIsEqualToSomething() throws Exception {
         // Initialize the database
         empresaRepository.saveAndFlush(empresa);
@@ -338,7 +416,8 @@ public class EmpresaResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(empresa.getId().intValue())))
-            .andExpect(jsonPath("$.[*].nome").value(hasItem(DEFAULT_NOME)));
+            .andExpect(jsonPath("$.[*].nome").value(hasItem(DEFAULT_NOME)))
+            .andExpect(jsonPath("$.[*].habilitado").value(hasItem(DEFAULT_HABILITADO.booleanValue())));
 
         // Check, that the count call also returns 1
         restEmpresaMockMvc.perform(get("/api/empresas/count?sort=id,desc&" + filter))
@@ -386,7 +465,8 @@ public class EmpresaResourceIT {
         // Disconnect from session so that the updates on updatedEmpresa are not directly saved in db
         em.detach(updatedEmpresa);
         updatedEmpresa
-            .nome(UPDATED_NOME);
+            .nome(UPDATED_NOME)
+            .habilitado(UPDATED_HABILITADO);
 
         restEmpresaMockMvc.perform(put("/api/empresas")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -398,6 +478,7 @@ public class EmpresaResourceIT {
         assertThat(empresaList).hasSize(databaseSizeBeforeUpdate);
         Empresa testEmpresa = empresaList.get(empresaList.size() - 1);
         assertThat(testEmpresa.getNome()).isEqualTo(UPDATED_NOME);
+        assertThat(testEmpresa.isHabilitado()).isEqualTo(UPDATED_HABILITADO);
     }
 
     @Test

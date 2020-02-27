@@ -23,6 +23,7 @@ export class SetorUpdateComponent implements OnInit {
   editForm = this.fb.group({
     id: [],
     nome: [null, [Validators.required, Validators.minLength(1), Validators.maxLength(100)]],
+    habilitado: [null, [Validators.required]],
     empresa: [null, Validators.required]
   });
 
@@ -52,6 +53,7 @@ export class SetorUpdateComponent implements OnInit {
     this.editForm.patchValue({
       id: setor.id,
       nome: setor.nome,
+      habilitado: setor.habilitado,
       empresa: setor.empresa
     });
   }
@@ -75,6 +77,7 @@ export class SetorUpdateComponent implements OnInit {
       ...new Setor(),
       id: this.editForm.get(['id'])!.value,
       nome: this.editForm.get(['nome'])!.value,
+      habilitado: this.editForm.get(['habilitado'])!.value,
       empresa: this.editForm.get(['empresa'])!.value
     };
   }

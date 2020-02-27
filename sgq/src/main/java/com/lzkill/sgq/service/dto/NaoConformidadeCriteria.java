@@ -64,13 +64,13 @@ public class NaoConformidadeCriteria implements Serializable, Criteria {
 
     private StatusSGQFilter statusSGQ;
 
-    private LongFilter anexoId;
-
     private LongFilter acaoSGQId;
 
-    private LongFilter resultadoAuditoriaId;
+    private LongFilter anexoId;
 
-    private LongFilter resultadoItemChecklistId;
+    private LongFilter auditoriaId;
+
+    private LongFilter resultadoChecklistId;
 
     public NaoConformidadeCriteria(){
     }
@@ -86,10 +86,10 @@ public class NaoConformidadeCriteria implements Serializable, Criteria {
         this.dataRegistro = other.dataRegistro == null ? null : other.dataRegistro.copy();
         this.dataConclusao = other.dataConclusao == null ? null : other.dataConclusao.copy();
         this.statusSGQ = other.statusSGQ == null ? null : other.statusSGQ.copy();
-        this.anexoId = other.anexoId == null ? null : other.anexoId.copy();
         this.acaoSGQId = other.acaoSGQId == null ? null : other.acaoSGQId.copy();
-        this.resultadoAuditoriaId = other.resultadoAuditoriaId == null ? null : other.resultadoAuditoriaId.copy();
-        this.resultadoItemChecklistId = other.resultadoItemChecklistId == null ? null : other.resultadoItemChecklistId.copy();
+        this.anexoId = other.anexoId == null ? null : other.anexoId.copy();
+        this.auditoriaId = other.auditoriaId == null ? null : other.auditoriaId.copy();
+        this.resultadoChecklistId = other.resultadoChecklistId == null ? null : other.resultadoChecklistId.copy();
     }
 
     @Override
@@ -177,14 +177,6 @@ public class NaoConformidadeCriteria implements Serializable, Criteria {
         this.statusSGQ = statusSGQ;
     }
 
-    public LongFilter getAnexoId() {
-        return anexoId;
-    }
-
-    public void setAnexoId(LongFilter anexoId) {
-        this.anexoId = anexoId;
-    }
-
     public LongFilter getAcaoSGQId() {
         return acaoSGQId;
     }
@@ -193,20 +185,28 @@ public class NaoConformidadeCriteria implements Serializable, Criteria {
         this.acaoSGQId = acaoSGQId;
     }
 
-    public LongFilter getResultadoAuditoriaId() {
-        return resultadoAuditoriaId;
+    public LongFilter getAnexoId() {
+        return anexoId;
     }
 
-    public void setResultadoAuditoriaId(LongFilter resultadoAuditoriaId) {
-        this.resultadoAuditoriaId = resultadoAuditoriaId;
+    public void setAnexoId(LongFilter anexoId) {
+        this.anexoId = anexoId;
     }
 
-    public LongFilter getResultadoItemChecklistId() {
-        return resultadoItemChecklistId;
+    public LongFilter getAuditoriaId() {
+        return auditoriaId;
     }
 
-    public void setResultadoItemChecklistId(LongFilter resultadoItemChecklistId) {
-        this.resultadoItemChecklistId = resultadoItemChecklistId;
+    public void setAuditoriaId(LongFilter auditoriaId) {
+        this.auditoriaId = auditoriaId;
+    }
+
+    public LongFilter getResultadoChecklistId() {
+        return resultadoChecklistId;
+    }
+
+    public void setResultadoChecklistId(LongFilter resultadoChecklistId) {
+        this.resultadoChecklistId = resultadoChecklistId;
     }
 
 
@@ -230,10 +230,10 @@ public class NaoConformidadeCriteria implements Serializable, Criteria {
             Objects.equals(dataRegistro, that.dataRegistro) &&
             Objects.equals(dataConclusao, that.dataConclusao) &&
             Objects.equals(statusSGQ, that.statusSGQ) &&
-            Objects.equals(anexoId, that.anexoId) &&
             Objects.equals(acaoSGQId, that.acaoSGQId) &&
-            Objects.equals(resultadoAuditoriaId, that.resultadoAuditoriaId) &&
-            Objects.equals(resultadoItemChecklistId, that.resultadoItemChecklistId);
+            Objects.equals(anexoId, that.anexoId) &&
+            Objects.equals(auditoriaId, that.auditoriaId) &&
+            Objects.equals(resultadoChecklistId, that.resultadoChecklistId);
     }
 
     @Override
@@ -249,10 +249,10 @@ public class NaoConformidadeCriteria implements Serializable, Criteria {
         dataRegistro,
         dataConclusao,
         statusSGQ,
-        anexoId,
         acaoSGQId,
-        resultadoAuditoriaId,
-        resultadoItemChecklistId
+        anexoId,
+        auditoriaId,
+        resultadoChecklistId
         );
     }
 
@@ -269,10 +269,10 @@ public class NaoConformidadeCriteria implements Serializable, Criteria {
                 (dataRegistro != null ? "dataRegistro=" + dataRegistro + ", " : "") +
                 (dataConclusao != null ? "dataConclusao=" + dataConclusao + ", " : "") +
                 (statusSGQ != null ? "statusSGQ=" + statusSGQ + ", " : "") +
-                (anexoId != null ? "anexoId=" + anexoId + ", " : "") +
                 (acaoSGQId != null ? "acaoSGQId=" + acaoSGQId + ", " : "") +
-                (resultadoAuditoriaId != null ? "resultadoAuditoriaId=" + resultadoAuditoriaId + ", " : "") +
-                (resultadoItemChecklistId != null ? "resultadoItemChecklistId=" + resultadoItemChecklistId + ", " : "") +
+                (anexoId != null ? "anexoId=" + anexoId + ", " : "") +
+                (auditoriaId != null ? "auditoriaId=" + auditoriaId + ", " : "") +
+                (resultadoChecklistId != null ? "resultadoChecklistId=" + resultadoChecklistId + ", " : "") +
             "}";
     }
 

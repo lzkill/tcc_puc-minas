@@ -8,11 +8,29 @@
     -->
     <changeSet id="20200208160352-2" author="jhipster">
         
-        <addForeignKeyConstraint baseColumnNames="processo_id"
-                                 baseTableName="auditoria"
-                                 constraintName="fk_auditoria_processo_id"
+        <addForeignKeyConstraint baseColumnNames="auditoria_id"
+                                 baseTableName="auditoria_item_auditoria"
+                                 constraintName="fk_auditoria_item_auditoria_auditoria_id"
                                  referencedColumnNames="id"
-                                 referencedTableName="processo"/>
+                                 referencedTableName="auditoria"/>
 
+        <addForeignKeyConstraint baseColumnNames="item_auditoria_id"
+                                 baseTableName="auditoria_item_auditoria"
+                                 constraintName="fk_auditoria_item_auditoria_item_auditoria_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="item_auditoria"/>
+        
+        <addForeignKeyConstraint baseColumnNames="auditoria_id"
+                                 baseTableName="auditoria_anexo"
+                                 constraintName="fk_auditoria_anexo_auditoria_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="auditoria"/>
+
+        <addForeignKeyConstraint baseColumnNames="anexo_id"
+                                 baseTableName="auditoria_anexo"
+                                 constraintName="fk_auditoria_anexo_anexo_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="anexo"/>
+        
     </changeSet>
 </databaseChangeLog>

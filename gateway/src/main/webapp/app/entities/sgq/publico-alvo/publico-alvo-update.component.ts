@@ -20,7 +20,8 @@ export class PublicoAlvoUpdateComponent implements OnInit {
   editForm = this.fb.group({
     id: [],
     nome: [null, [Validators.required, Validators.minLength(1), Validators.maxLength(100)]],
-    descricao: []
+    descricao: [],
+    habilitado: [null, [Validators.required]]
   });
 
   constructor(
@@ -41,7 +42,8 @@ export class PublicoAlvoUpdateComponent implements OnInit {
     this.editForm.patchValue({
       id: publicoAlvo.id,
       nome: publicoAlvo.nome,
-      descricao: publicoAlvo.descricao
+      descricao: publicoAlvo.descricao,
+      habilitado: publicoAlvo.habilitado
     });
   }
 
@@ -80,7 +82,8 @@ export class PublicoAlvoUpdateComponent implements OnInit {
       ...new PublicoAlvo(),
       id: this.editForm.get(['id'])!.value,
       nome: this.editForm.get(['nome'])!.value,
-      descricao: this.editForm.get(['descricao'])!.value
+      descricao: this.editForm.get(['descricao'])!.value,
+      habilitado: this.editForm.get(['habilitado'])!.value
     };
   }
 

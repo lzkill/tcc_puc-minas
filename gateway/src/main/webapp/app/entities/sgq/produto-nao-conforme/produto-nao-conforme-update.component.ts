@@ -18,15 +18,15 @@ import { INaoConformidade } from 'app/shared/model/sgq/nao-conformidade.model';
 import { NaoConformidadeService } from 'app/entities/sgq/nao-conformidade/nao-conformidade.service';
 import { IProduto } from 'app/shared/model/sgq/produto.model';
 import { ProdutoService } from 'app/entities/sgq/produto/produto.service';
-import { IResultadoAuditoria } from 'app/shared/model/sgq/resultado-auditoria.model';
-import { ResultadoAuditoriaService } from 'app/entities/sgq/resultado-auditoria/resultado-auditoria.service';
-import { IResultadoItemChecklist } from 'app/shared/model/sgq/resultado-item-checklist.model';
-import { ResultadoItemChecklistService } from 'app/entities/sgq/resultado-item-checklist/resultado-item-checklist.service';
+import { IAnexo } from 'app/shared/model/sgq/anexo.model';
+import { AnexoService } from 'app/entities/sgq/anexo/anexo.service';
+import { IResultadoChecklist } from 'app/shared/model/sgq/resultado-checklist.model';
+import { ResultadoChecklistService } from 'app/entities/sgq/resultado-checklist/resultado-checklist.service';
 
 import { IUser } from 'app/core/user/user.model';
 import { UserService } from 'app/core/user/user.service';
 
-type SelectableEntity = IAcaoSGQ | INaoConformidade | IProduto | IResultadoAuditoria | IResultadoItemChecklist;
+type SelectableEntity = IAcaoSGQ | INaoConformidade | IProduto | IAnexo | IResultadoChecklist;
 
 @Component({
   selector: 'jhi-produto-nao-conforme-update',
@@ -37,25 +37,27 @@ export class ProdutoNaoConformeUpdateComponent implements OnInit {
   acaos: IAcaoSGQ[] = [];
   naoconformidades: INaoConformidade[] = [];
   produtos: IProduto[] = [];
-  resultadoauditorias: IResultadoAuditoria[] = [];
-  resultadoitemchecklists: IResultadoItemChecklist[] = [];
   usuarios: IUser[] = [];
+
+  anexos: IAnexo[] = [];
+
+  resultadochecklists: IResultadoChecklist[] = [];
 
   editForm = this.fb.group({
     id: [],
     idUsuarioRegistro: [null, [Validators.required]],
-    idUsuarioResponsavel: [null, [Validators.required]],
+    idUsuarioResponsavel: [],
     titulo: [null, [Validators.required, Validators.minLength(1), Validators.maxLength(100)]],
     descricao: [null, [Validators.required]],
-    procedente: [null, [Validators.required]],
+    procedente: [],
     dataRegistro: [null, [Validators.required]],
     analiseFinal: [],
     statusSGQ: [null, [Validators.required]],
-    acao: [null, Validators.required],
+    acao: [],
     naoConformidade: [],
     produto: [null, Validators.required],
-    resultadoAuditoria: [],
-    resultadoItemChecklist: []
+    anexos: [],
+    resultadoChecklist: []
   });
 
   constructor(
@@ -65,8 +67,8 @@ export class ProdutoNaoConformeUpdateComponent implements OnInit {
     protected acaoSGQService: AcaoSGQService,
     protected naoConformidadeService: NaoConformidadeService,
     protected produtoService: ProdutoService,
-    protected resultadoAuditoriaService: ResultadoAuditoriaService,
-    protected resultadoItemChecklistService: ResultadoItemChecklistService,
+    protected anexoService: AnexoService,
+    protected resultadoChecklistService: ResultadoChecklistService,
     protected activatedRoute: ActivatedRoute,
     protected userService: UserService,
     private fb: FormBuilder
@@ -133,23 +135,23 @@ export class ProdutoNaoConformeUpdateComponent implements OnInit {
         )
         .subscribe((resBody: IProduto[]) => (this.produtos = resBody));
 
-      this.resultadoAuditoriaService
+      this.anexoService
         .query()
         .pipe(
-          map((res: HttpResponse<IResultadoAuditoria[]>) => {
+          map((res: HttpResponse<IAnexo[]>) => {
             return res.body ? res.body : [];
           })
         )
-        .subscribe((resBody: IResultadoAuditoria[]) => (this.resultadoauditorias = resBody));
+        .subscribe((resBody: IAnexo[]) => (this.anexos = resBody));
 
-      this.resultadoItemChecklistService
+      this.resultadoChecklistService
         .query()
         .pipe(
-          map((res: HttpResponse<IResultadoItemChecklist[]>) => {
+          map((res: HttpResponse<IResultadoChecklist[]>) => {
             return res.body ? res.body : [];
           })
         )
-        .subscribe((resBody: IResultadoItemChecklist[]) => (this.resultadoitemchecklists = resBody));
+        .subscribe((resBody: IResultadoChecklist[]) => (this.resultadochecklists = resBody));
 
       this.userService
         .query()
@@ -180,8 +182,8 @@ export class ProdutoNaoConformeUpdateComponent implements OnInit {
       acao: produtoNaoConforme.acao,
       naoConformidade: produtoNaoConforme.naoConformidade,
       produto: produtoNaoConforme.produto,
-      resultadoAuditoria: produtoNaoConforme.resultadoAuditoria,
-      resultadoItemChecklist: produtoNaoConforme.resultadoItemChecklist
+      anexos: produtoNaoConforme.anexos,
+      resultadoChecklist: produtoNaoConforme.resultadoChecklist
     });
   }
 
@@ -233,8 +235,8 @@ export class ProdutoNaoConformeUpdateComponent implements OnInit {
       acao: this.editForm.get(['acao'])!.value,
       naoConformidade: this.editForm.get(['naoConformidade'])!.value,
       produto: this.editForm.get(['produto'])!.value,
-      resultadoAuditoria: this.editForm.get(['resultadoAuditoria'])!.value,
-      resultadoItemChecklist: this.editForm.get(['resultadoItemChecklist'])!.value
+      anexos: this.editForm.get(['anexos'])!.value,
+      resultadoChecklist: this.editForm.get(['resultadoChecklist'])!.value
     };
   }
 
@@ -256,5 +258,16 @@ export class ProdutoNaoConformeUpdateComponent implements OnInit {
 
   trackById(index: number, item: SelectableEntity): any {
     return item.id;
+  }
+
+  getSelected(selectedVals: IAnexo[], option: IAnexo): IAnexo {
+    if (selectedVals) {
+      for (let i = 0; i < selectedVals.length; i++) {
+        if (option.id === selectedVals[i].id) {
+          return selectedVals[i];
+        }
+      }
+    }
+    return option;
   }
 }

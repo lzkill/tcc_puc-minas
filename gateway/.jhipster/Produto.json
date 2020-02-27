@@ -16,14 +16,23 @@
             "fieldName": "descricao",
             "fieldType": "byte[]",
             "fieldTypeBlobContent": "text"
+        },
+        {
+            "fieldName": "habilitado",
+            "fieldType": "Boolean",
+            "fieldValidateRules": [
+                "required"
+            ]
         }
     ],
     "relationships": [
         {
-            "relationshipType": "one-to-many",
+            "relationshipType": "many-to-many",
             "otherEntityName": "anexo",
             "otherEntityRelationshipName": "produto",
-            "relationshipName": "anexo"
+            "relationshipName": "anexo",
+            "otherEntityField": "nomeArquivo",
+            "ownerSide": true
         },
         {
             "relationshipType": "many-to-one",

@@ -35,13 +35,20 @@ public class Checklist implements Serializable {
     @Column(name = "periodicidade")
     private Periodicidade periodicidade;
 
-    @OneToMany(mappedBy = "checklist")
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<Anexo> anexos = new HashSet<>();
+    @NotNull
+    @Column(name = "habilitado", nullable = false)
+    private Boolean habilitado;
 
     @OneToMany(mappedBy = "checklist")
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<ItemChecklist> items = new HashSet<>();
+
+    @ManyToMany
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    @JoinTable(name = "checklist_anexo",
+               joinColumns = @JoinColumn(name = "checklist_id", referencedColumnName = "id"),
+               inverseJoinColumns = @JoinColumn(name = "anexo_id", referencedColumnName = "id"))
+    private Set<Anexo> anexos = new HashSet<>();
 
     @ManyToOne(optional = false)
     @NotNull
@@ -83,29 +90,17 @@ public class Checklist implements Serializable {
         this.periodicidade = periodicidade;
     }
 
-    public Set<Anexo> getAnexos() {
-        return anexos;
+    public Boolean isHabilitado() {
+        return habilitado;
     }
 
-    public Checklist anexos(Set<Anexo> anexos) {
-        this.anexos = anexos;
+    public Checklist habilitado(Boolean habilitado) {
+        this.habilitado = habilitado;
         return this;
     }
 
-    public Checklist addAnexo(Anexo anexo) {
-        this.anexos.add(anexo);
-        anexo.setChecklist(this);
-        return this;
-    }
-
-    public Checklist removeAnexo(Anexo anexo) {
-        this.anexos.remove(anexo);
-        anexo.setChecklist(null);
-        return this;
-    }
-
-    public void setAnexos(Set<Anexo> anexos) {
-        this.anexos = anexos;
+    public void setHabilitado(Boolean habilitado) {
+        this.habilitado = habilitado;
     }
 
     public Set<ItemChecklist> getItems() {
@@ -131,6 +126,31 @@ public class Checklist implements Serializable {
 
     public void setItems(Set<ItemChecklist> itemChecklists) {
         this.items = itemChecklists;
+    }
+
+    public Set<Anexo> getAnexos() {
+        return anexos;
+    }
+
+    public Checklist anexos(Set<Anexo> anexos) {
+        this.anexos = anexos;
+        return this;
+    }
+
+    public Checklist addAnexo(Anexo anexo) {
+        this.anexos.add(anexo);
+        anexo.getChecklists().add(this);
+        return this;
+    }
+
+    public Checklist removeAnexo(Anexo anexo) {
+        this.anexos.remove(anexo);
+        anexo.getChecklists().remove(this);
+        return this;
+    }
+
+    public void setAnexos(Set<Anexo> anexos) {
+        this.anexos = anexos;
     }
 
     public Setor getSetor() {
@@ -169,6 +189,7 @@ public class Checklist implements Serializable {
             "id=" + getId() +
             ", titulo='" + getTitulo() + "'" +
             ", periodicidade='" + getPeriodicidade() + "'" +
+            ", habilitado='" + isHabilitado() + "'" +
             "}";
     }
 }

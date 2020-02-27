@@ -9,15 +9,11 @@
             ]
         },
         {
-            "fieldName": "titulo",
-            "fieldType": "String",
+            "fieldName": "dataRegistro",
+            "fieldType": "Instant",
             "fieldValidateRules": [
-                "required",
-                "minlength",
-                "maxlength"
-            ],
-            "fieldValidateRulesMinlength": 1,
-            "fieldValidateRulesMaxlength": 100
+                "required"
+            ]
         },
         {
             "fieldName": "dataVerificacao",
@@ -30,15 +26,21 @@
     "relationships": [
         {
             "relationshipType": "one-to-many",
-            "otherEntityName": "anexo",
-            "otherEntityRelationshipName": "resultadoChecklist",
-            "relationshipName": "anexo"
-        },
-        {
-            "relationshipType": "one-to-many",
             "otherEntityName": "resultadoItemChecklist",
             "otherEntityRelationshipName": "resultado",
             "relationshipName": "resultadoItem"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "otherEntityName": "naoConformidade",
+            "otherEntityRelationshipName": "resultadoChecklist",
+            "relationshipName": "naoConformidade"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "otherEntityName": "produtoNaoConforme",
+            "otherEntityRelationshipName": "resultadoChecklist",
+            "relationshipName": "produtoNaoConforme"
         },
         {
             "relationshipType": "many-to-one",
@@ -47,6 +49,14 @@
             "relationshipValidateRules": "required",
             "relationshipName": "checklist",
             "otherEntityField": "titulo"
+        },
+        {
+            "relationshipType": "many-to-many",
+            "otherEntityName": "anexo",
+            "otherEntityRelationshipName": "resultadoChecklist",
+            "relationshipName": "anexo",
+            "otherEntityField": "nomeArquivo",
+            "ownerSide": true
         }
     ],
     "changelogDate": "20200208160357",

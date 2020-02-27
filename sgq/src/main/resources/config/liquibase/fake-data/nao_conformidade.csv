@@ -1,4 +1,4 @@
-id;id_usuario_registro;id_usuario_responsavel;titulo;fato;procedente;causa;prazo_conclusao;novo_prazo_conclusao;data_registro;data_conclusao;analise_final;status_sgq
+id;id_usuario_registro;id_usuario_responsavel;titulo;descricao;procedente;causa;prazo_conclusao;novo_prazo_conclusao;data_registro;data_conclusao;analise_final;status_sgq
 1;35164;733;mobile holistic;../fake-data/blob/hipster.txt;false;../fake-data/blob/hipster.txt;2020-02-08T07:39:12;2020-02-08T15:22:13;2020-02-08T11:59:17;2020-02-08T08:18:07;../fake-data/blob/hipster.txt;CONCLUIDO
 2;83498;7067;Small;../fake-data/blob/hipster.txt;true;../fake-data/blob/hipster.txt;2020-02-08T13:54:35;2020-02-07T19:32:51;2020-02-07T19:09:28;2020-02-08T06:17:38;../fake-data/blob/hipster.txt;CONCLUIDO
 3;44622;10771;methodology;../fake-data/blob/hipster.txt;true;../fake-data/blob/hipster.txt;2020-02-07T20:26:32;2020-02-08T09:49:10;2020-02-07T22:49:52;2020-02-08T10:03:36;../fake-data/blob/hipster.txt;REGISTRADO

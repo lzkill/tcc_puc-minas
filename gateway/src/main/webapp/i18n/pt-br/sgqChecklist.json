@@ -3,28 +3,29 @@
     "sgqChecklist": {
       "home": {
         "title": "Checklists",
-        "createLabel": "Adicionar",
-        "createOrEditLabel": "Criar ou editar checklist",
-        "notFound": "Nenhum checklist encontrado"
+        "createLabel": "Criar novo Checklist",
+        "createOrEditLabel": "Criar ou editar Checklist",
+        "notFound": "Nenhum Checklist encontrado"
       },
       "delete": {
-        "question": "Tem certeza de que deseja excluir o checklist {{ id }}?"
+        "question": "Tem certeza de que deseja excluir Checklist {{ id }}?"
       },
       "detail": {
         "title": "Checklist"
       },
-      "titulo": "Título",
+      "titulo": "Titulo",
       "periodicidade": "Periodicidade",
-      "anexo": "Anexo",
+      "habilitado": "Habilitado",
       "item": "Item",
+      "anexo": "Anexo",
       "setor": "Setor"
     }
   },
   "sgqApp": {
     "sgqChecklist": {
-      "created": "Um novo checklist foi criado com o identificador {{ param }}",
-      "updated": "Um checklist foi atualizado com o identificador {{ param }}",
-      "deleted": "Um checklist foi excluído com o identificador {{ param }}"
+      "created": "Um novo Checklist foi criado com o identificador {{ param }}",
+      "updated": "Um Checklist foi atualizado com o identificador {{ param }}",
+      "deleted": "Um Checklist foi excluído com o identificador {{ param }}"
     }
   }
 }

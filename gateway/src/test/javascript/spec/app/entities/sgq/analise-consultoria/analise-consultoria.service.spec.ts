@@ -5,7 +5,7 @@ import * as moment from 'moment';
 import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 import { AnaliseConsultoriaService } from 'app/entities/sgq/analise-consultoria/analise-consultoria.service';
 import { IAnaliseConsultoria, AnaliseConsultoria } from 'app/shared/model/sgq/analise-consultoria.model';
-import { StatusAnaliseExterna } from 'app/shared/model/enumerations/status-analise-externa.model';
+import { StatusAprovacao } from 'app/shared/model/enumerations/status-aprovacao.model';
 
 describe('Service Tests', () => {
   describe('AnaliseConsultoria Service', () => {
@@ -25,14 +25,13 @@ describe('Service Tests', () => {
       httpMock = injector.get(HttpTestingController);
       currentDate = moment();
 
-      elemDefault = new AnaliseConsultoria(0, currentDate, currentDate, 'AAAAAAA', 'AAAAAAA', StatusAnaliseExterna.PENDENTE);
+      elemDefault = new AnaliseConsultoria(0, currentDate, 'AAAAAAA', 'AAAAAAA', StatusAprovacao.APROVADO);
     });
 
     describe('Service methods', () => {
       it('should find an element', () => {
         const returnedFromService = Object.assign(
           {
-            dataSolicitacaoAnalise: currentDate.format(DATE_TIME_FORMAT),
             dataAnalise: currentDate.format(DATE_TIME_FORMAT)
           },
           elemDefault
@@ -51,14 +50,12 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             id: 0,
-            dataSolicitacaoAnalise: currentDate.format(DATE_TIME_FORMAT),
             dataAnalise: currentDate.format(DATE_TIME_FORMAT)
           },
           elemDefault
         );
         const expected = Object.assign(
           {
-            dataSolicitacaoAnalise: currentDate,
             dataAnalise: currentDate
           },
           returnedFromService
@@ -75,10 +72,9 @@ describe('Service Tests', () => {
       it('should update a AnaliseConsultoria', () => {
         const returnedFromService = Object.assign(
           {
-            dataSolicitacaoAnalise: currentDate.format(DATE_TIME_FORMAT),
             dataAnalise: currentDate.format(DATE_TIME_FORMAT),
-            descricao: 'BBBBBB',
-            responsavelAnalise: 'BBBBBB',
+            conteudo: 'BBBBBB',
+            responsavel: 'BBBBBB',
             status: 'BBBBBB'
           },
           elemDefault
@@ -86,7 +82,6 @@ describe('Service Tests', () => {
 
         const expected = Object.assign(
           {
-            dataSolicitacaoAnalise: currentDate,
             dataAnalise: currentDate
           },
           returnedFromService
@@ -103,17 +98,15 @@ describe('Service Tests', () => {
       it('should return a list of AnaliseConsultoria', () => {
         const returnedFromService = Object.assign(
           {
-            dataSolicitacaoAnalise: currentDate.format(DATE_TIME_FORMAT),
             dataAnalise: currentDate.format(DATE_TIME_FORMAT),
-            descricao: 'BBBBBB',
-            responsavelAnalise: 'BBBBBB',
+            conteudo: 'BBBBBB',
+            responsavel: 'BBBBBB',
             status: 'BBBBBB'
           },
           elemDefault
         );
         const expected = Object.assign(
           {
-            dataSolicitacaoAnalise: currentDate,
             dataAnalise: currentDate
           },
           returnedFromService

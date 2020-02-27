@@ -14,5 +14,17 @@
                                  referencedColumnNames="id"
                                  referencedTableName="processo"/>
 
+        <addForeignKeyConstraint baseColumnNames="evento_operacional_id"
+                                 baseTableName="evento_operacional_anexo"
+                                 constraintName="fk_evento_operacional_anexo_evento_operacional_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="evento_operacional"/>
+
+        <addForeignKeyConstraint baseColumnNames="anexo_id"
+                                 baseTableName="evento_operacional_anexo"
+                                 constraintName="fk_evento_operacional_anexo_anexo_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="anexo"/>
+        
     </changeSet>
 </databaseChangeLog>

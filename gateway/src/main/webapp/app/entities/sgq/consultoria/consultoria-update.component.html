@@ -1,0 +1,88 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+            <h2 id="jhi-consultoria-heading" jhiTranslate="gatewayApp.sgqConsultoria.home.createOrEditLabel">Create or edit a Consultoria</h2>
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+                <div class="form-group" [hidden]="!editForm.get('id')!.value">
+                    <label for="id" jhiTranslate="global.field.id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id" formControlName="id"
+                        readonly />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="gatewayApp.sgqConsultoria.nome" for="field_nome">Nome</label>
+                    <input type="text" class="form-control" name="nome" id="field_nome"
+                           formControlName="nome"/>
+                    <div *ngIf="editForm.get('nome')!.invalid && (editForm.get('nome')!.dirty || editForm.get('nome')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('nome')?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('nome')?.errors?.minlength" jhiTranslate="entity.validation.minlength" [translateValues]="{ min: 1 }">
+                        This field is required to be at least 1 characters.
+                        </small>
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('nome')?.errors?.maxlength" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: 100 }">
+                        This field cannot be longer than 100 characters.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="gatewayApp.sgqConsultoria.urlIntegracao" for="field_urlIntegracao">Url Integracao</label>
+                    <input type="text" class="form-control" name="urlIntegracao" id="field_urlIntegracao"
+                           formControlName="urlIntegracao"/>
+                    <div *ngIf="editForm.get('urlIntegracao')!.invalid && (editForm.get('urlIntegracao')!.dirty || editForm.get('urlIntegracao')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('urlIntegracao')?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('urlIntegracao')?.errors?.minlength" jhiTranslate="entity.validation.minlength" [translateValues]="{ min: 1 }">
+                        This field is required to be at least 1 characters.
+                        </small>
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('urlIntegracao')?.errors?.maxlength" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: 150 }">
+                        This field cannot be longer than 150 characters.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="gatewayApp.sgqConsultoria.tokenAcesso" for="field_tokenAcesso" [ngbTooltip]="'gatewayApp.sgqConsultoria.help.tokenAcesso' | translate">Token Acesso</label>
+                    <input type="text" class="form-control" name="tokenAcesso" id="field_tokenAcesso"
+                           formControlName="tokenAcesso"/>
+                    <div *ngIf="editForm.get('tokenAcesso')!.invalid && (editForm.get('tokenAcesso')!.dirty || editForm.get('tokenAcesso')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('tokenAcesso')?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('tokenAcesso')?.errors?.minlength" jhiTranslate="entity.validation.minlength" [translateValues]="{ min: 1 }">
+                        This field is required to be at least 1 characters.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="gatewayApp.sgqConsultoria.habilitado" for="field_habilitado">Habilitado</label>
+                    <input type="checkbox" class="form-control" name="habilitado" id="field_habilitado"
+                           formControlName="habilitado"/>
+                    <div *ngIf="editForm.get('habilitado')!.invalid && (editForm.get('habilitado')!.dirty || editForm.get('habilitado')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('habilitado')?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+
+            </div>
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

@@ -5,23 +5,41 @@
             <hr>
             <jhi-alert-error></jhi-alert-error>
             <dl class="row-md jh-entity-details">
-                <dt><span jhiTranslate="gatewayApp.sgqAuditoria.tipo">Tipo</span></dt>
+                <dt><span jhiTranslate="gatewayApp.sgqAuditoria.idUsuarioRegistro">Id Usuario Registro</span></dt>
                 <dd>
-                    <span jhiTranslate="{{'gatewayApp.TipoAuditoria.' + auditoria.tipo}}">{{auditoria.tipo}}</span>
+                    <span>{{auditoria.idUsuarioRegistro}}</span>
                 </dd>
                 <dt><span jhiTranslate="gatewayApp.sgqAuditoria.titulo">Titulo</span></dt>
                 <dd>
                     <span>{{auditoria.titulo}}</span>
                 </dd>
-                <dt><span jhiTranslate="gatewayApp.sgqAuditoria.descricao" [ngbTooltip]="'gatewayApp.sgqAuditoria.help.descricao' | translate">Descricao</span></dt>
+                <dt><span jhiTranslate="gatewayApp.sgqAuditoria.descricao">Descricao</span></dt>
                 <dd>
                     <span>{{auditoria.descricao}}</span>
                 </dd>
-                <dt><span jhiTranslate="gatewayApp.sgqAuditoria.processo">Processo</span></dt>
+                <dt><span jhiTranslate="gatewayApp.sgqAuditoria.dataRegistro">Data Registro</span></dt>
                 <dd>
-                    <div *ngIf="auditoria.processo">
-                        <a [routerLink]="['/processo', auditoria.processo?.id, 'view']">{{auditoria.processo?.titulo}}</a>
-                    </div>
+                    <span>{{auditoria.dataRegistro}}</span>
+                </dd>
+                <dt><span jhiTranslate="gatewayApp.sgqAuditoria.dataInicio">Data Inicio</span></dt>
+                <dd>
+                    <span>{{auditoria.dataInicio}}</span>
+                </dd>
+                <dt><span jhiTranslate="gatewayApp.sgqAuditoria.dataFim">Data Fim</span></dt>
+                <dd>
+                    <span>{{auditoria.dataFim}}</span>
+                </dd>
+                <dt><span jhiTranslate="gatewayApp.sgqAuditoria.itemAuditoria">Item Auditoria</span></dt>
+                <dd>
+                    <span *ngFor="let itemAuditoria of auditoria.itemAuditorias; let last = last">
+                        <a [routerLink]="['/item-auditoria', itemAuditoria?.id, 'view' ]">{{itemAuditoria.titulo}}</a>{{last ? '' : ', '}}
+                    </span>
+                </dd>
+                <dt><span jhiTranslate="gatewayApp.sgqAuditoria.anexo">Anexo</span></dt>
+                <dd>
+                    <span *ngFor="let anexo of auditoria.anexos; let last = last">
+                        <a [routerLink]="['/anexo', anexo?.id, 'view' ]">{{anexo.nomeArquivo}}</a>{{last ? '' : ', '}}
+                    </span>
                 </dd>
             </dl>
 

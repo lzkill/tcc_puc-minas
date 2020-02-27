@@ -51,8 +51,7 @@
     "readOnly": true,
     "clientRootFolder": "",
     "applications": [
-        "gateway",
-        "sgq"
+        "gateway"
     ],
     "microserviceName": "sgq"
 }

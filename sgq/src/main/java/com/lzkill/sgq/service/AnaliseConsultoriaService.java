@@ -10,7 +10,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 /**
  * Service Implementation for managing {@link AnaliseConsultoria}.
@@ -50,6 +53,29 @@ public class AnaliseConsultoriaService {
         return analiseConsultoriaRepository.findAll(pageable);
     }
 
+    /**
+     * Get all the analiseConsultorias with eager load of many-to-many relationships.
+     *
+     * @return the list of entities.
+     */
+    public Page<AnaliseConsultoria> findAllWithEagerRelationships(Pageable pageable) {
+        return analiseConsultoriaRepository.findAllWithEagerRelationships(pageable);
+    }
+    
+
+
+    /**
+    *  Get all the analiseConsultorias where SolicitacaoAnalise is {@code null}.
+     *  @return the list of entities.
+     */
+    @Transactional(readOnly = true) 
+    public List<AnaliseConsultoria> findAllWhereSolicitacaoAnaliseIsNull() {
+        log.debug("Request to get all analiseConsultorias where SolicitacaoAnalise is null");
+        return StreamSupport
+            .stream(analiseConsultoriaRepository.findAll().spliterator(), false)
+            .filter(analiseConsultoria -> analiseConsultoria.getSolicitacaoAnalise() == null)
+            .collect(Collectors.toList());
+    }
 
     /**
      * Get one analiseConsultoria by id.
@@ -60,7 +86,7 @@ public class AnaliseConsultoriaService {
     @Transactional(readOnly = true)
     public Optional<AnaliseConsultoria> findOne(Long id) {
         log.debug("Request to get AnaliseConsultoria : {}", id);
-        return analiseConsultoriaRepository.findById(id);
+        return analiseConsultoriaRepository.findOneWithEagerRelationships(id);
     }
 
     /**

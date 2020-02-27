@@ -1,11 +1,11 @@
-id;id_usuario_registro;tipo;titulo;descricao;data_evento;duracao;houve_parada_producao
-1;62506;PROGRAMADO;demand-driven port;../fake-data/blob/hipster.txt;2020-02-08T12:43:22;2240;false
-2;96634;NAO_PROGRAMADO;Wooden Producer success;../fake-data/blob/hipster.txt;2020-02-08T10:26:30;27783;true
-3;43074;PROGRAMADO;Bedfordshire monitor;../fake-data/blob/hipster.txt;2020-02-07T20:11:09;6781;true
-4;64297;PROGRAMADO;Berkshire Home Burg;../fake-data/blob/hipster.txt;2020-02-08T04:12:26;94261;false
-5;12183;PROGRAMADO;Metal Dynamic Table;../fake-data/blob/hipster.txt;2020-02-08T09:55:47;90498;true
-6;33808;PROGRAMADO;Rustic Soft Car Plastic transmit;../fake-data/blob/hipster.txt;2020-02-07T23:41:52;66914;true
-7;35518;NAO_PROGRAMADO;Dalasi Heights;../fake-data/blob/hipster.txt;2020-02-07T23:43:13;83371;true
-8;78835;NAO_PROGRAMADO;RAM lavender;../fake-data/blob/hipster.txt;2020-02-08T13:42:11;2301;false
-9;12258;NAO_PROGRAMADO;Regional Rubber transmit;../fake-data/blob/hipster.txt;2020-02-08T14:33:09;73765;true
-10;82553;NAO_PROGRAMADO;neural Plastic;../fake-data/blob/hipster.txt;2020-02-08T11:34:50;87547;true
+id;id_usuario_registro;tipo;titulo;descricao;data_registro;data_evento;duracao;houve_parada_producao
+1;62506;FALHA_EQUIPAMENTO;demand-driven port;../fake-data/blob/hipster.txt;2020-02-08T12:43:22;2020-02-08T15:31:42;23463;true
+2;46708;FALHA_PROCESSO;Tasty;../fake-data/blob/hipster.txt;2020-02-07T22:28:48;2020-02-08T08:27:00;89190;false
+3;27783;FALHA_EQUIPAMENTO;Bedfordshire monitor;../fake-data/blob/hipster.txt;2020-02-07T20:11:09;2020-02-08T14:26:18;77568;true
+4;45381;FALHA_PROCESSO;clicks-and-mortar info-mediaries;../fake-data/blob/hipster.txt;2020-02-08T15:24:20;2020-02-08T04:12:26;94261;false
+5;12183;FALHA_EQUIPAMENTO;Metal Dynamic Table;../fake-data/blob/hipster.txt;2020-02-08T09:55:47;2020-02-07T18:20:48;60427;false
+6;25280;FALHA_PROCESSO;Soft;../fake-data/blob/hipster.txt;2020-02-08T14:53:01;2020-02-08T12:33:19;30166;true
+7;80947;FALHA_INFRA_ESTRUTURA;cross-platform;../fake-data/blob/hipster.txt;2020-02-07T23:54:43;2020-02-08T09:02:17;44756;false
+8;68107;FALHA_INFRA_ESTRUTURA;invoice Concrete;../fake-data/blob/hipster.txt;2020-02-07T17:18:42;2020-02-08T13:42:11;2301;false
+9;12258;FALHA_INFRA_ESTRUTURA;Regional Rubber transmit;../fake-data/blob/hipster.txt;2020-02-08T14:33:09;2020-02-07T22:21:45;81067;true
+10;91704;FALHA_INFRA_ESTRUTURA;back-end collaboration XSS;../fake-data/blob/hipster.txt;2020-02-08T06:34:43;2020-02-08T12:47:04;30773;false

@@ -111,21 +111,17 @@ public class ProdutoNaoConformeQueryService extends QueryService<ProdutoNaoConfo
                 specification = specification.and(buildSpecification(criteria.getNaoConformidadeId(),
                     root -> root.join(ProdutoNaoConforme_.naoConformidade, JoinType.LEFT).get(NaoConformidade_.id)));
             }
-            if (criteria.getAnexoId() != null) {
-                specification = specification.and(buildSpecification(criteria.getAnexoId(),
-                    root -> root.join(ProdutoNaoConforme_.anexos, JoinType.LEFT).get(Anexo_.id)));
-            }
             if (criteria.getProdutoId() != null) {
                 specification = specification.and(buildSpecification(criteria.getProdutoId(),
                     root -> root.join(ProdutoNaoConforme_.produto, JoinType.LEFT).get(Produto_.id)));
             }
-            if (criteria.getResultadoAuditoriaId() != null) {
-                specification = specification.and(buildSpecification(criteria.getResultadoAuditoriaId(),
-                    root -> root.join(ProdutoNaoConforme_.resultadoAuditoria, JoinType.LEFT).get(ResultadoAuditoria_.id)));
+            if (criteria.getAnexoId() != null) {
+                specification = specification.and(buildSpecification(criteria.getAnexoId(),
+                    root -> root.join(ProdutoNaoConforme_.anexos, JoinType.LEFT).get(Anexo_.id)));
             }
-            if (criteria.getResultadoItemChecklistId() != null) {
-                specification = specification.and(buildSpecification(criteria.getResultadoItemChecklistId(),
-                    root -> root.join(ProdutoNaoConforme_.resultadoItemChecklist, JoinType.LEFT).get(ResultadoItemChecklist_.id)));
+            if (criteria.getResultadoChecklistId() != null) {
+                specification = specification.and(buildSpecification(criteria.getResultadoChecklistId(),
+                    root -> root.join(ProdutoNaoConforme_.resultadoChecklist, JoinType.LEFT).get(ResultadoChecklist_.id)));
             }
         }
         return specification;

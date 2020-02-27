@@ -42,6 +42,9 @@ public class SetorResourceIT {
     private static final String DEFAULT_NOME = "AAAAAAAAAA";
     private static final String UPDATED_NOME = "BBBBBBBBBB";
 
+    private static final Boolean DEFAULT_HABILITADO = false;
+    private static final Boolean UPDATED_HABILITADO = true;
+
     @Autowired
     private SetorRepository setorRepository;
 
@@ -90,7 +93,8 @@ public class SetorResourceIT {
      */
     public static Setor createEntity(EntityManager em) {
         Setor setor = new Setor()
-            .nome(DEFAULT_NOME);
+            .nome(DEFAULT_NOME)
+            .habilitado(DEFAULT_HABILITADO);
         // Add required entity
         Empresa empresa;
         if (TestUtil.findAll(em, Empresa.class).isEmpty()) {
@@ -111,7 +115,8 @@ public class SetorResourceIT {
      */
     public static Setor createUpdatedEntity(EntityManager em) {
         Setor setor = new Setor()
-            .nome(UPDATED_NOME);
+            .nome(UPDATED_NOME)
+            .habilitado(UPDATED_HABILITADO);
         // Add required entity
         Empresa empresa;
         if (TestUtil.findAll(em, Empresa.class).isEmpty()) {
@@ -146,6 +151,7 @@ public class SetorResourceIT {
         assertThat(setorList).hasSize(databaseSizeBeforeCreate + 1);
         Setor testSetor = setorList.get(setorList.size() - 1);
         assertThat(testSetor.getNome()).isEqualTo(DEFAULT_NOME);
+        assertThat(testSetor.isHabilitado()).isEqualTo(DEFAULT_HABILITADO);
     }
 
     @Test
@@ -188,6 +194,24 @@ public class SetorResourceIT {
 
     @Test
     @Transactional
+    public void checkHabilitadoIsRequired() throws Exception {
+        int databaseSizeBeforeTest = setorRepository.findAll().size();
+        // set the field null
+        setor.setHabilitado(null);
+
+        // Create the Setor, which fails.
+
+        restSetorMockMvc.perform(post("/api/setors")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(setor)))
+            .andExpect(status().isBadRequest());
+
+        List<Setor> setorList = setorRepository.findAll();
+        assertThat(setorList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     public void getAllSetors() throws Exception {
         // Initialize the database
         setorRepository.saveAndFlush(setor);
@@ -197,7 +221,8 @@ public class SetorResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(setor.getId().intValue())))
-            .andExpect(jsonPath("$.[*].nome").value(hasItem(DEFAULT_NOME)));
+            .andExpect(jsonPath("$.[*].nome").value(hasItem(DEFAULT_NOME)))
+            .andExpect(jsonPath("$.[*].habilitado").value(hasItem(DEFAULT_HABILITADO.booleanValue())));
     }
     
     @Test
@@ -211,7 +236,8 @@ public class SetorResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(setor.getId().intValue()))
-            .andExpect(jsonPath("$.nome").value(DEFAULT_NOME));
+            .andExpect(jsonPath("$.nome").value(DEFAULT_NOME))
+            .andExpect(jsonPath("$.habilitado").value(DEFAULT_HABILITADO.booleanValue()));
     }
 
 
@@ -314,6 +340,58 @@ public class SetorResourceIT {
 
     @Test
     @Transactional
+    public void getAllSetorsByHabilitadoIsEqualToSomething() throws Exception {
+        // Initialize the database
+        setorRepository.saveAndFlush(setor);
+
+        // Get all the setorList where habilitado equals to DEFAULT_HABILITADO
+        defaultSetorShouldBeFound("habilitado.equals=" + DEFAULT_HABILITADO);
+
+        // Get all the setorList where habilitado equals to UPDATED_HABILITADO
+        defaultSetorShouldNotBeFound("habilitado.equals=" + UPDATED_HABILITADO);
+    }
+
+    @Test
+    @Transactional
+    public void getAllSetorsByHabilitadoIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        setorRepository.saveAndFlush(setor);
+
+        // Get all the setorList where habilitado not equals to DEFAULT_HABILITADO
+        defaultSetorShouldNotBeFound("habilitado.notEquals=" + DEFAULT_HABILITADO);
+
+        // Get all the setorList where habilitado not equals to UPDATED_HABILITADO
+        defaultSetorShouldBeFound("habilitado.notEquals=" + UPDATED_HABILITADO);
+    }
+
+    @Test
+    @Transactional
+    public void getAllSetorsByHabilitadoIsInShouldWork() throws Exception {
+        // Initialize the database
+        setorRepository.saveAndFlush(setor);
+
+        // Get all the setorList where habilitado in DEFAULT_HABILITADO or UPDATED_HABILITADO
+        defaultSetorShouldBeFound("habilitado.in=" + DEFAULT_HABILITADO + "," + UPDATED_HABILITADO);
+
+        // Get all the setorList where habilitado equals to UPDATED_HABILITADO
+        defaultSetorShouldNotBeFound("habilitado.in=" + UPDATED_HABILITADO);
+    }
+
+    @Test
+    @Transactional
+    public void getAllSetorsByHabilitadoIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        setorRepository.saveAndFlush(setor);
+
+        // Get all the setorList where habilitado is not null
+        defaultSetorShouldBeFound("habilitado.specified=true");
+
+        // Get all the setorList where habilitado is null
+        defaultSetorShouldNotBeFound("habilitado.specified=false");
+    }
+
+    @Test
+    @Transactional
     public void getAllSetorsByChecklistIsEqualToSomething() throws Exception {
         // Initialize the database
         setorRepository.saveAndFlush(setor);
@@ -375,7 +453,8 @@ public class SetorResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(setor.getId().intValue())))
-            .andExpect(jsonPath("$.[*].nome").value(hasItem(DEFAULT_NOME)));
+            .andExpect(jsonPath("$.[*].nome").value(hasItem(DEFAULT_NOME)))
+            .andExpect(jsonPath("$.[*].habilitado").value(hasItem(DEFAULT_HABILITADO.booleanValue())));
 
         // Check, that the count call also returns 1
         restSetorMockMvc.perform(get("/api/setors/count?sort=id,desc&" + filter))
@@ -423,7 +502,8 @@ public class SetorResourceIT {
         // Disconnect from session so that the updates on updatedSetor are not directly saved in db
         em.detach(updatedSetor);
         updatedSetor
-            .nome(UPDATED_NOME);
+            .nome(UPDATED_NOME)
+            .habilitado(UPDATED_HABILITADO);
 
         restSetorMockMvc.perform(put("/api/setors")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -435,6 +515,7 @@ public class SetorResourceIT {
         assertThat(setorList).hasSize(databaseSizeBeforeUpdate);
         Setor testSetor = setorList.get(setorList.size() - 1);
         assertThat(testSetor.getNome()).isEqualTo(UPDATED_NOME);
+        assertThat(testSetor.isHabilitado()).isEqualTo(UPDATED_HABILITADO);
     }
 
     @Test

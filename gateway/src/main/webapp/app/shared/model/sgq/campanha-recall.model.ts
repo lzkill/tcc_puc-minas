@@ -1,7 +1,8 @@
 import { Moment } from 'moment';
-import { IAnexo } from 'app/shared/model/sgq/anexo.model';
 import { IProduto } from 'app/shared/model/sgq/produto.model';
 import { ISetor } from 'app/shared/model/sgq/setor.model';
+import { IAnexo } from 'app/shared/model/sgq/anexo.model';
+import { StatusPublicacao } from 'app/shared/model/enumerations/status-publicacao.model';
 
 export interface ICampanhaRecall {
   id?: number;
@@ -11,10 +12,11 @@ export interface ICampanhaRecall {
   dataRegistro?: Moment;
   dataInicio?: Moment;
   dataFim?: Moment;
-  resultado?: any;
-  anexos?: IAnexo[];
+  dataPublicacao?: Moment;
+  status?: StatusPublicacao;
   produto?: IProduto;
   setorResponsavel?: ISetor;
+  anexos?: IAnexo[];
 }
 
 export class CampanhaRecall implements ICampanhaRecall {
@@ -26,9 +28,10 @@ export class CampanhaRecall implements ICampanhaRecall {
     public dataRegistro?: Moment,
     public dataInicio?: Moment,
     public dataFim?: Moment,
-    public resultado?: any,
-    public anexos?: IAnexo[],
+    public dataPublicacao?: Moment,
+    public status?: StatusPublicacao,
     public produto?: IProduto,
-    public setorResponsavel?: ISetor
+    public setorResponsavel?: ISetor,
+    public anexos?: IAnexo[]
   ) {}
 }
