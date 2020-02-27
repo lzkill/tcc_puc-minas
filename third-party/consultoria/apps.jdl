@@ -10,8 +10,8 @@ application {
     enableHibernateCache false
     enableSwaggerCodegen true
     enableTranslation false
-    languages [en]
-    nativeLanguage en
+    languages [pt-br]
+    nativeLanguage pt-br
     packageName com.xpto.consultoria
     prodDatabaseType mariadb
     serverPort 8083
@@ -23,10 +23,10 @@ application {
 
 entity NaoConformidade {
   titulo String required minlength(1) maxlength(100)
-  fato TextBlob required
+  descricao TextBlob required
   procedente Boolean
   causa TextBlob
-  prazoConclusao Instant required
+  prazoConclusao Instant
   novoPrazoConclusao Instant
   dataRegistro Instant required
 }
@@ -35,29 +35,29 @@ entity AcaoSGQ {
   tipo TipoAcaoSGQ required
   titulo String required minlength(1) maxlength(100)
   descricao TextBlob required
-  prazoConclusao Instant required
+  prazoConclusao Instant
   novoPrazoConclusao Instant
   dataRegistro Instant required
 }
 
-/**
-* Os planos de ação das NCs podem ser analisados pela consultoria antes da
-* implementação na prática
-*/
+enum TipoAcaoSGQ {
+  ACAO_CORRETIVA,
+  ACAO_PREVENTIVA,
+  CORRECAO_PONTUAL
+}
+
 entity SolicitacaoAnalise {
-    idUsuarioRegistro Integer required
-    dataRegistro Instant required
-    /** Data em que a solicitação foi recebida pela consultoria */
-    dataSolicitacao Instant
-    /** ID retornado pela consultoria para acompanhamento */
-    uuid String unique
-    status StatusSolicitacaoAnalise required
+  idUsuarioRegistro Integer required
+  dataRegistro Instant required
+  dataSolicitacao Instant
+  uuid String unique
+  status StatusSolicitacaoAnalise required
 }
 
 enum StatusSolicitacaoAnalise {
-  REGISTRADO (Registrado),
-  PENDENTE (Pendente)
-  CONCLUIDO (Concluído)
+  REGISTRADO,
+  PENDENTE,
+  CONCLUIDO
 }
 
 entity AnaliseConsultoria {
@@ -68,13 +68,13 @@ entity AnaliseConsultoria {
 }
 
 enum StatusAprovacao {
-  APROVADO (Aprovado),
-  APROVADO_PARCIALMENTE (Aprovado parcialmente),
-  REPROVADO (Reprovado)
+  APROVADO,
+  APROVADO_PARCIALMENTE,
+  REPROVADO
 }
 
 relationship OneToOne {
-  SolicitacaoAnalise{analiseConsultoria} To AnaliseConsultoria{solicitacaoAnalise required}
+  SolicitacaoAnalise{analiseConsultoria} to AnaliseConsultoria{solicitacaoAnalise required}
   SolicitacaoAnalise{naoConformidade(titulo) required} to NaoConformidade
 }
 
@@ -85,6 +85,8 @@ relationship OneToMany {
 filter *
 
 paginate * with pagination
+
+microservice * with consultoria
 
 deployment {
   deploymentType docker-compose

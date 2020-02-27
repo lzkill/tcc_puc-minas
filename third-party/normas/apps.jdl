@@ -10,8 +10,8 @@ application {
     enableHibernateCache false
     enableSwaggerCodegen true
     enableTranslation false
-    languages [en]
-    nativeLanguage en
+    languages [pt-br]
+    nativeLanguage pt-br
     packageName com.acme.normas
     prodDatabaseType mariadb
     serverPort 8082
@@ -34,20 +34,22 @@ entity Norma {
 }
 
 enum OrgaoNorma {
-  ABNT_ISO (ABNT/ISO),
-  IEEE (IEEE),
-  ASTM (ASTM)
+  ABNT_ISO,
+  IEEE,
+  ASTM
 }
 
 enum CategoriaNorma {
-  QUALIDADE (Qualidade),
-  AMBIENTAL (Ambiental),
-  SEGURANCA (Segurança)
+  QUALIDADE,
+  AMBIENTAL,
+  SEGURANCA
 }
 
 filter *
 
 paginate * with pagination
+
+microservice * with normas
 
 deployment {
   deploymentType docker-compose
