@@ -1045,7 +1045,7 @@ public class PublicacaoFeedResourceIT {
         defaultPublicacaoFeedShouldNotBeFound("feedId.equals=" + (feedId + 1));
     }
 
-
+/*
     @Test
     @Transactional
     public void getAllPublicacaoFeedsByCategoriaIsEqualToSomething() throws Exception {
@@ -1060,7 +1060,7 @@ public class PublicacaoFeedResourceIT {
         // Get all the publicacaoFeedList where categoria equals to categoriaId + 1
         defaultPublicacaoFeedShouldNotBeFound("categoriaId.equals=" + (categoriaId + 1));
     }
-
+*/
 
     @Test
     @Transactional
