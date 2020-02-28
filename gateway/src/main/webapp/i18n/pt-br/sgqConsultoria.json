@@ -3,19 +3,19 @@
     "sgqConsultoria": {
       "home": {
         "title": "Consultorias",
-        "createLabel": "Criar novo Consultoria",
-        "createOrEditLabel": "Criar ou editar Consultoria",
-        "notFound": "Nenhum Consultoria encontrado"
+        "createLabel": "Adicionar",
+        "createOrEditLabel": "Criar ou editar consultoria",
+        "notFound": "Nenhuma consultoria encontrada"
       },
       "delete": {
-        "question": "Tem certeza de que deseja excluir Consultoria {{ id }}?"
+        "question": "Tem certeza de que deseja excluir a consultoria {{ id }}?"
       },
       "detail": {
         "title": "Consultoria"
       },
       "nome": "Nome",
-      "urlIntegracao": "Url Integracao",
-      "tokenAcesso": "Token Acesso",
+      "urlIntegracao": "URL de integração",
+      "tokenAcesso": "Token de acesso",
       "habilitado": "Habilitado",
       "help": {
         "tokenAcesso": "Token JWT"
@@ -24,9 +24,9 @@
   },
   "sgqApp": {
     "sgqConsultoria": {
-      "created": "Um novo Consultoria foi criado com o identificador {{ param }}",
-      "updated": "Um Consultoria foi atualizado com o identificador {{ param }}",
-      "deleted": "Um Consultoria foi excluído com o identificador {{ param }}"
+      "created": "Uma nova consultoria foi criada com o identificador {{ param }}",
+      "updated": "Uma consultoria foi atualizada com o identificador {{ param }}",
+      "deleted": "Uma consultoria foi excluída com o identificador {{ param }}"
     }
   }
 }

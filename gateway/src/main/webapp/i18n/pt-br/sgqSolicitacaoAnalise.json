@@ -2,24 +2,24 @@
   "gatewayApp": {
     "sgqSolicitacaoAnalise": {
       "home": {
-        "title": "Solicitacao Analises",
-        "createLabel": "Criar novo Solicitacao Analise",
-        "createOrEditLabel": "Criar ou editar Solicitacao Analise",
-        "notFound": "Nenhum Solicitacao Analise encontrado"
+        "title": "Solicitações de análise",
+        "createLabel": "Adicionar",
+        "createOrEditLabel": "Criar ou editar solicitação de análise",
+        "notFound": "Nenhum solicitação de análise encontrado"
       },
       "delete": {
-        "question": "Tem certeza de que deseja excluir Solicitacao Analise {{ id }}?"
+        "question": "Tem certeza de que deseja excluir a solicitação de análise {{ id }}?"
       },
       "detail": {
-        "title": "Solicitacao Analise"
+        "title": "Solicitação de análise"
       },
-      "idUsuarioRegistro": "Id Usuario Registro",
-      "dataRegistro": "Data Registro",
-      "dataSolicitacao": "Data Solicitacao",
-      "uuid": "Uuid",
+      "idUsuarioRegistro": "Usuário de registro",
+      "dataRegistro": "Registro",
+      "dataSolicitacao": "Solicitação",
+      "uuid": "UUID",
       "status": "Status",
-      "naoConformidade": "Nao Conformidade",
-      "analiseConsultoria": "Analise Consultoria",
+      "naoConformidade": "Não conformidade",
+      "analiseConsultoria": "Análise de consultoria",
       "consultoria": "Consultoria",
       "help": {
         "dataSolicitacao": "Data em que a solicitação foi recebida pela consultoria",
@@ -29,9 +29,9 @@
   },
   "sgqApp": {
     "sgqSolicitacaoAnalise": {
-      "created": "Um novo Solicitacao Analise foi criado com o identificador {{ param }}",
-      "updated": "Um Solicitacao Analise foi atualizado com o identificador {{ param }}",
-      "deleted": "Um Solicitacao Analise foi excluído com o identificador {{ param }}"
+      "created": "Uma nova solicitação de análise foi criada com o identificador {{ param }}",
+      "updated": "Uma solicitação de análise foi atualizada com o identificador {{ param }}",
+      "deleted": "Uma solicitação de análise foi excluída com o identificador {{ param }}"
     }
   }
 }

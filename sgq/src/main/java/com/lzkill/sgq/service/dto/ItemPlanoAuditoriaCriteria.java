@@ -50,9 +50,9 @@ public class ItemPlanoAuditoriaCriteria implements Serializable, Criteria {
 
     private ModalidadeAuditoriaFilter modalidade;
 
-    private InstantFilter dataInicioPrevisto;
+    private InstantFilter dataInicio;
 
-    private InstantFilter dataFimPrevisto;
+    private InstantFilter dataFim;
 
     private LongFilter itemAuditoriaId;
 
@@ -67,8 +67,8 @@ public class ItemPlanoAuditoriaCriteria implements Serializable, Criteria {
         this.id = other.id == null ? null : other.id.copy();
         this.titulo = other.titulo == null ? null : other.titulo.copy();
         this.modalidade = other.modalidade == null ? null : other.modalidade.copy();
-        this.dataInicioPrevisto = other.dataInicioPrevisto == null ? null : other.dataInicioPrevisto.copy();
-        this.dataFimPrevisto = other.dataFimPrevisto == null ? null : other.dataFimPrevisto.copy();
+        this.dataInicio = other.dataInicio == null ? null : other.dataInicio.copy();
+        this.dataFim = other.dataFim == null ? null : other.dataFim.copy();
         this.itemAuditoriaId = other.itemAuditoriaId == null ? null : other.itemAuditoriaId.copy();
         this.anexoId = other.anexoId == null ? null : other.anexoId.copy();
         this.planoId = other.planoId == null ? null : other.planoId.copy();
@@ -103,20 +103,20 @@ public class ItemPlanoAuditoriaCriteria implements Serializable, Criteria {
         this.modalidade = modalidade;
     }
 
-    public InstantFilter getDataInicioPrevisto() {
-        return dataInicioPrevisto;
+    public InstantFilter getdataInicio() {
+        return dataInicio;
     }
 
-    public void setDataInicioPrevisto(InstantFilter dataInicioPrevisto) {
-        this.dataInicioPrevisto = dataInicioPrevisto;
+    public void setdataInicio(InstantFilter dataInicio) {
+        this.dataInicio = dataInicio;
     }
 
-    public InstantFilter getDataFimPrevisto() {
-        return dataFimPrevisto;
+    public InstantFilter getdataFim() {
+        return dataFim;
     }
 
-    public void setDataFimPrevisto(InstantFilter dataFimPrevisto) {
-        this.dataFimPrevisto = dataFimPrevisto;
+    public void setdataFim(InstantFilter dataFim) {
+        this.dataFim = dataFim;
     }
 
     public LongFilter getItemAuditoriaId() {
@@ -157,8 +157,8 @@ public class ItemPlanoAuditoriaCriteria implements Serializable, Criteria {
             Objects.equals(id, that.id) &&
             Objects.equals(titulo, that.titulo) &&
             Objects.equals(modalidade, that.modalidade) &&
-            Objects.equals(dataInicioPrevisto, that.dataInicioPrevisto) &&
-            Objects.equals(dataFimPrevisto, that.dataFimPrevisto) &&
+            Objects.equals(dataInicio, that.dataInicio) &&
+            Objects.equals(dataFim, that.dataFim) &&
             Objects.equals(itemAuditoriaId, that.itemAuditoriaId) &&
             Objects.equals(anexoId, that.anexoId) &&
             Objects.equals(planoId, that.planoId);
@@ -170,8 +170,8 @@ public class ItemPlanoAuditoriaCriteria implements Serializable, Criteria {
         id,
         titulo,
         modalidade,
-        dataInicioPrevisto,
-        dataFimPrevisto,
+        dataInicio,
+        dataFim,
         itemAuditoriaId,
         anexoId,
         planoId
@@ -184,8 +184,8 @@ public class ItemPlanoAuditoriaCriteria implements Serializable, Criteria {
                 (id != null ? "id=" + id + ", " : "") +
                 (titulo != null ? "titulo=" + titulo + ", " : "") +
                 (modalidade != null ? "modalidade=" + modalidade + ", " : "") +
-                (dataInicioPrevisto != null ? "dataInicioPrevisto=" + dataInicioPrevisto + ", " : "") +
-                (dataFimPrevisto != null ? "dataFimPrevisto=" + dataFimPrevisto + ", " : "") +
+                (dataInicio != null ? "dataInicio=" + dataInicio + ", " : "") +
+                (dataFim != null ? "dataFim=" + dataFim + ", " : "") +
                 (itemAuditoriaId != null ? "itemAuditoriaId=" + itemAuditoriaId + ", " : "") +
                 (anexoId != null ? "anexoId=" + anexoId + ", " : "") +
                 (planoId != null ? "planoId=" + planoId + ", " : "") +

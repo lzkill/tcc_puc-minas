@@ -2,30 +2,30 @@
   "gatewayApp": {
     "sgqAnaliseConsultoria": {
       "home": {
-        "title": "Analise Consultorias",
-        "createLabel": "Criar novo Analise Consultoria",
-        "createOrEditLabel": "Criar ou editar Analise Consultoria",
-        "notFound": "Nenhum Analise Consultoria encontrado"
+        "title": "Análises de consultoria",
+        "createLabel": "Adicionar",
+        "createOrEditLabel": "Criar ou editar análise de consultoria",
+        "notFound": "Nenhuma análise de consultoria encontrada"
       },
       "delete": {
-        "question": "Tem certeza de que deseja excluir Analise Consultoria {{ id }}?"
+        "question": "Tem certeza de que deseja excluir a análise de consultoria {{ id }}?"
       },
       "detail": {
-        "title": "Analise Consultoria"
+        "title": "Análise de consultoria"
       },
-      "dataAnalise": "Data Analise",
-      "conteudo": "Conteudo",
-      "responsavel": "Responsavel",
+      "dataanálise": "Data da análise",
+      "conteudo": "Conteúdo",
+      "responsavel": "Responsável",
       "status": "Status",
       "anexo": "Anexo",
-      "solicitacaoAnalise": "Solicitacao Analise"
+      "solicitacaoanálise": "Solicitação de análise"
     }
   },
   "sgqApp": {
     "sgqAnaliseConsultoria": {
-      "created": "Um novo Analise Consultoria foi criado com o identificador {{ param }}",
-      "updated": "Um Analise Consultoria foi atualizado com o identificador {{ param }}",
-      "deleted": "Um Analise Consultoria foi excluído com o identificador {{ param }}"
+      "created": "Uma nova análise de consultoria foi criada com o identificador {{ param }}",
+      "updated": "Uma análise de consultoria foi atualizada com o identificador {{ param }}",
+      "deleted": "Uma análise de consultoria foi excluída com o identificador {{ param }}"
     }
   }
 }

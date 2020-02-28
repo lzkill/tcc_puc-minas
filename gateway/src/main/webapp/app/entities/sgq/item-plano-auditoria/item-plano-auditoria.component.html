@@ -18,14 +18,14 @@
         <table class="table table-striped" aria-describedby="page-heading">
             <thead>
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
-            <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  jhiSortBy="titulo"><span jhiTranslate="gatewayApp.sgqItemPlanoAuditoria.titulo">Titulo</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  jhiSortBy="descricao"><span jhiTranslate="gatewayApp.sgqItemPlanoAuditoria.descricao">Descricao</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  jhiSortBy="modalidade"><span jhiTranslate="gatewayApp.sgqItemPlanoAuditoria.modalidade">Modalidade</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  jhiSortBy="dataInicioPrevisto"><span jhiTranslate="gatewayApp.sgqItemPlanoAuditoria.dataInicioPrevisto">Data Inicio Previsto</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  jhiSortBy="dataFimPrevisto"><span jhiTranslate="gatewayApp.sgqItemPlanoAuditoria.dataFimPrevisto">Data Fim Previsto</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  jhiSortBy="itemAuditoria.titulo"><span jhiTranslate="gatewayApp.sgqItemPlanoAuditoria.itemAuditoria">Item Auditoria</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  jhiSortBy="plano.titulo"><span jhiTranslate="gatewayApp.sgqItemPlanoAuditoria.plano">Plano</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col" jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col" jhiSortBy="titulo"><span jhiTranslate="gatewayApp.sgqItemPlanoAuditoria.titulo">Titulo</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col" jhiSortBy="descricao"><span jhiTranslate="gatewayApp.sgqItemPlanoAuditoria.descricao">Descricao</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col" jhiSortBy="modalidade"><span jhiTranslate="gatewayApp.sgqItemPlanoAuditoria.modalidade">Modalidade</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col" jhiSortBy="dataInicio"><span jhiTranslate="gatewayApp.sgqItemPlanoAuditoria.dataInicio">Data Inicio</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col" jhiSortBy="dataFim"><span jhiTranslate="gatewayApp.sgqItemPlanoAuditoria.dataFim">Data Fim</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col" jhiSortBy="itemAuditoria.titulo"><span jhiTranslate="gatewayApp.sgqItemPlanoAuditoria.itemAuditoria">Item Auditoria</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col" jhiSortBy="plano.titulo"><span jhiTranslate="gatewayApp.sgqItemPlanoAuditoria.plano">Plano</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"></th>
             </tr>
             </thead>
@@ -35,8 +35,8 @@
                 <td>{{itemPlanoAuditoria.titulo}}</td>
                 <td>{{itemPlanoAuditoria.descricao}}</td>
                 <td jhiTranslate="{{'gatewayApp.ModalidadeAuditoria.' + itemPlanoAuditoria.modalidade}}">{{itemPlanoAuditoria.modalidade}}</td>
-                <td>{{itemPlanoAuditoria.dataInicioPrevisto | date:'shortDate'}}</td>
-                <td>{{itemPlanoAuditoria.dataFimPrevisto | date:'shortDate'}}</td>
+                <td>{{itemPlanoAuditoria.dataInicio | date:'shortDate'}}</td>
+                <td>{{itemPlanoAuditoria.dataFim | date:'shortDate'}}</td>
                 <td>
                     <div *ngIf="itemPlanoAuditoria.itemAuditoria">
                         <a [routerLink]="['/item-auditoria', itemPlanoAuditoria.itemAuditoria?.id, 'view' ]" >{{itemPlanoAuditoria.itemAuditoria?.titulo}}</a>

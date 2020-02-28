@@ -2,19 +2,19 @@
   "gatewayApp": {
     "sgqItemAuditoria": {
       "home": {
-        "title": "Item Auditorias",
-        "createLabel": "Criar novo Item Auditoria",
-        "createOrEditLabel": "Criar ou editar Item Auditoria",
-        "notFound": "Nenhum Item Auditoria encontrado"
+        "title": "Itens de auditorias",
+        "createLabel": "Adicionar",
+        "createOrEditLabel": "Criar ou editar item de auditoria",
+        "notFound": "Nenhum item de auditoria encontrado"
       },
       "delete": {
-        "question": "Tem certeza de que deseja excluir Item Auditoria {{ id }}?"
+        "question": "Tem certeza de que deseja excluir o item de auditoria {{ id }}?"
       },
       "detail": {
-        "title": "Item Auditoria"
+        "title": "Item de auditoria"
       },
-      "titulo": "Titulo",
-      "descricao": "Descricao",
+      "titulo": "Título",
+      "descricao": "Descrição",
       "habilitado": "Habilitado",
       "processo": "Processo",
       "anexo": "Anexo",
@@ -26,9 +26,9 @@
   },
   "sgqApp": {
     "sgqItemAuditoria": {
-      "created": "Um novo Item Auditoria foi criado com o identificador {{ param }}",
-      "updated": "Um Item Auditoria foi atualizado com o identificador {{ param }}",
-      "deleted": "Um Item Auditoria foi excluído com o identificador {{ param }}"
+      "created": "Um novo item de auditoria foi criado com o identificador {{ param }}",
+      "updated": "Um item de auditoria foi atualizado com o identificador {{ param }}",
+      "deleted": "Um item de auditoria foi excluído com o identificador {{ param }}"
     }
   }
 }

@@ -7,9 +7,9 @@
       "title": "Métricas da JVM",
       "memory": {
         "title": "Memória",
-        "total": "Memória Total",
-        "heap": "Memória Heap",
-        "nonheap": "Memória não Heap"
+        "total": "Memória total",
+        "heap": "Memória heap",
+        "nonheap": "Memória não heap"
       },
       "threads": {
         "title": "Threads",
@@ -25,10 +25,10 @@
           "blockedcount": "Número de bloqueios",
           "waitedtime": "Tempo de espera",
           "waitedcount": "Número de esperas",
-          "lockname": "Nome do Lock",
+          "lockname": "Nome do lock",
           "stacktrace": "Stacktrace",
-          "show": "Mostrar Stacktrace",
-          "hide": "Ocultar Stacktrace"
+          "show": "Mostrar stacktrace",
+          "hide": "Ocultar stacktrace"
         }
       },
       "gc": {
@@ -73,14 +73,14 @@
     "cache": {
       "title": "Estatísticas da cache",
       "cachename": "Nome da cache",
-      "hits": "Cache Hits",
-      "misses": "Cache Misses",
-      "gets": "Cache Gets",
-      "puts": "Cache Puts",
-      "removals": "Cache Removals",
-      "evictions": "Cache Evictions",
-      "hitPercent": "Cache Hit %",
-      "missPercent": "Cache Miss %",
+      "hits": "Cache hits",
+      "misses": "Cache misses",
+      "gets": "Cache gets",
+      "puts": "Cache puts",
+      "removals": "Cache removals",
+      "evictions": "Cache evictions",
+      "hitPercent": "Cache hit %",
+      "missPercent": "Cache miss %",
       "averageGetTime": "Average get time (µs)",
       "averagePutTime": "Average put time (µs)",
       "averageRemoveTime": "Average remove time (µs)"

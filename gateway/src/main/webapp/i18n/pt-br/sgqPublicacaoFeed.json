@@ -2,25 +2,25 @@
   "gatewayApp": {
     "sgqPublicacaoFeed": {
       "home": {
-        "title": "Publicacao Feeds",
-        "createLabel": "Criar novo Publicacao Feed",
-        "createOrEditLabel": "Criar ou editar Publicacao Feed",
-        "notFound": "Nenhum Publicacao Feed encontrado"
+        "title": "Publicações de feed",
+        "createLabel": "Adicionar",
+        "createOrEditLabel": "Criar ou editar publicação de feed",
+        "notFound": "Nenhuma publicação de feed encontrada"
       },
       "delete": {
-        "question": "Tem certeza de que deseja excluir Publicacao Feed {{ id }}?"
+        "question": "Tem certeza de que deseja excluir a publicação de feed {{ id }}?"
       },
       "detail": {
-        "title": "Publicacao Feed"
+        "title": "Publicação de feed"
       },
-      "idUsuarioRegistro": "Id Usuario Registro",
-      "titulo": "Titulo",
+      "idUsuarioRegistro": "Usuário de registro",
+      "titulo": "Título",
       "autor": "Autor",
-      "uri": "Uri",
+      "uri": "URI",
       "link": "Link",
-      "conteudo": "Conteudo",
-      "dataRegistro": "Data Registro",
-      "dataPublicacao": "Data Publicacao",
+      "conteudo": "Conteúdo",
+      "dataRegistro": "Registro",
+      "dataPublicacao": "Publicação",
       "status": "Status",
       "feed": "Feed",
       "categoria": "Categoria",
@@ -29,9 +29,9 @@
   },
   "sgqApp": {
     "sgqPublicacaoFeed": {
-      "created": "Um novo Publicacao Feed foi criado com o identificador {{ param }}",
-      "updated": "Um Publicacao Feed foi atualizado com o identificador {{ param }}",
-      "deleted": "Um Publicacao Feed foi excluído com o identificador {{ param }}"
+      "created": "Uma nova publicação de feed foi criada com o identificador {{ param }}",
+      "updated": "Uma publicação de feed foi atualizada com o identificador {{ param }}",
+      "deleted": "Uma publicação de feed foi excluída com o identificador {{ param }}"
     }
   }
 }

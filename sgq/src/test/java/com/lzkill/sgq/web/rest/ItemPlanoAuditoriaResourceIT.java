@@ -57,11 +57,11 @@ public class ItemPlanoAuditoriaResourceIT {
     private static final ModalidadeAuditoria DEFAULT_MODALIDADE = ModalidadeAuditoria.INTERNA;
     private static final ModalidadeAuditoria UPDATED_MODALIDADE = ModalidadeAuditoria.EXTERNA;
 
-    private static final Instant DEFAULT_DATA_INICIO_PREVISTO = Instant.ofEpochMilli(0L);
-    private static final Instant UPDATED_DATA_INICIO_PREVISTO = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+    private static final Instant DEFAULT_DATA_INICIO = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_DATA_INICIO = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
-    private static final Instant DEFAULT_DATA_FIM_PREVISTO = Instant.ofEpochMilli(0L);
-    private static final Instant UPDATED_DATA_FIM_PREVISTO = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+    private static final Instant DEFAULT_DATA_FIM = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_DATA_FIM = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
     @Autowired
     private ItemPlanoAuditoriaRepository itemPlanoAuditoriaRepository;
@@ -120,8 +120,8 @@ public class ItemPlanoAuditoriaResourceIT {
             .titulo(DEFAULT_TITULO)
             .descricao(DEFAULT_DESCRICAO)
             .modalidade(DEFAULT_MODALIDADE)
-            .dataInicioPrevisto(DEFAULT_DATA_INICIO_PREVISTO)
-            .dataFimPrevisto(DEFAULT_DATA_FIM_PREVISTO);
+            .dataInicio(DEFAULT_DATA_INICIO)
+            .dataFim(DEFAULT_DATA_FIM);
         // Add required entity
         PlanoAuditoria planoAuditoria;
         if (TestUtil.findAll(em, PlanoAuditoria.class).isEmpty()) {
@@ -145,8 +145,8 @@ public class ItemPlanoAuditoriaResourceIT {
             .titulo(UPDATED_TITULO)
             .descricao(UPDATED_DESCRICAO)
             .modalidade(UPDATED_MODALIDADE)
-            .dataInicioPrevisto(UPDATED_DATA_INICIO_PREVISTO)
-            .dataFimPrevisto(UPDATED_DATA_FIM_PREVISTO);
+            .dataInicio(UPDATED_DATA_INICIO)
+            .dataFim(UPDATED_DATA_FIM);
         // Add required entity
         PlanoAuditoria planoAuditoria;
         if (TestUtil.findAll(em, PlanoAuditoria.class).isEmpty()) {
@@ -183,8 +183,8 @@ public class ItemPlanoAuditoriaResourceIT {
         assertThat(testItemPlanoAuditoria.getTitulo()).isEqualTo(DEFAULT_TITULO);
         assertThat(testItemPlanoAuditoria.getDescricao()).isEqualTo(DEFAULT_DESCRICAO);
         assertThat(testItemPlanoAuditoria.getModalidade()).isEqualTo(DEFAULT_MODALIDADE);
-        assertThat(testItemPlanoAuditoria.getDataInicioPrevisto()).isEqualTo(DEFAULT_DATA_INICIO_PREVISTO);
-        assertThat(testItemPlanoAuditoria.getDataFimPrevisto()).isEqualTo(DEFAULT_DATA_FIM_PREVISTO);
+        assertThat(testItemPlanoAuditoria.getdataInicio()).isEqualTo(DEFAULT_DATA_INICIO);
+        assertThat(testItemPlanoAuditoria.getdataFim()).isEqualTo(DEFAULT_DATA_FIM);
     }
 
     @Test
@@ -245,10 +245,10 @@ public class ItemPlanoAuditoriaResourceIT {
 
     @Test
     @Transactional
-    public void checkDataInicioPrevistoIsRequired() throws Exception {
+    public void checkdataInicioIsRequired() throws Exception {
         int databaseSizeBeforeTest = itemPlanoAuditoriaRepository.findAll().size();
         // set the field null
-        itemPlanoAuditoria.setDataInicioPrevisto(null);
+        itemPlanoAuditoria.setdataInicio(null);
 
         // Create the ItemPlanoAuditoria, which fails.
 
@@ -275,8 +275,8 @@ public class ItemPlanoAuditoriaResourceIT {
             .andExpect(jsonPath("$.[*].titulo").value(hasItem(DEFAULT_TITULO)))
             .andExpect(jsonPath("$.[*].descricao").value(hasItem(DEFAULT_DESCRICAO.toString())))
             .andExpect(jsonPath("$.[*].modalidade").value(hasItem(DEFAULT_MODALIDADE.toString())))
-            .andExpect(jsonPath("$.[*].dataInicioPrevisto").value(hasItem(DEFAULT_DATA_INICIO_PREVISTO.toString())))
-            .andExpect(jsonPath("$.[*].dataFimPrevisto").value(hasItem(DEFAULT_DATA_FIM_PREVISTO.toString())));
+            .andExpect(jsonPath("$.[*].dataInicio").value(hasItem(DEFAULT_DATA_INICIO.toString())))
+            .andExpect(jsonPath("$.[*].dataFim").value(hasItem(DEFAULT_DATA_FIM.toString())));
     }
     
     @SuppressWarnings({"unchecked"})
@@ -326,8 +326,8 @@ public class ItemPlanoAuditoriaResourceIT {
             .andExpect(jsonPath("$.titulo").value(DEFAULT_TITULO))
             .andExpect(jsonPath("$.descricao").value(DEFAULT_DESCRICAO.toString()))
             .andExpect(jsonPath("$.modalidade").value(DEFAULT_MODALIDADE.toString()))
-            .andExpect(jsonPath("$.dataInicioPrevisto").value(DEFAULT_DATA_INICIO_PREVISTO.toString()))
-            .andExpect(jsonPath("$.dataFimPrevisto").value(DEFAULT_DATA_FIM_PREVISTO.toString()));
+            .andExpect(jsonPath("$.dataInicio").value(DEFAULT_DATA_INICIO.toString()))
+            .andExpect(jsonPath("$.dataFim").value(DEFAULT_DATA_FIM.toString()));
     }
 
 
@@ -482,106 +482,106 @@ public class ItemPlanoAuditoriaResourceIT {
 
     @Test
     @Transactional
-    public void getAllItemPlanoAuditoriasByDataInicioPrevistoIsEqualToSomething() throws Exception {
+    public void getAllItemPlanoAuditoriasBydataInicioIsEqualToSomething() throws Exception {
         // Initialize the database
         itemPlanoAuditoriaRepository.saveAndFlush(itemPlanoAuditoria);
 
-        // Get all the itemPlanoAuditoriaList where dataInicioPrevisto equals to DEFAULT_DATA_INICIO_PREVISTO
-        defaultItemPlanoAuditoriaShouldBeFound("dataInicioPrevisto.equals=" + DEFAULT_DATA_INICIO_PREVISTO);
+        // Get all the itemPlanoAuditoriaList where dataInicio equals to DEFAULT_DATA_INICIO
+        defaultItemPlanoAuditoriaShouldBeFound("dataInicio.equals=" + DEFAULT_DATA_INICIO);
 
-        // Get all the itemPlanoAuditoriaList where dataInicioPrevisto equals to UPDATED_DATA_INICIO_PREVISTO
-        defaultItemPlanoAuditoriaShouldNotBeFound("dataInicioPrevisto.equals=" + UPDATED_DATA_INICIO_PREVISTO);
+        // Get all the itemPlanoAuditoriaList where dataInicio equals to UPDATED_DATA_INICIO
+        defaultItemPlanoAuditoriaShouldNotBeFound("dataInicio.equals=" + UPDATED_DATA_INICIO);
     }
 
     @Test
     @Transactional
-    public void getAllItemPlanoAuditoriasByDataInicioPrevistoIsNotEqualToSomething() throws Exception {
+    public void getAllItemPlanoAuditoriasBydataInicioIsNotEqualToSomething() throws Exception {
         // Initialize the database
         itemPlanoAuditoriaRepository.saveAndFlush(itemPlanoAuditoria);
 
-        // Get all the itemPlanoAuditoriaList where dataInicioPrevisto not equals to DEFAULT_DATA_INICIO_PREVISTO
-        defaultItemPlanoAuditoriaShouldNotBeFound("dataInicioPrevisto.notEquals=" + DEFAULT_DATA_INICIO_PREVISTO);
+        // Get all the itemPlanoAuditoriaList where dataInicio not equals to DEFAULT_DATA_INICIO
+        defaultItemPlanoAuditoriaShouldNotBeFound("dataInicio.notEquals=" + DEFAULT_DATA_INICIO);
 
-        // Get all the itemPlanoAuditoriaList where dataInicioPrevisto not equals to UPDATED_DATA_INICIO_PREVISTO
-        defaultItemPlanoAuditoriaShouldBeFound("dataInicioPrevisto.notEquals=" + UPDATED_DATA_INICIO_PREVISTO);
+        // Get all the itemPlanoAuditoriaList where dataInicio not equals to UPDATED_DATA_INICIO
+        defaultItemPlanoAuditoriaShouldBeFound("dataInicio.notEquals=" + UPDATED_DATA_INICIO);
     }
 
     @Test
     @Transactional
-    public void getAllItemPlanoAuditoriasByDataInicioPrevistoIsInShouldWork() throws Exception {
+    public void getAllItemPlanoAuditoriasBydataInicioIsInShouldWork() throws Exception {
         // Initialize the database
         itemPlanoAuditoriaRepository.saveAndFlush(itemPlanoAuditoria);
 
-        // Get all the itemPlanoAuditoriaList where dataInicioPrevisto in DEFAULT_DATA_INICIO_PREVISTO or UPDATED_DATA_INICIO_PREVISTO
-        defaultItemPlanoAuditoriaShouldBeFound("dataInicioPrevisto.in=" + DEFAULT_DATA_INICIO_PREVISTO + "," + UPDATED_DATA_INICIO_PREVISTO);
+        // Get all the itemPlanoAuditoriaList where dataInicio in DEFAULT_DATA_INICIO or UPDATED_DATA_INICIO
+        defaultItemPlanoAuditoriaShouldBeFound("dataInicio.in=" + DEFAULT_DATA_INICIO + "," + UPDATED_DATA_INICIO);
 
-        // Get all the itemPlanoAuditoriaList where dataInicioPrevisto equals to UPDATED_DATA_INICIO_PREVISTO
-        defaultItemPlanoAuditoriaShouldNotBeFound("dataInicioPrevisto.in=" + UPDATED_DATA_INICIO_PREVISTO);
+        // Get all the itemPlanoAuditoriaList where dataInicio equals to UPDATED_DATA_INICIO
+        defaultItemPlanoAuditoriaShouldNotBeFound("dataInicio.in=" + UPDATED_DATA_INICIO);
     }
 
     @Test
     @Transactional
-    public void getAllItemPlanoAuditoriasByDataInicioPrevistoIsNullOrNotNull() throws Exception {
+    public void getAllItemPlanoAuditoriasBydataInicioIsNullOrNotNull() throws Exception {
         // Initialize the database
         itemPlanoAuditoriaRepository.saveAndFlush(itemPlanoAuditoria);
 
-        // Get all the itemPlanoAuditoriaList where dataInicioPrevisto is not null
-        defaultItemPlanoAuditoriaShouldBeFound("dataInicioPrevisto.specified=true");
+        // Get all the itemPlanoAuditoriaList where dataInicio is not null
+        defaultItemPlanoAuditoriaShouldBeFound("dataInicio.specified=true");
 
-        // Get all the itemPlanoAuditoriaList where dataInicioPrevisto is null
-        defaultItemPlanoAuditoriaShouldNotBeFound("dataInicioPrevisto.specified=false");
+        // Get all the itemPlanoAuditoriaList where dataInicio is null
+        defaultItemPlanoAuditoriaShouldNotBeFound("dataInicio.specified=false");
     }
 
     @Test
     @Transactional
-    public void getAllItemPlanoAuditoriasByDataFimPrevistoIsEqualToSomething() throws Exception {
+    public void getAllItemPlanoAuditoriasBydataFimIsEqualToSomething() throws Exception {
         // Initialize the database
         itemPlanoAuditoriaRepository.saveAndFlush(itemPlanoAuditoria);
 
-        // Get all the itemPlanoAuditoriaList where dataFimPrevisto equals to DEFAULT_DATA_FIM_PREVISTO
-        defaultItemPlanoAuditoriaShouldBeFound("dataFimPrevisto.equals=" + DEFAULT_DATA_FIM_PREVISTO);
+        // Get all the itemPlanoAuditoriaList where dataFim equals to DEFAULT_DATA_FIM
+        defaultItemPlanoAuditoriaShouldBeFound("dataFim.equals=" + DEFAULT_DATA_FIM);
 
-        // Get all the itemPlanoAuditoriaList where dataFimPrevisto equals to UPDATED_DATA_FIM_PREVISTO
-        defaultItemPlanoAuditoriaShouldNotBeFound("dataFimPrevisto.equals=" + UPDATED_DATA_FIM_PREVISTO);
+        // Get all the itemPlanoAuditoriaList where dataFim equals to UPDATED_DATA_FIM
+        defaultItemPlanoAuditoriaShouldNotBeFound("dataFim.equals=" + UPDATED_DATA_FIM);
     }
 
     @Test
     @Transactional
-    public void getAllItemPlanoAuditoriasByDataFimPrevistoIsNotEqualToSomething() throws Exception {
+    public void getAllItemPlanoAuditoriasBydataFimIsNotEqualToSomething() throws Exception {
         // Initialize the database
         itemPlanoAuditoriaRepository.saveAndFlush(itemPlanoAuditoria);
 
-        // Get all the itemPlanoAuditoriaList where dataFimPrevisto not equals to DEFAULT_DATA_FIM_PREVISTO
-        defaultItemPlanoAuditoriaShouldNotBeFound("dataFimPrevisto.notEquals=" + DEFAULT_DATA_FIM_PREVISTO);
+        // Get all the itemPlanoAuditoriaList where dataFim not equals to DEFAULT_DATA_FIM
+        defaultItemPlanoAuditoriaShouldNotBeFound("dataFim.notEquals=" + DEFAULT_DATA_FIM);
 
-        // Get all the itemPlanoAuditoriaList where dataFimPrevisto not equals to UPDATED_DATA_FIM_PREVISTO
-        defaultItemPlanoAuditoriaShouldBeFound("dataFimPrevisto.notEquals=" + UPDATED_DATA_FIM_PREVISTO);
+        // Get all the itemPlanoAuditoriaList where dataFim not equals to UPDATED_DATA_FIM
+        defaultItemPlanoAuditoriaShouldBeFound("dataFim.notEquals=" + UPDATED_DATA_FIM);
     }
 
     @Test
     @Transactional
-    public void getAllItemPlanoAuditoriasByDataFimPrevistoIsInShouldWork() throws Exception {
+    public void getAllItemPlanoAuditoriasBydataFimIsInShouldWork() throws Exception {
         // Initialize the database
         itemPlanoAuditoriaRepository.saveAndFlush(itemPlanoAuditoria);
 
-        // Get all the itemPlanoAuditoriaList where dataFimPrevisto in DEFAULT_DATA_FIM_PREVISTO or UPDATED_DATA_FIM_PREVISTO
-        defaultItemPlanoAuditoriaShouldBeFound("dataFimPrevisto.in=" + DEFAULT_DATA_FIM_PREVISTO + "," + UPDATED_DATA_FIM_PREVISTO);
+        // Get all the itemPlanoAuditoriaList where dataFim in DEFAULT_DATA_FIM or UPDATED_DATA_FIM
+        defaultItemPlanoAuditoriaShouldBeFound("dataFim.in=" + DEFAULT_DATA_FIM + "," + UPDATED_DATA_FIM);
 
-        // Get all the itemPlanoAuditoriaList where dataFimPrevisto equals to UPDATED_DATA_FIM_PREVISTO
-        defaultItemPlanoAuditoriaShouldNotBeFound("dataFimPrevisto.in=" + UPDATED_DATA_FIM_PREVISTO);
+        // Get all the itemPlanoAuditoriaList where dataFim equals to UPDATED_DATA_FIM
+        defaultItemPlanoAuditoriaShouldNotBeFound("dataFim.in=" + UPDATED_DATA_FIM);
     }
 
     @Test
     @Transactional
-    public void getAllItemPlanoAuditoriasByDataFimPrevistoIsNullOrNotNull() throws Exception {
+    public void getAllItemPlanoAuditoriasBydataFimIsNullOrNotNull() throws Exception {
         // Initialize the database
         itemPlanoAuditoriaRepository.saveAndFlush(itemPlanoAuditoria);
 
-        // Get all the itemPlanoAuditoriaList where dataFimPrevisto is not null
-        defaultItemPlanoAuditoriaShouldBeFound("dataFimPrevisto.specified=true");
+        // Get all the itemPlanoAuditoriaList where dataFim is not null
+        defaultItemPlanoAuditoriaShouldBeFound("dataFim.specified=true");
 
-        // Get all the itemPlanoAuditoriaList where dataFimPrevisto is null
-        defaultItemPlanoAuditoriaShouldNotBeFound("dataFimPrevisto.specified=false");
+        // Get all the itemPlanoAuditoriaList where dataFim is null
+        defaultItemPlanoAuditoriaShouldNotBeFound("dataFim.specified=false");
     }
 
     @Test
@@ -650,8 +650,8 @@ public class ItemPlanoAuditoriaResourceIT {
             .andExpect(jsonPath("$.[*].titulo").value(hasItem(DEFAULT_TITULO)))
             .andExpect(jsonPath("$.[*].descricao").value(hasItem(DEFAULT_DESCRICAO.toString())))
             .andExpect(jsonPath("$.[*].modalidade").value(hasItem(DEFAULT_MODALIDADE.toString())))
-            .andExpect(jsonPath("$.[*].dataInicioPrevisto").value(hasItem(DEFAULT_DATA_INICIO_PREVISTO.toString())))
-            .andExpect(jsonPath("$.[*].dataFimPrevisto").value(hasItem(DEFAULT_DATA_FIM_PREVISTO.toString())));
+            .andExpect(jsonPath("$.[*].dataInicio").value(hasItem(DEFAULT_DATA_INICIO.toString())))
+            .andExpect(jsonPath("$.[*].dataFim").value(hasItem(DEFAULT_DATA_FIM.toString())));
 
         // Check, that the count call also returns 1
         restItemPlanoAuditoriaMockMvc.perform(get("/api/item-plano-auditorias/count?sort=id,desc&" + filter))
@@ -702,8 +702,8 @@ public class ItemPlanoAuditoriaResourceIT {
             .titulo(UPDATED_TITULO)
             .descricao(UPDATED_DESCRICAO)
             .modalidade(UPDATED_MODALIDADE)
-            .dataInicioPrevisto(UPDATED_DATA_INICIO_PREVISTO)
-            .dataFimPrevisto(UPDATED_DATA_FIM_PREVISTO);
+            .dataInicio(UPDATED_DATA_INICIO)
+            .dataFim(UPDATED_DATA_FIM);
 
         restItemPlanoAuditoriaMockMvc.perform(put("/api/item-plano-auditorias")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -717,8 +717,8 @@ public class ItemPlanoAuditoriaResourceIT {
         assertThat(testItemPlanoAuditoria.getTitulo()).isEqualTo(UPDATED_TITULO);
         assertThat(testItemPlanoAuditoria.getDescricao()).isEqualTo(UPDATED_DESCRICAO);
         assertThat(testItemPlanoAuditoria.getModalidade()).isEqualTo(UPDATED_MODALIDADE);
-        assertThat(testItemPlanoAuditoria.getDataInicioPrevisto()).isEqualTo(UPDATED_DATA_INICIO_PREVISTO);
-        assertThat(testItemPlanoAuditoria.getDataFimPrevisto()).isEqualTo(UPDATED_DATA_FIM_PREVISTO);
+        assertThat(testItemPlanoAuditoria.getdataInicio()).isEqualTo(UPDATED_DATA_INICIO);
+        assertThat(testItemPlanoAuditoria.getdataFim()).isEqualTo(UPDATED_DATA_FIM);
     }
 
     @Test

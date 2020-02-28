@@ -42,11 +42,11 @@ public class ItemPlanoAuditoria implements Serializable {
     private ModalidadeAuditoria modalidade;
 
     @NotNull
-    @Column(name = "data_inicio_previsto", nullable = false)
-    private Instant dataInicioPrevisto;
+    @Column(name = "data_inicio", nullable = false)
+    private Instant dataInicio;
 
-    @Column(name = "data_fim_previsto")
-    private Instant dataFimPrevisto;
+    @Column(name = "data_fim")
+    private Instant dataFim;
 
     @ManyToOne
     @JsonIgnoreProperties("itemPlanoAuditorias")
@@ -112,30 +112,30 @@ public class ItemPlanoAuditoria implements Serializable {
         this.modalidade = modalidade;
     }
 
-    public Instant getDataInicioPrevisto() {
-        return dataInicioPrevisto;
+    public Instant getdataInicio() {
+        return dataInicio;
     }
 
-    public ItemPlanoAuditoria dataInicioPrevisto(Instant dataInicioPrevisto) {
-        this.dataInicioPrevisto = dataInicioPrevisto;
+    public ItemPlanoAuditoria dataInicio(Instant dataInicio) {
+        this.dataInicio = dataInicio;
         return this;
     }
 
-    public void setDataInicioPrevisto(Instant dataInicioPrevisto) {
-        this.dataInicioPrevisto = dataInicioPrevisto;
+    public void setdataInicio(Instant dataInicio) {
+        this.dataInicio = dataInicio;
     }
 
-    public Instant getDataFimPrevisto() {
-        return dataFimPrevisto;
+    public Instant getdataFim() {
+        return dataFim;
     }
 
-    public ItemPlanoAuditoria dataFimPrevisto(Instant dataFimPrevisto) {
-        this.dataFimPrevisto = dataFimPrevisto;
+    public ItemPlanoAuditoria dataFim(Instant dataFim) {
+        this.dataFim = dataFim;
         return this;
     }
 
-    public void setDataFimPrevisto(Instant dataFimPrevisto) {
-        this.dataFimPrevisto = dataFimPrevisto;
+    public void setdataFim(Instant dataFim) {
+        this.dataFim = dataFim;
     }
 
     public ItemAuditoria getItemAuditoria() {
@@ -213,8 +213,8 @@ public class ItemPlanoAuditoria implements Serializable {
             ", titulo='" + getTitulo() + "'" +
             ", descricao='" + getDescricao() + "'" +
             ", modalidade='" + getModalidade() + "'" +
-            ", dataInicioPrevisto='" + getDataInicioPrevisto() + "'" +
-            ", dataFimPrevisto='" + getDataFimPrevisto() + "'" +
+            ", dataInicio='" + getdataInicio() + "'" +
+            ", dataFim='" + getdataFim() + "'" +
             "}";
     }
 }

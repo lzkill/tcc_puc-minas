@@ -2,35 +2,35 @@
   "gatewayApp": {
     "sgqCampanhaRecall": {
       "home": {
-        "title": "Campanha Recalls",
-        "createLabel": "Criar novo Campanha Recall",
-        "createOrEditLabel": "Criar ou editar Campanha Recall",
-        "notFound": "Nenhum Campanha Recall encontrado"
+        "title": "Campanhas de recall",
+        "createLabel": "Adicionar",
+        "createOrEditLabel": "Criar ou editar campanha de recall",
+        "notFound": "Nenhuma campanha de recall encontrada"
       },
       "delete": {
-        "question": "Tem certeza de que deseja excluir Campanha Recall {{ id }}?"
+        "question": "Tem certeza de que deseja excluir a campanha de recall {{ id }}?"
       },
       "detail": {
-        "title": "Campanha Recall"
+        "title": "Campanha de recall"
       },
-      "idUsuarioRegistro": "Id Usuario Registro",
-      "titulo": "Titulo",
-      "descricao": "Descricao",
-      "dataRegistro": "Data Registro",
-      "dataInicio": "Data Inicio",
-      "dataFim": "Data Fim",
-      "dataPublicacao": "Data Publicacao",
+      "idUsuarioRegistro": "Usuário de registro",
+      "titulo": "Título",
+      "descricao": "Descrição",
+      "dataRegistro": "Registro",
+      "dataInicio": "Início",
+      "dataFim": "Fim",
+      "dataPublicacao": "Publicação",
       "status": "Status",
       "produto": "Produto",
-      "setorResponsavel": "Setor Responsavel",
+      "setorResponsavel": "Setor responsável",
       "anexo": "Anexo"
     }
   },
   "sgqApp": {
     "sgqCampanhaRecall": {
-      "created": "Um novo Campanha Recall foi criado com o identificador {{ param }}",
-      "updated": "Um Campanha Recall foi atualizado com o identificador {{ param }}",
-      "deleted": "Um Campanha Recall foi excluído com o identificador {{ param }}"
+      "created": "Uma novc campanha de recall foi criada com o identificador {{ param }}",
+      "updated": "Uma campanha de recall foi atualizada com o identificador {{ param }}",
+      "deleted": "Uma campanha de recall foi excluída com o identificador {{ param }}"
     }
   }
 }

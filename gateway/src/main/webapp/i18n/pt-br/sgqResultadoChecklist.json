@@ -2,32 +2,32 @@
   "gatewayApp": {
     "sgqResultadoChecklist": {
       "home": {
-        "title": "Resultado Checklists",
-        "createLabel": "Criar novo Resultado Checklist",
-        "createOrEditLabel": "Criar ou editar Resultado Checklist",
-        "notFound": "Nenhum Resultado Checklist encontrado"
+        "title": "Resultados de checklists",
+        "createLabel": "Adicionar",
+        "createOrEditLabel": "Criar ou editar resultado de checklist",
+        "notFound": "Nenhum resultado de checklist encontrado"
       },
       "delete": {
-        "question": "Tem certeza de que deseja excluir Resultado Checklist {{ id }}?"
+        "question": "Tem certeza de que deseja excluir o resultado de checklist {{ id }}?"
       },
       "detail": {
-        "title": "Resultado Checklist"
+        "title": "Resultado de checklist"
       },
-      "idUsuarioRegistro": "Id Usuario Registro",
-      "dataRegistro": "Data Registro",
-      "dataVerificacao": "Data Verificacao",
-      "resultadoItem": "Resultado Item",
-      "naoConformidade": "Nao Conformidade",
-      "produtoNaoConforme": "Produto Nao Conforme",
+      "idUsuarioRegistro": "Usuário de registro",
+      "dataRegistro": "Registro",
+      "dataVerificacao": "Verificação",
+      "resultadoItem": "Resultado de item",
+      "naoConformidade": "Não conformidade",
+      "produtoNaoConforme": "Produto nãoo conforme",
       "checklist": "Checklist",
       "anexo": "Anexo"
     }
   },
   "sgqApp": {
     "sgqResultadoChecklist": {
-      "created": "Um novo Resultado Checklist foi criado com o identificador {{ param }}",
-      "updated": "Um Resultado Checklist foi atualizado com o identificador {{ param }}",
-      "deleted": "Um Resultado Checklist foi excluído com o identificador {{ param }}"
+      "created": "Um novo resultado de checklist foi criado com o identificador {{ param }}",
+      "updated": "Um resultado de checklist foi atualizado com o identificador {{ param }}",
+      "deleted": "Um resultado de checklist foi excluído com o identificador {{ param }}"
     }
   }
 }

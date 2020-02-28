@@ -1,6 +1,6 @@
 {
   "health": {
-    "title": "Estado do Sistema",
+    "title": "Estado do sistema",
     "refresh.button": "Atualizar",
     "stacktrace": "Stacktrace",
     "details": {
@@ -20,7 +20,7 @@
       "db": "Banco de dados"
     },
     "table": {
-      "service": "Nome do Serviço",
+      "service": "Nome do serviço",
       "status": "Estado"
     },
     "status": {

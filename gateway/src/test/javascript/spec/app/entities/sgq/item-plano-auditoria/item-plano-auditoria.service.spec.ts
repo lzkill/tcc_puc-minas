@@ -32,8 +32,8 @@ describe('Service Tests', () => {
       it('should find an element', () => {
         const returnedFromService = Object.assign(
           {
-            dataInicioPrevisto: currentDate.format(DATE_TIME_FORMAT),
-            dataFimPrevisto: currentDate.format(DATE_TIME_FORMAT)
+            dataInicio: currentDate.format(DATE_TIME_FORMAT),
+            dataFim: currentDate.format(DATE_TIME_FORMAT)
           },
           elemDefault
         );
@@ -51,15 +51,15 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             id: 0,
-            dataInicioPrevisto: currentDate.format(DATE_TIME_FORMAT),
-            dataFimPrevisto: currentDate.format(DATE_TIME_FORMAT)
+            dataInicio: currentDate.format(DATE_TIME_FORMAT),
+            dataFim: currentDate.format(DATE_TIME_FORMAT)
           },
           elemDefault
         );
         const expected = Object.assign(
           {
-            dataInicioPrevisto: currentDate,
-            dataFimPrevisto: currentDate
+            dataInicio: currentDate,
+            dataFim: currentDate
           },
           returnedFromService
         );
@@ -78,16 +78,16 @@ describe('Service Tests', () => {
             titulo: 'BBBBBB',
             descricao: 'BBBBBB',
             modalidade: 'BBBBBB',
-            dataInicioPrevisto: currentDate.format(DATE_TIME_FORMAT),
-            dataFimPrevisto: currentDate.format(DATE_TIME_FORMAT)
+            dataInicio: currentDate.format(DATE_TIME_FORMAT),
+            dataFim: currentDate.format(DATE_TIME_FORMAT)
           },
           elemDefault
         );
 
         const expected = Object.assign(
           {
-            dataInicioPrevisto: currentDate,
-            dataFimPrevisto: currentDate
+            dataInicio: currentDate,
+            dataFim: currentDate
           },
           returnedFromService
         );
@@ -106,15 +106,15 @@ describe('Service Tests', () => {
             titulo: 'BBBBBB',
             descricao: 'BBBBBB',
             modalidade: 'BBBBBB',
-            dataInicioPrevisto: currentDate.format(DATE_TIME_FORMAT),
-            dataFimPrevisto: currentDate.format(DATE_TIME_FORMAT)
+            dataInicio: currentDate.format(DATE_TIME_FORMAT),
+            dataFim: currentDate.format(DATE_TIME_FORMAT)
           },
           elemDefault
         );
         const expected = Object.assign(
           {
-            dataInicioPrevisto: currentDate,
-            dataFimPrevisto: currentDate
+            dataInicio: currentDate,
+            dataFim: currentDate
           },
           returnedFromService
         );

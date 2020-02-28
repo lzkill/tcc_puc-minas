@@ -91,11 +91,11 @@ public class ItemPlanoAuditoriaQueryService extends QueryService<ItemPlanoAudito
             if (criteria.getModalidade() != null) {
                 specification = specification.and(buildSpecification(criteria.getModalidade(), ItemPlanoAuditoria_.modalidade));
             }
-            if (criteria.getDataInicioPrevisto() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getDataInicioPrevisto(), ItemPlanoAuditoria_.dataInicioPrevisto));
+            if (criteria.getdataInicio() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getdataInicio(), ItemPlanoAuditoria_.dataInicio));
             }
-            if (criteria.getDataFimPrevisto() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getDataFimPrevisto(), ItemPlanoAuditoria_.dataFimPrevisto));
+            if (criteria.getdataFim() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getdataFim(), ItemPlanoAuditoria_.dataFim));
             }
             if (criteria.getItemAuditoriaId() != null) {
                 specification = specification.and(buildSpecification(criteria.getItemAuditoriaId(),

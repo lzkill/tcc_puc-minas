@@ -39,8 +39,8 @@ export class ItemPlanoAuditoriaUpdateComponent implements OnInit {
     titulo: [null, [Validators.required, Validators.minLength(1), Validators.maxLength(100)]],
     descricao: [],
     modalidade: [null, [Validators.required]],
-    dataInicioPrevisto: [null, [Validators.required]],
-    dataFimPrevisto: [],
+    dataInicio: [null, [Validators.required]],
+    dataFim: [],
     itemAuditoria: [],
     anexos: [],
     plano: [null, Validators.required]
@@ -96,9 +96,8 @@ export class ItemPlanoAuditoriaUpdateComponent implements OnInit {
       titulo: itemPlanoAuditoria.titulo,
       descricao: itemPlanoAuditoria.descricao,
       modalidade: itemPlanoAuditoria.modalidade,
-      dataInicioPrevisto:
-        itemPlanoAuditoria.dataInicioPrevisto != null ? itemPlanoAuditoria.dataInicioPrevisto.format(DATE_TIME_FORMAT) : null,
-      dataFimPrevisto: itemPlanoAuditoria.dataFimPrevisto != null ? itemPlanoAuditoria.dataFimPrevisto.format(DATE_TIME_FORMAT) : null,
+      dataInicio: itemPlanoAuditoria.dataInicio != null ? itemPlanoAuditoria.dataInicio.format(DATE_TIME_FORMAT) : null,
+      dataFim: itemPlanoAuditoria.dataFim != null ? itemPlanoAuditoria.dataFim.format(DATE_TIME_FORMAT) : null,
       itemAuditoria: itemPlanoAuditoria.itemAuditoria,
       anexos: itemPlanoAuditoria.anexos,
       plano: itemPlanoAuditoria.plano
@@ -142,14 +141,9 @@ export class ItemPlanoAuditoriaUpdateComponent implements OnInit {
       titulo: this.editForm.get(['titulo'])!.value,
       descricao: this.editForm.get(['descricao'])!.value,
       modalidade: this.editForm.get(['modalidade'])!.value,
-      dataInicioPrevisto:
-        this.editForm.get(['dataInicioPrevisto'])!.value != null
-          ? moment(this.editForm.get(['dataInicioPrevisto'])!.value, DATE_TIME_FORMAT)
-          : undefined,
-      dataFimPrevisto:
-        this.editForm.get(['dataFimPrevisto'])!.value != null
-          ? moment(this.editForm.get(['dataFimPrevisto'])!.value, DATE_TIME_FORMAT)
-          : undefined,
+      dataInicio:
+        this.editForm.get(['dataInicio'])!.value != null ? moment(this.editForm.get(['dataInicio'])!.value, DATE_TIME_FORMAT) : undefined,
+      dataFim: this.editForm.get(['dataFim'])!.value != null ? moment(this.editForm.get(['dataFim'])!.value, DATE_TIME_FORMAT) : undefined,
       itemAuditoria: this.editForm.get(['itemAuditoria'])!.value,
       anexos: this.editForm.get(['anexos'])!.value,
       plano: this.editForm.get(['plano'])!.value

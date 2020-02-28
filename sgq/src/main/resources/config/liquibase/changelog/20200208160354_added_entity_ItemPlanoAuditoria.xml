@@ -25,10 +25,10 @@
             <column name="modalidade" type="varchar(255)">
                 <constraints nullable="false" />
             </column>
-            <column name="data_inicio_previsto" type="datetime">
+            <column name="data_inicio" type="datetime">
                 <constraints nullable="false" />
             </column>
-            <column name="data_fim_previsto" type="datetime">
+            <column name="data_fim" type="datetime">
                 <constraints nullable="true" />
             </column>
             <column name="item_auditoria_id" type="bigint">
@@ -39,8 +39,8 @@
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
         </createTable>
-        <dropDefaultValue tableName="item_plano_auditoria" columnName="data_inicio_previsto" columnDataType="datetime"/>
-        <dropDefaultValue tableName="item_plano_auditoria" columnName="data_fim_previsto" columnDataType="datetime"/>
+        <dropDefaultValue tableName="item_plano_auditoria" columnName="data_inicio" columnDataType="datetime"/>
+        <dropDefaultValue tableName="item_plano_auditoria" columnName="data_fim" columnDataType="datetime"/>
     </changeSet>
 
     <changeSet id="20200208160354-1-relations" author="jhipster">
@@ -76,8 +76,8 @@
             <column name="titulo" type="string"/>
             <column name="descricao" type="clob"/>
             <column name="modalidade" type="string"/>
-            <column name="data_inicio_previsto" type="datetime"/>
-            <column name="data_fim_previsto" type="datetime"/>
+            <column name="data_inicio" type="datetime"/>
+            <column name="data_fim" type="datetime"/>
             <column name="plano_id" type="numeric"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here, do not remove-->
         </loadData>

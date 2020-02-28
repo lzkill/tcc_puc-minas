@@ -9,8 +9,8 @@ export interface IItemPlanoAuditoria {
   titulo?: string;
   descricao?: any;
   modalidade?: ModalidadeAuditoria;
-  dataInicioPrevisto?: Moment;
-  dataFimPrevisto?: Moment;
+  dataInicio?: Moment;
+  dataFim?: Moment;
   itemAuditoria?: IItemAuditoria;
   anexos?: IAnexo[];
   plano?: IPlanoAuditoria;
@@ -22,8 +22,8 @@ export class ItemPlanoAuditoria implements IItemPlanoAuditoria {
     public titulo?: string,
     public descricao?: any,
     public modalidade?: ModalidadeAuditoria,
-    public dataInicioPrevisto?: Moment,
-    public dataFimPrevisto?: Moment,
+    public dataInicio?: Moment,
+    public dataFim?: Moment,
     public itemAuditoria?: IItemAuditoria,
     public anexos?: IAnexo[],
     public plano?: IPlanoAuditoria

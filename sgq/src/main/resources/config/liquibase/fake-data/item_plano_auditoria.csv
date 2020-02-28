@@ -1,4 +1,4 @@
-id;titulo;descricao;modalidade;data_inicio_previsto;data_fim_previsto;plano_id
+id;titulo;descricao;modalidade;data_inicio;data_fim;plano_id
 1;Checking Account Savings Account;../fake-data/blob/hipster.txt;INTERNA;2020-02-07T17:04:07;2020-02-07T21:11:42;1
 2;Djibouti Concrete;../fake-data/blob/hipster.txt;EXTERNA;2020-02-08T03:14:52;2020-02-08T14:10:14;2
 3;Wyoming vertical Money Market Account;../fake-data/blob/hipster.txt;INTERNA;2020-02-08T14:53:49;2020-02-07T23:41:43;3

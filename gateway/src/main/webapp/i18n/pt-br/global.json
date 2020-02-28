@@ -7,38 +7,38 @@
       "jhipster-needle-menu-add-element": "JHipster will add additional menu entries here (do not translate!)",
       "entities": {
         "main": "Entidades",
-        "sgqEmpresa": "Empresa",
-        "sgqSetor": "Setor",
-        "sgqProcesso": "Processo",
-        "sgqProduto": "Produto",
-        "sgqAnexo": "Anexo",
-        "sgqAcaoSgq": "Acao SGQ",
-        "sgqNaoConformidade": "Nao Conformidade",
-        "sgqProdutoNaoConforme": "Produto Nao Conforme",
-        "sgqAuditoria": "Auditoria",
-        "sgqPlanoAuditoria": "Plano Auditoria",
-        "sgqItemPlanoAuditoria": "Item Plano Auditoria",
-        "sgqChecklist": "Checklist",
-        "sgqItemChecklist": "Item Checklist",
-        "sgqResultadoChecklist": "Resultado Checklist",
-        "sgqResultadoItemChecklist": "Resultado Item Checklist",
-        "sgqEventoOperacional": "Evento Operacional",
-        "sgqCampanhaRecall": "Campanha Recall",
-        "sgqBoletimInformativo": "Boletim Informativo",
-        "sgqPublicoAlvo": "Publico Alvo",
-        "sgqFeed": "Feed",
-        "sgqPublicacaoFeed": "Publicacao Feed",
-        "sgqCategoriaPublicacao": "Categoria Publicacao",
-        "sgqNorma": "Norma",
-        "sgqAnaliseConsultoria": "Analise Consultoria",
-        "sgqItemAuditoria": "Item Auditoria",
-        "sgqConsultoria": "Consultoria",
-        "sgqSolicitacaoAnalise": "Solicitacao Analise",
+        "sgqEmpresa": "Empresas",
+        "sgqSetor": "Setores",
+        "sgqProcesso": "Processos",
+        "sgqProduto": "Produtos",
+        "sgqAnexo": "Anexos",
+        "sgqAcaoSgq": "Ações SGQ",
+        "sgqNaoConformidade": "Não conformidades",
+        "sgqProdutoNaoConforme": "Produtos não conformes",
+        "sgqAuditoria": "Auditorias",
+        "sgqPlanoAuditoria": "Planos de auditorias",
+        "sgqItemPlanoAuditoria": "Itens de planos de auditorias",
+        "sgqChecklist": "Checklists",
+        "sgqItemChecklist": "Itens de checklists",
+        "sgqResultadoChecklist": "Resultados de checklists",
+        "sgqResultadoItemChecklist": "Resultados de itens de checklists",
+        "sgqEventoOperacional": "Eventos operacionais",
+        "sgqCampanhaRecall": "Campanhas de recall",
+        "sgqBoletimInformativo": "Boletins informativos",
+        "sgqPublicoAlvo": "Públicos alvos",
+        "sgqFeed": "Feeds",
+        "sgqPublicacaoFeed": "Publicações de feeds",
+        "sgqCategoriaPublicacao": "Categorias de publicações",
+        "sgqNorma": "Normas",
+        "sgqAnaliseConsultoria": "Análises de consultoria",
+        "sgqItemAuditoria": "Itens de auditorias",
+        "sgqConsultoria": "Consultorias",
+        "sgqSolicitacaoAnalise": "Solicitações de análise",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
       "account": {
         "main": "Conta",
-        "settings": "Configuração",
+        "settings": "Meus dados",
         "password": "Senha",
         "sessions": "Sessões",
         "login": "Entrar",
@@ -48,16 +48,37 @@
       "admin": {
         "main": "Administração",
         "gateway": "Gateway",
-        "userManagement": "Gerenciamento de usuário",
+        "userManagement": "Usuários",
         "tracker": "Rastreamento de usuário",
         "metrics": "Métricas",
-        "health": "Estado do Sistema",
+        "health": "Estado do sistema",
         "configuration": "Configuração",
         "logs": "Logs",
         "audits": "Auditorias",
         "apidocs": "API",
         "database": "Banco de dados",
         "jhipster-needle-menu-add-admin-element": "JHipster will add additional menu entries here (do not translate!)"
+      },
+      "cadastrosBasicos": {
+        "main": "Configuração"
+      },
+      "incidentesProblemas": {
+        "main": "Ocorrências"
+      },
+      "controleProcessos": {
+        "main": "Controle"
+      },
+      "divulgacaoTransparencia": {
+        "main": "Divulgação"
+      },
+      "inteligenciaNegocio": {
+        "main": "Inteligência"
+      },
+      "compliance": {
+        "main": "Compliance"
+      },
+      "relatorios": {
+        "main": "Relatórios"
       },
       "language": "Idioma"
     },
@@ -78,7 +99,7 @@
         "authenticated": {
           "prefix": "Se deseja ",
           "link": "entrar",
-          "suffix": ", utilize as seguintes contas padrões:<br/>- Administrador (usuário=\"admin\" and senha=\"admin\") <br/>- Usuário (usuário=\"user\" e senha=\"user\")."
+          "suffix": ", utilize as seguintes contas padrões:<br/><br/>- Administrador (usuário=\"admin\" e senha=\"admin\") <br/>- Gestor SGQ (login=\"sgq\" e senha=\"admin\" )<br/>- Usuário (usuário=\"user\" e senha=\"user\")."
         },
         "register": {
           "noaccount": "Não possui uma conta ainda?",
@@ -153,16 +174,16 @@
     "internalServerError": "Erro interno do servidor",
     "server.not.reachable": "Servidor indisponível",
     "url.not.found": "Não encontrado",
-    "NotNull": "O Campo {{ fieldName }} não pode ser vazio!",
+    "NotNull": "O campo {{ fieldName }} não pode ser vazio!",
     "Size": "O campo {{ fieldName }} não obedece os requisitos de tamanho mínimo ou máximo!",
     "userexists": "Usuário já está cadastrado!",
     "emailexists": "E-mail já está cadastrado!",
     "idexists": "Novo(a) {{entityName}} não pode ter um identificador",
     "idnull": "Identificador inválido",
     "file": {
-      "could.not.extract": "Could not extract file",
-      "not.image": "File was expected to be an image but was found to be \"{{ fileType }}\""
+      "could.not.extract": "Não foi possível extrair o arquivo",
+      "not.image": "O arquivo deveria ser uma imagem mas foi identificado como \"{{ fileType }}\""
     }
   },
-  "footer": "Este é o rodapé da página"
+  "footer": ""
 }

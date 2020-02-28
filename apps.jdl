@@ -172,8 +172,8 @@ entity ItemPlanoAuditoria {
   titulo String required minlength(1) maxlength(100)
   descricao TextBlob
   modalidade ModalidadeAuditoria required
-  dataInicioPrevisto Instant required
-  dataFimPrevisto Instant
+  dataInicio Instant required
+  dataFim Instant
 }
 
 enum ModalidadeAuditoria {
@@ -330,7 +330,7 @@ entity Consultoria {
 
 /**
 * Os planos de ação das NCs podem ser analisados pela consultoria antes da
-* implementação na prática
+* implementação
 */
 entity SolicitacaoAnalise {
   idUsuarioRegistro Integer required
@@ -388,8 +388,8 @@ relationship OneToOne {
   ProdutoNaoConforme{acao(titulo)} to AcaoSGQ
   /** Quando o problema identificado é sistêmico pode-se abrir uma NC */
   ProdutoNaoConforme{naoConformidade(titulo)} to NaoConformidade
-  SolicitacaoAnalise{naoConformidade(titulo) required} to NaoConformidade
   SolicitacaoAnalise{analiseConsultoria} to AnaliseConsultoria{solicitacaoAnalise required}
+  SolicitacaoAnalise{naoConformidade(titulo) required} to NaoConformidade
 }
 
 relationship OneToMany {

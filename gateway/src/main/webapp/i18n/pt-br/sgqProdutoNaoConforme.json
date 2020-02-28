@@ -2,30 +2,30 @@
   "gatewayApp": {
     "sgqProdutoNaoConforme": {
       "home": {
-        "title": "Produto Nao Conformes",
-        "createLabel": "Criar novo Produto Nao Conforme",
-        "createOrEditLabel": "Criar ou editar Produto Nao Conforme",
-        "notFound": "Nenhum Produto Nao Conforme encontrado"
+        "title": "Produtos não conformes",
+        "createLabel": "Criar novo produto não conforme",
+        "createOrEditLabel": "Criar ou editar produto não conforme",
+        "notFound": "Nenhum produto não conforme encontrado"
       },
       "delete": {
-        "question": "Tem certeza de que deseja excluir Produto Nao Conforme {{ id }}?"
+        "question": "Tem certeza de que deseja excluir o produto não conforme {{ id }}?"
       },
       "detail": {
-        "title": "Produto Nao Conforme"
+        "title": "Produto não conforme"
       },
-      "idUsuarioRegistro": "Id Usuario Registro",
-      "idUsuarioResponsavel": "Id Usuario Responsavel",
-      "titulo": "Titulo",
-      "descricao": "Descricao",
+      "idUsuarioRegistro": "Usuário de registro",
+      "idUsuarioResponsavel": "Usuário responsável",
+      "titulo": "Título",
+      "descricao": "Descrição",
       "procedente": "Procedente",
-      "dataRegistro": "Data Registro",
-      "analiseFinal": "Analise Final",
+      "dataRegistro": "Registro",
+      "analiseFinal": "Análise final",
       "statusSGQ": "Status SGQ",
-      "acao": "Acao",
-      "naoConformidade": "Nao Conformidade",
+      "acao": "Ação",
+      "naoConformidade": "Não conformidade",
       "produto": "Produto",
       "anexo": "Anexo",
-      "resultadoChecklist": "Resultado Checklist",
+      "resultadoChecklist": "Resultado de checklist",
       "help": {
         "procedente": "O fato descrito configura de fato um PNC?",
         "analiseFinal": "Análise de eficácia"
@@ -34,9 +34,9 @@
   },
   "sgqApp": {
     "sgqProdutoNaoConforme": {
-      "created": "Um novo Produto Nao Conforme foi criado com o identificador {{ param }}",
-      "updated": "Um Produto Nao Conforme foi atualizado com o identificador {{ param }}",
-      "deleted": "Um Produto Nao Conforme foi excluído com o identificador {{ param }}"
+      "created": "Um novo produto não conforme foi criado com o identificador {{ param }}",
+      "updated": "Um produto não conforme foi atualizado com o identificador {{ param }}",
+      "deleted": "Um produto não conforme foi excluído com o identificador {{ param }}"
     }
   }
 }

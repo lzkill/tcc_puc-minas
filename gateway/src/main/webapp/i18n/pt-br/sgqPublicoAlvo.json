@@ -2,27 +2,27 @@
   "gatewayApp": {
     "sgqPublicoAlvo": {
       "home": {
-        "title": "Publico Alvos",
-        "createLabel": "Criar novo Publico Alvo",
-        "createOrEditLabel": "Criar ou editar Publico Alvo",
-        "notFound": "Nenhum Publico Alvo encontrado"
+        "title": "Públicos alvos",
+        "createLabel": "Criar novo público alvo",
+        "createOrEditLabel": "Criar ou editar público alvo",
+        "notFound": "Nenhum público alvo encontrado"
       },
       "delete": {
-        "question": "Tem certeza de que deseja excluir Publico Alvo {{ id }}?"
+        "question": "Tem certeza de que deseja excluir o público alvo {{ id }}?"
       },
       "detail": {
-        "title": "Publico Alvo"
+        "title": "Público alvo"
       },
       "nome": "Nome",
-      "descricao": "Descricao",
+      "descricao": "Descrição",
       "habilitado": "Habilitado"
     }
   },
   "sgqApp": {
     "sgqPublicoAlvo": {
-      "created": "Um novo Publico Alvo foi criado com o identificador {{ param }}",
-      "updated": "Um Publico Alvo foi atualizado com o identificador {{ param }}",
-      "deleted": "Um Publico Alvo foi excluído com o identificador {{ param }}"
+      "created": "Um novo público alvo foi criado com o identificador {{ param }}",
+      "updated": "Um público alvo foi atualizado com o identificador {{ param }}",
+      "deleted": "Um público alvo foi excluído com o identificador {{ param }}"
     }
   }
 }

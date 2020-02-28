@@ -2,16 +2,16 @@
   "gatewayApp": {
     "sgqSetor": {
       "home": {
-        "title": "Setors",
-        "createLabel": "Criar novo Setor",
-        "createOrEditLabel": "Criar ou editar Setor",
-        "notFound": "Nenhum Setor encontrado"
+        "title": "Setores",
+        "createLabel": "Adicionar",
+        "createOrEditLabel": "Criar ou editar setor",
+        "notFound": "Nenhum setor encontrado"
       },
       "delete": {
-        "question": "Tem certeza de que deseja excluir Setor {{ id }}?"
+        "question": "Tem certeza de que deseja excluir o setor {{ id }}?"
       },
       "detail": {
-        "title": "Setor"
+        "title": "setor"
       },
       "nome": "Nome",
       "habilitado": "Habilitado",
@@ -22,9 +22,9 @@
   },
   "sgqApp": {
     "sgqSetor": {
-      "created": "Um novo Setor foi criado com o identificador {{ param }}",
-      "updated": "Um Setor foi atualizado com o identificador {{ param }}",
-      "deleted": "Um Setor foi excluído com o identificador {{ param }}"
+      "created": "Um novo setor foi criado com o identificador {{ param }}",
+      "updated": "Um setor foi atualizado com o identificador {{ param }}",
+      "deleted": "Um setor foi excluído com o identificador {{ param }}"
     }
   }
 }

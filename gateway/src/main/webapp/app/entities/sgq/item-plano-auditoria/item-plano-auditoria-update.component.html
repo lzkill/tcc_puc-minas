@@ -47,25 +47,25 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="gatewayApp.sgqItemPlanoAuditoria.dataInicioPrevisto" for="field_dataInicioPrevisto">Data Inicio Previsto</label>
+                    <label class="form-control-label" jhiTranslate="gatewayApp.sgqItemPlanoAuditoria.dataInicio" for="field_dataInicio">Data Inicio</label>
                     <div class="d-flex">
-                        <input id="field_dataInicioPrevisto" type="datetime-local" class="form-control" name="dataInicioPrevisto" formControlName="dataInicioPrevisto" placeholder="YYYY-MM-DD HH:mm"/>
+                        <input id="field_dataInicio" type="datetime-local" class="form-control" name="dataInicio" formControlName="dataInicio" placeholder="YYYY-MM-DD HH:mm"/>
                     </div>
-                    <div *ngIf="editForm.get('dataInicioPrevisto')!.invalid && (editForm.get('dataInicioPrevisto')!.dirty || editForm.get('dataInicioPrevisto')!.touched)">
+                    <div *ngIf="editForm.get('dataInicio')!.invalid && (editForm.get('dataInicio')!.dirty || editForm.get('dataInicio')!.touched)">
                         <small class="form-text text-danger"
-                               *ngIf="editForm.get('dataInicioPrevisto')?.errors?.required" jhiTranslate="entity.validation.required">
+                               *ngIf="editForm.get('dataInicio')?.errors?.required" jhiTranslate="entity.validation.required">
                         This field is required.
                         </small>
                         <small class="form-text text-danger"
-                            [hidden]="!editForm.get('dataInicioPrevisto')?.errors?.ZonedDateTimelocal" jhiTranslate="entity.validation.ZonedDateTimelocal">
+                            [hidden]="!editForm.get('dataInicio')?.errors?.ZonedDateTimelocal" jhiTranslate="entity.validation.ZonedDateTimelocal">
                             This field should be a date and time.
                         </small>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="gatewayApp.sgqItemPlanoAuditoria.dataFimPrevisto" for="field_dataFimPrevisto">Data Fim Previsto</label>
+                    <label class="form-control-label" jhiTranslate="gatewayApp.sgqItemPlanoAuditoria.dataFim" for="field_dataFim">Data Fim</label>
                     <div class="d-flex">
-                        <input id="field_dataFimPrevisto" type="datetime-local" class="form-control" name="dataFimPrevisto" formControlName="dataFimPrevisto" placeholder="YYYY-MM-DD HH:mm"/>
+                        <input id="field_dataFim" type="datetime-local" class="form-control" name="dataFim" formControlName="dataFim" placeholder="YYYY-MM-DD HH:mm"/>
                     </div>
                 </div>
 

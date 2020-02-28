@@ -52,22 +52,17 @@ export class ItemPlanoAuditoriaService {
 
   protected convertDateFromClient(itemPlanoAuditoria: IItemPlanoAuditoria): IItemPlanoAuditoria {
     const copy: IItemPlanoAuditoria = Object.assign({}, itemPlanoAuditoria, {
-      dataInicioPrevisto:
-        itemPlanoAuditoria.dataInicioPrevisto && itemPlanoAuditoria.dataInicioPrevisto.isValid()
-          ? itemPlanoAuditoria.dataInicioPrevisto.toJSON()
-          : undefined,
-      dataFimPrevisto:
-        itemPlanoAuditoria.dataFimPrevisto && itemPlanoAuditoria.dataFimPrevisto.isValid()
-          ? itemPlanoAuditoria.dataFimPrevisto.toJSON()
-          : undefined
+      dataInicio:
+        itemPlanoAuditoria.dataInicio && itemPlanoAuditoria.dataInicio.isValid() ? itemPlanoAuditoria.dataInicio.toJSON() : undefined,
+      dataFim: itemPlanoAuditoria.dataFim && itemPlanoAuditoria.dataFim.isValid() ? itemPlanoAuditoria.dataFim.toJSON() : undefined
     });
     return copy;
   }
 
   protected convertDateFromServer(res: EntityResponseType): EntityResponseType {
     if (res.body) {
-      res.body.dataInicioPrevisto = res.body.dataInicioPrevisto ? moment(res.body.dataInicioPrevisto) : undefined;
-      res.body.dataFimPrevisto = res.body.dataFimPrevisto ? moment(res.body.dataFimPrevisto) : undefined;
+      res.body.dataInicio = res.body.dataInicio ? moment(res.body.dataInicio) : undefined;
+      res.body.dataFim = res.body.dataFim ? moment(res.body.dataFim) : undefined;
     }
     return res;
   }
@@ -75,10 +70,8 @@ export class ItemPlanoAuditoriaService {
   protected convertDateArrayFromServer(res: EntityArrayResponseType): EntityArrayResponseType {
     if (res.body) {
       res.body.forEach((itemPlanoAuditoria: IItemPlanoAuditoria) => {
-        itemPlanoAuditoria.dataInicioPrevisto = itemPlanoAuditoria.dataInicioPrevisto
-          ? moment(itemPlanoAuditoria.dataInicioPrevisto)
-          : undefined;
-        itemPlanoAuditoria.dataFimPrevisto = itemPlanoAuditoria.dataFimPrevisto ? moment(itemPlanoAuditoria.dataFimPrevisto) : undefined;
+        itemPlanoAuditoria.dataInicio = itemPlanoAuditoria.dataInicio ? moment(itemPlanoAuditoria.dataInicio) : undefined;
+        itemPlanoAuditoria.dataFim = itemPlanoAuditoria.dataFim ? moment(itemPlanoAuditoria.dataFim) : undefined;
       });
     }
     return res;
