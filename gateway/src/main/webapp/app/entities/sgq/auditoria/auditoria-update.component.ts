@@ -17,6 +17,9 @@ import { ItemAuditoriaService } from 'app/entities/sgq/item-auditoria/item-audit
 import { IAnexo } from 'app/shared/model/sgq/anexo.model';
 import { AnexoService } from 'app/entities/sgq/anexo/anexo.service';
 
+import { IUser } from 'app/core/user/user.model';
+import { UserService } from 'app/core/user/user.service';
+
 type SelectableEntity = IItemAuditoria | IAnexo;
 
 @Component({
@@ -25,10 +28,9 @@ type SelectableEntity = IItemAuditoria | IAnexo;
 })
 export class AuditoriaUpdateComponent implements OnInit {
   isSaving = false;
-
   itemauditorias: IItemAuditoria[] = [];
-
   anexos: IAnexo[] = [];
+  usuarios: IUser[] = [];
 
   editForm = this.fb.group({
     id: [],
@@ -49,6 +51,7 @@ export class AuditoriaUpdateComponent implements OnInit {
     protected itemAuditoriaService: ItemAuditoriaService,
     protected anexoService: AnexoService,
     protected activatedRoute: ActivatedRoute,
+    protected userService: UserService,
     private fb: FormBuilder
   ) {}
 
@@ -73,6 +76,19 @@ export class AuditoriaUpdateComponent implements OnInit {
           })
         )
         .subscribe((resBody: IAnexo[]) => (this.anexos = resBody));
+
+      this.userService
+        .query()
+        .pipe(
+          map((res: HttpResponse<IUser[]>) => {
+            return res.body ? res.body : [];
+          })
+        )
+        .subscribe((resBody: IUser[]) =>
+          resBody.forEach(item => {
+            if (!this.userService.isAdmin(item)) this.usuarios.push(item);
+          })
+        );
     });
   }
 

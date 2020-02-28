@@ -35,7 +35,7 @@
             <tbody>
             <tr *ngFor="let campanhaRecall of campanhaRecalls ;trackBy: trackId">
                 <td><a [routerLink]="['/campanha-recall', campanhaRecall.id, 'view' ]">{{campanhaRecall.id}}</a></td>
-                <td>{{campanhaRecall.idUsuarioRegistro}}</td>
+                <td>{{usuarios.has(campanhaRecall.idUsuarioRegistro) ? usuarios.get(campanhaRecall.idUsuarioRegistro).login : ""}}</td>
                 <td>{{campanhaRecall.titulo}}</td>
                 <td>{{campanhaRecall.descricao}}</td>
                 <td>{{campanhaRecall.dataRegistro | date:'shortDate'}}</td>

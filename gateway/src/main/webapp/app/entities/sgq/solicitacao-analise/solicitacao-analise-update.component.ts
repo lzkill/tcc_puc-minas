@@ -17,6 +17,9 @@ import { AnaliseConsultoriaService } from 'app/entities/sgq/analise-consultoria/
 import { IConsultoria } from 'app/shared/model/sgq/consultoria.model';
 import { ConsultoriaService } from 'app/entities/sgq/consultoria/consultoria.service';
 
+import { IUser } from 'app/core/user/user.model';
+import { UserService } from 'app/core/user/user.service';
+
 type SelectableEntity = INaoConformidade | IAnaliseConsultoria | IConsultoria;
 
 @Component({
@@ -25,12 +28,10 @@ type SelectableEntity = INaoConformidade | IAnaliseConsultoria | IConsultoria;
 })
 export class SolicitacaoAnaliseUpdateComponent implements OnInit {
   isSaving = false;
-
   naoconformidades: INaoConformidade[] = [];
-
   analiseconsultorias: IAnaliseConsultoria[] = [];
-
   consultorias: IConsultoria[] = [];
+  usuarios: IUser[] = [];
 
   editForm = this.fb.group({
     id: [],
@@ -50,6 +51,7 @@ export class SolicitacaoAnaliseUpdateComponent implements OnInit {
     protected analiseConsultoriaService: AnaliseConsultoriaService,
     protected consultoriaService: ConsultoriaService,
     protected activatedRoute: ActivatedRoute,
+    protected userService: UserService,
     private fb: FormBuilder
   ) {}
 
@@ -113,6 +115,19 @@ export class SolicitacaoAnaliseUpdateComponent implements OnInit {
           })
         )
         .subscribe((resBody: IConsultoria[]) => (this.consultorias = resBody));
+
+      this.userService
+        .query()
+        .pipe(
+          map((res: HttpResponse<IUser[]>) => {
+            return res.body ? res.body : [];
+          })
+        )
+        .subscribe((resBody: IUser[]) =>
+          resBody.forEach(item => {
+            if (!this.userService.isAdmin(item)) this.usuarios.push(item);
+          })
+        );
     });
   }
 
