@@ -12,12 +12,17 @@ import { IAnexo, Anexo } from 'app/shared/model/sgq/anexo.model';
 import { AnexoService } from './anexo.service';
 import { AlertError } from 'app/shared/alert/alert-error.model';
 
+import { IUser } from 'app/core/user/user.model';
+import { UserService } from 'app/core/user/user.service';
+import { map } from 'rxjs/operators';
+
 @Component({
   selector: 'jhi-anexo-update',
   templateUrl: './anexo-update.component.html'
 })
 export class AnexoUpdateComponent implements OnInit {
   isSaving = false;
+  usuarios: IUser[] = [];
 
   editForm = this.fb.group({
     id: [],
@@ -33,12 +38,26 @@ export class AnexoUpdateComponent implements OnInit {
     protected eventManager: JhiEventManager,
     protected anexoService: AnexoService,
     protected activatedRoute: ActivatedRoute,
+    protected userService: UserService,
     private fb: FormBuilder
   ) {}
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ anexo }) => {
       this.updateForm(anexo);
+
+      this.userService
+        .query()
+        .pipe(
+          map((res: HttpResponse<IUser[]>) => {
+            return res.body ? res.body : [];
+          })
+        )
+        .subscribe((resBody: IUser[]) =>
+          resBody.forEach(item => {
+            if (!this.userService.isAdmin(item)) this.usuarios.push(item);
+          })
+        );
     });
   }
 

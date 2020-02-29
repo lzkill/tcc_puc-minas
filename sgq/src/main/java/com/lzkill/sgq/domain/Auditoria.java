@@ -1,4 +1,5 @@
 package com.lzkill.sgq.domain;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -9,6 +10,8 @@ import java.io.Serializable;
 import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
+
+import com.lzkill.sgq.domain.enumeration.ModalidadeAuditoria;
 
 /**
  * A Auditoria.
@@ -38,6 +41,11 @@ public class Auditoria implements Serializable {
     private String descricao;
 
     @NotNull
+    @Enumerated(EnumType.STRING)
+    @Column(name = "modalidade", nullable = false)
+    private ModalidadeAuditoria modalidade;
+
+    @NotNull
     @Column(name = "data_registro", nullable = false)
     private Instant dataRegistro;
 
@@ -47,9 +55,18 @@ public class Auditoria implements Serializable {
     @Column(name = "data_fim")
     private Instant dataFim;
 
+    @NotNull
+    @Size(min = 1, max = 100)
+    @Column(name = "auditor", length = 100, nullable = false)
+    private String auditor;
+
     @OneToMany(mappedBy = "auditoria")
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<NaoConformidade> naoConformidades = new HashSet<>();
+
+    @ManyToOne
+    @JsonIgnoreProperties("auditorias")
+    private Consultoria consultoria;
 
     @ManyToMany
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
@@ -113,6 +130,19 @@ public class Auditoria implements Serializable {
         this.descricao = descricao;
     }
 
+    public ModalidadeAuditoria getModalidade() {
+        return modalidade;
+    }
+
+    public Auditoria modalidade(ModalidadeAuditoria modalidade) {
+        this.modalidade = modalidade;
+        return this;
+    }
+
+    public void setModalidade(ModalidadeAuditoria modalidade) {
+        this.modalidade = modalidade;
+    }
+
     public Instant getDataRegistro() {
         return dataRegistro;
     }
@@ -152,6 +182,19 @@ public class Auditoria implements Serializable {
         this.dataFim = dataFim;
     }
 
+    public String getAuditor() {
+        return auditor;
+    }
+
+    public Auditoria auditor(String auditor) {
+        this.auditor = auditor;
+        return this;
+    }
+
+    public void setAuditor(String auditor) {
+        this.auditor = auditor;
+    }
+
     public Set<NaoConformidade> getNaoConformidades() {
         return naoConformidades;
     }
@@ -175,6 +218,19 @@ public class Auditoria implements Serializable {
 
     public void setNaoConformidades(Set<NaoConformidade> naoConformidades) {
         this.naoConformidades = naoConformidades;
+    }
+
+    public Consultoria getConsultoria() {
+        return consultoria;
+    }
+
+    public Auditoria consultoria(Consultoria consultoria) {
+        this.consultoria = consultoria;
+        return this;
+    }
+
+    public void setConsultoria(Consultoria consultoria) {
+        this.consultoria = consultoria;
     }
 
     public Set<ItemAuditoria> getItemAuditorias() {
@@ -251,9 +307,11 @@ public class Auditoria implements Serializable {
             ", idUsuarioRegistro=" + getIdUsuarioRegistro() +
             ", titulo='" + getTitulo() + "'" +
             ", descricao='" + getDescricao() + "'" +
+            ", modalidade='" + getModalidade() + "'" +
             ", dataRegistro='" + getDataRegistro() + "'" +
             ", dataInicio='" + getDataInicio() + "'" +
             ", dataFim='" + getDataFim() + "'" +
+            ", auditor='" + getAuditor() + "'" +
             "}";
     }
 }

@@ -1,11 +1,11 @@
-id;id_usuario_registro;titulo;descricao;data_registro;data_inicio;data_fim
-1;27910;Cyprus Baby JBOD;../fake-data/blob/hipster.txt;2020-02-07T23:07:27;2020-02-08T03:50:25;2020-02-08T14:33:34
-2;67369;Belize;../fake-data/blob/hipster.txt;2020-02-08T08:53:05;2020-02-08T07:25:34;2020-02-08T08:26:10
-3;77448;support Pines alarm;../fake-data/blob/hipster.txt;2020-02-08T06:00:31;2020-02-07T21:39:15;2020-02-08T04:26:53
-4;57644;transmitting Shoes;../fake-data/blob/hipster.txt;2020-02-08T03:10:53;2020-02-08T10:30:54;2020-02-08T12:20:57
-5;4131;turquoise;../fake-data/blob/hipster.txt;2020-02-07T21:56:30;2020-02-08T12:58:09;2020-02-08T11:02:17
-6;46331;Rustic Steel Pizza;../fake-data/blob/hipster.txt;2020-02-08T09:41:44;2020-02-08T06:53:08;2020-02-08T05:28:11
-7;13237;exploit Functionality;../fake-data/blob/hipster.txt;2020-02-07T18:44:19;2020-02-08T02:26:58;2020-02-08T14:23:08
-8;29144;morph haptic Steel;../fake-data/blob/hipster.txt;2020-02-08T05:47:11;2020-02-08T00:34:07;2020-02-07T17:40:00
-9;99734;Planner Refined generating;../fake-data/blob/hipster.txt;2020-02-08T08:21:02;2020-02-07T23:55:54;2020-02-08T08:19:34
-10;22746;Stravenue;../fake-data/blob/hipster.txt;2020-02-07T22:29:02;2020-02-08T02:39:11;2020-02-08T07:15:22
+id;id_usuario_registro;titulo;descricao;modalidade;data_registro;data_inicio;data_fim;auditor
+1;27910;Cyprus Baby JBOD;../fake-data/blob/hipster.txt;INTERNA;2020-02-08T07:25:34;2020-02-08T08:26:10;2020-02-07T21:28:35;support Pines alarm
+2;41898;Borders Auto Loan Account GB;../fake-data/blob/hipster.txt;INTERNA;2020-02-08T10:44:35;2020-02-08T04:57:01;2020-02-07T21:56:30;turquoise
+3;3313;Car;../fake-data/blob/hipster.txt;EXTERNA;2020-02-07T17:32:00;2020-02-08T09:45:15;2020-02-07T18:44:19;Gorgeous Metal Shirt responsive
+4;52718;Practical Metal Sausages;../fake-data/blob/hipster.txt;EXTERNA;2020-02-08T08:21:02;2020-02-07T23:55:54;2020-02-08T08:19:34;turquoise
+5;81410;Maine Azerbaijan National;../fake-data/blob/hipster.txt;INTERNA;2020-02-08T04:49:37;2020-02-08T07:25:50;2020-02-08T08:01:39;generating copy reciprocal
+6;61466;Planner Kansas;../fake-data/blob/hipster.txt;INTERNA;2020-02-08T01:27:02;2020-02-08T10:58:01;2020-02-08T10:45:13;deposit Assistant
+7;81819;red Fundamental Center;../fake-data/blob/hipster.txt;EXTERNA;2020-02-08T10:00:57;2020-02-08T06:29:55;2020-02-08T00:04:38;rich Ports Borders
+8;41639;Ethiopia quantify;../fake-data/blob/hipster.txt;INTERNA;2020-02-08T02:04:47;2020-02-08T05:13:04;2020-02-08T14:02:26;dot-com compress
+9;4666;deposit;../fake-data/blob/hipster.txt;INTERNA;2020-02-08T10:25:41;2020-02-08T10:01:59;2020-02-08T04:26:52;white
+10;29136;reintermediate;../fake-data/blob/hipster.txt;INTERNA;2020-02-08T11:33:39;2020-02-08T09:55:14;2020-02-07T16:15:36;Manager

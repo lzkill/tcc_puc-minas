@@ -195,6 +195,7 @@ entity Auditoria {
   dataRegistro Instant required
   dataInicio Instant
   dataFim Instant
+  auditor String required minlength(1) maxlength(100)
 }
 
 entity Checklist {
@@ -322,9 +323,9 @@ enum StatusPublicacao {
 */
 entity Consultoria {
   nome String required minlength(1) maxlength(100)
-  urlIntegracao String required minlength(1) maxlength(150)
+  urlIntegracao String maxlength(150)
   /** Token JWT */
-  tokenAcesso String required minlength(1)
+  tokenAcesso String maxlength(250)
   habilitado Boolean required
 }
 
@@ -407,6 +408,7 @@ relationship OneToMany {
 }
 
 relationship ManyToOne {
+  Auditoria{consultoria(nome)} to Consultoria
   BoletimInformativo{publicoAlvo(nome) required} to PublicoAlvo
   CampanhaRecall{produto(nome) required} to Produto
   CampanhaRecall{setorResponsavel(nome) required} to Setor

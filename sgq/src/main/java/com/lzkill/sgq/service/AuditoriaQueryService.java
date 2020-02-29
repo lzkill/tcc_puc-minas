@@ -91,6 +91,9 @@ public class AuditoriaQueryService extends QueryService<Auditoria> {
             if (criteria.getTitulo() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getTitulo(), Auditoria_.titulo));
             }
+            if (criteria.getModalidade() != null) {
+                specification = specification.and(buildSpecification(criteria.getModalidade(), Auditoria_.modalidade));
+            }
             if (criteria.getDataRegistro() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getDataRegistro(), Auditoria_.dataRegistro));
             }
@@ -100,9 +103,16 @@ public class AuditoriaQueryService extends QueryService<Auditoria> {
             if (criteria.getDataFim() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getDataFim(), Auditoria_.dataFim));
             }
+            if (criteria.getAuditor() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getAuditor(), Auditoria_.auditor));
+            }
             if (criteria.getNaoConformidadeId() != null) {
                 specification = specification.and(buildSpecification(criteria.getNaoConformidadeId(),
                     root -> root.join(Auditoria_.naoConformidades, JoinType.LEFT).get(NaoConformidade_.id)));
+            }
+            if (criteria.getConsultoriaId() != null) {
+                specification = specification.and(buildSpecification(criteria.getConsultoriaId(),
+                    root -> root.join(Auditoria_.consultoria, JoinType.LEFT).get(Consultoria_.id)));
             }
             if (criteria.getItemAuditoriaId() != null) {
                 specification = specification.and(buildSpecification(criteria.getItemAuditoriaId(),

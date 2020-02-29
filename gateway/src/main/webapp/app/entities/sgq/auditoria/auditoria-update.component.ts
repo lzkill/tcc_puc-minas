@@ -12,6 +12,8 @@ import { JhiDataUtils, JhiFileLoadError, JhiEventManager, JhiEventWithContent } 
 import { IAuditoria, Auditoria } from 'app/shared/model/sgq/auditoria.model';
 import { AuditoriaService } from './auditoria.service';
 import { AlertError } from 'app/shared/alert/alert-error.model';
+import { IConsultoria } from 'app/shared/model/sgq/consultoria.model';
+import { ConsultoriaService } from 'app/entities/sgq/consultoria/consultoria.service';
 import { IItemAuditoria } from 'app/shared/model/sgq/item-auditoria.model';
 import { ItemAuditoriaService } from 'app/entities/sgq/item-auditoria/item-auditoria.service';
 import { IAnexo } from 'app/shared/model/sgq/anexo.model';
@@ -20,7 +22,9 @@ import { AnexoService } from 'app/entities/sgq/anexo/anexo.service';
 import { IUser } from 'app/core/user/user.model';
 import { UserService } from 'app/core/user/user.service';
 
-type SelectableEntity = IItemAuditoria | IAnexo;
+type SelectableEntity = IConsultoria | IItemAuditoria | IAnexo;
+
+type SelectableManyToManyEntity = IItemAuditoria | IAnexo;
 
 @Component({
   selector: 'jhi-auditoria-update',
@@ -28,6 +32,7 @@ type SelectableEntity = IItemAuditoria | IAnexo;
 })
 export class AuditoriaUpdateComponent implements OnInit {
   isSaving = false;
+  consultorias: IConsultoria[] = [];
   itemauditorias: IItemAuditoria[] = [];
   anexos: IAnexo[] = [];
   usuarios: IUser[] = [];
@@ -37,9 +42,12 @@ export class AuditoriaUpdateComponent implements OnInit {
     idUsuarioRegistro: [null, [Validators.required]],
     titulo: [null, [Validators.required, Validators.minLength(1), Validators.maxLength(100)]],
     descricao: [],
+    modalidade: [null, [Validators.required]],
     dataRegistro: [null, [Validators.required]],
     dataInicio: [],
     dataFim: [],
+    auditor: [null, [Validators.required, Validators.minLength(1), Validators.maxLength(100)]],
+    consultoria: [],
     itemAuditorias: [],
     anexos: []
   });
@@ -48,6 +56,7 @@ export class AuditoriaUpdateComponent implements OnInit {
     protected dataUtils: JhiDataUtils,
     protected eventManager: JhiEventManager,
     protected auditoriaService: AuditoriaService,
+    protected consultoriaService: ConsultoriaService,
     protected itemAuditoriaService: ItemAuditoriaService,
     protected anexoService: AnexoService,
     protected activatedRoute: ActivatedRoute,
@@ -58,6 +67,15 @@ export class AuditoriaUpdateComponent implements OnInit {
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ auditoria }) => {
       this.updateForm(auditoria);
+
+      this.consultoriaService
+        .query()
+        .pipe(
+          map((res: HttpResponse<IConsultoria[]>) => {
+            return res.body ? res.body : [];
+          })
+        )
+        .subscribe((resBody: IConsultoria[]) => (this.consultorias = resBody));
 
       this.itemAuditoriaService
         .query()
@@ -98,9 +116,12 @@ export class AuditoriaUpdateComponent implements OnInit {
       idUsuarioRegistro: auditoria.idUsuarioRegistro,
       titulo: auditoria.titulo,
       descricao: auditoria.descricao,
+      modalidade: auditoria.modalidade,
       dataRegistro: auditoria.dataRegistro != null ? auditoria.dataRegistro.format(DATE_TIME_FORMAT) : null,
       dataInicio: auditoria.dataInicio != null ? auditoria.dataInicio.format(DATE_TIME_FORMAT) : null,
       dataFim: auditoria.dataFim != null ? auditoria.dataFim.format(DATE_TIME_FORMAT) : null,
+      auditor: auditoria.auditor,
+      consultoria: auditoria.consultoria,
       itemAuditorias: auditoria.itemAuditorias,
       anexos: auditoria.anexos
     });
@@ -143,6 +164,7 @@ export class AuditoriaUpdateComponent implements OnInit {
       idUsuarioRegistro: this.editForm.get(['idUsuarioRegistro'])!.value,
       titulo: this.editForm.get(['titulo'])!.value,
       descricao: this.editForm.get(['descricao'])!.value,
+      modalidade: this.editForm.get(['modalidade'])!.value,
       dataRegistro:
         this.editForm.get(['dataRegistro'])!.value != null
           ? moment(this.editForm.get(['dataRegistro'])!.value, DATE_TIME_FORMAT)
@@ -150,6 +172,8 @@ export class AuditoriaUpdateComponent implements OnInit {
       dataInicio:
         this.editForm.get(['dataInicio'])!.value != null ? moment(this.editForm.get(['dataInicio'])!.value, DATE_TIME_FORMAT) : undefined,
       dataFim: this.editForm.get(['dataFim'])!.value != null ? moment(this.editForm.get(['dataFim'])!.value, DATE_TIME_FORMAT) : undefined,
+      auditor: this.editForm.get(['auditor'])!.value,
+      consultoria: this.editForm.get(['consultoria'])!.value,
       itemAuditorias: this.editForm.get(['itemAuditorias'])!.value,
       anexos: this.editForm.get(['anexos'])!.value
     };
@@ -175,7 +199,7 @@ export class AuditoriaUpdateComponent implements OnInit {
     return item.id;
   }
 
-  getSelected(selectedVals: SelectableEntity[], option: SelectableEntity): SelectableEntity {
+  getSelected(selectedVals: SelectableManyToManyEntity[], option: SelectableManyToManyEntity): SelectableManyToManyEntity {
     if (selectedVals) {
       for (let i = 0; i < selectedVals.length; i++) {
         if (option.id === selectedVals[i].id) {

@@ -29,18 +29,16 @@ public class Consultoria implements Serializable {
     @Column(name = "nome", length = 100, nullable = false)
     private String nome;
 
-    @NotNull
-    @Size(min = 1, max = 150)
-    @Column(name = "url_integracao", length = 150, nullable = false)
+    @Size(max = 150)
+    @Column(name = "url_integracao", length = 150)
     private String urlIntegracao;
 
     /**
      * Token JWT
      */
-    @NotNull
-    @Size(min = 1)
-    @ApiModelProperty(value = "Token JWT", required = true)
-    @Column(name = "token_acesso", nullable = false)
+    @Size(max = 250)
+    @ApiModelProperty(value = "Token JWT")
+    @Column(name = "token_acesso", length = 250)
     private String tokenAcesso;
 
     @NotNull

@@ -3,6 +3,7 @@ package com.lzkill.sgq.service.dto;
 import java.io.Serializable;
 import java.util.Objects;
 import io.github.jhipster.service.Criteria;
+import com.lzkill.sgq.domain.enumeration.ModalidadeAuditoria;
 import io.github.jhipster.service.filter.BooleanFilter;
 import io.github.jhipster.service.filter.DoubleFilter;
 import io.github.jhipster.service.filter.Filter;
@@ -22,6 +23,24 @@ import io.github.jhipster.service.filter.InstantFilter;
  * fix type specific filters.
  */
 public class AuditoriaCriteria implements Serializable, Criteria {
+    /**
+     * Class for filtering ModalidadeAuditoria
+     */
+    public static class ModalidadeAuditoriaFilter extends Filter<ModalidadeAuditoria> {
+
+        public ModalidadeAuditoriaFilter() {
+        }
+
+        public ModalidadeAuditoriaFilter(ModalidadeAuditoriaFilter filter) {
+            super(filter);
+        }
+
+        @Override
+        public ModalidadeAuditoriaFilter copy() {
+            return new ModalidadeAuditoriaFilter(this);
+        }
+
+    }
 
     private static final long serialVersionUID = 1L;
 
@@ -31,13 +50,19 @@ public class AuditoriaCriteria implements Serializable, Criteria {
 
     private StringFilter titulo;
 
+    private ModalidadeAuditoriaFilter modalidade;
+
     private InstantFilter dataRegistro;
 
     private InstantFilter dataInicio;
 
     private InstantFilter dataFim;
 
+    private StringFilter auditor;
+
     private LongFilter naoConformidadeId;
+
+    private LongFilter consultoriaId;
 
     private LongFilter itemAuditoriaId;
 
@@ -50,10 +75,13 @@ public class AuditoriaCriteria implements Serializable, Criteria {
         this.id = other.id == null ? null : other.id.copy();
         this.idUsuarioRegistro = other.idUsuarioRegistro == null ? null : other.idUsuarioRegistro.copy();
         this.titulo = other.titulo == null ? null : other.titulo.copy();
+        this.modalidade = other.modalidade == null ? null : other.modalidade.copy();
         this.dataRegistro = other.dataRegistro == null ? null : other.dataRegistro.copy();
         this.dataInicio = other.dataInicio == null ? null : other.dataInicio.copy();
         this.dataFim = other.dataFim == null ? null : other.dataFim.copy();
+        this.auditor = other.auditor == null ? null : other.auditor.copy();
         this.naoConformidadeId = other.naoConformidadeId == null ? null : other.naoConformidadeId.copy();
+        this.consultoriaId = other.consultoriaId == null ? null : other.consultoriaId.copy();
         this.itemAuditoriaId = other.itemAuditoriaId == null ? null : other.itemAuditoriaId.copy();
         this.anexoId = other.anexoId == null ? null : other.anexoId.copy();
     }
@@ -87,6 +115,14 @@ public class AuditoriaCriteria implements Serializable, Criteria {
         this.titulo = titulo;
     }
 
+    public ModalidadeAuditoriaFilter getModalidade() {
+        return modalidade;
+    }
+
+    public void setModalidade(ModalidadeAuditoriaFilter modalidade) {
+        this.modalidade = modalidade;
+    }
+
     public InstantFilter getDataRegistro() {
         return dataRegistro;
     }
@@ -111,12 +147,28 @@ public class AuditoriaCriteria implements Serializable, Criteria {
         this.dataFim = dataFim;
     }
 
+    public StringFilter getAuditor() {
+        return auditor;
+    }
+
+    public void setAuditor(StringFilter auditor) {
+        this.auditor = auditor;
+    }
+
     public LongFilter getNaoConformidadeId() {
         return naoConformidadeId;
     }
 
     public void setNaoConformidadeId(LongFilter naoConformidadeId) {
         this.naoConformidadeId = naoConformidadeId;
+    }
+
+    public LongFilter getConsultoriaId() {
+        return consultoriaId;
+    }
+
+    public void setConsultoriaId(LongFilter consultoriaId) {
+        this.consultoriaId = consultoriaId;
     }
 
     public LongFilter getItemAuditoriaId() {
@@ -149,10 +201,13 @@ public class AuditoriaCriteria implements Serializable, Criteria {
             Objects.equals(id, that.id) &&
             Objects.equals(idUsuarioRegistro, that.idUsuarioRegistro) &&
             Objects.equals(titulo, that.titulo) &&
+            Objects.equals(modalidade, that.modalidade) &&
             Objects.equals(dataRegistro, that.dataRegistro) &&
             Objects.equals(dataInicio, that.dataInicio) &&
             Objects.equals(dataFim, that.dataFim) &&
+            Objects.equals(auditor, that.auditor) &&
             Objects.equals(naoConformidadeId, that.naoConformidadeId) &&
+            Objects.equals(consultoriaId, that.consultoriaId) &&
             Objects.equals(itemAuditoriaId, that.itemAuditoriaId) &&
             Objects.equals(anexoId, that.anexoId);
     }
@@ -163,10 +218,13 @@ public class AuditoriaCriteria implements Serializable, Criteria {
         id,
         idUsuarioRegistro,
         titulo,
+        modalidade,
         dataRegistro,
         dataInicio,
         dataFim,
+        auditor,
         naoConformidadeId,
+        consultoriaId,
         itemAuditoriaId,
         anexoId
         );
@@ -178,10 +236,13 @@ public class AuditoriaCriteria implements Serializable, Criteria {
                 (id != null ? "id=" + id + ", " : "") +
                 (idUsuarioRegistro != null ? "idUsuarioRegistro=" + idUsuarioRegistro + ", " : "") +
                 (titulo != null ? "titulo=" + titulo + ", " : "") +
+                (modalidade != null ? "modalidade=" + modalidade + ", " : "") +
                 (dataRegistro != null ? "dataRegistro=" + dataRegistro + ", " : "") +
                 (dataInicio != null ? "dataInicio=" + dataInicio + ", " : "") +
                 (dataFim != null ? "dataFim=" + dataFim + ", " : "") +
+                (auditor != null ? "auditor=" + auditor + ", " : "") +
                 (naoConformidadeId != null ? "naoConformidadeId=" + naoConformidadeId + ", " : "") +
+                (consultoriaId != null ? "consultoriaId=" + consultoriaId + ", " : "") +
                 (itemAuditoriaId != null ? "itemAuditoriaId=" + itemAuditoriaId + ", " : "") +
                 (anexoId != null ? "anexoId=" + anexoId + ", " : "") +
             "}";

@@ -8,6 +8,12 @@
     -->
     <changeSet id="20200208160352-2" author="jhipster">
         
+        <addForeignKeyConstraint baseColumnNames="consultoria_id"
+                                 baseTableName="auditoria"
+                                 constraintName="fk_auditoria_consultoria_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="consultoria"/>
+
         <addForeignKeyConstraint baseColumnNames="auditoria_id"
                                  baseTableName="auditoria_item_auditoria"
                                  constraintName="fk_auditoria_item_auditoria_auditoria_id"

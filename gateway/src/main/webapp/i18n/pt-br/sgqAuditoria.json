@@ -21,7 +21,10 @@
       "dataFim": "Fim",
       "naoConformidade": "Não conformidade",
       "itemAuditoria": "Item de auditoria",
-      "anexo": "Anexo"
+      "anexo": "Anexo",
+      "auditor": "Auditor",
+      "consultoria": "Consultoria",
+      "modalidade": "Modalidade"
     }
   },
   "sgqApp": {

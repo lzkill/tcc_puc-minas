@@ -25,6 +25,9 @@
             <column name="descricao" type="${clobType}">
                 <constraints nullable="true" />
             </column>
+            <column name="modalidade" type="varchar(255)">
+                <constraints nullable="false" />
+            </column>
             <column name="data_registro" type="datetime">
                 <constraints nullable="false" />
             </column>
@@ -32,6 +35,12 @@
                 <constraints nullable="true" />
             </column>
             <column name="data_fim" type="datetime">
+                <constraints nullable="true" />
+            </column>
+            <column name="auditor" type="varchar(100)">
+                <constraints nullable="false" />
+            </column>
+            <column name="consultoria_id" type="bigint">
                 <constraints nullable="true" />
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
@@ -85,9 +94,11 @@
             <column name="id_usuario_registro" type="numeric"/>
             <column name="titulo" type="string"/>
             <column name="descricao" type="clob"/>
+            <column name="modalidade" type="string"/>
             <column name="data_registro" type="datetime"/>
             <column name="data_inicio" type="datetime"/>
             <column name="data_fim" type="datetime"/>
+            <column name="auditor" type="string"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here, do not remove-->
         </loadData>
     </changeSet>

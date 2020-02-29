@@ -183,42 +183,6 @@ public class ConsultoriaResourceIT {
 
     @Test
     @Transactional
-    public void checkUrlIntegracaoIsRequired() throws Exception {
-        int databaseSizeBeforeTest = consultoriaRepository.findAll().size();
-        // set the field null
-        consultoria.setUrlIntegracao(null);
-
-        // Create the Consultoria, which fails.
-
-        restConsultoriaMockMvc.perform(post("/api/consultorias")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(consultoria)))
-            .andExpect(status().isBadRequest());
-
-        List<Consultoria> consultoriaList = consultoriaRepository.findAll();
-        assertThat(consultoriaList).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
-    public void checkTokenAcessoIsRequired() throws Exception {
-        int databaseSizeBeforeTest = consultoriaRepository.findAll().size();
-        // set the field null
-        consultoria.setTokenAcesso(null);
-
-        // Create the Consultoria, which fails.
-
-        restConsultoriaMockMvc.perform(post("/api/consultorias")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(consultoria)))
-            .andExpect(status().isBadRequest());
-
-        List<Consultoria> consultoriaList = consultoriaRepository.findAll();
-        assertThat(consultoriaList).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
     public void checkHabilitadoIsRequired() throws Exception {
         int databaseSizeBeforeTest = consultoriaRepository.findAll().size();
         // set the field null

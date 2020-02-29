@@ -18,8 +18,8 @@ export class ConsultoriaUpdateComponent implements OnInit {
   editForm = this.fb.group({
     id: [],
     nome: [null, [Validators.required, Validators.minLength(1), Validators.maxLength(100)]],
-    urlIntegracao: [null, [Validators.required, Validators.minLength(1), Validators.maxLength(150)]],
-    tokenAcesso: [null, [Validators.required, Validators.minLength(1)]],
+    urlIntegracao: [null, [Validators.maxLength(150)]],
+    tokenAcesso: [null, [Validators.maxLength(250)]],
     habilitado: [null, [Validators.required]]
   });
 

@@ -20,10 +20,10 @@
                 <constraints nullable="false" />
             </column>
             <column name="url_integracao" type="varchar(150)">
-                <constraints nullable="false" />
+                <constraints nullable="true" />
             </column>
-            <column name="token_acesso" type="varchar(255)" remarks="Token JWT">
-                <constraints nullable="false" />
+            <column name="token_acesso" type="varchar(250)" remarks="Token JWT">
+                <constraints nullable="true" />
             </column>
             <column name="habilitado" type="boolean">
                 <constraints nullable="false" />

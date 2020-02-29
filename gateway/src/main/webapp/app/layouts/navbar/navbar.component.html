@@ -109,6 +109,13 @@
                     </li>
                     <hr/>
                     <li *jhiHasAnyAuthority="'ROLE_ADMIN_SGQ'">
+                        <a class="dropdown-item" routerLink="anexo" routerLinkActive="active"
+                            [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                            <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
+                            <span jhiTranslate="global.menu.entities.sgqAnexo">Anexos</span>
+                        </a>
+                    </li>
+                    <li *jhiHasAnyAuthority="'ROLE_ADMIN_SGQ'">
                         <a class="dropdown-item" routerLink="consultoria" routerLinkActive="active"
                             [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                             <fa-icon icon="asterisk" fixedWidth="true"></fa-icon>
@@ -287,6 +294,7 @@
                     </li>
                 </ul>
             </li>
+            <!--
             <li *jhiHasAnyAuthority="'ROLE_SGQ'" ngbDropdown class="nav-item dropdown pointer" display="dynamic"
             routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
                 <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="entity-menu">
@@ -297,6 +305,7 @@
                         </span>
                     </span>
             </li>
+            -->
             <li *jhiHasAnyAuthority="'ROLE_SGQ'" class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
               <a class="nav-link" routerLink="relatorio" (click)="collapseNavbar()">
                   <span>

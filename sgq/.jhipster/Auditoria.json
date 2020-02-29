@@ -25,6 +25,14 @@
             "fieldTypeBlobContent": "text"
         },
         {
+            "fieldName": "modalidade",
+            "fieldType": "ModalidadeAuditoria",
+            "fieldValues": "INTERNA,EXTERNA",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
             "fieldName": "dataRegistro",
             "fieldType": "Instant",
             "fieldValidateRules": [
@@ -38,6 +46,17 @@
         {
             "fieldName": "dataFim",
             "fieldType": "Instant"
+        },
+        {
+            "fieldName": "auditor",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required",
+                "minlength",
+                "maxlength"
+            ],
+            "fieldValidateRulesMinlength": 1,
+            "fieldValidateRulesMaxlength": 100
         }
     ],
     "relationships": [
@@ -46,6 +65,13 @@
             "otherEntityName": "naoConformidade",
             "otherEntityRelationshipName": "auditoria",
             "relationshipName": "naoConformidade"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "consultoria",
+            "otherEntityRelationshipName": "auditoria",
+            "relationshipName": "consultoria",
+            "otherEntityField": "nome"
         },
         {
             "relationshipType": "many-to-many",

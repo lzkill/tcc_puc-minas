@@ -17,6 +17,10 @@
                 <dd>
                     <span>{{auditoria.descricao}}</span>
                 </dd>
+                <dt><span jhiTranslate="gatewayApp.sgqAuditoria.modalidade">Modalidade</span></dt>
+                <dd>
+                    <span jhiTranslate="{{'gatewayApp.ModalidadeAuditoria.' + auditoria.modalidade}}">{{auditoria.modalidade}}</span>
+                </dd>
                 <dt><span jhiTranslate="gatewayApp.sgqAuditoria.dataRegistro">Data Registro</span></dt>
                 <dd>
                     <span>{{auditoria.dataRegistro}}</span>
@@ -28,6 +32,16 @@
                 <dt><span jhiTranslate="gatewayApp.sgqAuditoria.dataFim">Data Fim</span></dt>
                 <dd>
                     <span>{{auditoria.dataFim}}</span>
+                </dd>
+                <dt><span jhiTranslate="gatewayApp.sgqAuditoria.auditor">Auditor</span></dt>
+                <dd>
+                    <span>{{auditoria.auditor}}</span>
+                </dd>
+                <dt><span jhiTranslate="gatewayApp.sgqAuditoria.consultoria">Consultoria</span></dt>
+                <dd>
+                    <div *ngIf="auditoria.consultoria">
+                        <a [routerLink]="['/consultoria', auditoria.consultoria?.id, 'view']">{{auditoria.consultoria?.nome}}</a>
+                    </div>
                 </dd>
                 <dt><span jhiTranslate="gatewayApp.sgqAuditoria.itemAuditoria">Item Auditoria</span></dt>
                 <dd>

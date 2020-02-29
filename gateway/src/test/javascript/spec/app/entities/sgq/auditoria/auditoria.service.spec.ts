@@ -5,6 +5,7 @@ import * as moment from 'moment';
 import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 import { AuditoriaService } from 'app/entities/sgq/auditoria/auditoria.service';
 import { IAuditoria, Auditoria } from 'app/shared/model/sgq/auditoria.model';
+import { ModalidadeAuditoria } from 'app/shared/model/enumerations/modalidade-auditoria.model';
 
 describe('Service Tests', () => {
   describe('Auditoria Service', () => {
@@ -24,7 +25,17 @@ describe('Service Tests', () => {
       httpMock = injector.get(HttpTestingController);
       currentDate = moment();
 
-      elemDefault = new Auditoria(0, 0, 'AAAAAAA', 'AAAAAAA', currentDate, currentDate, currentDate);
+      elemDefault = new Auditoria(
+        0,
+        0,
+        'AAAAAAA',
+        'AAAAAAA',
+        ModalidadeAuditoria.INTERNA,
+        currentDate,
+        currentDate,
+        currentDate,
+        'AAAAAAA'
+      );
     });
 
     describe('Service methods', () => {
@@ -80,9 +91,11 @@ describe('Service Tests', () => {
             idUsuarioRegistro: 1,
             titulo: 'BBBBBB',
             descricao: 'BBBBBB',
+            modalidade: 'BBBBBB',
             dataRegistro: currentDate.format(DATE_TIME_FORMAT),
             dataInicio: currentDate.format(DATE_TIME_FORMAT),
-            dataFim: currentDate.format(DATE_TIME_FORMAT)
+            dataFim: currentDate.format(DATE_TIME_FORMAT),
+            auditor: 'BBBBBB'
           },
           elemDefault
         );
@@ -110,9 +123,11 @@ describe('Service Tests', () => {
             idUsuarioRegistro: 1,
             titulo: 'BBBBBB',
             descricao: 'BBBBBB',
+            modalidade: 'BBBBBB',
             dataRegistro: currentDate.format(DATE_TIME_FORMAT),
             dataInicio: currentDate.format(DATE_TIME_FORMAT),
-            dataFim: currentDate.format(DATE_TIME_FORMAT)
+            dataFim: currentDate.format(DATE_TIME_FORMAT),
+            auditor: 'BBBBBB'
           },
           elemDefault
         );

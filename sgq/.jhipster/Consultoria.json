@@ -16,11 +16,8 @@
             "fieldName": "urlIntegracao",
             "fieldType": "String",
             "fieldValidateRules": [
-                "required",
-                "minlength",
                 "maxlength"
             ],
-            "fieldValidateRulesMinlength": 1,
             "fieldValidateRulesMaxlength": 150
         },
         {
@@ -28,10 +25,9 @@
             "javadoc": "Token JWT",
             "fieldType": "String",
             "fieldValidateRules": [
-                "required",
-                "minlength"
+                "maxlength"
             ],
-            "fieldValidateRulesMinlength": 1
+            "fieldValidateRulesMaxlength": 250
         },
         {
             "fieldName": "habilitado",
