@@ -30,12 +30,9 @@ type SelectableEntity = IAnexo | IAuditoria | IResultadoChecklist;
 })
 export class NaoConformidadeUpdateComponent implements OnInit {
   isSaving = false;
-
   anexos: IAnexo[] = [];
   usuarios: IUser[] = [];
-
   auditorias: IAuditoria[] = [];
-
   resultadochecklists: IResultadoChecklist[] = [];
 
   editForm = this.fb.group({

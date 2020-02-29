@@ -11,6 +11,10 @@ import { ITEMS_PER_PAGE } from 'app/shared/constants/pagination.constants';
 import { SolicitacaoAnaliseService } from './solicitacao-analise.service';
 import { SolicitacaoAnaliseDeleteDialogComponent } from './solicitacao-analise-delete-dialog.component';
 
+import { IUser } from 'app/core/user/user.model';
+import { UserService } from 'app/core/user/user.service';
+import { map } from 'rxjs/operators';
+
 @Component({
   selector: 'jhi-solicitacao-analise',
   templateUrl: './solicitacao-analise.component.html'
@@ -25,12 +29,15 @@ export class SolicitacaoAnaliseComponent implements OnInit, OnDestroy {
   ascending!: boolean;
   ngbPaginationPage = 1;
 
+  usuarios: Map<any, IUser> = new Map<any, IUser>();
+
   constructor(
     protected solicitacaoAnaliseService: SolicitacaoAnaliseService,
     protected activatedRoute: ActivatedRoute,
     protected router: Router,
     protected eventManager: JhiEventManager,
-    protected modalService: NgbModal
+    protected modalService: NgbModal,
+    protected userService: UserService
   ) {}
 
   loadPage(page?: number): void {
@@ -53,6 +60,16 @@ export class SolicitacaoAnaliseComponent implements OnInit, OnDestroy {
       this.ascending = data.pagingParams.ascending;
       this.predicate = data.pagingParams.predicate;
       this.ngbPaginationPage = data.pagingParams.page;
+
+      this.userService
+        .query()
+        .pipe(
+          map((res: HttpResponse<IUser[]>) => {
+            return res.body ? res.body : [];
+          })
+        )
+        .subscribe((resBody: IUser[]) => resBody.forEach(item => this.usuarios.set(item.id, item)));
+
       this.loadPage();
     });
     this.registerChangeInSolicitacaoAnalises();

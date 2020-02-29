@@ -7,7 +7,7 @@
             <dl class="row-md jh-entity-details">
                 <dt><span jhiTranslate="gatewayApp.sgqCampanhaRecall.idUsuarioRegistro">Id Usuario Registro</span></dt>
                 <dd>
-                    <span>{{campanhaRecall.idUsuarioRegistro}}</span>
+                    <span>{{usuarios.has(campanhaRecall.idUsuarioRegistro) ? usuarios.get(campanhaRecall.idUsuarioRegistro).firstName + " " + usuarios.get(campanhaRecall.idUsuarioRegistro).lastName : ""}}</span>
                 </dd>
                 <dt><span jhiTranslate="gatewayApp.sgqCampanhaRecall.titulo">Titulo</span></dt>
                 <dd>

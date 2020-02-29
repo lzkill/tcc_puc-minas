@@ -31,7 +31,7 @@
             <tbody>
             <tr *ngFor="let auditoria of auditorias ;trackBy: trackId">
                 <td><a [routerLink]="['/auditoria', auditoria.id, 'view' ]">{{auditoria.id}}</a></td>
-                <td>{{auditoria.idUsuarioRegistro}}</td>
+                <td>{{usuarios.has(auditoria.idUsuarioRegistro) ? usuarios.get(auditoria.idUsuarioRegistro).login : ""}}</td>
                 <td>{{auditoria.titulo}}</td>
                 <td>{{auditoria.descricao}}</td>
                 <td>{{auditoria.dataRegistro | date:'medium'}}</td>

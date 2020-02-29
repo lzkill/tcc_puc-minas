@@ -19,6 +19,9 @@ import { SetorService } from 'app/entities/sgq/setor/setor.service';
 import { IAnexo } from 'app/shared/model/sgq/anexo.model';
 import { AnexoService } from 'app/entities/sgq/anexo/anexo.service';
 
+import { IUser } from 'app/core/user/user.model';
+import { UserService } from 'app/core/user/user.service';
+
 type SelectableEntity = IProduto | ISetor | IAnexo;
 
 @Component({
@@ -27,12 +30,10 @@ type SelectableEntity = IProduto | ISetor | IAnexo;
 })
 export class CampanhaRecallUpdateComponent implements OnInit {
   isSaving = false;
-
   produtos: IProduto[] = [];
-
   setors: ISetor[] = [];
-
   anexos: IAnexo[] = [];
+  usuarios: IUser[] = [];
 
   editForm = this.fb.group({
     id: [],
@@ -57,6 +58,7 @@ export class CampanhaRecallUpdateComponent implements OnInit {
     protected setorService: SetorService,
     protected anexoService: AnexoService,
     protected activatedRoute: ActivatedRoute,
+    protected userService: UserService,
     private fb: FormBuilder
   ) {}
 
@@ -90,6 +92,19 @@ export class CampanhaRecallUpdateComponent implements OnInit {
           })
         )
         .subscribe((resBody: IAnexo[]) => (this.anexos = resBody));
+
+      this.userService
+        .query()
+        .pipe(
+          map((res: HttpResponse<IUser[]>) => {
+            return res.body ? res.body : [];
+          })
+        )
+        .subscribe((resBody: IUser[]) =>
+          resBody.forEach(item => {
+            if (!this.userService.isAdmin(item)) this.usuarios.push(item);
+          })
+        );
     });
   }
 
