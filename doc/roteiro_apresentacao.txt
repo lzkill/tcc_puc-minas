@@ -40,9 +40,8 @@ Demonstração
     - Chamadas Rest + tempos de resposta
     - [Consulta ao cache]
     - Resiliência à falhas (sgq fora)
+    - Issues
 
 
 => Janela secundária no OBS com agenda da apresentação
 => Citar que os includes dos casos de uso foram suprimidos para fins de simplificação
-=> Incluir na arquitetura um servidor de reporting service para consumo de
-relatórios via http

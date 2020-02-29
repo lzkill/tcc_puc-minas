@@ -23,27 +23,29 @@
                     <table class="table table-striped" aria-describedby="page-heading">
                         <thead>
                         <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
+                        <th scope="col" jhiSortBy="plano.titulo"><span jhiTranslate="gatewayApp.sgqItemPlanoAuditoria.plano">Plano</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                        <th scope="col" jhiSortBy="itemAuditoria.titulo"><span jhiTranslate="gatewayApp.sgqItemPlanoAuditoria.itemAuditoria">Item de auditoria</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                        <th scope="col" jhiSortBy="itemPlanoAuditoria.modalidade"><span jhiTranslate="gatewayApp.sgqItemPlanoAuditoria.modalidade">Modalidade</span> <fa-icon [icon]="'sort'"></fa-icon></th>
                         <th scope="col" jhiSortBy="dataInicio"><span jhiTranslate="gatewayApp.sgqItemPlanoAuditoria.dataInicio">Data Inicio</span> <fa-icon [icon]="'sort'"></fa-icon></th>
                         <th scope="col" jhiSortBy="dataFim"><span jhiTranslate="gatewayApp.sgqItemPlanoAuditoria.dataFim">Data Fim</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-                        <th scope="col" jhiSortBy="itemAuditoria.titulo"><span jhiTranslate="gatewayApp.sgqItemPlanoAuditoria.itemAuditoria">Item de auditoria</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-                        <th scope="col" jhiSortBy="plano.titulo"><span jhiTranslate="gatewayApp.sgqItemPlanoAuditoria.plano">Plano</span> <fa-icon [icon]="'sort'"></fa-icon></th>
                         <th scope="col"></th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr *ngFor="let itemPlanoAuditoria of itemPlanoAuditorias ;trackBy: trackId">
-                            <td>{{itemPlanoAuditoria.dataInicio | date:'shortDate'}}</td>
-                            <td>{{itemPlanoAuditoria.dataFim | date:'shortDate'}}</td>
-                            <td>
-                                <div *ngIf="itemPlanoAuditoria.itemAuditoria">
-                                    <a [routerLink]="['/item-auditoria', itemPlanoAuditoria.itemAuditoria?.id, 'view' ]" >{{itemPlanoAuditoria.itemAuditoria?.titulo}}</a>
-                                </div>
-                            </td>
                             <td>
                                 <div *ngIf="itemPlanoAuditoria.plano">
                                     <a [routerLink]="['/plano-auditoria', itemPlanoAuditoria.plano?.id, 'view' ]" >{{itemPlanoAuditoria.plano?.titulo}}</a>
                                 </div>
                             </td>
+                            <td>
+                                <div *ngIf="itemPlanoAuditoria.itemAuditoria">
+                                    <a [routerLink]="['/item-auditoria', itemPlanoAuditoria.itemAuditoria?.id, 'view' ]" >{{itemPlanoAuditoria.itemAuditoria?.titulo}}</a>
+                                </div>
+                            </td>
+                            <td>{{itemPlanoAuditoria.modalidade}}</td>
+                            <td>{{itemPlanoAuditoria.dataInicio | date:'shortDate'}}</td>
+                            <td>{{itemPlanoAuditoria.dataFim | date:'shortDate'}}</td>
                             <td class="text-right">
                                 <div class="btn-group">
                                 </div>
