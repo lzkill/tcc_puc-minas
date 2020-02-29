@@ -137,7 +137,6 @@ export class SolicitacaoAnaliseUpdateComponent implements OnInit {
       idUsuarioRegistro: solicitacaoAnalise.idUsuarioRegistro,
       dataRegistro: solicitacaoAnalise.dataRegistro != null ? solicitacaoAnalise.dataRegistro.format(DATE_TIME_FORMAT) : null,
       dataSolicitacao: solicitacaoAnalise.dataSolicitacao != null ? solicitacaoAnalise.dataSolicitacao.format(DATE_TIME_FORMAT) : null,
-      uuid: solicitacaoAnalise.uuid,
       status: solicitacaoAnalise.status,
       naoConformidade: solicitacaoAnalise.naoConformidade,
       analiseConsultoria: solicitacaoAnalise.analiseConsultoria,
@@ -172,7 +171,6 @@ export class SolicitacaoAnaliseUpdateComponent implements OnInit {
         this.editForm.get(['dataSolicitacao'])!.value != null
           ? moment(this.editForm.get(['dataSolicitacao'])!.value, DATE_TIME_FORMAT)
           : undefined,
-      uuid: this.editForm.get(['uuid'])!.value,
       status: this.editForm.get(['status'])!.value,
       naoConformidade: this.editForm.get(['naoConformidade'])!.value,
       analiseConsultoria: this.editForm.get(['analiseConsultoria'])!.value,

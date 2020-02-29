@@ -51,9 +51,6 @@ public class SolicitacaoAnaliseResourceIT {
     private static final Instant DEFAULT_DATA_SOLICITACAO = Instant.ofEpochMilli(0L);
     private static final Instant UPDATED_DATA_SOLICITACAO = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
-    private static final String DEFAULT_UUID = "AAAAAAAAAA";
-    private static final String UPDATED_UUID = "BBBBBBBBBB";
-
     private static final StatusSolicitacaoAnalise DEFAULT_STATUS = StatusSolicitacaoAnalise.REGISTRADO;
     private static final StatusSolicitacaoAnalise UPDATED_STATUS = StatusSolicitacaoAnalise.PENDENTE;
 
@@ -108,7 +105,6 @@ public class SolicitacaoAnaliseResourceIT {
             .idUsuarioRegistro(DEFAULT_ID_USUARIO_REGISTRO)
             .dataRegistro(DEFAULT_DATA_REGISTRO)
             .dataSolicitacao(DEFAULT_DATA_SOLICITACAO)
-            .uuid(DEFAULT_UUID)
             .status(DEFAULT_STATUS);
         // Add required entity
         NaoConformidade naoConformidade;
@@ -133,7 +129,6 @@ public class SolicitacaoAnaliseResourceIT {
             .idUsuarioRegistro(UPDATED_ID_USUARIO_REGISTRO)
             .dataRegistro(UPDATED_DATA_REGISTRO)
             .dataSolicitacao(UPDATED_DATA_SOLICITACAO)
-            .uuid(UPDATED_UUID)
             .status(UPDATED_STATUS);
         // Add required entity
         NaoConformidade naoConformidade;
@@ -171,7 +166,6 @@ public class SolicitacaoAnaliseResourceIT {
         assertThat(testSolicitacaoAnalise.getIdUsuarioRegistro()).isEqualTo(DEFAULT_ID_USUARIO_REGISTRO);
         assertThat(testSolicitacaoAnalise.getDataRegistro()).isEqualTo(DEFAULT_DATA_REGISTRO);
         assertThat(testSolicitacaoAnalise.getDataSolicitacao()).isEqualTo(DEFAULT_DATA_SOLICITACAO);
-        assertThat(testSolicitacaoAnalise.getUuid()).isEqualTo(DEFAULT_UUID);
         assertThat(testSolicitacaoAnalise.getStatus()).isEqualTo(DEFAULT_STATUS);
     }
 
@@ -263,7 +257,6 @@ public class SolicitacaoAnaliseResourceIT {
             .andExpect(jsonPath("$.[*].idUsuarioRegistro").value(hasItem(DEFAULT_ID_USUARIO_REGISTRO)))
             .andExpect(jsonPath("$.[*].dataRegistro").value(hasItem(DEFAULT_DATA_REGISTRO.toString())))
             .andExpect(jsonPath("$.[*].dataSolicitacao").value(hasItem(DEFAULT_DATA_SOLICITACAO.toString())))
-            .andExpect(jsonPath("$.[*].uuid").value(hasItem(DEFAULT_UUID)))
             .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())));
     }
     
@@ -281,7 +274,6 @@ public class SolicitacaoAnaliseResourceIT {
             .andExpect(jsonPath("$.idUsuarioRegistro").value(DEFAULT_ID_USUARIO_REGISTRO))
             .andExpect(jsonPath("$.dataRegistro").value(DEFAULT_DATA_REGISTRO.toString()))
             .andExpect(jsonPath("$.dataSolicitacao").value(DEFAULT_DATA_SOLICITACAO.toString()))
-            .andExpect(jsonPath("$.uuid").value(DEFAULT_UUID))
             .andExpect(jsonPath("$.status").value(DEFAULT_STATUS.toString()));
     }
 
@@ -516,84 +508,6 @@ public class SolicitacaoAnaliseResourceIT {
 
     @Test
     @Transactional
-    public void getAllSolicitacaoAnalisesByUuidIsEqualToSomething() throws Exception {
-        // Initialize the database
-        solicitacaoAnaliseRepository.saveAndFlush(solicitacaoAnalise);
-
-        // Get all the solicitacaoAnaliseList where uuid equals to DEFAULT_UUID
-        defaultSolicitacaoAnaliseShouldBeFound("uuid.equals=" + DEFAULT_UUID);
-
-        // Get all the solicitacaoAnaliseList where uuid equals to UPDATED_UUID
-        defaultSolicitacaoAnaliseShouldNotBeFound("uuid.equals=" + UPDATED_UUID);
-    }
-
-    @Test
-    @Transactional
-    public void getAllSolicitacaoAnalisesByUuidIsNotEqualToSomething() throws Exception {
-        // Initialize the database
-        solicitacaoAnaliseRepository.saveAndFlush(solicitacaoAnalise);
-
-        // Get all the solicitacaoAnaliseList where uuid not equals to DEFAULT_UUID
-        defaultSolicitacaoAnaliseShouldNotBeFound("uuid.notEquals=" + DEFAULT_UUID);
-
-        // Get all the solicitacaoAnaliseList where uuid not equals to UPDATED_UUID
-        defaultSolicitacaoAnaliseShouldBeFound("uuid.notEquals=" + UPDATED_UUID);
-    }
-
-    @Test
-    @Transactional
-    public void getAllSolicitacaoAnalisesByUuidIsInShouldWork() throws Exception {
-        // Initialize the database
-        solicitacaoAnaliseRepository.saveAndFlush(solicitacaoAnalise);
-
-        // Get all the solicitacaoAnaliseList where uuid in DEFAULT_UUID or UPDATED_UUID
-        defaultSolicitacaoAnaliseShouldBeFound("uuid.in=" + DEFAULT_UUID + "," + UPDATED_UUID);
-
-        // Get all the solicitacaoAnaliseList where uuid equals to UPDATED_UUID
-        defaultSolicitacaoAnaliseShouldNotBeFound("uuid.in=" + UPDATED_UUID);
-    }
-
-    @Test
-    @Transactional
-    public void getAllSolicitacaoAnalisesByUuidIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        solicitacaoAnaliseRepository.saveAndFlush(solicitacaoAnalise);
-
-        // Get all the solicitacaoAnaliseList where uuid is not null
-        defaultSolicitacaoAnaliseShouldBeFound("uuid.specified=true");
-
-        // Get all the solicitacaoAnaliseList where uuid is null
-        defaultSolicitacaoAnaliseShouldNotBeFound("uuid.specified=false");
-    }
-                @Test
-    @Transactional
-    public void getAllSolicitacaoAnalisesByUuidContainsSomething() throws Exception {
-        // Initialize the database
-        solicitacaoAnaliseRepository.saveAndFlush(solicitacaoAnalise);
-
-        // Get all the solicitacaoAnaliseList where uuid contains DEFAULT_UUID
-        defaultSolicitacaoAnaliseShouldBeFound("uuid.contains=" + DEFAULT_UUID);
-
-        // Get all the solicitacaoAnaliseList where uuid contains UPDATED_UUID
-        defaultSolicitacaoAnaliseShouldNotBeFound("uuid.contains=" + UPDATED_UUID);
-    }
-
-    @Test
-    @Transactional
-    public void getAllSolicitacaoAnalisesByUuidNotContainsSomething() throws Exception {
-        // Initialize the database
-        solicitacaoAnaliseRepository.saveAndFlush(solicitacaoAnalise);
-
-        // Get all the solicitacaoAnaliseList where uuid does not contain DEFAULT_UUID
-        defaultSolicitacaoAnaliseShouldNotBeFound("uuid.doesNotContain=" + DEFAULT_UUID);
-
-        // Get all the solicitacaoAnaliseList where uuid does not contain UPDATED_UUID
-        defaultSolicitacaoAnaliseShouldBeFound("uuid.doesNotContain=" + UPDATED_UUID);
-    }
-
-
-    @Test
-    @Transactional
     public void getAllSolicitacaoAnalisesByStatusIsEqualToSomething() throws Exception {
         // Initialize the database
         solicitacaoAnaliseRepository.saveAndFlush(solicitacaoAnalise);
@@ -690,7 +604,6 @@ public class SolicitacaoAnaliseResourceIT {
             .andExpect(jsonPath("$.[*].idUsuarioRegistro").value(hasItem(DEFAULT_ID_USUARIO_REGISTRO)))
             .andExpect(jsonPath("$.[*].dataRegistro").value(hasItem(DEFAULT_DATA_REGISTRO.toString())))
             .andExpect(jsonPath("$.[*].dataSolicitacao").value(hasItem(DEFAULT_DATA_SOLICITACAO.toString())))
-            .andExpect(jsonPath("$.[*].uuid").value(hasItem(DEFAULT_UUID)))
             .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())));
 
         // Check, that the count call also returns 1
@@ -742,7 +655,6 @@ public class SolicitacaoAnaliseResourceIT {
             .idUsuarioRegistro(UPDATED_ID_USUARIO_REGISTRO)
             .dataRegistro(UPDATED_DATA_REGISTRO)
             .dataSolicitacao(UPDATED_DATA_SOLICITACAO)
-            .uuid(UPDATED_UUID)
             .status(UPDATED_STATUS);
 
         restSolicitacaoAnaliseMockMvc.perform(put("/api/solicitacao-analises")
@@ -757,7 +669,6 @@ public class SolicitacaoAnaliseResourceIT {
         assertThat(testSolicitacaoAnalise.getIdUsuarioRegistro()).isEqualTo(UPDATED_ID_USUARIO_REGISTRO);
         assertThat(testSolicitacaoAnalise.getDataRegistro()).isEqualTo(UPDATED_DATA_REGISTRO);
         assertThat(testSolicitacaoAnalise.getDataSolicitacao()).isEqualTo(UPDATED_DATA_SOLICITACAO);
-        assertThat(testSolicitacaoAnalise.getUuid()).isEqualTo(UPDATED_UUID);
         assertThat(testSolicitacaoAnalise.getStatus()).isEqualTo(UPDATED_STATUS);
     }
 

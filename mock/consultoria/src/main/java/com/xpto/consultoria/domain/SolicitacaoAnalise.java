@@ -32,10 +32,6 @@ public class SolicitacaoAnalise implements Serializable {
     @Column(name = "data_solicitacao")
     private Instant dataSolicitacao;
 
-    
-    @Column(name = "uuid", unique = true)
-    private String uuid;
-
     @NotNull
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
@@ -96,19 +92,6 @@ public class SolicitacaoAnalise implements Serializable {
 
     public void setDataSolicitacao(Instant dataSolicitacao) {
         this.dataSolicitacao = dataSolicitacao;
-    }
-
-    public String getUuid() {
-        return uuid;
-    }
-
-    public SolicitacaoAnalise uuid(String uuid) {
-        this.uuid = uuid;
-        return this;
-    }
-
-    public void setUuid(String uuid) {
-        this.uuid = uuid;
     }
 
     public StatusSolicitacaoAnalise getStatus() {
@@ -174,7 +157,6 @@ public class SolicitacaoAnalise implements Serializable {
             ", idUsuarioRegistro=" + getIdUsuarioRegistro() +
             ", dataRegistro='" + getDataRegistro() + "'" +
             ", dataSolicitacao='" + getDataSolicitacao() + "'" +
-            ", uuid='" + getUuid() + "'" +
             ", status='" + getStatus() + "'" +
             "}";
     }

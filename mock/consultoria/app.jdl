@@ -50,7 +50,6 @@ entity SolicitacaoAnalise {
   idUsuarioRegistro Integer required
   dataRegistro Instant required
   dataSolicitacao Instant
-  uuid String unique
   status StatusSolicitacaoAnalise required
 }
 

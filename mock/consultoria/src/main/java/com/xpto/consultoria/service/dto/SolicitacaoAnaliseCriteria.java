@@ -52,8 +52,6 @@ public class SolicitacaoAnaliseCriteria implements Serializable, Criteria {
 
     private InstantFilter dataSolicitacao;
 
-    private StringFilter uuid;
-
     private StatusSolicitacaoAnaliseFilter status;
 
     private LongFilter analiseConsultoriaId;
@@ -68,7 +66,6 @@ public class SolicitacaoAnaliseCriteria implements Serializable, Criteria {
         this.idUsuarioRegistro = other.idUsuarioRegistro == null ? null : other.idUsuarioRegistro.copy();
         this.dataRegistro = other.dataRegistro == null ? null : other.dataRegistro.copy();
         this.dataSolicitacao = other.dataSolicitacao == null ? null : other.dataSolicitacao.copy();
-        this.uuid = other.uuid == null ? null : other.uuid.copy();
         this.status = other.status == null ? null : other.status.copy();
         this.analiseConsultoriaId = other.analiseConsultoriaId == null ? null : other.analiseConsultoriaId.copy();
         this.naoConformidadeId = other.naoConformidadeId == null ? null : other.naoConformidadeId.copy();
@@ -111,14 +108,6 @@ public class SolicitacaoAnaliseCriteria implements Serializable, Criteria {
         this.dataSolicitacao = dataSolicitacao;
     }
 
-    public StringFilter getUuid() {
-        return uuid;
-    }
-
-    public void setUuid(StringFilter uuid) {
-        this.uuid = uuid;
-    }
-
     public StatusSolicitacaoAnaliseFilter getStatus() {
         return status;
     }
@@ -158,7 +147,6 @@ public class SolicitacaoAnaliseCriteria implements Serializable, Criteria {
             Objects.equals(idUsuarioRegistro, that.idUsuarioRegistro) &&
             Objects.equals(dataRegistro, that.dataRegistro) &&
             Objects.equals(dataSolicitacao, that.dataSolicitacao) &&
-            Objects.equals(uuid, that.uuid) &&
             Objects.equals(status, that.status) &&
             Objects.equals(analiseConsultoriaId, that.analiseConsultoriaId) &&
             Objects.equals(naoConformidadeId, that.naoConformidadeId);
@@ -171,7 +159,6 @@ public class SolicitacaoAnaliseCriteria implements Serializable, Criteria {
         idUsuarioRegistro,
         dataRegistro,
         dataSolicitacao,
-        uuid,
         status,
         analiseConsultoriaId,
         naoConformidadeId
@@ -185,7 +172,6 @@ public class SolicitacaoAnaliseCriteria implements Serializable, Criteria {
                 (idUsuarioRegistro != null ? "idUsuarioRegistro=" + idUsuarioRegistro + ", " : "") +
                 (dataRegistro != null ? "dataRegistro=" + dataRegistro + ", " : "") +
                 (dataSolicitacao != null ? "dataSolicitacao=" + dataSolicitacao + ", " : "") +
-                (uuid != null ? "uuid=" + uuid + ", " : "") +
                 (status != null ? "status=" + status + ", " : "") +
                 (analiseConsultoriaId != null ? "analiseConsultoriaId=" + analiseConsultoriaId + ", " : "") +
                 (naoConformidadeId != null ? "naoConformidadeId=" + naoConformidadeId + ", " : "") +

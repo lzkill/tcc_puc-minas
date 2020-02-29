@@ -21,14 +21,6 @@
             "fieldType": "Instant"
         },
         {
-            "fieldName": "uuid",
-            "javadoc": "ID retornado pela consultoria para acompanhamento",
-            "fieldType": "String",
-            "fieldValidateRules": [
-                "unique"
-            ]
-        },
-        {
             "fieldName": "status",
             "fieldType": "StatusSolicitacaoAnalise",
             "fieldValues": "REGISTRADO,PENDENTE,CONCLUIDO",

@@ -20,13 +20,6 @@
             "fieldType": "Instant"
         },
         {
-            "fieldName": "uuid",
-            "fieldType": "String",
-            "fieldValidateRules": [
-                "unique"
-            ]
-        },
-        {
             "fieldName": "status",
             "fieldType": "StatusSolicitacaoAnalise",
             "fieldValues": "REGISTRADO,PENDENTE,CONCLUIDO",

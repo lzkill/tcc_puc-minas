@@ -25,7 +25,7 @@ describe('Service Tests', () => {
       httpMock = injector.get(HttpTestingController);
       currentDate = moment();
 
-      elemDefault = new SolicitacaoAnalise(0, 0, currentDate, currentDate, 'AAAAAAA', StatusSolicitacaoAnalise.REGISTRADO);
+      elemDefault = new SolicitacaoAnalise(0, 0, currentDate, currentDate, StatusSolicitacaoAnalise.REGISTRADO);
     });
 
     describe('Service methods', () => {
@@ -78,7 +78,6 @@ describe('Service Tests', () => {
             idUsuarioRegistro: 1,
             dataRegistro: currentDate.format(DATE_TIME_FORMAT),
             dataSolicitacao: currentDate.format(DATE_TIME_FORMAT),
-            uuid: 'BBBBBB',
             status: 'BBBBBB'
           },
           elemDefault
@@ -106,7 +105,6 @@ describe('Service Tests', () => {
             idUsuarioRegistro: 1,
             dataRegistro: currentDate.format(DATE_TIME_FORMAT),
             dataSolicitacao: currentDate.format(DATE_TIME_FORMAT),
-            uuid: 'BBBBBB',
             status: 'BBBBBB'
           },
           elemDefault
