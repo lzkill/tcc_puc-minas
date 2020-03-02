@@ -36,6 +36,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import com.lzkill.sgq.domain.enumeration.StatusSolicitacaoAnalise;
+
 /**
  * Integration tests for the {@link SolicitacaoAnaliseResource} REST controller.
  */
