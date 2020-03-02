@@ -94,6 +94,9 @@ public class SolicitacaoAnaliseQueryService extends QueryService<SolicitacaoAnal
             if (criteria.getDataSolicitacao() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getDataSolicitacao(), SolicitacaoAnalise_.dataSolicitacao));
             }
+            if (criteria.getIdAcompanhamento() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getIdAcompanhamento(), SolicitacaoAnalise_.idAcompanhamento));
+            }
             if (criteria.getStatus() != null) {
                 specification = specification.and(buildSpecification(criteria.getStatus(), SolicitacaoAnalise_.status));
             }

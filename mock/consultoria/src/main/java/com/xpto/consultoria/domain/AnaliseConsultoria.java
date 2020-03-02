@@ -28,8 +28,8 @@ public class AnaliseConsultoria implements Serializable {
 
     
     @Lob
-    @Column(name = "descricao", nullable = false)
-    private String descricao;
+    @Column(name = "conteudo", nullable = false)
+    private String conteudo;
 
     @NotNull
     @Size(min = 1, max = 100)
@@ -67,17 +67,17 @@ public class AnaliseConsultoria implements Serializable {
         this.dataAnalise = dataAnalise;
     }
 
-    public String getDescricao() {
-        return descricao;
+    public String getConteudo() {
+        return conteudo;
     }
 
-    public AnaliseConsultoria descricao(String descricao) {
-        this.descricao = descricao;
+    public AnaliseConsultoria conteudo(String conteudo) {
+        this.conteudo = conteudo;
         return this;
     }
 
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
+    public void setConteudo(String conteudo) {
+        this.conteudo = conteudo;
     }
 
     public String getResponsavel() {
@@ -141,7 +141,7 @@ public class AnaliseConsultoria implements Serializable {
         return "AnaliseConsultoria{" +
             "id=" + getId() +
             ", dataAnalise='" + getDataAnalise() + "'" +
-            ", descricao='" + getDescricao() + "'" +
+            ", conteudo='" + getConteudo() + "'" +
             ", responsavel='" + getResponsavel() + "'" +
             ", status='" + getStatus() + "'" +
             "}";

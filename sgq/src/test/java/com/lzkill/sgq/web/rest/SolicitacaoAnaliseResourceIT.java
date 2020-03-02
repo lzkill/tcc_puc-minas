@@ -36,7 +36,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import com.lzkill.sgq.domain.enumeration.StatusSolicitacaoAnalise;
-
 /**
  * Integration tests for the {@link SolicitacaoAnaliseResource} REST controller.
  */
@@ -52,6 +51,10 @@ public class SolicitacaoAnaliseResourceIT {
 
     private static final Instant DEFAULT_DATA_SOLICITACAO = Instant.ofEpochMilli(0L);
     private static final Instant UPDATED_DATA_SOLICITACAO = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+
+    private static final Long DEFAULT_ID_ACOMPANHAMENTO = 1L;
+    private static final Long UPDATED_ID_ACOMPANHAMENTO = 2L;
+    private static final Long SMALLER_ID_ACOMPANHAMENTO = 1L - 1L;
 
     private static final StatusSolicitacaoAnalise DEFAULT_STATUS = StatusSolicitacaoAnalise.REGISTRADO;
     private static final StatusSolicitacaoAnalise UPDATED_STATUS = StatusSolicitacaoAnalise.PENDENTE;
@@ -107,6 +110,7 @@ public class SolicitacaoAnaliseResourceIT {
             .idUsuarioRegistro(DEFAULT_ID_USUARIO_REGISTRO)
             .dataRegistro(DEFAULT_DATA_REGISTRO)
             .dataSolicitacao(DEFAULT_DATA_SOLICITACAO)
+            .idAcompanhamento(DEFAULT_ID_ACOMPANHAMENTO)
             .status(DEFAULT_STATUS);
         // Add required entity
         NaoConformidade naoConformidade;
@@ -141,6 +145,7 @@ public class SolicitacaoAnaliseResourceIT {
             .idUsuarioRegistro(UPDATED_ID_USUARIO_REGISTRO)
             .dataRegistro(UPDATED_DATA_REGISTRO)
             .dataSolicitacao(UPDATED_DATA_SOLICITACAO)
+            .idAcompanhamento(UPDATED_ID_ACOMPANHAMENTO)
             .status(UPDATED_STATUS);
         // Add required entity
         NaoConformidade naoConformidade;
@@ -188,6 +193,7 @@ public class SolicitacaoAnaliseResourceIT {
         assertThat(testSolicitacaoAnalise.getIdUsuarioRegistro()).isEqualTo(DEFAULT_ID_USUARIO_REGISTRO);
         assertThat(testSolicitacaoAnalise.getDataRegistro()).isEqualTo(DEFAULT_DATA_REGISTRO);
         assertThat(testSolicitacaoAnalise.getDataSolicitacao()).isEqualTo(DEFAULT_DATA_SOLICITACAO);
+        assertThat(testSolicitacaoAnalise.getIdAcompanhamento()).isEqualTo(DEFAULT_ID_ACOMPANHAMENTO);
         assertThat(testSolicitacaoAnalise.getStatus()).isEqualTo(DEFAULT_STATUS);
     }
 
@@ -279,6 +285,7 @@ public class SolicitacaoAnaliseResourceIT {
             .andExpect(jsonPath("$.[*].idUsuarioRegistro").value(hasItem(DEFAULT_ID_USUARIO_REGISTRO)))
             .andExpect(jsonPath("$.[*].dataRegistro").value(hasItem(DEFAULT_DATA_REGISTRO.toString())))
             .andExpect(jsonPath("$.[*].dataSolicitacao").value(hasItem(DEFAULT_DATA_SOLICITACAO.toString())))
+            .andExpect(jsonPath("$.[*].idAcompanhamento").value(hasItem(DEFAULT_ID_ACOMPANHAMENTO.intValue())))
             .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())));
     }
     
@@ -296,6 +303,7 @@ public class SolicitacaoAnaliseResourceIT {
             .andExpect(jsonPath("$.idUsuarioRegistro").value(DEFAULT_ID_USUARIO_REGISTRO))
             .andExpect(jsonPath("$.dataRegistro").value(DEFAULT_DATA_REGISTRO.toString()))
             .andExpect(jsonPath("$.dataSolicitacao").value(DEFAULT_DATA_SOLICITACAO.toString()))
+            .andExpect(jsonPath("$.idAcompanhamento").value(DEFAULT_ID_ACOMPANHAMENTO.intValue()))
             .andExpect(jsonPath("$.status").value(DEFAULT_STATUS.toString()));
     }
 
@@ -530,6 +538,111 @@ public class SolicitacaoAnaliseResourceIT {
 
     @Test
     @Transactional
+    public void getAllSolicitacaoAnalisesByIdAcompanhamentoIsEqualToSomething() throws Exception {
+        // Initialize the database
+        solicitacaoAnaliseRepository.saveAndFlush(solicitacaoAnalise);
+
+        // Get all the solicitacaoAnaliseList where idAcompanhamento equals to DEFAULT_ID_ACOMPANHAMENTO
+        defaultSolicitacaoAnaliseShouldBeFound("idAcompanhamento.equals=" + DEFAULT_ID_ACOMPANHAMENTO);
+
+        // Get all the solicitacaoAnaliseList where idAcompanhamento equals to UPDATED_ID_ACOMPANHAMENTO
+        defaultSolicitacaoAnaliseShouldNotBeFound("idAcompanhamento.equals=" + UPDATED_ID_ACOMPANHAMENTO);
+    }
+
+    @Test
+    @Transactional
+    public void getAllSolicitacaoAnalisesByIdAcompanhamentoIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        solicitacaoAnaliseRepository.saveAndFlush(solicitacaoAnalise);
+
+        // Get all the solicitacaoAnaliseList where idAcompanhamento not equals to DEFAULT_ID_ACOMPANHAMENTO
+        defaultSolicitacaoAnaliseShouldNotBeFound("idAcompanhamento.notEquals=" + DEFAULT_ID_ACOMPANHAMENTO);
+
+        // Get all the solicitacaoAnaliseList where idAcompanhamento not equals to UPDATED_ID_ACOMPANHAMENTO
+        defaultSolicitacaoAnaliseShouldBeFound("idAcompanhamento.notEquals=" + UPDATED_ID_ACOMPANHAMENTO);
+    }
+
+    @Test
+    @Transactional
+    public void getAllSolicitacaoAnalisesByIdAcompanhamentoIsInShouldWork() throws Exception {
+        // Initialize the database
+        solicitacaoAnaliseRepository.saveAndFlush(solicitacaoAnalise);
+
+        // Get all the solicitacaoAnaliseList where idAcompanhamento in DEFAULT_ID_ACOMPANHAMENTO or UPDATED_ID_ACOMPANHAMENTO
+        defaultSolicitacaoAnaliseShouldBeFound("idAcompanhamento.in=" + DEFAULT_ID_ACOMPANHAMENTO + "," + UPDATED_ID_ACOMPANHAMENTO);
+
+        // Get all the solicitacaoAnaliseList where idAcompanhamento equals to UPDATED_ID_ACOMPANHAMENTO
+        defaultSolicitacaoAnaliseShouldNotBeFound("idAcompanhamento.in=" + UPDATED_ID_ACOMPANHAMENTO);
+    }
+
+    @Test
+    @Transactional
+    public void getAllSolicitacaoAnalisesByIdAcompanhamentoIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        solicitacaoAnaliseRepository.saveAndFlush(solicitacaoAnalise);
+
+        // Get all the solicitacaoAnaliseList where idAcompanhamento is not null
+        defaultSolicitacaoAnaliseShouldBeFound("idAcompanhamento.specified=true");
+
+        // Get all the solicitacaoAnaliseList where idAcompanhamento is null
+        defaultSolicitacaoAnaliseShouldNotBeFound("idAcompanhamento.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllSolicitacaoAnalisesByIdAcompanhamentoIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        solicitacaoAnaliseRepository.saveAndFlush(solicitacaoAnalise);
+
+        // Get all the solicitacaoAnaliseList where idAcompanhamento is greater than or equal to DEFAULT_ID_ACOMPANHAMENTO
+        defaultSolicitacaoAnaliseShouldBeFound("idAcompanhamento.greaterThanOrEqual=" + DEFAULT_ID_ACOMPANHAMENTO);
+
+        // Get all the solicitacaoAnaliseList where idAcompanhamento is greater than or equal to UPDATED_ID_ACOMPANHAMENTO
+        defaultSolicitacaoAnaliseShouldNotBeFound("idAcompanhamento.greaterThanOrEqual=" + UPDATED_ID_ACOMPANHAMENTO);
+    }
+
+    @Test
+    @Transactional
+    public void getAllSolicitacaoAnalisesByIdAcompanhamentoIsLessThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        solicitacaoAnaliseRepository.saveAndFlush(solicitacaoAnalise);
+
+        // Get all the solicitacaoAnaliseList where idAcompanhamento is less than or equal to DEFAULT_ID_ACOMPANHAMENTO
+        defaultSolicitacaoAnaliseShouldBeFound("idAcompanhamento.lessThanOrEqual=" + DEFAULT_ID_ACOMPANHAMENTO);
+
+        // Get all the solicitacaoAnaliseList where idAcompanhamento is less than or equal to SMALLER_ID_ACOMPANHAMENTO
+        defaultSolicitacaoAnaliseShouldNotBeFound("idAcompanhamento.lessThanOrEqual=" + SMALLER_ID_ACOMPANHAMENTO);
+    }
+
+    @Test
+    @Transactional
+    public void getAllSolicitacaoAnalisesByIdAcompanhamentoIsLessThanSomething() throws Exception {
+        // Initialize the database
+        solicitacaoAnaliseRepository.saveAndFlush(solicitacaoAnalise);
+
+        // Get all the solicitacaoAnaliseList where idAcompanhamento is less than DEFAULT_ID_ACOMPANHAMENTO
+        defaultSolicitacaoAnaliseShouldNotBeFound("idAcompanhamento.lessThan=" + DEFAULT_ID_ACOMPANHAMENTO);
+
+        // Get all the solicitacaoAnaliseList where idAcompanhamento is less than UPDATED_ID_ACOMPANHAMENTO
+        defaultSolicitacaoAnaliseShouldBeFound("idAcompanhamento.lessThan=" + UPDATED_ID_ACOMPANHAMENTO);
+    }
+
+    @Test
+    @Transactional
+    public void getAllSolicitacaoAnalisesByIdAcompanhamentoIsGreaterThanSomething() throws Exception {
+        // Initialize the database
+        solicitacaoAnaliseRepository.saveAndFlush(solicitacaoAnalise);
+
+        // Get all the solicitacaoAnaliseList where idAcompanhamento is greater than DEFAULT_ID_ACOMPANHAMENTO
+        defaultSolicitacaoAnaliseShouldNotBeFound("idAcompanhamento.greaterThan=" + DEFAULT_ID_ACOMPANHAMENTO);
+
+        // Get all the solicitacaoAnaliseList where idAcompanhamento is greater than SMALLER_ID_ACOMPANHAMENTO
+        defaultSolicitacaoAnaliseShouldBeFound("idAcompanhamento.greaterThan=" + SMALLER_ID_ACOMPANHAMENTO);
+    }
+
+
+    @Test
+    @Transactional
     public void getAllSolicitacaoAnalisesByStatusIsEqualToSomething() throws Exception {
         // Initialize the database
         solicitacaoAnaliseRepository.saveAndFlush(solicitacaoAnalise);
@@ -642,6 +755,7 @@ public class SolicitacaoAnaliseResourceIT {
             .andExpect(jsonPath("$.[*].idUsuarioRegistro").value(hasItem(DEFAULT_ID_USUARIO_REGISTRO)))
             .andExpect(jsonPath("$.[*].dataRegistro").value(hasItem(DEFAULT_DATA_REGISTRO.toString())))
             .andExpect(jsonPath("$.[*].dataSolicitacao").value(hasItem(DEFAULT_DATA_SOLICITACAO.toString())))
+            .andExpect(jsonPath("$.[*].idAcompanhamento").value(hasItem(DEFAULT_ID_ACOMPANHAMENTO.intValue())))
             .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())));
 
         // Check, that the count call also returns 1
@@ -693,6 +807,7 @@ public class SolicitacaoAnaliseResourceIT {
             .idUsuarioRegistro(UPDATED_ID_USUARIO_REGISTRO)
             .dataRegistro(UPDATED_DATA_REGISTRO)
             .dataSolicitacao(UPDATED_DATA_SOLICITACAO)
+            .idAcompanhamento(UPDATED_ID_ACOMPANHAMENTO)
             .status(UPDATED_STATUS);
 
         restSolicitacaoAnaliseMockMvc.perform(put("/api/solicitacao-analises")
@@ -707,6 +822,7 @@ public class SolicitacaoAnaliseResourceIT {
         assertThat(testSolicitacaoAnalise.getIdUsuarioRegistro()).isEqualTo(UPDATED_ID_USUARIO_REGISTRO);
         assertThat(testSolicitacaoAnalise.getDataRegistro()).isEqualTo(UPDATED_DATA_REGISTRO);
         assertThat(testSolicitacaoAnalise.getDataSolicitacao()).isEqualTo(UPDATED_DATA_SOLICITACAO);
+        assertThat(testSolicitacaoAnalise.getIdAcompanhamento()).isEqualTo(UPDATED_ID_ACOMPANHAMENTO);
         assertThat(testSolicitacaoAnalise.getStatus()).isEqualTo(UPDATED_STATUS);
     }
 

@@ -22,6 +22,7 @@
             <th scope="col"  jhiSortBy="idUsuarioRegistro"><span jhiTranslate="gatewayApp.sgqSolicitacaoAnalise.idUsuarioRegistro">Id Usuario Registro</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="dataRegistro"><span jhiTranslate="gatewayApp.sgqSolicitacaoAnalise.dataRegistro">Data Registro</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="dataSolicitacao"><span jhiTranslate="gatewayApp.sgqSolicitacaoAnalise.dataSolicitacao">Data Solicitacao</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="idAcompanhamento"><span jhiTranslate="gatewayApp.sgqSolicitacaoAnalise.idAcompanhamento">Id Acompanhamento</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="status"><span jhiTranslate="gatewayApp.sgqSolicitacaoAnalise.status">Status</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="naoConformidade.titulo"><span jhiTranslate="gatewayApp.sgqSolicitacaoAnalise.naoConformidade">Nao Conformidade</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="analiseConsultoria.id"><span jhiTranslate="gatewayApp.sgqSolicitacaoAnalise.analiseConsultoria">Analise Consultoria</span> <fa-icon [icon]="'sort'"></fa-icon></th>
@@ -35,6 +36,7 @@
                 <td>{{usuarios.has(solicitacaoAnalise.idUsuarioRegistro) ? usuarios.get(solicitacaoAnalise.idUsuarioRegistro).login : ""}}</td>
                 <td>{{solicitacaoAnalise.dataRegistro | date:'medium'}}</td>
                 <td>{{solicitacaoAnalise.dataSolicitacao | date:'medium'}}</td>
+                <td>{{solicitacaoAnalise.idAcompanhamento}}</td>
                 <td jhiTranslate="{{'gatewayApp.StatusSolicitacaoAnalise.' + solicitacaoAnalise.status}}">{{solicitacaoAnalise.status}}</td>
                 <td>
                     <div *ngIf="solicitacaoAnalise.naoConformidade">

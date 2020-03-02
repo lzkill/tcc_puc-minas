@@ -25,6 +25,9 @@
             <column name="data_solicitacao" type="datetime" remarks="Data em que a solicitação foi recebida pela consultoria">
                 <constraints nullable="true" />
             </column>
+            <column name="id_acompanhamento" type="bigint" remarks="ID retornado pela consultoria para acompanhamento da solicitação">
+                <constraints nullable="true" />
+            </column>
             <column name="status" type="varchar(255)">
                 <constraints nullable="false" />
             </column>
@@ -65,6 +68,7 @@
             <column name="id_usuario_registro" type="numeric"/>
             <column name="data_registro" type="datetime"/>
             <column name="data_solicitacao" type="datetime"/>
+            <column name="id_acompanhamento" type="numeric"/>
             <column name="status" type="string"/>
             <column name="nao_conformidade_id" type="numeric"/>
             <column name="consultoria_id" type="numeric"/>

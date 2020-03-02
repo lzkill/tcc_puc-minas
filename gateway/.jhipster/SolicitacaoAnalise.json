@@ -20,6 +20,11 @@
             "javadoc": "Data em que a solicitação foi recebida pela consultoria",
             "fieldType": "Instant"
         },
+	{
+	    "fieldName": "idAcompanhamento",
+	    "javadoc": "ID retornado pela consultoria para acompanhamento da solicitação",
+	    "fieldType": "Long"
+	},
         {
             "fieldName": "status",
             "fieldType": "StatusSolicitacaoAnalise",

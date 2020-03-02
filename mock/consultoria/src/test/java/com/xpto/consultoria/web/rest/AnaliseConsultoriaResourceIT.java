@@ -44,8 +44,8 @@ public class AnaliseConsultoriaResourceIT {
     private static final Instant DEFAULT_DATA_ANALISE = Instant.ofEpochMilli(0L);
     private static final Instant UPDATED_DATA_ANALISE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
-    private static final String DEFAULT_DESCRICAO = "AAAAAAAAAA";
-    private static final String UPDATED_DESCRICAO = "BBBBBBBBBB";
+    private static final String DEFAULT_CONTEUDO = "AAAAAAAAAA";
+    private static final String UPDATED_CONTEUDO = "BBBBBBBBBB";
 
     private static final String DEFAULT_RESPONSAVEL = "AAAAAAAAAA";
     private static final String UPDATED_RESPONSAVEL = "BBBBBBBBBB";
@@ -102,7 +102,7 @@ public class AnaliseConsultoriaResourceIT {
     public static AnaliseConsultoria createEntity(EntityManager em) {
         AnaliseConsultoria analiseConsultoria = new AnaliseConsultoria()
             .dataAnalise(DEFAULT_DATA_ANALISE)
-            .descricao(DEFAULT_DESCRICAO)
+            .conteudo(DEFAULT_CONTEUDO)
             .responsavel(DEFAULT_RESPONSAVEL)
             .status(DEFAULT_STATUS);
         // Add required entity
@@ -126,7 +126,7 @@ public class AnaliseConsultoriaResourceIT {
     public static AnaliseConsultoria createUpdatedEntity(EntityManager em) {
         AnaliseConsultoria analiseConsultoria = new AnaliseConsultoria()
             .dataAnalise(UPDATED_DATA_ANALISE)
-            .descricao(UPDATED_DESCRICAO)
+            .conteudo(UPDATED_CONTEUDO)
             .responsavel(UPDATED_RESPONSAVEL)
             .status(UPDATED_STATUS);
         // Add required entity
@@ -163,7 +163,7 @@ public class AnaliseConsultoriaResourceIT {
         assertThat(analiseConsultoriaList).hasSize(databaseSizeBeforeCreate + 1);
         AnaliseConsultoria testAnaliseConsultoria = analiseConsultoriaList.get(analiseConsultoriaList.size() - 1);
         assertThat(testAnaliseConsultoria.getDataAnalise()).isEqualTo(DEFAULT_DATA_ANALISE);
-        assertThat(testAnaliseConsultoria.getDescricao()).isEqualTo(DEFAULT_DESCRICAO);
+        assertThat(testAnaliseConsultoria.getConteudo()).isEqualTo(DEFAULT_CONTEUDO);
         assertThat(testAnaliseConsultoria.getResponsavel()).isEqualTo(DEFAULT_RESPONSAVEL);
         assertThat(testAnaliseConsultoria.getStatus()).isEqualTo(DEFAULT_STATUS);
     }
@@ -254,7 +254,7 @@ public class AnaliseConsultoriaResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(analiseConsultoria.getId().intValue())))
             .andExpect(jsonPath("$.[*].dataAnalise").value(hasItem(DEFAULT_DATA_ANALISE.toString())))
-            .andExpect(jsonPath("$.[*].descricao").value(hasItem(DEFAULT_DESCRICAO.toString())))
+            .andExpect(jsonPath("$.[*].conteudo").value(hasItem(DEFAULT_CONTEUDO.toString())))
             .andExpect(jsonPath("$.[*].responsavel").value(hasItem(DEFAULT_RESPONSAVEL)))
             .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())));
     }
@@ -271,7 +271,7 @@ public class AnaliseConsultoriaResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(analiseConsultoria.getId().intValue()))
             .andExpect(jsonPath("$.dataAnalise").value(DEFAULT_DATA_ANALISE.toString()))
-            .andExpect(jsonPath("$.descricao").value(DEFAULT_DESCRICAO.toString()))
+            .andExpect(jsonPath("$.conteudo").value(DEFAULT_CONTEUDO.toString()))
             .andExpect(jsonPath("$.responsavel").value(DEFAULT_RESPONSAVEL))
             .andExpect(jsonPath("$.status").value(DEFAULT_STATUS.toString()));
     }
@@ -502,7 +502,7 @@ public class AnaliseConsultoriaResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(analiseConsultoria.getId().intValue())))
             .andExpect(jsonPath("$.[*].dataAnalise").value(hasItem(DEFAULT_DATA_ANALISE.toString())))
-            .andExpect(jsonPath("$.[*].descricao").value(hasItem(DEFAULT_DESCRICAO.toString())))
+            .andExpect(jsonPath("$.[*].conteudo").value(hasItem(DEFAULT_CONTEUDO.toString())))
             .andExpect(jsonPath("$.[*].responsavel").value(hasItem(DEFAULT_RESPONSAVEL)))
             .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())));
 
@@ -553,7 +553,7 @@ public class AnaliseConsultoriaResourceIT {
         em.detach(updatedAnaliseConsultoria);
         updatedAnaliseConsultoria
             .dataAnalise(UPDATED_DATA_ANALISE)
-            .descricao(UPDATED_DESCRICAO)
+            .conteudo(UPDATED_CONTEUDO)
             .responsavel(UPDATED_RESPONSAVEL)
             .status(UPDATED_STATUS);
 
@@ -567,7 +567,7 @@ public class AnaliseConsultoriaResourceIT {
         assertThat(analiseConsultoriaList).hasSize(databaseSizeBeforeUpdate);
         AnaliseConsultoria testAnaliseConsultoria = analiseConsultoriaList.get(analiseConsultoriaList.size() - 1);
         assertThat(testAnaliseConsultoria.getDataAnalise()).isEqualTo(UPDATED_DATA_ANALISE);
-        assertThat(testAnaliseConsultoria.getDescricao()).isEqualTo(UPDATED_DESCRICAO);
+        assertThat(testAnaliseConsultoria.getConteudo()).isEqualTo(UPDATED_CONTEUDO);
         assertThat(testAnaliseConsultoria.getResponsavel()).isEqualTo(UPDATED_RESPONSAVEL);
         assertThat(testAnaliseConsultoria.getStatus()).isEqualTo(UPDATED_STATUS);
     }

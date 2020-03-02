@@ -19,7 +19,7 @@
             <column name="data_analise" type="datetime">
                 <constraints nullable="false" />
             </column>
-            <column name="descricao" type="${clobType}">
+            <column name="conteudo" type="${clobType}">
                 <constraints nullable="false" />
             </column>
             <column name="responsavel" type="varchar(100)">
@@ -53,7 +53,7 @@
                   tableName="analise_consultoria">
             <column name="id" type="numeric"/>
             <column name="data_analise" type="datetime"/>
-            <column name="descricao" type="clob"/>
+            <column name="conteudo" type="clob"/>
             <column name="responsavel" type="string"/>
             <column name="status" type="string"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here, do not remove-->

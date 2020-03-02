@@ -27,6 +27,8 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.xpto.consultoria.domain.SolicitacaoAnalise;
 import com.xpto.consultoria.domain.enumeration.StatusSolicitacaoAnalise;
+import com.xpto.consultoria.service.AcaoSGQService;
+import com.xpto.consultoria.service.NaoConformidadeService;
 import com.xpto.consultoria.service.SolicitacaoAnaliseQueryService;
 import com.xpto.consultoria.service.SolicitacaoAnaliseService;
 import com.xpto.consultoria.service.dto.SolicitacaoAnaliseCriteria;
@@ -52,13 +54,18 @@ public class SolicitacaoAnaliseResource {
 	private String applicationName;
 
 	private final SolicitacaoAnaliseService solicitacaoAnaliseService;
+	private final NaoConformidadeService naoConformidadeService;
+	private final AcaoSGQService acaoService;
 
 	private final SolicitacaoAnaliseQueryService solicitacaoAnaliseQueryService;
 
 	public SolicitacaoAnaliseResource(SolicitacaoAnaliseService solicitacaoAnaliseService,
-			SolicitacaoAnaliseQueryService solicitacaoAnaliseQueryService) {
+			SolicitacaoAnaliseQueryService solicitacaoAnaliseQueryService,
+			NaoConformidadeService naoConformidadeService, AcaoSGQService acaoService) {
 		this.solicitacaoAnaliseService = solicitacaoAnaliseService;
 		this.solicitacaoAnaliseQueryService = solicitacaoAnaliseQueryService;
+		this.naoConformidadeService = naoConformidadeService;
+		this.acaoService = acaoService;
 	}
 
 	/**
@@ -83,7 +90,10 @@ public class SolicitacaoAnaliseResource {
 		solicitacaoAnalise.setStatus(StatusSolicitacaoAnalise.PENDENTE);
 		solicitacaoAnalise.setDataSolicitacao(Instant.now());
 
+		naoConformidadeService.save(solicitacaoAnalise.getNaoConformidade());
+		solicitacaoAnalise.getNaoConformidade().getAcaoSGQS().forEach(a -> acaoService.save(a));
 		SolicitacaoAnalise result = solicitacaoAnaliseService.save(solicitacaoAnalise);
+
 		return ResponseEntity
 				.created(new URI("/api/solicitacao-analises/" + result.getId())).headers(HeaderUtil
 						.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
@@ -116,9 +126,9 @@ public class SolicitacaoAnaliseResource {
 	/**
 	 * {@code GET  /solicitacao-analises} : get all the solicitacaoAnalises.
 	 *
-	 * 
+	 *
 	 * @param pageable the pagination information.
-	 * 
+	 *
 	 * @param criteria the criteria which the requested entities should match.
 	 * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list
 	 *         of solicitacaoAnalises in body.

@@ -52,6 +52,8 @@ public class SolicitacaoAnaliseCriteria implements Serializable, Criteria {
 
     private InstantFilter dataSolicitacao;
 
+    private LongFilter idAcompanhamento;
+
     private StatusSolicitacaoAnaliseFilter status;
 
     private LongFilter naoConformidadeId;
@@ -68,6 +70,7 @@ public class SolicitacaoAnaliseCriteria implements Serializable, Criteria {
         this.idUsuarioRegistro = other.idUsuarioRegistro == null ? null : other.idUsuarioRegistro.copy();
         this.dataRegistro = other.dataRegistro == null ? null : other.dataRegistro.copy();
         this.dataSolicitacao = other.dataSolicitacao == null ? null : other.dataSolicitacao.copy();
+        this.idAcompanhamento = other.idAcompanhamento == null ? null : other.idAcompanhamento.copy();
         this.status = other.status == null ? null : other.status.copy();
         this.naoConformidadeId = other.naoConformidadeId == null ? null : other.naoConformidadeId.copy();
         this.analiseConsultoriaId = other.analiseConsultoriaId == null ? null : other.analiseConsultoriaId.copy();
@@ -109,6 +112,14 @@ public class SolicitacaoAnaliseCriteria implements Serializable, Criteria {
 
     public void setDataSolicitacao(InstantFilter dataSolicitacao) {
         this.dataSolicitacao = dataSolicitacao;
+    }
+
+    public LongFilter getIdAcompanhamento() {
+        return idAcompanhamento;
+    }
+
+    public void setIdAcompanhamento(LongFilter idAcompanhamento) {
+        this.idAcompanhamento = idAcompanhamento;
     }
 
     public StatusSolicitacaoAnaliseFilter getStatus() {
@@ -158,6 +169,7 @@ public class SolicitacaoAnaliseCriteria implements Serializable, Criteria {
             Objects.equals(idUsuarioRegistro, that.idUsuarioRegistro) &&
             Objects.equals(dataRegistro, that.dataRegistro) &&
             Objects.equals(dataSolicitacao, that.dataSolicitacao) &&
+            Objects.equals(idAcompanhamento, that.idAcompanhamento) &&
             Objects.equals(status, that.status) &&
             Objects.equals(naoConformidadeId, that.naoConformidadeId) &&
             Objects.equals(analiseConsultoriaId, that.analiseConsultoriaId) &&
@@ -171,6 +183,7 @@ public class SolicitacaoAnaliseCriteria implements Serializable, Criteria {
         idUsuarioRegistro,
         dataRegistro,
         dataSolicitacao,
+        idAcompanhamento,
         status,
         naoConformidadeId,
         analiseConsultoriaId,
@@ -185,6 +198,7 @@ public class SolicitacaoAnaliseCriteria implements Serializable, Criteria {
                 (idUsuarioRegistro != null ? "idUsuarioRegistro=" + idUsuarioRegistro + ", " : "") +
                 (dataRegistro != null ? "dataRegistro=" + dataRegistro + ", " : "") +
                 (dataSolicitacao != null ? "dataSolicitacao=" + dataSolicitacao + ", " : "") +
+                (idAcompanhamento != null ? "idAcompanhamento=" + idAcompanhamento + ", " : "") +
                 (status != null ? "status=" + status + ", " : "") +
                 (naoConformidadeId != null ? "naoConformidadeId=" + naoConformidadeId + ", " : "") +
                 (analiseConsultoriaId != null ? "analiseConsultoriaId=" + analiseConsultoriaId + ", " : "") +

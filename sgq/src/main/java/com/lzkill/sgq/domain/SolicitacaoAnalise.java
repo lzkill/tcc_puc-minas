@@ -43,6 +43,13 @@ public class SolicitacaoAnalise implements Serializable {
     @Column(name = "data_solicitacao")
     private Instant dataSolicitacao;
 
+    /**
+     * ID retornado pela consultoria para acompanhamento da solicitação
+     */
+    @ApiModelProperty(value = "ID retornado pela consultoria para acompanhamento da solicitação")
+    @Column(name = "id_acompanhamento")
+    private Long idAcompanhamento;
+
     @NotNull
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
@@ -108,6 +115,19 @@ public class SolicitacaoAnalise implements Serializable {
 
     public void setDataSolicitacao(Instant dataSolicitacao) {
         this.dataSolicitacao = dataSolicitacao;
+    }
+
+    public Long getIdAcompanhamento() {
+        return idAcompanhamento;
+    }
+
+    public SolicitacaoAnalise idAcompanhamento(Long idAcompanhamento) {
+        this.idAcompanhamento = idAcompanhamento;
+        return this;
+    }
+
+    public void setIdAcompanhamento(Long idAcompanhamento) {
+        this.idAcompanhamento = idAcompanhamento;
     }
 
     public StatusSolicitacaoAnalise getStatus() {
@@ -186,6 +206,7 @@ public class SolicitacaoAnalise implements Serializable {
             ", idUsuarioRegistro=" + getIdUsuarioRegistro() +
             ", dataRegistro='" + getDataRegistro() + "'" +
             ", dataSolicitacao='" + getDataSolicitacao() + "'" +
+            ", idAcompanhamento=" + getIdAcompanhamento() +
             ", status='" + getStatus() + "'" +
             "}";
     }

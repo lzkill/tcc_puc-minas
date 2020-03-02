@@ -16,6 +16,7 @@
       "idUsuarioRegistro": "Usuário de registro",
       "dataRegistro": "Registro",
       "dataSolicitacao": "Solicitação",
+      "idAcompanhamento": "ID de acompanhamento",
       "uuid": "UUID",
       "status": "Status",
       "naoConformidade": "Não conformidade",

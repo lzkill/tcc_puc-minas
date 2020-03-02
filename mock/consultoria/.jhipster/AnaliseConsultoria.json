@@ -9,7 +9,7 @@
             ]
         },
         {
-            "fieldName": "descricao",
+            "fieldName": "conteudo",
             "fieldType": "byte[]",
             "fieldTypeBlobContent": "text",
             "fieldValidateRules": [
