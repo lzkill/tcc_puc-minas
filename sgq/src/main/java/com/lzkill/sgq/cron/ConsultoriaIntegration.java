@@ -7,10 +7,8 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
-import org.springframework.web.reactive.function.BodyInserters;
-import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.http.HttpEntity;
+import org.springframework.web.client.RestTemplate;
 
 import com.lzkill.sgq.domain.AcaoSGQ;
 import com.lzkill.sgq.domain.AnaliseConsultoria;
@@ -21,56 +19,52 @@ import com.lzkill.sgq.domain.enumeration.StatusSolicitacaoAnalise;
 import com.lzkill.sgq.repository.AnaliseConsultoriaRepository;
 import com.lzkill.sgq.repository.SolicitacaoAnaliseRepository;
 
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
+//@Component
+public class ConsultoriaIntegration {
 
-@Component
-public class ConsultoriaReactiveIntegration {
-
-	private final Logger log = LoggerFactory.getLogger(ConsultoriaReactiveIntegration.class);
+	private final Logger log = LoggerFactory.getLogger(ConsultoriaIntegration.class);
 
 	private final SolicitacaoAnaliseRepository solicitacaoAnaliseRepository;
 	private final AnaliseConsultoriaRepository analiseConsultoriaRepository;
 
 	@Autowired
-	public ConsultoriaReactiveIntegration(SolicitacaoAnaliseRepository solicitacaoAnaliseRepository,
+	public ConsultoriaIntegration(SolicitacaoAnaliseRepository solicitacaoAnaliseRepository,
 			AnaliseConsultoriaRepository analiseConsultoriaRepository) {
 		this.solicitacaoAnaliseRepository = solicitacaoAnaliseRepository;
 		this.analiseConsultoriaRepository = analiseConsultoriaRepository;
 	}
 
-	@Scheduled(cron = "${application.cron.sync-solicitacao-analise}")
+	// @Scheduled(cron = "${application.cron.sync-solicitacao-analise}")
 	public void syncSolicitacaoAnalise() {
-		sendSolicitacoesWithStatusRegistrado().subscribe();
-		querySolicitacoesWithStatusPendente().subscribe();
+		sendSolicitacoesWithStatusRegistrado();
+		querySolicitacoesWithStatusPendente();
 	}
 
-	private Flux<SolicitacaoAnalise> sendSolicitacoesWithStatusRegistrado() {
+	private void sendSolicitacoesWithStatusRegistrado() {
 		List<SolicitacaoAnalise> solicitacoes = solicitacaoAnaliseRepository
 				.findByStatus(StatusSolicitacaoAnalise.REGISTRADO);
 		if (!solicitacoes.isEmpty())
 			log.debug("Sending SolicitacaoAnalise to consultoria: {} items", solicitacoes.size());
-		return Flux.fromIterable(solicitacoes).flatMap(s -> sendSolicitacaoAnalise(s));
+		solicitacoes.forEach(solicitacaoAnaliseSGQ -> {
+			SolicitacaoAnalise solicitacaoAnaliseConsultoria = sendSolicitacaoAnalise(solicitacaoAnaliseSGQ);
+			updateSolicitacaoAnaliseSGQ(solicitacaoAnaliseSGQ, solicitacaoAnaliseConsultoria);
+		});
 	}
 
-	private Mono<SolicitacaoAnalise> sendSolicitacaoAnalise(SolicitacaoAnalise solicitacaoAnaliseSGQ) {
+	private SolicitacaoAnalise sendSolicitacaoAnalise(SolicitacaoAnalise solicitacaoAnaliseSGQ) {
 		Consultoria consultoria = solicitacaoAnaliseSGQ.getConsultoria();
-		Mono<SolicitacaoAnalise> mono = Mono.empty();
+		SolicitacaoAnalise solicitacaoAnaliseConsultoria = null;
 		if (consultoria.isHabilitado()) {
 			SolicitacaoAnalise deepClone = deepCloneIgnoringIds(solicitacaoAnaliseSGQ);
-			String requestUrl = consultoria.getUrlIntegracao() + "/api/solicitacao-analises/";
 
-			mono = WebClient.create(requestUrl).post().body(BodyInserters.fromObject(deepClone)).retrieve()
-					.bodyToMono(SolicitacaoAnalise.class)
-					.doOnSuccess(solicitacaoAnaliseConsultoria -> updateSolicitacaoAnaliseSGQ(solicitacaoAnaliseSGQ,
-							solicitacaoAnaliseConsultoria))
-					.doOnError(e -> {
-						log.error("Error on sending SolicitacaoAnalise to consultoria: id {}",
-								solicitacaoAnaliseSGQ.getId(), e);
-					});
+			String requestUrl = consultoria.getUrlIntegracao() + "/api/solicitacao-analises/";
+			HttpEntity<SolicitacaoAnalise> request = new HttpEntity<>(deepClone);
+			RestTemplate restTemplate = new RestTemplate();
+
+			solicitacaoAnaliseConsultoria = restTemplate.postForObject(requestUrl, request, SolicitacaoAnalise.class);
 		}
 
-		return mono;
+		return solicitacaoAnaliseConsultoria;
 	}
 
 	private SolicitacaoAnalise deepCloneIgnoringIds(SolicitacaoAnalise source) {
@@ -108,53 +102,52 @@ public class ConsultoriaReactiveIntegration {
 		return solicitacaoAnalise;
 	}
 
-	private Flux<SolicitacaoAnalise> querySolicitacoesWithStatusPendente() {
+	private void querySolicitacoesWithStatusPendente() {
 		List<SolicitacaoAnalise> solicitacoes = solicitacaoAnaliseRepository
 				.findByStatus(StatusSolicitacaoAnalise.PENDENTE);
 		if (!solicitacoes.isEmpty())
 			log.debug("Querying SolicitacaoAnalise on consultoria: {} items", solicitacoes.size());
-		return Flux.fromIterable(solicitacoes).flatMap(s -> querySolicitacaoAnalise(s));
+		solicitacoes.forEach(solicitacaoAnaliseSGQ -> {
+			SolicitacaoAnalise solicitacaoAnaliseConsultoria = querySolicitacaoAnalise(solicitacaoAnaliseSGQ);
+			updateSolicitacaoAnaliseSGQ(solicitacaoAnaliseSGQ, solicitacaoAnaliseConsultoria);
+		});
 	}
 
-	private Mono<SolicitacaoAnalise> querySolicitacaoAnalise(SolicitacaoAnalise solicitacaoAnaliseSGQ) {
+	private SolicitacaoAnalise querySolicitacaoAnalise(SolicitacaoAnalise solicitacaoAnaliseSGQ) {
 		Consultoria consultoria = solicitacaoAnaliseSGQ.getConsultoria();
-		Mono<SolicitacaoAnalise> mono = Mono.empty();
+
+		SolicitacaoAnalise solicitacaoAnaliseConsultoria = null;
 		if (consultoria.isHabilitado()) {
 			String requestUrl = consultoria.getUrlIntegracao() + "/api/solicitacao-analises/"
 					+ solicitacaoAnaliseSGQ.getIdAcompanhamento();
-			mono = WebClient.create(requestUrl).get().retrieve().bodyToMono(SolicitacaoAnalise.class)
-					.doOnSuccess(solicitacaoAnaliseConsultoria -> updateSolicitacaoAnaliseSGQ(solicitacaoAnaliseSGQ,
-							solicitacaoAnaliseConsultoria))
-					.doOnError(e -> {
-						log.error("Error on querying SolicitacaoAnalise to consultoria: id {}",
-								solicitacaoAnaliseSGQ.getId(), e);
-					});
+			RestTemplate restTemplate = new RestTemplate();
+			solicitacaoAnaliseConsultoria = restTemplate.getForObject(requestUrl, SolicitacaoAnalise.class);
 		}
 
-		return mono;
+		return solicitacaoAnaliseConsultoria;
 	}
 
-	private Mono<SolicitacaoAnalise> updateSolicitacaoAnaliseSGQ(SolicitacaoAnalise solicitacaoAnaliseSGQ,
+	private void updateSolicitacaoAnaliseSGQ(SolicitacaoAnalise solicitacaoAnaliseSGQ,
 			SolicitacaoAnalise solicitacaoAnaliseConsultoria) {
-		if (solicitacaoAnaliseSGQ.getStatus() == StatusSolicitacaoAnalise.REGISTRADO
-				&& solicitacaoAnaliseConsultoria.getStatus() == StatusSolicitacaoAnalise.PENDENTE) {
-			log.debug("SolicitacaoAnalise received by consultoria: id {}", solicitacaoAnaliseSGQ.getId());
-			solicitacaoAnaliseSGQ.setStatus(solicitacaoAnaliseConsultoria.getStatus());
-			solicitacaoAnaliseSGQ.setDataSolicitacao(solicitacaoAnaliseConsultoria.getDataSolicitacao());
-			solicitacaoAnaliseSGQ.setIdAcompanhamento(solicitacaoAnaliseConsultoria.getId());
+		if (solicitacaoAnaliseSGQ != null && solicitacaoAnaliseConsultoria != null) {
+			if (solicitacaoAnaliseSGQ.getStatus() == StatusSolicitacaoAnalise.REGISTRADO
+					&& solicitacaoAnaliseConsultoria.getStatus() == StatusSolicitacaoAnalise.PENDENTE) {
+				log.debug("SolicitacaoAnalise received by consultoria: id {}", solicitacaoAnaliseSGQ.getId());
+				solicitacaoAnaliseSGQ.setStatus(solicitacaoAnaliseConsultoria.getStatus());
+				solicitacaoAnaliseSGQ.setDataSolicitacao(solicitacaoAnaliseConsultoria.getDataSolicitacao());
+				solicitacaoAnaliseSGQ.setIdAcompanhamento(solicitacaoAnaliseConsultoria.getId());
+			}
+
+			if (solicitacaoAnaliseSGQ.getStatus() == StatusSolicitacaoAnalise.PENDENTE
+					&& solicitacaoAnaliseConsultoria.getStatus() == StatusSolicitacaoAnalise.CONCLUIDO) {
+				log.debug("SolicitacaoAnalise reviewed by consultoria: id {}", solicitacaoAnaliseSGQ.getId());
+				solicitacaoAnaliseSGQ.setStatus(solicitacaoAnaliseConsultoria.getStatus());
+				AnaliseConsultoria analiseConsultoria = solicitacaoAnaliseConsultoria.getAnaliseConsultoria();
+				analiseConsultoriaRepository.save(analiseConsultoria.id(null));
+				solicitacaoAnaliseSGQ.setAnaliseConsultoria(analiseConsultoria);
+			}
+
+			solicitacaoAnaliseRepository.save(solicitacaoAnaliseSGQ);
 		}
-
-		if (solicitacaoAnaliseSGQ.getStatus() == StatusSolicitacaoAnalise.PENDENTE
-				&& solicitacaoAnaliseConsultoria.getStatus() == StatusSolicitacaoAnalise.CONCLUIDO) {
-			log.debug("SolicitacaoAnalise reviewed by consultoria: id {}", solicitacaoAnaliseSGQ.getId());
-			solicitacaoAnaliseSGQ.setStatus(solicitacaoAnaliseConsultoria.getStatus());
-			AnaliseConsultoria analiseConsultoria = solicitacaoAnaliseConsultoria.getAnaliseConsultoria();
-			analiseConsultoriaRepository.save(analiseConsultoria.id(null));
-			solicitacaoAnaliseSGQ.setAnaliseConsultoria(analiseConsultoria);
-		}
-
-		solicitacaoAnaliseRepository.save(solicitacaoAnaliseSGQ);
-
-		return Mono.just(solicitacaoAnaliseSGQ);
 	}
 }
