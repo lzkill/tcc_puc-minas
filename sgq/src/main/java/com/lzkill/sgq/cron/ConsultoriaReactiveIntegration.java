@@ -1,9 +1,9 @@
 package com.lzkill.sgq.cron;
 
+import java.time.Instant;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,6 +31,9 @@ import reactor.core.publisher.Mono;
 public class ConsultoriaReactiveIntegration {
 
 	private final Logger log = LoggerFactory.getLogger(ConsultoriaReactiveIntegration.class);
+
+	// TODO Obter o ID do usuário system de forma menos hardcoded
+	private final static int SYSTEM_USER_ID = 1;
 
 	private final SolicitacaoAnaliseRepository solicitacaoAnaliseRepository;
 	private final AnaliseConsultoriaRepository analiseConsultoriaRepository;
@@ -63,6 +66,7 @@ public class ConsultoriaReactiveIntegration {
 		Mono<SolicitacaoAnalise> mono = Mono.empty();
 		if (consultoria.isHabilitado()) {
 			SolicitacaoAnalise clone = cloneSolicitacaoAnalise(solicitacaoAnaliseSGQ);
+
 			String requestUrl = consultoria.getUrlIntegracao() + "/api/solicitacao-analises/";
 
 			mono = WebClient.create(requestUrl).post().body(BodyInserters.fromObject(clone)).retrieve()
@@ -198,15 +202,9 @@ public class ConsultoriaReactiveIntegration {
 				&& solicitacaoAnaliseConsultoria.getStatus() == StatusSolicitacaoAnalise.CONCLUIDO) {
 			log.debug("SolicitacaoAnalise reviewed by consultoria: id {}", solicitacaoAnaliseSGQ.getId());
 			solicitacaoAnaliseSGQ.setStatus(solicitacaoAnaliseConsultoria.getStatus());
-			AnaliseConsultoria analiseConsultoria = solicitacaoAnaliseConsultoria.getAnaliseConsultoria().id(null);
 
-			Set<Anexo> anexos = analiseConsultoria.getAnexos();
-			if (anexos != null) {
-				anexos = anexos.stream().map(a -> a.id(null)).collect(Collectors.toSet());
-				anexoRepository.saveAll(anexos);
-			}
-
-			analiseConsultoriaRepository.save(analiseConsultoria);
+			AnaliseConsultoria analiseConsultoria = saveAnaliseConsultoriaCascade(
+					solicitacaoAnaliseConsultoria.getAnaliseConsultoria());
 
 			solicitacaoAnaliseSGQ.setAnaliseConsultoria(analiseConsultoria);
 		}
@@ -214,5 +212,23 @@ public class ConsultoriaReactiveIntegration {
 		solicitacaoAnaliseRepository.save(solicitacaoAnaliseSGQ);
 
 		return Mono.just(solicitacaoAnaliseSGQ);
+	}
+
+	private AnaliseConsultoria saveAnaliseConsultoriaCascade(AnaliseConsultoria analiseConsultoria) {
+		Set<Anexo> anexos = analiseConsultoria.getAnexos();
+		if (anexos != null) {
+			Instant now = Instant.now();
+			anexos.forEach(a -> {
+				a.setId(null);
+				a.setIdUsuarioRegistro(SYSTEM_USER_ID);
+				a.setDataRegistro(now);
+			});
+			anexoRepository.saveAll(anexos);
+		}
+
+		analiseConsultoria.setId(null);
+		analiseConsultoriaRepository.save(analiseConsultoria);
+
+		return analiseConsultoria;
 	}
 }

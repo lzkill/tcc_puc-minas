@@ -90,24 +90,41 @@ public class SolicitacaoAnaliseResource {
 					"idexists");
 		}
 
-		NaoConformidade naoConformidade = solicitacaoAnalise.getNaoConformidade();
-		naoConformidadeService.save(naoConformidade);
-
-		anexoService.saveAll(naoConformidade.getAnexos());
-
-		naoConformidade.getAcaoSGQS().forEach(a -> {
-			acaoService.save(a);
-			anexoService.saveAll(a.getAnexos());
-		});
-
-		solicitacaoAnalise.setStatus(StatusSolicitacaoAnalise.PENDENTE);
-		solicitacaoAnalise.setDataSolicitacao(Instant.now());
-		SolicitacaoAnalise result = solicitacaoAnaliseService.save(solicitacaoAnalise);
+		SolicitacaoAnalise result = saveSolicitacaoAnaliseCascade(solicitacaoAnalise);
 
 		return ResponseEntity
 				.created(new URI("/api/solicitacao-analises/" + result.getId())).headers(HeaderUtil
 						.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
 				.body(result);
+	}
+
+	// Forgive them,Father. They don't know what they're doing.
+	private SolicitacaoAnalise saveSolicitacaoAnaliseCascade(SolicitacaoAnalise solicitacaoAnalise) {
+		NaoConformidade naoConformidade = solicitacaoAnalise.getNaoConformidade();
+		naoConformidade.getAcaoSGQS().forEach(a -> {
+			anexoService.saveAll(a.getAnexos());
+			acaoService.save(a);
+		});
+
+		anexoService.saveAll(naoConformidade.getAnexos());
+
+		naoConformidadeService.save(naoConformidade);
+
+		naoConformidade.getAcaoSGQS().forEach(a -> {
+			a.setNaoConformidade(naoConformidade);
+			acaoService.save(a);
+		});
+
+		solicitacaoAnalise.setStatus(StatusSolicitacaoAnalise.PENDENTE);
+		solicitacaoAnalise.setDataSolicitacao(Instant.now());
+
+		solicitacaoAnaliseService.save(solicitacaoAnalise);
+
+		naoConformidade.getAcaoSGQS().forEach(a -> {
+			a.setNaoConformidade(null);
+		});
+
+		return solicitacaoAnalise;
 	}
 
 	/**
