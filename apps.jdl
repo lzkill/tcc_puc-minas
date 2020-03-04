@@ -338,8 +338,8 @@ entity SolicitacaoAnalise {
   dataRegistro Instant required
   /** Data em que a solicitação foi recebida pela consultoria */
   dataSolicitacao Instant
-  /** ID retornado pela consultoria para acompanhamento */
-  uuid String unique
+  /** ID retornado pela consultoria para acompanhamento da solicitação */
+  idAcompanhamento Long
   status StatusSolicitacaoAnalise required
 }
 

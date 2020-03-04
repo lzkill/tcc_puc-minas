@@ -2,6 +2,7 @@ package com.xpto.consultoria.web.rest;
 
 import com.xpto.consultoria.ConsultoriaApp;
 import com.xpto.consultoria.domain.AcaoSGQ;
+import com.xpto.consultoria.domain.Anexo;
 import com.xpto.consultoria.domain.NaoConformidade;
 import com.xpto.consultoria.repository.AcaoSGQRepository;
 import com.xpto.consultoria.service.AcaoSGQService;
@@ -11,9 +12,12 @@ import com.xpto.consultoria.service.AcaoSGQQueryService;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -26,15 +30,18 @@ import org.springframework.validation.Validator;
 import javax.persistence.EntityManager;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.xpto.consultoria.web.rest.TestUtil.createFormattingConversionService;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import com.xpto.consultoria.domain.enumeration.TipoAcaoSGQ;
+import com.xpto.consultoria.domain.enumeration.StatusSGQ;
 /**
  * Integration tests for the {@link AcaoSGQResource} REST controller.
  */
@@ -59,8 +66,23 @@ public class AcaoSGQResourceIT {
     private static final Instant DEFAULT_DATA_REGISTRO = Instant.ofEpochMilli(0L);
     private static final Instant UPDATED_DATA_REGISTRO = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
+    private static final Instant DEFAULT_DATA_CONCLUSAO = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_DATA_CONCLUSAO = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+
+    private static final String DEFAULT_RESULTADO = "AAAAAAAAAA";
+    private static final String UPDATED_RESULTADO = "BBBBBBBBBB";
+
+    private static final StatusSGQ DEFAULT_STATUS_SGQ = StatusSGQ.REGISTRADO;
+    private static final StatusSGQ UPDATED_STATUS_SGQ = StatusSGQ.PENDENTE;
+
     @Autowired
     private AcaoSGQRepository acaoSGQRepository;
+
+    @Mock
+    private AcaoSGQRepository acaoSGQRepositoryMock;
+
+    @Mock
+    private AcaoSGQService acaoSGQServiceMock;
 
     @Autowired
     private AcaoSGQService acaoSGQService;
@@ -112,7 +134,10 @@ public class AcaoSGQResourceIT {
             .descricao(DEFAULT_DESCRICAO)
             .prazoConclusao(DEFAULT_PRAZO_CONCLUSAO)
             .novoPrazoConclusao(DEFAULT_NOVO_PRAZO_CONCLUSAO)
-            .dataRegistro(DEFAULT_DATA_REGISTRO);
+            .dataRegistro(DEFAULT_DATA_REGISTRO)
+            .dataConclusao(DEFAULT_DATA_CONCLUSAO)
+            .resultado(DEFAULT_RESULTADO)
+            .statusSGQ(DEFAULT_STATUS_SGQ);
         return acaoSGQ;
     }
     /**
@@ -128,7 +153,10 @@ public class AcaoSGQResourceIT {
             .descricao(UPDATED_DESCRICAO)
             .prazoConclusao(UPDATED_PRAZO_CONCLUSAO)
             .novoPrazoConclusao(UPDATED_NOVO_PRAZO_CONCLUSAO)
-            .dataRegistro(UPDATED_DATA_REGISTRO);
+            .dataRegistro(UPDATED_DATA_REGISTRO)
+            .dataConclusao(UPDATED_DATA_CONCLUSAO)
+            .resultado(UPDATED_RESULTADO)
+            .statusSGQ(UPDATED_STATUS_SGQ);
         return acaoSGQ;
     }
 
@@ -158,6 +186,9 @@ public class AcaoSGQResourceIT {
         assertThat(testAcaoSGQ.getPrazoConclusao()).isEqualTo(DEFAULT_PRAZO_CONCLUSAO);
         assertThat(testAcaoSGQ.getNovoPrazoConclusao()).isEqualTo(DEFAULT_NOVO_PRAZO_CONCLUSAO);
         assertThat(testAcaoSGQ.getDataRegistro()).isEqualTo(DEFAULT_DATA_REGISTRO);
+        assertThat(testAcaoSGQ.getDataConclusao()).isEqualTo(DEFAULT_DATA_CONCLUSAO);
+        assertThat(testAcaoSGQ.getResultado()).isEqualTo(DEFAULT_RESULTADO);
+        assertThat(testAcaoSGQ.getStatusSGQ()).isEqualTo(DEFAULT_STATUS_SGQ);
     }
 
     @Test
@@ -236,6 +267,24 @@ public class AcaoSGQResourceIT {
 
     @Test
     @Transactional
+    public void checkStatusSGQIsRequired() throws Exception {
+        int databaseSizeBeforeTest = acaoSGQRepository.findAll().size();
+        // set the field null
+        acaoSGQ.setStatusSGQ(null);
+
+        // Create the AcaoSGQ, which fails.
+
+        restAcaoSGQMockMvc.perform(post("/api/acao-sgqs")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(acaoSGQ)))
+            .andExpect(status().isBadRequest());
+
+        List<AcaoSGQ> acaoSGQList = acaoSGQRepository.findAll();
+        assertThat(acaoSGQList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     public void getAllAcaoSGQS() throws Exception {
         // Initialize the database
         acaoSGQRepository.saveAndFlush(acaoSGQ);
@@ -250,9 +299,45 @@ public class AcaoSGQResourceIT {
             .andExpect(jsonPath("$.[*].descricao").value(hasItem(DEFAULT_DESCRICAO.toString())))
             .andExpect(jsonPath("$.[*].prazoConclusao").value(hasItem(DEFAULT_PRAZO_CONCLUSAO.toString())))
             .andExpect(jsonPath("$.[*].novoPrazoConclusao").value(hasItem(DEFAULT_NOVO_PRAZO_CONCLUSAO.toString())))
-            .andExpect(jsonPath("$.[*].dataRegistro").value(hasItem(DEFAULT_DATA_REGISTRO.toString())));
+            .andExpect(jsonPath("$.[*].dataRegistro").value(hasItem(DEFAULT_DATA_REGISTRO.toString())))
+            .andExpect(jsonPath("$.[*].dataConclusao").value(hasItem(DEFAULT_DATA_CONCLUSAO.toString())))
+            .andExpect(jsonPath("$.[*].resultado").value(hasItem(DEFAULT_RESULTADO.toString())))
+            .andExpect(jsonPath("$.[*].statusSGQ").value(hasItem(DEFAULT_STATUS_SGQ.toString())));
     }
     
+    @SuppressWarnings({"unchecked"})
+    public void getAllAcaoSGQSWithEagerRelationshipsIsEnabled() throws Exception {
+        AcaoSGQResource acaoSGQResource = new AcaoSGQResource(acaoSGQServiceMock, acaoSGQQueryService);
+        when(acaoSGQServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+
+        MockMvc restAcaoSGQMockMvc = MockMvcBuilders.standaloneSetup(acaoSGQResource)
+            .setCustomArgumentResolvers(pageableArgumentResolver)
+            .setControllerAdvice(exceptionTranslator)
+            .setConversionService(createFormattingConversionService())
+            .setMessageConverters(jacksonMessageConverter).build();
+
+        restAcaoSGQMockMvc.perform(get("/api/acao-sgqs?eagerload=true"))
+        .andExpect(status().isOk());
+
+        verify(acaoSGQServiceMock, times(1)).findAllWithEagerRelationships(any());
+    }
+
+    @SuppressWarnings({"unchecked"})
+    public void getAllAcaoSGQSWithEagerRelationshipsIsNotEnabled() throws Exception {
+        AcaoSGQResource acaoSGQResource = new AcaoSGQResource(acaoSGQServiceMock, acaoSGQQueryService);
+            when(acaoSGQServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+            MockMvc restAcaoSGQMockMvc = MockMvcBuilders.standaloneSetup(acaoSGQResource)
+            .setCustomArgumentResolvers(pageableArgumentResolver)
+            .setControllerAdvice(exceptionTranslator)
+            .setConversionService(createFormattingConversionService())
+            .setMessageConverters(jacksonMessageConverter).build();
+
+        restAcaoSGQMockMvc.perform(get("/api/acao-sgqs?eagerload=true"))
+        .andExpect(status().isOk());
+
+            verify(acaoSGQServiceMock, times(1)).findAllWithEagerRelationships(any());
+    }
+
     @Test
     @Transactional
     public void getAcaoSGQ() throws Exception {
@@ -269,7 +354,10 @@ public class AcaoSGQResourceIT {
             .andExpect(jsonPath("$.descricao").value(DEFAULT_DESCRICAO.toString()))
             .andExpect(jsonPath("$.prazoConclusao").value(DEFAULT_PRAZO_CONCLUSAO.toString()))
             .andExpect(jsonPath("$.novoPrazoConclusao").value(DEFAULT_NOVO_PRAZO_CONCLUSAO.toString()))
-            .andExpect(jsonPath("$.dataRegistro").value(DEFAULT_DATA_REGISTRO.toString()));
+            .andExpect(jsonPath("$.dataRegistro").value(DEFAULT_DATA_REGISTRO.toString()))
+            .andExpect(jsonPath("$.dataConclusao").value(DEFAULT_DATA_CONCLUSAO.toString()))
+            .andExpect(jsonPath("$.resultado").value(DEFAULT_RESULTADO.toString()))
+            .andExpect(jsonPath("$.statusSGQ").value(DEFAULT_STATUS_SGQ.toString()));
     }
 
 
@@ -580,6 +668,130 @@ public class AcaoSGQResourceIT {
 
     @Test
     @Transactional
+    public void getAllAcaoSGQSByDataConclusaoIsEqualToSomething() throws Exception {
+        // Initialize the database
+        acaoSGQRepository.saveAndFlush(acaoSGQ);
+
+        // Get all the acaoSGQList where dataConclusao equals to DEFAULT_DATA_CONCLUSAO
+        defaultAcaoSGQShouldBeFound("dataConclusao.equals=" + DEFAULT_DATA_CONCLUSAO);
+
+        // Get all the acaoSGQList where dataConclusao equals to UPDATED_DATA_CONCLUSAO
+        defaultAcaoSGQShouldNotBeFound("dataConclusao.equals=" + UPDATED_DATA_CONCLUSAO);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAcaoSGQSByDataConclusaoIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        acaoSGQRepository.saveAndFlush(acaoSGQ);
+
+        // Get all the acaoSGQList where dataConclusao not equals to DEFAULT_DATA_CONCLUSAO
+        defaultAcaoSGQShouldNotBeFound("dataConclusao.notEquals=" + DEFAULT_DATA_CONCLUSAO);
+
+        // Get all the acaoSGQList where dataConclusao not equals to UPDATED_DATA_CONCLUSAO
+        defaultAcaoSGQShouldBeFound("dataConclusao.notEquals=" + UPDATED_DATA_CONCLUSAO);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAcaoSGQSByDataConclusaoIsInShouldWork() throws Exception {
+        // Initialize the database
+        acaoSGQRepository.saveAndFlush(acaoSGQ);
+
+        // Get all the acaoSGQList where dataConclusao in DEFAULT_DATA_CONCLUSAO or UPDATED_DATA_CONCLUSAO
+        defaultAcaoSGQShouldBeFound("dataConclusao.in=" + DEFAULT_DATA_CONCLUSAO + "," + UPDATED_DATA_CONCLUSAO);
+
+        // Get all the acaoSGQList where dataConclusao equals to UPDATED_DATA_CONCLUSAO
+        defaultAcaoSGQShouldNotBeFound("dataConclusao.in=" + UPDATED_DATA_CONCLUSAO);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAcaoSGQSByDataConclusaoIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        acaoSGQRepository.saveAndFlush(acaoSGQ);
+
+        // Get all the acaoSGQList where dataConclusao is not null
+        defaultAcaoSGQShouldBeFound("dataConclusao.specified=true");
+
+        // Get all the acaoSGQList where dataConclusao is null
+        defaultAcaoSGQShouldNotBeFound("dataConclusao.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllAcaoSGQSByStatusSGQIsEqualToSomething() throws Exception {
+        // Initialize the database
+        acaoSGQRepository.saveAndFlush(acaoSGQ);
+
+        // Get all the acaoSGQList where statusSGQ equals to DEFAULT_STATUS_SGQ
+        defaultAcaoSGQShouldBeFound("statusSGQ.equals=" + DEFAULT_STATUS_SGQ);
+
+        // Get all the acaoSGQList where statusSGQ equals to UPDATED_STATUS_SGQ
+        defaultAcaoSGQShouldNotBeFound("statusSGQ.equals=" + UPDATED_STATUS_SGQ);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAcaoSGQSByStatusSGQIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        acaoSGQRepository.saveAndFlush(acaoSGQ);
+
+        // Get all the acaoSGQList where statusSGQ not equals to DEFAULT_STATUS_SGQ
+        defaultAcaoSGQShouldNotBeFound("statusSGQ.notEquals=" + DEFAULT_STATUS_SGQ);
+
+        // Get all the acaoSGQList where statusSGQ not equals to UPDATED_STATUS_SGQ
+        defaultAcaoSGQShouldBeFound("statusSGQ.notEquals=" + UPDATED_STATUS_SGQ);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAcaoSGQSByStatusSGQIsInShouldWork() throws Exception {
+        // Initialize the database
+        acaoSGQRepository.saveAndFlush(acaoSGQ);
+
+        // Get all the acaoSGQList where statusSGQ in DEFAULT_STATUS_SGQ or UPDATED_STATUS_SGQ
+        defaultAcaoSGQShouldBeFound("statusSGQ.in=" + DEFAULT_STATUS_SGQ + "," + UPDATED_STATUS_SGQ);
+
+        // Get all the acaoSGQList where statusSGQ equals to UPDATED_STATUS_SGQ
+        defaultAcaoSGQShouldNotBeFound("statusSGQ.in=" + UPDATED_STATUS_SGQ);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAcaoSGQSByStatusSGQIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        acaoSGQRepository.saveAndFlush(acaoSGQ);
+
+        // Get all the acaoSGQList where statusSGQ is not null
+        defaultAcaoSGQShouldBeFound("statusSGQ.specified=true");
+
+        // Get all the acaoSGQList where statusSGQ is null
+        defaultAcaoSGQShouldNotBeFound("statusSGQ.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllAcaoSGQSByAnexoIsEqualToSomething() throws Exception {
+        // Initialize the database
+        acaoSGQRepository.saveAndFlush(acaoSGQ);
+        Anexo anexo = AnexoResourceIT.createEntity(em);
+        em.persist(anexo);
+        em.flush();
+        acaoSGQ.addAnexo(anexo);
+        acaoSGQRepository.saveAndFlush(acaoSGQ);
+        Long anexoId = anexo.getId();
+
+        // Get all the acaoSGQList where anexo equals to anexoId
+        defaultAcaoSGQShouldBeFound("anexoId.equals=" + anexoId);
+
+        // Get all the acaoSGQList where anexo equals to anexoId + 1
+        defaultAcaoSGQShouldNotBeFound("anexoId.equals=" + (anexoId + 1));
+    }
+
+
+    @Test
+    @Transactional
     public void getAllAcaoSGQSByNaoConformidadeIsEqualToSomething() throws Exception {
         // Initialize the database
         acaoSGQRepository.saveAndFlush(acaoSGQ);
@@ -610,7 +822,10 @@ public class AcaoSGQResourceIT {
             .andExpect(jsonPath("$.[*].descricao").value(hasItem(DEFAULT_DESCRICAO.toString())))
             .andExpect(jsonPath("$.[*].prazoConclusao").value(hasItem(DEFAULT_PRAZO_CONCLUSAO.toString())))
             .andExpect(jsonPath("$.[*].novoPrazoConclusao").value(hasItem(DEFAULT_NOVO_PRAZO_CONCLUSAO.toString())))
-            .andExpect(jsonPath("$.[*].dataRegistro").value(hasItem(DEFAULT_DATA_REGISTRO.toString())));
+            .andExpect(jsonPath("$.[*].dataRegistro").value(hasItem(DEFAULT_DATA_REGISTRO.toString())))
+            .andExpect(jsonPath("$.[*].dataConclusao").value(hasItem(DEFAULT_DATA_CONCLUSAO.toString())))
+            .andExpect(jsonPath("$.[*].resultado").value(hasItem(DEFAULT_RESULTADO.toString())))
+            .andExpect(jsonPath("$.[*].statusSGQ").value(hasItem(DEFAULT_STATUS_SGQ.toString())));
 
         // Check, that the count call also returns 1
         restAcaoSGQMockMvc.perform(get("/api/acao-sgqs/count?sort=id,desc&" + filter))
@@ -663,7 +878,10 @@ public class AcaoSGQResourceIT {
             .descricao(UPDATED_DESCRICAO)
             .prazoConclusao(UPDATED_PRAZO_CONCLUSAO)
             .novoPrazoConclusao(UPDATED_NOVO_PRAZO_CONCLUSAO)
-            .dataRegistro(UPDATED_DATA_REGISTRO);
+            .dataRegistro(UPDATED_DATA_REGISTRO)
+            .dataConclusao(UPDATED_DATA_CONCLUSAO)
+            .resultado(UPDATED_RESULTADO)
+            .statusSGQ(UPDATED_STATUS_SGQ);
 
         restAcaoSGQMockMvc.perform(put("/api/acao-sgqs")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -680,6 +898,9 @@ public class AcaoSGQResourceIT {
         assertThat(testAcaoSGQ.getPrazoConclusao()).isEqualTo(UPDATED_PRAZO_CONCLUSAO);
         assertThat(testAcaoSGQ.getNovoPrazoConclusao()).isEqualTo(UPDATED_NOVO_PRAZO_CONCLUSAO);
         assertThat(testAcaoSGQ.getDataRegistro()).isEqualTo(UPDATED_DATA_REGISTRO);
+        assertThat(testAcaoSGQ.getDataConclusao()).isEqualTo(UPDATED_DATA_CONCLUSAO);
+        assertThat(testAcaoSGQ.getResultado()).isEqualTo(UPDATED_RESULTADO);
+        assertThat(testAcaoSGQ.getStatusSGQ()).isEqualTo(UPDATED_STATUS_SGQ);
     }
 
     @Test

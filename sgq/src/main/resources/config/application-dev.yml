@@ -62,8 +62,9 @@ spring:
     properties:
       hibernate.id.new_generator_mappings: true
       hibernate.connection.provider_disables_autocommit: true
-      hibernate.cache.use_second_level_cache: true
+      hibernate.cache.use_second_level_cache: false
       hibernate.cache.use_query_cache: false
+      hibernate.enable_lazy_load_no_trans: true
       hibernate.generate_statistics: false
       hibernate.cache.region.factory_class: com.hazelcast.hibernate.HazelcastCacheRegionFactory
       hibernate.cache.hazelcast.instance_name: sgq
@@ -152,4 +153,6 @@ jhipster:
 # https://www.jhipster.tech/common-application-properties/
 # ===================================================================
 
-# application:
+application:
+  cron:    
+    sync-solicitacao-analise: 0/15 * * * * *

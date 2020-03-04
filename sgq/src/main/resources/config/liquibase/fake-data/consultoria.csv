@@ -1,11 +1,11 @@
 id;nome;url_integracao;token_acesso;habilitado
-1;deposit Direct;generate;Awesome Soft Chicken;false
-2;Motorway Unbranded Fresh Fish;Auto Loan Account Fantastic Handmade Frozen Fish;deposit;false
-3;Berkshire;web services AGP;Cape Verde Escudo bypass;false
-4;Kids Guam Avon;Specialist;B2C plum Specialist;true
-5;Colombia withdrawal;auxiliary reboot;Metrics;false
-6;withdrawal Florida;support teal primary;facilitate Dynamic;true
-7;Decentralized bluetooth;Beauty payment bandwidth;Multi-channelled Kina lime;true
-8;Gorgeous Steel Bike;Manor fresh-thinking website;Massachusetts projection;true
-9;open architecture Agent;hack Dynamic;web services;true
-10;regional;Investor Sports;mint green;true
+1;deposit Direct;http://localhost:8083/services/consultoria;Awesome Soft Chicken;true
+2;Motorway Unbranded Fresh Fish;http://localhost:8083/services/consultoria;deposit;true
+3;Berkshire;http://localhost:8083/services/consultoria;Cape Verde Escudo bypass;true
+4;Kids Guam Avon;http://localhost:8083/services/consultoria;B2C plum Specialist;true
+5;Colombia withdrawal;http://localhost:8083/services/consultoria;Metrics;true
+6;withdrawal Florida;http://localhost:8083/services/consultoria;facilitate Dynamic;true
+7;Decentralized bluetooth;http://localhost:8083/services/consultoria;Multi-channelled Kina lime;true
+8;Gorgeous Steel Bike;http://localhost:8083/services/consultoria;Massachusetts projection;true
+9;open architecture Agent;http://localhost:8083/services/consultoria;web services;true
+10;regional;http://localhost:8083/services/consultoria;mint green;true

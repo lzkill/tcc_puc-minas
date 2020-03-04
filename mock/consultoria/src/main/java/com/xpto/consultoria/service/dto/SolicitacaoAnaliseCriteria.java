@@ -46,13 +46,9 @@ public class SolicitacaoAnaliseCriteria implements Serializable, Criteria {
 
     private LongFilter id;
 
-    private IntegerFilter idUsuarioRegistro;
-
     private InstantFilter dataRegistro;
 
     private InstantFilter dataSolicitacao;
-
-    private StringFilter uuid;
 
     private StatusSolicitacaoAnaliseFilter status;
 
@@ -65,10 +61,8 @@ public class SolicitacaoAnaliseCriteria implements Serializable, Criteria {
 
     public SolicitacaoAnaliseCriteria(SolicitacaoAnaliseCriteria other){
         this.id = other.id == null ? null : other.id.copy();
-        this.idUsuarioRegistro = other.idUsuarioRegistro == null ? null : other.idUsuarioRegistro.copy();
         this.dataRegistro = other.dataRegistro == null ? null : other.dataRegistro.copy();
         this.dataSolicitacao = other.dataSolicitacao == null ? null : other.dataSolicitacao.copy();
-        this.uuid = other.uuid == null ? null : other.uuid.copy();
         this.status = other.status == null ? null : other.status.copy();
         this.analiseConsultoriaId = other.analiseConsultoriaId == null ? null : other.analiseConsultoriaId.copy();
         this.naoConformidadeId = other.naoConformidadeId == null ? null : other.naoConformidadeId.copy();
@@ -87,14 +81,6 @@ public class SolicitacaoAnaliseCriteria implements Serializable, Criteria {
         this.id = id;
     }
 
-    public IntegerFilter getIdUsuarioRegistro() {
-        return idUsuarioRegistro;
-    }
-
-    public void setIdUsuarioRegistro(IntegerFilter idUsuarioRegistro) {
-        this.idUsuarioRegistro = idUsuarioRegistro;
-    }
-
     public InstantFilter getDataRegistro() {
         return dataRegistro;
     }
@@ -109,14 +95,6 @@ public class SolicitacaoAnaliseCriteria implements Serializable, Criteria {
 
     public void setDataSolicitacao(InstantFilter dataSolicitacao) {
         this.dataSolicitacao = dataSolicitacao;
-    }
-
-    public StringFilter getUuid() {
-        return uuid;
-    }
-
-    public void setUuid(StringFilter uuid) {
-        this.uuid = uuid;
     }
 
     public StatusSolicitacaoAnaliseFilter getStatus() {
@@ -155,10 +133,8 @@ public class SolicitacaoAnaliseCriteria implements Serializable, Criteria {
         final SolicitacaoAnaliseCriteria that = (SolicitacaoAnaliseCriteria) o;
         return
             Objects.equals(id, that.id) &&
-            Objects.equals(idUsuarioRegistro, that.idUsuarioRegistro) &&
             Objects.equals(dataRegistro, that.dataRegistro) &&
             Objects.equals(dataSolicitacao, that.dataSolicitacao) &&
-            Objects.equals(uuid, that.uuid) &&
             Objects.equals(status, that.status) &&
             Objects.equals(analiseConsultoriaId, that.analiseConsultoriaId) &&
             Objects.equals(naoConformidadeId, that.naoConformidadeId);
@@ -168,10 +144,8 @@ public class SolicitacaoAnaliseCriteria implements Serializable, Criteria {
     public int hashCode() {
         return Objects.hash(
         id,
-        idUsuarioRegistro,
         dataRegistro,
         dataSolicitacao,
-        uuid,
         status,
         analiseConsultoriaId,
         naoConformidadeId
@@ -182,10 +156,8 @@ public class SolicitacaoAnaliseCriteria implements Serializable, Criteria {
     public String toString() {
         return "SolicitacaoAnaliseCriteria{" +
                 (id != null ? "id=" + id + ", " : "") +
-                (idUsuarioRegistro != null ? "idUsuarioRegistro=" + idUsuarioRegistro + ", " : "") +
                 (dataRegistro != null ? "dataRegistro=" + dataRegistro + ", " : "") +
                 (dataSolicitacao != null ? "dataSolicitacao=" + dataSolicitacao + ", " : "") +
-                (uuid != null ? "uuid=" + uuid + ", " : "") +
                 (status != null ? "status=" + status + ", " : "") +
                 (analiseConsultoriaId != null ? "analiseConsultoriaId=" + analiseConsultoriaId + ", " : "") +
                 (naoConformidadeId != null ? "naoConformidadeId=" + naoConformidadeId + ", " : "") +

@@ -8,6 +8,18 @@
     -->
     <changeSet id="20200227165229-2" author="jhipster">
         
+        <addForeignKeyConstraint baseColumnNames="acaosgq_id"
+                                 baseTableName="acao_sgq_anexo"
+                                 constraintName="fk_acao_sgq_anexo_acao_sgq_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="acao_sgq"/>
+
+        <addForeignKeyConstraint baseColumnNames="anexo_id"
+                                 baseTableName="acao_sgq_anexo"
+                                 constraintName="fk_acao_sgq_anexo_anexo_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="anexo"/>
+        
         <addForeignKeyConstraint baseColumnNames="nao_conformidade_id"
                                  baseTableName="acao_sgq"
                                  constraintName="fk_acao_sgq_nao_conformidade_id"

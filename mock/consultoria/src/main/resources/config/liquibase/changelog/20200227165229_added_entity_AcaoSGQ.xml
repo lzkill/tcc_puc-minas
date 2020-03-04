@@ -34,6 +34,15 @@
             <column name="data_registro" type="datetime">
                 <constraints nullable="false" />
             </column>
+            <column name="data_conclusao" type="datetime">
+                <constraints nullable="true" />
+            </column>
+            <column name="resultado" type="${clobType}">
+                <constraints nullable="true" />
+            </column>
+            <column name="status_sgq" type="varchar(255)">
+                <constraints nullable="false" />
+            </column>
             <column name="nao_conformidade_id" type="bigint">
                 <constraints nullable="true" />
             </column>
@@ -42,10 +51,22 @@
         <dropDefaultValue tableName="acao_sgq" columnName="prazo_conclusao" columnDataType="datetime"/>
         <dropDefaultValue tableName="acao_sgq" columnName="novo_prazo_conclusao" columnDataType="datetime"/>
         <dropDefaultValue tableName="acao_sgq" columnName="data_registro" columnDataType="datetime"/>
+        <dropDefaultValue tableName="acao_sgq" columnName="data_conclusao" columnDataType="datetime"/>
     </changeSet>
 
     <changeSet id="20200227165229-1-relations" author="jhipster">
 
+        <createTable tableName="acao_sgq_anexo">
+            <column name="anexo_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="acaosgq_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addPrimaryKey columnNames="acaosgq_id, anexo_id" tableName="acao_sgq_anexo"/>
+        
     </changeSet>
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here, do not remove-->
 
@@ -69,6 +90,9 @@
             <column name="prazo_conclusao" type="datetime"/>
             <column name="novo_prazo_conclusao" type="datetime"/>
             <column name="data_registro" type="datetime"/>
+            <column name="data_conclusao" type="datetime"/>
+            <column name="resultado" type="clob"/>
+            <column name="status_sgq" type="string"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here, do not remove-->
         </loadData>
     </changeSet>

@@ -16,17 +16,11 @@
             <column name="id" type="bigint" autoIncrement="${autoIncrement}">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="id_usuario_registro" type="integer">
-                <constraints nullable="false" />
-            </column>
             <column name="data_registro" type="datetime">
                 <constraints nullable="false" />
             </column>
             <column name="data_solicitacao" type="datetime">
                 <constraints nullable="true" />
-            </column>
-            <column name="uuid" type="varchar(255)">
-                <constraints nullable="true" unique="true" uniqueConstraintName="ux_solicitacao_analise_uuid" />
             </column>
             <column name="status" type="varchar(255)">
                 <constraints nullable="false" />
@@ -62,10 +56,8 @@
                   separator=";"
                   tableName="solicitacao_analise">
             <column name="id" type="numeric"/>
-            <column name="id_usuario_registro" type="numeric"/>
             <column name="data_registro" type="datetime"/>
             <column name="data_solicitacao" type="datetime"/>
-            <column name="uuid" type="string"/>
             <column name="status" type="string"/>
             <column name="nao_conformidade_id" type="numeric"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here, do not remove-->

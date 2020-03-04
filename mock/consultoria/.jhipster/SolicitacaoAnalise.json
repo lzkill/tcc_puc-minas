@@ -2,13 +2,6 @@
     "name": "SolicitacaoAnalise",
     "fields": [
         {
-            "fieldName": "idUsuarioRegistro",
-            "fieldType": "Integer",
-            "fieldValidateRules": [
-                "required"
-            ]
-        },
-        {
             "fieldName": "dataRegistro",
             "fieldType": "Instant",
             "fieldValidateRules": [
@@ -18,13 +11,6 @@
         {
             "fieldName": "dataSolicitacao",
             "fieldType": "Instant"
-        },
-        {
-            "fieldName": "uuid",
-            "fieldType": "String",
-            "fieldValidateRules": [
-                "unique"
-            ]
         },
         {
             "fieldName": "status",

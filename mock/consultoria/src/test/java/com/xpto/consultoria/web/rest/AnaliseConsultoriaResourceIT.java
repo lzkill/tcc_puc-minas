@@ -2,6 +2,7 @@ package com.xpto.consultoria.web.rest;
 
 import com.xpto.consultoria.ConsultoriaApp;
 import com.xpto.consultoria.domain.AnaliseConsultoria;
+import com.xpto.consultoria.domain.Anexo;
 import com.xpto.consultoria.domain.SolicitacaoAnalise;
 import com.xpto.consultoria.repository.AnaliseConsultoriaRepository;
 import com.xpto.consultoria.service.AnaliseConsultoriaService;
@@ -11,9 +12,12 @@ import com.xpto.consultoria.service.AnaliseConsultoriaQueryService;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -26,11 +30,13 @@ import org.springframework.validation.Validator;
 import javax.persistence.EntityManager;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.xpto.consultoria.web.rest.TestUtil.createFormattingConversionService;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -44,8 +50,8 @@ public class AnaliseConsultoriaResourceIT {
     private static final Instant DEFAULT_DATA_ANALISE = Instant.ofEpochMilli(0L);
     private static final Instant UPDATED_DATA_ANALISE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
-    private static final String DEFAULT_DESCRICAO = "AAAAAAAAAA";
-    private static final String UPDATED_DESCRICAO = "BBBBBBBBBB";
+    private static final String DEFAULT_CONTEUDO = "AAAAAAAAAA";
+    private static final String UPDATED_CONTEUDO = "BBBBBBBBBB";
 
     private static final String DEFAULT_RESPONSAVEL = "AAAAAAAAAA";
     private static final String UPDATED_RESPONSAVEL = "BBBBBBBBBB";
@@ -55,6 +61,12 @@ public class AnaliseConsultoriaResourceIT {
 
     @Autowired
     private AnaliseConsultoriaRepository analiseConsultoriaRepository;
+
+    @Mock
+    private AnaliseConsultoriaRepository analiseConsultoriaRepositoryMock;
+
+    @Mock
+    private AnaliseConsultoriaService analiseConsultoriaServiceMock;
 
     @Autowired
     private AnaliseConsultoriaService analiseConsultoriaService;
@@ -102,7 +114,7 @@ public class AnaliseConsultoriaResourceIT {
     public static AnaliseConsultoria createEntity(EntityManager em) {
         AnaliseConsultoria analiseConsultoria = new AnaliseConsultoria()
             .dataAnalise(DEFAULT_DATA_ANALISE)
-            .descricao(DEFAULT_DESCRICAO)
+            .conteudo(DEFAULT_CONTEUDO)
             .responsavel(DEFAULT_RESPONSAVEL)
             .status(DEFAULT_STATUS);
         // Add required entity
@@ -126,7 +138,7 @@ public class AnaliseConsultoriaResourceIT {
     public static AnaliseConsultoria createUpdatedEntity(EntityManager em) {
         AnaliseConsultoria analiseConsultoria = new AnaliseConsultoria()
             .dataAnalise(UPDATED_DATA_ANALISE)
-            .descricao(UPDATED_DESCRICAO)
+            .conteudo(UPDATED_CONTEUDO)
             .responsavel(UPDATED_RESPONSAVEL)
             .status(UPDATED_STATUS);
         // Add required entity
@@ -163,7 +175,7 @@ public class AnaliseConsultoriaResourceIT {
         assertThat(analiseConsultoriaList).hasSize(databaseSizeBeforeCreate + 1);
         AnaliseConsultoria testAnaliseConsultoria = analiseConsultoriaList.get(analiseConsultoriaList.size() - 1);
         assertThat(testAnaliseConsultoria.getDataAnalise()).isEqualTo(DEFAULT_DATA_ANALISE);
-        assertThat(testAnaliseConsultoria.getDescricao()).isEqualTo(DEFAULT_DESCRICAO);
+        assertThat(testAnaliseConsultoria.getConteudo()).isEqualTo(DEFAULT_CONTEUDO);
         assertThat(testAnaliseConsultoria.getResponsavel()).isEqualTo(DEFAULT_RESPONSAVEL);
         assertThat(testAnaliseConsultoria.getStatus()).isEqualTo(DEFAULT_STATUS);
     }
@@ -254,11 +266,44 @@ public class AnaliseConsultoriaResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(analiseConsultoria.getId().intValue())))
             .andExpect(jsonPath("$.[*].dataAnalise").value(hasItem(DEFAULT_DATA_ANALISE.toString())))
-            .andExpect(jsonPath("$.[*].descricao").value(hasItem(DEFAULT_DESCRICAO.toString())))
+            .andExpect(jsonPath("$.[*].conteudo").value(hasItem(DEFAULT_CONTEUDO.toString())))
             .andExpect(jsonPath("$.[*].responsavel").value(hasItem(DEFAULT_RESPONSAVEL)))
             .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())));
     }
     
+    @SuppressWarnings({"unchecked"})
+    public void getAllAnaliseConsultoriasWithEagerRelationshipsIsEnabled() throws Exception {
+        AnaliseConsultoriaResource analiseConsultoriaResource = new AnaliseConsultoriaResource(analiseConsultoriaServiceMock, analiseConsultoriaQueryService);
+        when(analiseConsultoriaServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+
+        MockMvc restAnaliseConsultoriaMockMvc = MockMvcBuilders.standaloneSetup(analiseConsultoriaResource)
+            .setCustomArgumentResolvers(pageableArgumentResolver)
+            .setControllerAdvice(exceptionTranslator)
+            .setConversionService(createFormattingConversionService())
+            .setMessageConverters(jacksonMessageConverter).build();
+
+        restAnaliseConsultoriaMockMvc.perform(get("/api/analise-consultorias?eagerload=true"))
+        .andExpect(status().isOk());
+
+        verify(analiseConsultoriaServiceMock, times(1)).findAllWithEagerRelationships(any());
+    }
+
+    @SuppressWarnings({"unchecked"})
+    public void getAllAnaliseConsultoriasWithEagerRelationshipsIsNotEnabled() throws Exception {
+        AnaliseConsultoriaResource analiseConsultoriaResource = new AnaliseConsultoriaResource(analiseConsultoriaServiceMock, analiseConsultoriaQueryService);
+            when(analiseConsultoriaServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+            MockMvc restAnaliseConsultoriaMockMvc = MockMvcBuilders.standaloneSetup(analiseConsultoriaResource)
+            .setCustomArgumentResolvers(pageableArgumentResolver)
+            .setControllerAdvice(exceptionTranslator)
+            .setConversionService(createFormattingConversionService())
+            .setMessageConverters(jacksonMessageConverter).build();
+
+        restAnaliseConsultoriaMockMvc.perform(get("/api/analise-consultorias?eagerload=true"))
+        .andExpect(status().isOk());
+
+            verify(analiseConsultoriaServiceMock, times(1)).findAllWithEagerRelationships(any());
+    }
+
     @Test
     @Transactional
     public void getAnaliseConsultoria() throws Exception {
@@ -271,7 +316,7 @@ public class AnaliseConsultoriaResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(analiseConsultoria.getId().intValue()))
             .andExpect(jsonPath("$.dataAnalise").value(DEFAULT_DATA_ANALISE.toString()))
-            .andExpect(jsonPath("$.descricao").value(DEFAULT_DESCRICAO.toString()))
+            .andExpect(jsonPath("$.conteudo").value(DEFAULT_CONTEUDO.toString()))
             .andExpect(jsonPath("$.responsavel").value(DEFAULT_RESPONSAVEL))
             .andExpect(jsonPath("$.status").value(DEFAULT_STATUS.toString()));
     }
@@ -480,6 +525,26 @@ public class AnaliseConsultoriaResourceIT {
 
     @Test
     @Transactional
+    public void getAllAnaliseConsultoriasByAnexoIsEqualToSomething() throws Exception {
+        // Initialize the database
+        analiseConsultoriaRepository.saveAndFlush(analiseConsultoria);
+        Anexo anexo = AnexoResourceIT.createEntity(em);
+        em.persist(anexo);
+        em.flush();
+        analiseConsultoria.addAnexo(anexo);
+        analiseConsultoriaRepository.saveAndFlush(analiseConsultoria);
+        Long anexoId = anexo.getId();
+
+        // Get all the analiseConsultoriaList where anexo equals to anexoId
+        defaultAnaliseConsultoriaShouldBeFound("anexoId.equals=" + anexoId);
+
+        // Get all the analiseConsultoriaList where anexo equals to anexoId + 1
+        defaultAnaliseConsultoriaShouldNotBeFound("anexoId.equals=" + (anexoId + 1));
+    }
+
+
+    @Test
+    @Transactional
     public void getAllAnaliseConsultoriasBySolicitacaoAnaliseIsEqualToSomething() throws Exception {
         // Get already existing entity
         SolicitacaoAnalise solicitacaoAnalise = analiseConsultoria.getSolicitacaoAnalise();
@@ -502,7 +567,7 @@ public class AnaliseConsultoriaResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(analiseConsultoria.getId().intValue())))
             .andExpect(jsonPath("$.[*].dataAnalise").value(hasItem(DEFAULT_DATA_ANALISE.toString())))
-            .andExpect(jsonPath("$.[*].descricao").value(hasItem(DEFAULT_DESCRICAO.toString())))
+            .andExpect(jsonPath("$.[*].conteudo").value(hasItem(DEFAULT_CONTEUDO.toString())))
             .andExpect(jsonPath("$.[*].responsavel").value(hasItem(DEFAULT_RESPONSAVEL)))
             .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())));
 
@@ -553,7 +618,7 @@ public class AnaliseConsultoriaResourceIT {
         em.detach(updatedAnaliseConsultoria);
         updatedAnaliseConsultoria
             .dataAnalise(UPDATED_DATA_ANALISE)
-            .descricao(UPDATED_DESCRICAO)
+            .conteudo(UPDATED_CONTEUDO)
             .responsavel(UPDATED_RESPONSAVEL)
             .status(UPDATED_STATUS);
 
@@ -567,7 +632,7 @@ public class AnaliseConsultoriaResourceIT {
         assertThat(analiseConsultoriaList).hasSize(databaseSizeBeforeUpdate);
         AnaliseConsultoria testAnaliseConsultoria = analiseConsultoriaList.get(analiseConsultoriaList.size() - 1);
         assertThat(testAnaliseConsultoria.getDataAnalise()).isEqualTo(UPDATED_DATA_ANALISE);
-        assertThat(testAnaliseConsultoria.getDescricao()).isEqualTo(UPDATED_DESCRICAO);
+        assertThat(testAnaliseConsultoria.getConteudo()).isEqualTo(UPDATED_CONTEUDO);
         assertThat(testAnaliseConsultoria.getResponsavel()).isEqualTo(UPDATED_RESPONSAVEL);
         assertThat(testAnaliseConsultoria.getStatus()).isEqualTo(UPDATED_STATUS);
     }

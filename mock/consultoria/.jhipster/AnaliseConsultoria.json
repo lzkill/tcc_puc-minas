@@ -9,7 +9,7 @@
             ]
         },
         {
-            "fieldName": "descricao",
+            "fieldName": "conteudo",
             "fieldType": "byte[]",
             "fieldTypeBlobContent": "text",
             "fieldValidateRules": [
@@ -37,6 +37,14 @@
         }
     ],
     "relationships": [
+        {
+            "relationshipType": "many-to-many",
+            "otherEntityName": "anexo",
+            "otherEntityRelationshipName": "analiseConsultoria",
+            "relationshipName": "anexo",
+            "otherEntityField": "nomeArquivo",
+            "ownerSide": true
+        },
         {
             "relationshipType": "one-to-one",
             "otherEntityName": "solicitacaoAnalise",

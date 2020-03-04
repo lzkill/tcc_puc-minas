@@ -9,7 +9,7 @@ export interface ISolicitacaoAnalise {
   idUsuarioRegistro?: number;
   dataRegistro?: Moment;
   dataSolicitacao?: Moment;
-  uuid?: string;
+  idAcompanhamento?: number;
   status?: StatusSolicitacaoAnalise;
   naoConformidade?: INaoConformidade;
   analiseConsultoria?: IAnaliseConsultoria;
@@ -22,7 +22,7 @@ export class SolicitacaoAnalise implements ISolicitacaoAnalise {
     public idUsuarioRegistro?: number,
     public dataRegistro?: Moment,
     public dataSolicitacao?: Moment,
-    public uuid?: string,
+    public idAcompanhamento?: number,
     public status?: StatusSolicitacaoAnalise,
     public naoConformidade?: INaoConformidade,
     public analiseConsultoria?: IAnaliseConsultoria,

@@ -1,11 +1,11 @@
-id;tipo;titulo;descricao;prazo_conclusao;novo_prazo_conclusao;data_registro
-1;ACAO_PREVENTIVA;Georgia Investment Account synergistic;../fake-data/blob/hipster.txt;2020-02-27T16:00:48;2020-02-27T02:15:32;2020-02-26T17:31:05
-2;ACAO_CORRETIVA;Computers Home Loan Account;../fake-data/blob/hipster.txt;2020-02-27T16:10:51;2020-02-26T21:14:01;2020-02-27T06:09:14
-3;CORRECAO_PONTUAL;intuitive Ergonomic Concrete Gloves transmitting;../fake-data/blob/hipster.txt;2020-02-27T11:10:01;2020-02-26T23:47:56;2020-02-26T22:19:57
-4;ACAO_PREVENTIVA;AI Coordinator;../fake-data/blob/hipster.txt;2020-02-26T20:46:21;2020-02-27T13:07:17;2020-02-27T01:44:45
-5;CORRECAO_PONTUAL;SQL;../fake-data/blob/hipster.txt;2020-02-26T18:35:37;2020-02-26T17:06:29;2020-02-27T05:41:09
-6;ACAO_CORRETIVA;Ball Operations;../fake-data/blob/hipster.txt;2020-02-26T17:23:07;2020-02-27T12:08:46;2020-02-27T12:18:58
-7;ACAO_PREVENTIVA;Hawaii;../fake-data/blob/hipster.txt;2020-02-27T15:07:06;2020-02-27T11:24:39;2020-02-27T13:55:37
-8;ACAO_PREVENTIVA;functionalities;../fake-data/blob/hipster.txt;2020-02-26T19:04:31;2020-02-26T22:49:47;2020-02-27T01:16:15
-9;ACAO_PREVENTIVA;Crescent secondary Taiwan;../fake-data/blob/hipster.txt;2020-02-27T10:15:40;2020-02-27T04:08:10;2020-02-26T17:23:55
-10;CORRECAO_PONTUAL;reinvent application;../fake-data/blob/hipster.txt;2020-02-27T05:24:37;2020-02-27T00:03:51;2020-02-26T22:15:34
+id;tipo;titulo;descricao;prazo_conclusao;novo_prazo_conclusao;data_registro;data_conclusao;resultado;status_sgq
+1;ACAO_PREVENTIVA;Georgia Investment Account synergistic;../fake-data/blob/hipster.txt;2020-02-27T16:00:48;2020-02-27T02:15:32;2020-02-26T17:31:05;2020-02-27T11:51:05;../fake-data/blob/hipster.txt;CONCLUIDO
+2;ACAO_PREVENTIVA;Lilangeni Personal Loan Account cross-platform;../fake-data/blob/hipster.txt;2020-02-27T13:19:07;2020-02-27T15:54:13;2020-02-27T14:51:55;2020-02-27T10:27:13;../fake-data/blob/hipster.txt;PENDENTE
+3;ACAO_PREVENTIVA;AI Coordinator;../fake-data/blob/hipster.txt;2020-02-26T20:46:21;2020-02-27T13:07:17;2020-02-27T01:44:45;2020-02-27T11:22:15;../fake-data/blob/hipster.txt;PENDENTE
+4;ACAO_PREVENTIVA;Argentina Florida;../fake-data/blob/hipster.txt;2020-02-27T10:00:55;2020-02-26T17:49:20;2020-02-27T04:13:31;2020-02-26T17:23:07;../fake-data/blob/hipster.txt;REGISTRADO
+5;ACAO_PREVENTIVA;Hawaii;../fake-data/blob/hipster.txt;2020-02-27T15:07:06;2020-02-27T11:24:39;2020-02-27T13:55:37;2020-02-26T18:39:46;../fake-data/blob/hipster.txt;PENDENTE
+6;ACAO_PREVENTIVA;indexing Plastic;../fake-data/blob/hipster.txt;2020-02-26T21:18:35;2020-02-27T04:14:21;2020-02-26T19:55:29;2020-02-27T10:15:40;../fake-data/blob/hipster.txt;SUSPENSO
+7;ACAO_PREVENTIVA;application;../fake-data/blob/hipster.txt;2020-02-27T05:24:37;2020-02-27T00:03:51;2020-02-26T22:15:34;2020-02-27T09:41:50;../fake-data/blob/hipster.txt;SUSPENSO
+8;ACAO_PREVENTIVA;Fresh Baby;../fake-data/blob/hipster.txt;2020-02-27T03:12:06;2020-02-27T12:04:02;2020-02-27T15:11:01;2020-02-26T20:43:17;../fake-data/blob/hipster.txt;REGISTRADO
+9;ACAO_PREVENTIVA;SMS;../fake-data/blob/hipster.txt;2020-02-27T13:32:07;2020-02-27T01:04:52;2020-02-27T14:40:43;2020-02-27T11:46:20;../fake-data/blob/hipster.txt;REGISTRADO
+10;CORRECAO_PONTUAL;extranet;../fake-data/blob/hipster.txt;2020-02-27T15:22:14;2020-02-26T21:29:48;2020-02-27T03:51:25;2020-02-27T11:38:56;../fake-data/blob/hipster.txt;CANCELADO

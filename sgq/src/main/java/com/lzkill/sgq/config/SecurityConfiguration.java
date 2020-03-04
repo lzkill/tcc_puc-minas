@@ -53,7 +53,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         .and()
             .authorizeRequests()
 
-            // Let's expose something to a public page consumption
+            // Custom rules
             .antMatchers("/api/item-plano-auditorias").permitAll()
 
             .antMatchers("/api/authenticate").permitAll()

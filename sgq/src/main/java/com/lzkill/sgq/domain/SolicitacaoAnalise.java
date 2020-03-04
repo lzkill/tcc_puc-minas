@@ -44,12 +44,11 @@ public class SolicitacaoAnalise implements Serializable {
     private Instant dataSolicitacao;
 
     /**
-     * ID retornado pela consultoria para acompanhamento
+     * ID retornado pela consultoria para acompanhamento da solicitação
      */
-    
-    @ApiModelProperty(value = "ID retornado pela consultoria para acompanhamento")
-    @Column(name = "uuid", unique = true)
-    private String uuid;
+    @ApiModelProperty(value = "ID retornado pela consultoria para acompanhamento da solicitação")
+    @Column(name = "id_acompanhamento")
+    private Long idAcompanhamento;
 
     @NotNull
     @Enumerated(EnumType.STRING)
@@ -118,17 +117,17 @@ public class SolicitacaoAnalise implements Serializable {
         this.dataSolicitacao = dataSolicitacao;
     }
 
-    public String getUuid() {
-        return uuid;
+    public Long getIdAcompanhamento() {
+        return idAcompanhamento;
     }
 
-    public SolicitacaoAnalise uuid(String uuid) {
-        this.uuid = uuid;
+    public SolicitacaoAnalise idAcompanhamento(Long idAcompanhamento) {
+        this.idAcompanhamento = idAcompanhamento;
         return this;
     }
 
-    public void setUuid(String uuid) {
-        this.uuid = uuid;
+    public void setIdAcompanhamento(Long idAcompanhamento) {
+        this.idAcompanhamento = idAcompanhamento;
     }
 
     public StatusSolicitacaoAnalise getStatus() {
@@ -207,7 +206,7 @@ public class SolicitacaoAnalise implements Serializable {
             ", idUsuarioRegistro=" + getIdUsuarioRegistro() +
             ", dataRegistro='" + getDataRegistro() + "'" +
             ", dataSolicitacao='" + getDataSolicitacao() + "'" +
-            ", uuid='" + getUuid() + "'" +
+            ", idAcompanhamento=" + getIdAcompanhamento() +
             ", status='" + getStatus() + "'" +
             "}";
     }

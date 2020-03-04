@@ -45,11 +45,9 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="gatewayApp.sgqSolicitacaoAnalise.uuid" for="field_uuid" [ngbTooltip]="'gatewayApp.sgqSolicitacaoAnalise.help.uuid' | translate">Uuid</label>
-                    <input type="text" class="form-control" name="uuid" id="field_uuid"
-                           formControlName="uuid"/>
-                    <div *ngIf="editForm.get('uuid')!.invalid && (editForm.get('uuid')!.dirty || editForm.get('uuid')!.touched)">
-                    </div>
+                    <label class="form-control-label" jhiTranslate="gatewayApp.sgqSolicitacaoAnalise.idAcompanhamento" for="field_idAcompanhamento" [ngbTooltip]="'gatewayApp.sgqSolicitacaoAnalise.help.idAcompanhamento' | translate">Id Acompanhamento</label>
+                    <input type="number" class="form-control" name="idAcompanhamento" id="field_idAcompanhamento"
+                           formControlName="idAcompanhamento"/>
                 </div>
                 <div class="form-group">
                     <label class="form-control-label" jhiTranslate="gatewayApp.sgqSolicitacaoAnalise.status" for="field_status">Status</label>

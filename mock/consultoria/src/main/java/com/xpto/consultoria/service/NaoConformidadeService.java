@@ -50,6 +50,15 @@ public class NaoConformidadeService {
         return naoConformidadeRepository.findAll(pageable);
     }
 
+    /**
+     * Get all the naoConformidades with eager load of many-to-many relationships.
+     *
+     * @return the list of entities.
+     */
+    public Page<NaoConformidade> findAllWithEagerRelationships(Pageable pageable) {
+        return naoConformidadeRepository.findAllWithEagerRelationships(pageable);
+    }
+    
 
     /**
      * Get one naoConformidade by id.
@@ -60,7 +69,7 @@ public class NaoConformidadeService {
     @Transactional(readOnly = true)
     public Optional<NaoConformidade> findOne(Long id) {
         log.debug("Request to get NaoConformidade : {}", id);
-        return naoConformidadeRepository.findById(id);
+        return naoConformidadeRepository.findOneWithEagerRelationships(id);
     }
 
     /**

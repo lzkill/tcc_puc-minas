@@ -52,12 +52,17 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         .and()
             .authorizeRequests()
+
+            // Custom rules
+            .antMatchers("/api/**").permitAll()
+            .antMatchers("/management/**").permitAll()
+
             .antMatchers("/api/authenticate").permitAll()
-            .antMatchers("/api/**").authenticated()
+            //.antMatchers("/api/**").authenticated()
             .antMatchers("/management/health").permitAll()
             .antMatchers("/management/info").permitAll()
             .antMatchers("/management/prometheus").permitAll()
-            .antMatchers("/management/**").hasAuthority(AuthoritiesConstants.ADMIN)
+            //.antMatchers("/management/**").hasAuthority(AuthoritiesConstants.ADMIN)
         .and()
             .apply(securityConfigurerAdapter());
         // @formatter:on

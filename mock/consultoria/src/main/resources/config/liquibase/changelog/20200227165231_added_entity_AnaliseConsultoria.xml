@@ -19,7 +19,7 @@
             <column name="data_analise" type="datetime">
                 <constraints nullable="false" />
             </column>
-            <column name="descricao" type="${clobType}">
+            <column name="conteudo" type="${clobType}">
                 <constraints nullable="false" />
             </column>
             <column name="responsavel" type="varchar(100)">
@@ -35,6 +35,17 @@
 
     <changeSet id="20200227165231-1-relations" author="jhipster">
 
+        <createTable tableName="analise_consultoria_anexo">
+            <column name="anexo_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="analise_consultoria_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addPrimaryKey columnNames="analise_consultoria_id, anexo_id" tableName="analise_consultoria_anexo"/>
+        
     </changeSet>
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here, do not remove-->
 
@@ -53,7 +64,7 @@
                   tableName="analise_consultoria">
             <column name="id" type="numeric"/>
             <column name="data_analise" type="datetime"/>
-            <column name="descricao" type="clob"/>
+            <column name="conteudo" type="clob"/>
             <column name="responsavel" type="string"/>
             <column name="status" type="string"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here, do not remove-->
