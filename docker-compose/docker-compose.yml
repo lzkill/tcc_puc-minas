@@ -15,6 +15,8 @@ services:
       - '8080:8080'
   gateway-mariadb:
     image: 'mariadb:10.4.10'
+    volumes:
+      - ~/volumes/jhipster/gateway/mysql/:/var/lib/mysql/
     environment:
       - MYSQL_USER=root
       - MYSQL_ALLOW_EMPTY_PASSWORD=yes
@@ -36,6 +38,8 @@ services:
       - JHIPSTER_REGISTRY_PASSWORD=admin
   sgq-mariadb:
     image: 'mariadb:10.4.10'
+    volumes:
+      - ~/volumes/jhipster/sgq/mysql/:/var/lib/mysql/
     environment:
       - MYSQL_USER=root
       - MYSQL_ALLOW_EMPTY_PASSWORD=yes
@@ -82,3 +86,7 @@ services:
       service: jhipster-zipkin
     depends_on:
       - jhipster-elasticsearch
+  #jhipster-hazelcast-management-center:
+    #extends:
+      #file: hazelcast-management-center.yml
+      #service: jhipster-hazelcast-management-center
