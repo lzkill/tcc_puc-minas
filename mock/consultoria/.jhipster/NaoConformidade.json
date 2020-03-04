@@ -43,6 +43,24 @@
             "fieldValidateRules": [
                 "required"
             ]
+        },
+        {
+            "fieldName": "dataConclusao",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "analiseFinal",
+            "javadoc": "Análise de eficácia",
+            "fieldType": "byte[]",
+            "fieldTypeBlobContent": "text"
+        },
+        {
+            "fieldName": "statusSGQ",
+            "fieldType": "StatusSGQ",
+            "fieldValues": "REGISTRADO,PENDENTE,CONCLUIDO,SUSPENSO,CANCELADO",
+            "fieldValidateRules": [
+                "required"
+            ]
         }
     ],
     "relationships": [
@@ -51,6 +69,14 @@
             "otherEntityName": "acaoSGQ",
             "otherEntityRelationshipName": "naoConformidade",
             "relationshipName": "acaoSGQ"
+        },
+        {
+            "relationshipType": "many-to-many",
+            "otherEntityName": "anexo",
+            "otherEntityRelationshipName": "naoConformidade",
+            "relationshipName": "anexo",
+            "otherEntityField": "nomeArquivo",
+            "ownerSide": true
         }
     ],
     "changelogDate": "20200227165228",

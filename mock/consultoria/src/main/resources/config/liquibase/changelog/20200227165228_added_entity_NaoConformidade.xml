@@ -37,15 +37,36 @@
             <column name="data_registro" type="datetime">
                 <constraints nullable="false" />
             </column>
+            <column name="data_conclusao" type="datetime">
+                <constraints nullable="true" />
+            </column>
+            <column name="analise_final" type="${clobType}" remarks="Análise de eficácia">
+                <constraints nullable="true" />
+            </column>
+            <column name="status_sgq" type="varchar(255)">
+                <constraints nullable="false" />
+            </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
         </createTable>
         <dropDefaultValue tableName="nao_conformidade" columnName="prazo_conclusao" columnDataType="datetime"/>
         <dropDefaultValue tableName="nao_conformidade" columnName="novo_prazo_conclusao" columnDataType="datetime"/>
         <dropDefaultValue tableName="nao_conformidade" columnName="data_registro" columnDataType="datetime"/>
+        <dropDefaultValue tableName="nao_conformidade" columnName="data_conclusao" columnDataType="datetime"/>
     </changeSet>
 
     <changeSet id="20200227165228-1-relations" author="jhipster">
 
+        <createTable tableName="nao_conformidade_anexo">
+            <column name="anexo_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="nao_conformidade_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addPrimaryKey columnNames="nao_conformidade_id, anexo_id" tableName="nao_conformidade_anexo"/>
+        
     </changeSet>
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here, do not remove-->
 
@@ -70,6 +91,9 @@
             <column name="prazo_conclusao" type="datetime"/>
             <column name="novo_prazo_conclusao" type="datetime"/>
             <column name="data_registro" type="datetime"/>
+            <column name="data_conclusao" type="datetime"/>
+            <column name="analise_final" type="clob"/>
+            <column name="status_sgq" type="string"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here, do not remove-->
         </loadData>
     </changeSet>

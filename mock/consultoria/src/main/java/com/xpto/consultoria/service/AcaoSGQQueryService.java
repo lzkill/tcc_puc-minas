@@ -100,6 +100,16 @@ public class AcaoSGQQueryService extends QueryService<AcaoSGQ> {
             if (criteria.getDataRegistro() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getDataRegistro(), AcaoSGQ_.dataRegistro));
             }
+            if (criteria.getDataConclusao() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getDataConclusao(), AcaoSGQ_.dataConclusao));
+            }
+            if (criteria.getStatusSGQ() != null) {
+                specification = specification.and(buildSpecification(criteria.getStatusSGQ(), AcaoSGQ_.statusSGQ));
+            }
+            if (criteria.getAnexoId() != null) {
+                specification = specification.and(buildSpecification(criteria.getAnexoId(),
+                    root -> root.join(AcaoSGQ_.anexos, JoinType.LEFT).get(Anexo_.id)));
+            }
             if (criteria.getNaoConformidadeId() != null) {
                 specification = specification.and(buildSpecification(criteria.getNaoConformidadeId(),
                     root -> root.join(AcaoSGQ_.naoConformidade, JoinType.LEFT).get(NaoConformidade_.id)));

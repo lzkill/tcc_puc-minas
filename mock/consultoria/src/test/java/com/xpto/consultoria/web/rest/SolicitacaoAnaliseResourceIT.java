@@ -36,8 +36,6 @@ import com.xpto.consultoria.domain.NaoConformidade;
 import com.xpto.consultoria.domain.SolicitacaoAnalise;
 import com.xpto.consultoria.domain.enumeration.StatusSolicitacaoAnalise;
 import com.xpto.consultoria.repository.SolicitacaoAnaliseRepository;
-import com.xpto.consultoria.service.AcaoSGQService;
-import com.xpto.consultoria.service.NaoConformidadeService;
 import com.xpto.consultoria.service.SolicitacaoAnaliseQueryService;
 import com.xpto.consultoria.service.SolicitacaoAnaliseService;
 import com.xpto.consultoria.web.rest.errors.ExceptionTranslator;
@@ -47,10 +45,6 @@ import com.xpto.consultoria.web.rest.errors.ExceptionTranslator;
  */
 @SpringBootTest(classes = ConsultoriaApp.class)
 public class SolicitacaoAnaliseResourceIT {
-
-	private static final Integer DEFAULT_ID_USUARIO_REGISTRO = 1;
-	private static final Integer UPDATED_ID_USUARIO_REGISTRO = 2;
-	private static final Integer SMALLER_ID_USUARIO_REGISTRO = 1 - 1;
 
 	private static final Instant DEFAULT_DATA_REGISTRO = Instant.ofEpochMilli(0L);
 	private static final Instant UPDATED_DATA_REGISTRO = Instant.now().truncatedTo(ChronoUnit.MILLIS);
@@ -69,12 +63,6 @@ public class SolicitacaoAnaliseResourceIT {
 
 	@Autowired
 	private SolicitacaoAnaliseQueryService solicitacaoAnaliseQueryService;
-
-	@Autowired
-	private NaoConformidadeService naoConformidadeService;
-
-	@Autowired
-	private AcaoSGQService acaoService;
 
 	@Autowired
 	private MappingJackson2HttpMessageConverter jacksonMessageConverter;
@@ -99,7 +87,7 @@ public class SolicitacaoAnaliseResourceIT {
 	public void setup() {
 		MockitoAnnotations.initMocks(this);
 		final SolicitacaoAnaliseResource solicitacaoAnaliseResource = new SolicitacaoAnaliseResource(
-				solicitacaoAnaliseService, solicitacaoAnaliseQueryService, naoConformidadeService, acaoService);
+				solicitacaoAnaliseService, solicitacaoAnaliseQueryService, null, null, null);
 		this.restSolicitacaoAnaliseMockMvc = MockMvcBuilders.standaloneSetup(solicitacaoAnaliseResource)
 				.setCustomArgumentResolvers(pageableArgumentResolver).setControllerAdvice(exceptionTranslator)
 				.setConversionService(createFormattingConversionService()).setMessageConverters(jacksonMessageConverter)
@@ -113,8 +101,8 @@ public class SolicitacaoAnaliseResourceIT {
 	 * they test an entity which requires the current entity.
 	 */
 	public static SolicitacaoAnalise createEntity(EntityManager em) {
-		SolicitacaoAnalise solicitacaoAnalise = new SolicitacaoAnalise().idUsuarioRegistro(DEFAULT_ID_USUARIO_REGISTRO)
-				.dataRegistro(DEFAULT_DATA_REGISTRO).dataSolicitacao(DEFAULT_DATA_SOLICITACAO).status(DEFAULT_STATUS);
+		SolicitacaoAnalise solicitacaoAnalise = new SolicitacaoAnalise().dataRegistro(DEFAULT_DATA_REGISTRO)
+				.dataSolicitacao(DEFAULT_DATA_SOLICITACAO).status(DEFAULT_STATUS);
 		// Add required entity
 		NaoConformidade naoConformidade;
 		if (TestUtil.findAll(em, NaoConformidade.class).isEmpty()) {
@@ -135,8 +123,8 @@ public class SolicitacaoAnaliseResourceIT {
 	 * they test an entity which requires the current entity.
 	 */
 	public static SolicitacaoAnalise createUpdatedEntity(EntityManager em) {
-		SolicitacaoAnalise solicitacaoAnalise = new SolicitacaoAnalise().idUsuarioRegistro(UPDATED_ID_USUARIO_REGISTRO)
-				.dataRegistro(UPDATED_DATA_REGISTRO).dataSolicitacao(UPDATED_DATA_SOLICITACAO).status(UPDATED_STATUS);
+		SolicitacaoAnalise solicitacaoAnalise = new SolicitacaoAnalise().dataRegistro(UPDATED_DATA_REGISTRO)
+				.dataSolicitacao(UPDATED_DATA_SOLICITACAO).status(UPDATED_STATUS);
 		// Add required entity
 		NaoConformidade naoConformidade;
 		if (TestUtil.findAll(em, NaoConformidade.class).isEmpty()) {
@@ -170,7 +158,6 @@ public class SolicitacaoAnaliseResourceIT {
 		List<SolicitacaoAnalise> solicitacaoAnaliseList = solicitacaoAnaliseRepository.findAll();
 		assertThat(solicitacaoAnaliseList).hasSize(databaseSizeBeforeCreate + 1);
 		SolicitacaoAnalise testSolicitacaoAnalise = solicitacaoAnaliseList.get(solicitacaoAnaliseList.size() - 1);
-		assertThat(testSolicitacaoAnalise.getIdUsuarioRegistro()).isEqualTo(DEFAULT_ID_USUARIO_REGISTRO);
 		assertThat(testSolicitacaoAnalise.getDataRegistro()).isEqualTo(DEFAULT_DATA_REGISTRO);
 		assertThat(testSolicitacaoAnalise.getDataSolicitacao()).isEqualTo(DEFAULT_DATA_SOLICITACAO);
 		assertThat(testSolicitacaoAnalise.getStatus()).isEqualTo(DEFAULT_STATUS);
@@ -193,24 +180,6 @@ public class SolicitacaoAnaliseResourceIT {
 		// Validate the SolicitacaoAnalise in the database
 		List<SolicitacaoAnalise> solicitacaoAnaliseList = solicitacaoAnaliseRepository.findAll();
 		assertThat(solicitacaoAnaliseList).hasSize(databaseSizeBeforeCreate);
-	}
-
-	@Test
-	@Transactional
-	public void checkIdUsuarioRegistroIsRequired() throws Exception {
-		int databaseSizeBeforeTest = solicitacaoAnaliseRepository.findAll().size();
-		// set the field null
-		solicitacaoAnalise.setIdUsuarioRegistro(null);
-
-		// Create the SolicitacaoAnalise, which fails.
-
-		restSolicitacaoAnaliseMockMvc
-				.perform(post("/api/solicitacao-analises").contentType(TestUtil.APPLICATION_JSON_UTF8)
-						.content(TestUtil.convertObjectToJsonBytes(solicitacaoAnalise)))
-				.andExpect(status().isBadRequest());
-
-		List<SolicitacaoAnalise> solicitacaoAnaliseList = solicitacaoAnaliseRepository.findAll();
-		assertThat(solicitacaoAnaliseList).hasSize(databaseSizeBeforeTest);
 	}
 
 	@Test
@@ -259,7 +228,6 @@ public class SolicitacaoAnaliseResourceIT {
 		restSolicitacaoAnaliseMockMvc.perform(get("/api/solicitacao-analises?sort=id,desc")).andExpect(status().isOk())
 				.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
 				.andExpect(jsonPath("$.[*].id").value(hasItem(solicitacaoAnalise.getId().intValue())))
-				.andExpect(jsonPath("$.[*].idUsuarioRegistro").value(hasItem(DEFAULT_ID_USUARIO_REGISTRO)))
 				.andExpect(jsonPath("$.[*].dataRegistro").value(hasItem(DEFAULT_DATA_REGISTRO.toString())))
 				.andExpect(jsonPath("$.[*].dataSolicitacao").value(hasItem(DEFAULT_DATA_SOLICITACAO.toString())))
 				.andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())));
@@ -275,7 +243,6 @@ public class SolicitacaoAnaliseResourceIT {
 		restSolicitacaoAnaliseMockMvc.perform(get("/api/solicitacao-analises/{id}", solicitacaoAnalise.getId()))
 				.andExpect(status().isOk()).andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
 				.andExpect(jsonPath("$.id").value(solicitacaoAnalise.getId().intValue()))
-				.andExpect(jsonPath("$.idUsuarioRegistro").value(DEFAULT_ID_USUARIO_REGISTRO))
 				.andExpect(jsonPath("$.dataRegistro").value(DEFAULT_DATA_REGISTRO.toString()))
 				.andExpect(jsonPath("$.dataSolicitacao").value(DEFAULT_DATA_SOLICITACAO.toString()))
 				.andExpect(jsonPath("$.status").value(DEFAULT_STATUS.toString()));
@@ -297,126 +264,6 @@ public class SolicitacaoAnaliseResourceIT {
 
 		defaultSolicitacaoAnaliseShouldBeFound("id.lessThanOrEqual=" + id);
 		defaultSolicitacaoAnaliseShouldNotBeFound("id.lessThan=" + id);
-	}
-
-	@Test
-	@Transactional
-	public void getAllSolicitacaoAnalisesByIdUsuarioRegistroIsEqualToSomething() throws Exception {
-		// Initialize the database
-		solicitacaoAnaliseRepository.saveAndFlush(solicitacaoAnalise);
-
-		// Get all the solicitacaoAnaliseList where idUsuarioRegistro equals to
-		// DEFAULT_ID_USUARIO_REGISTRO
-		defaultSolicitacaoAnaliseShouldBeFound("idUsuarioRegistro.equals=" + DEFAULT_ID_USUARIO_REGISTRO);
-
-		// Get all the solicitacaoAnaliseList where idUsuarioRegistro equals to
-		// UPDATED_ID_USUARIO_REGISTRO
-		defaultSolicitacaoAnaliseShouldNotBeFound("idUsuarioRegistro.equals=" + UPDATED_ID_USUARIO_REGISTRO);
-	}
-
-	@Test
-	@Transactional
-	public void getAllSolicitacaoAnalisesByIdUsuarioRegistroIsNotEqualToSomething() throws Exception {
-		// Initialize the database
-		solicitacaoAnaliseRepository.saveAndFlush(solicitacaoAnalise);
-
-		// Get all the solicitacaoAnaliseList where idUsuarioRegistro not equals to
-		// DEFAULT_ID_USUARIO_REGISTRO
-		defaultSolicitacaoAnaliseShouldNotBeFound("idUsuarioRegistro.notEquals=" + DEFAULT_ID_USUARIO_REGISTRO);
-
-		// Get all the solicitacaoAnaliseList where idUsuarioRegistro not equals to
-		// UPDATED_ID_USUARIO_REGISTRO
-		defaultSolicitacaoAnaliseShouldBeFound("idUsuarioRegistro.notEquals=" + UPDATED_ID_USUARIO_REGISTRO);
-	}
-
-	@Test
-	@Transactional
-	public void getAllSolicitacaoAnalisesByIdUsuarioRegistroIsInShouldWork() throws Exception {
-		// Initialize the database
-		solicitacaoAnaliseRepository.saveAndFlush(solicitacaoAnalise);
-
-		// Get all the solicitacaoAnaliseList where idUsuarioRegistro in
-		// DEFAULT_ID_USUARIO_REGISTRO or UPDATED_ID_USUARIO_REGISTRO
-		defaultSolicitacaoAnaliseShouldBeFound(
-				"idUsuarioRegistro.in=" + DEFAULT_ID_USUARIO_REGISTRO + "," + UPDATED_ID_USUARIO_REGISTRO);
-
-		// Get all the solicitacaoAnaliseList where idUsuarioRegistro equals to
-		// UPDATED_ID_USUARIO_REGISTRO
-		defaultSolicitacaoAnaliseShouldNotBeFound("idUsuarioRegistro.in=" + UPDATED_ID_USUARIO_REGISTRO);
-	}
-
-	@Test
-	@Transactional
-	public void getAllSolicitacaoAnalisesByIdUsuarioRegistroIsNullOrNotNull() throws Exception {
-		// Initialize the database
-		solicitacaoAnaliseRepository.saveAndFlush(solicitacaoAnalise);
-
-		// Get all the solicitacaoAnaliseList where idUsuarioRegistro is not null
-		defaultSolicitacaoAnaliseShouldBeFound("idUsuarioRegistro.specified=true");
-
-		// Get all the solicitacaoAnaliseList where idUsuarioRegistro is null
-		defaultSolicitacaoAnaliseShouldNotBeFound("idUsuarioRegistro.specified=false");
-	}
-
-	@Test
-	@Transactional
-	public void getAllSolicitacaoAnalisesByIdUsuarioRegistroIsGreaterThanOrEqualToSomething() throws Exception {
-		// Initialize the database
-		solicitacaoAnaliseRepository.saveAndFlush(solicitacaoAnalise);
-
-		// Get all the solicitacaoAnaliseList where idUsuarioRegistro is greater than or
-		// equal to DEFAULT_ID_USUARIO_REGISTRO
-		defaultSolicitacaoAnaliseShouldBeFound("idUsuarioRegistro.greaterThanOrEqual=" + DEFAULT_ID_USUARIO_REGISTRO);
-
-		// Get all the solicitacaoAnaliseList where idUsuarioRegistro is greater than or
-		// equal to UPDATED_ID_USUARIO_REGISTRO
-		defaultSolicitacaoAnaliseShouldNotBeFound(
-				"idUsuarioRegistro.greaterThanOrEqual=" + UPDATED_ID_USUARIO_REGISTRO);
-	}
-
-	@Test
-	@Transactional
-	public void getAllSolicitacaoAnalisesByIdUsuarioRegistroIsLessThanOrEqualToSomething() throws Exception {
-		// Initialize the database
-		solicitacaoAnaliseRepository.saveAndFlush(solicitacaoAnalise);
-
-		// Get all the solicitacaoAnaliseList where idUsuarioRegistro is less than or
-		// equal to DEFAULT_ID_USUARIO_REGISTRO
-		defaultSolicitacaoAnaliseShouldBeFound("idUsuarioRegistro.lessThanOrEqual=" + DEFAULT_ID_USUARIO_REGISTRO);
-
-		// Get all the solicitacaoAnaliseList where idUsuarioRegistro is less than or
-		// equal to SMALLER_ID_USUARIO_REGISTRO
-		defaultSolicitacaoAnaliseShouldNotBeFound("idUsuarioRegistro.lessThanOrEqual=" + SMALLER_ID_USUARIO_REGISTRO);
-	}
-
-	@Test
-	@Transactional
-	public void getAllSolicitacaoAnalisesByIdUsuarioRegistroIsLessThanSomething() throws Exception {
-		// Initialize the database
-		solicitacaoAnaliseRepository.saveAndFlush(solicitacaoAnalise);
-
-		// Get all the solicitacaoAnaliseList where idUsuarioRegistro is less than
-		// DEFAULT_ID_USUARIO_REGISTRO
-		defaultSolicitacaoAnaliseShouldNotBeFound("idUsuarioRegistro.lessThan=" + DEFAULT_ID_USUARIO_REGISTRO);
-
-		// Get all the solicitacaoAnaliseList where idUsuarioRegistro is less than
-		// UPDATED_ID_USUARIO_REGISTRO
-		defaultSolicitacaoAnaliseShouldBeFound("idUsuarioRegistro.lessThan=" + UPDATED_ID_USUARIO_REGISTRO);
-	}
-
-	@Test
-	@Transactional
-	public void getAllSolicitacaoAnalisesByIdUsuarioRegistroIsGreaterThanSomething() throws Exception {
-		// Initialize the database
-		solicitacaoAnaliseRepository.saveAndFlush(solicitacaoAnalise);
-
-		// Get all the solicitacaoAnaliseList where idUsuarioRegistro is greater than
-		// DEFAULT_ID_USUARIO_REGISTRO
-		defaultSolicitacaoAnaliseShouldNotBeFound("idUsuarioRegistro.greaterThan=" + DEFAULT_ID_USUARIO_REGISTRO);
-
-		// Get all the solicitacaoAnaliseList where idUsuarioRegistro is greater than
-		// SMALLER_ID_USUARIO_REGISTRO
-		defaultSolicitacaoAnaliseShouldBeFound("idUsuarioRegistro.greaterThan=" + SMALLER_ID_USUARIO_REGISTRO);
 	}
 
 	@Test
@@ -635,7 +482,6 @@ public class SolicitacaoAnaliseResourceIT {
 		restSolicitacaoAnaliseMockMvc.perform(get("/api/solicitacao-analises?sort=id,desc&" + filter))
 				.andExpect(status().isOk()).andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
 				.andExpect(jsonPath("$.[*].id").value(hasItem(solicitacaoAnalise.getId().intValue())))
-				.andExpect(jsonPath("$.[*].idUsuarioRegistro").value(hasItem(DEFAULT_ID_USUARIO_REGISTRO)))
 				.andExpect(jsonPath("$.[*].dataRegistro").value(hasItem(DEFAULT_DATA_REGISTRO.toString())))
 				.andExpect(jsonPath("$.[*].dataSolicitacao").value(hasItem(DEFAULT_DATA_SOLICITACAO.toString())))
 				.andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())));
@@ -682,8 +528,8 @@ public class SolicitacaoAnaliseResourceIT {
 		// Disconnect from session so that the updates on updatedSolicitacaoAnalise are
 		// not directly saved in db
 		em.detach(updatedSolicitacaoAnalise);
-		updatedSolicitacaoAnalise.idUsuarioRegistro(UPDATED_ID_USUARIO_REGISTRO).dataRegistro(UPDATED_DATA_REGISTRO)
-				.dataSolicitacao(UPDATED_DATA_SOLICITACAO).status(UPDATED_STATUS);
+		updatedSolicitacaoAnalise.dataRegistro(UPDATED_DATA_REGISTRO).dataSolicitacao(UPDATED_DATA_SOLICITACAO)
+				.status(UPDATED_STATUS);
 
 		restSolicitacaoAnaliseMockMvc
 				.perform(put("/api/solicitacao-analises").contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -694,7 +540,6 @@ public class SolicitacaoAnaliseResourceIT {
 		List<SolicitacaoAnalise> solicitacaoAnaliseList = solicitacaoAnaliseRepository.findAll();
 		assertThat(solicitacaoAnaliseList).hasSize(databaseSizeBeforeUpdate);
 		SolicitacaoAnalise testSolicitacaoAnalise = solicitacaoAnaliseList.get(solicitacaoAnaliseList.size() - 1);
-		assertThat(testSolicitacaoAnalise.getIdUsuarioRegistro()).isEqualTo(UPDATED_ID_USUARIO_REGISTRO);
 		assertThat(testSolicitacaoAnalise.getDataRegistro()).isEqualTo(UPDATED_DATA_REGISTRO);
 		assertThat(testSolicitacaoAnalise.getDataSolicitacao()).isEqualTo(UPDATED_DATA_SOLICITACAO);
 		assertThat(testSolicitacaoAnalise.getStatus()).isEqualTo(UPDATED_STATUS);

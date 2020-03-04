@@ -52,6 +52,8 @@ public class AnaliseConsultoriaCriteria implements Serializable, Criteria {
 
     private StatusAprovacaoFilter status;
 
+    private LongFilter anexoId;
+
     private LongFilter solicitacaoAnaliseId;
 
     public AnaliseConsultoriaCriteria(){
@@ -62,6 +64,7 @@ public class AnaliseConsultoriaCriteria implements Serializable, Criteria {
         this.dataAnalise = other.dataAnalise == null ? null : other.dataAnalise.copy();
         this.responsavel = other.responsavel == null ? null : other.responsavel.copy();
         this.status = other.status == null ? null : other.status.copy();
+        this.anexoId = other.anexoId == null ? null : other.anexoId.copy();
         this.solicitacaoAnaliseId = other.solicitacaoAnaliseId == null ? null : other.solicitacaoAnaliseId.copy();
     }
 
@@ -102,6 +105,14 @@ public class AnaliseConsultoriaCriteria implements Serializable, Criteria {
         this.status = status;
     }
 
+    public LongFilter getAnexoId() {
+        return anexoId;
+    }
+
+    public void setAnexoId(LongFilter anexoId) {
+        this.anexoId = anexoId;
+    }
+
     public LongFilter getSolicitacaoAnaliseId() {
         return solicitacaoAnaliseId;
     }
@@ -125,6 +136,7 @@ public class AnaliseConsultoriaCriteria implements Serializable, Criteria {
             Objects.equals(dataAnalise, that.dataAnalise) &&
             Objects.equals(responsavel, that.responsavel) &&
             Objects.equals(status, that.status) &&
+            Objects.equals(anexoId, that.anexoId) &&
             Objects.equals(solicitacaoAnaliseId, that.solicitacaoAnaliseId);
     }
 
@@ -135,6 +147,7 @@ public class AnaliseConsultoriaCriteria implements Serializable, Criteria {
         dataAnalise,
         responsavel,
         status,
+        anexoId,
         solicitacaoAnaliseId
         );
     }
@@ -146,6 +159,7 @@ public class AnaliseConsultoriaCriteria implements Serializable, Criteria {
                 (dataAnalise != null ? "dataAnalise=" + dataAnalise + ", " : "") +
                 (responsavel != null ? "responsavel=" + responsavel + ", " : "") +
                 (status != null ? "status=" + status + ", " : "") +
+                (anexoId != null ? "anexoId=" + anexoId + ", " : "") +
                 (solicitacaoAnaliseId != null ? "solicitacaoAnaliseId=" + solicitacaoAnaliseId + ", " : "") +
             "}";
     }

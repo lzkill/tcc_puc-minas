@@ -6,6 +6,8 @@ import javax.validation.constraints.*;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.HashSet;
+import java.util.Set;
 
 import com.xpto.consultoria.domain.enumeration.StatusAprovacao;
 
@@ -40,6 +42,12 @@ public class AnaliseConsultoria implements Serializable {
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
     private StatusAprovacao status;
+
+    @ManyToMany
+    @JoinTable(name = "analise_consultoria_anexo",
+               joinColumns = @JoinColumn(name = "analise_consultoria_id", referencedColumnName = "id"),
+               inverseJoinColumns = @JoinColumn(name = "anexo_id", referencedColumnName = "id"))
+    private Set<Anexo> anexos = new HashSet<>();
 
     @OneToOne(mappedBy = "analiseConsultoria")
     @JsonIgnore
@@ -104,6 +112,31 @@ public class AnaliseConsultoria implements Serializable {
 
     public void setStatus(StatusAprovacao status) {
         this.status = status;
+    }
+
+    public Set<Anexo> getAnexos() {
+        return anexos;
+    }
+
+    public AnaliseConsultoria anexos(Set<Anexo> anexos) {
+        this.anexos = anexos;
+        return this;
+    }
+
+    public AnaliseConsultoria addAnexo(Anexo anexo) {
+        this.anexos.add(anexo);
+        anexo.getAnaliseConsultorias().add(this);
+        return this;
+    }
+
+    public AnaliseConsultoria removeAnexo(Anexo anexo) {
+        this.anexos.remove(anexo);
+        anexo.getAnaliseConsultorias().remove(this);
+        return this;
+    }
+
+    public void setAnexos(Set<Anexo> anexos) {
+        this.anexos = anexos;
     }
 
     public SolicitacaoAnalise getSolicitacaoAnalise() {

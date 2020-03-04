@@ -1,5 +1,6 @@
 package com.lzkill.sgq.cron;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -8,10 +9,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.web.client.RestTemplate;
 
 import com.lzkill.sgq.domain.AcaoSGQ;
 import com.lzkill.sgq.domain.AnaliseConsultoria;
+import com.lzkill.sgq.domain.Anexo;
 import com.lzkill.sgq.domain.Consultoria;
 import com.lzkill.sgq.domain.NaoConformidade;
 import com.lzkill.sgq.domain.SolicitacaoAnalise;
@@ -55,11 +58,15 @@ public class ConsultoriaIntegration {
 		Consultoria consultoria = solicitacaoAnaliseSGQ.getConsultoria();
 		SolicitacaoAnalise solicitacaoAnaliseConsultoria = null;
 		if (consultoria.isHabilitado()) {
-			SolicitacaoAnalise deepClone = deepCloneIgnoringIds(solicitacaoAnaliseSGQ);
+			SolicitacaoAnalise clone = cloneSolicitacaoAnalise(solicitacaoAnaliseSGQ);
 
 			String requestUrl = consultoria.getUrlIntegracao() + "/api/solicitacao-analises/";
-			HttpEntity<SolicitacaoAnalise> request = new HttpEntity<>(deepClone);
+			HttpEntity<SolicitacaoAnalise> request = new HttpEntity<>(clone);
 			RestTemplate restTemplate = new RestTemplate();
+
+			List<ClientHttpRequestInterceptor> interceptors = new ArrayList<>();
+			interceptors.add(new LoggingRequestInterceptor());
+			restTemplate.setInterceptors(interceptors);
 
 			solicitacaoAnaliseConsultoria = restTemplate.postForObject(requestUrl, request, SolicitacaoAnalise.class);
 		}
@@ -67,39 +74,84 @@ public class ConsultoriaIntegration {
 		return solicitacaoAnaliseConsultoria;
 	}
 
-	private SolicitacaoAnalise deepCloneIgnoringIds(SolicitacaoAnalise source) {
+	private SolicitacaoAnalise cloneSolicitacaoAnalise(SolicitacaoAnalise source) {
 		SolicitacaoAnalise solicitacaoAnalise = new SolicitacaoAnalise();
-
-		solicitacaoAnalise.setIdUsuarioRegistro(source.getIdUsuarioRegistro());
 		solicitacaoAnalise.setDataRegistro(source.getDataRegistro());
 		solicitacaoAnalise.setDataSolicitacao(source.getDataSolicitacao());
 		solicitacaoAnalise.setStatus(source.getStatus());
 
-		NaoConformidade naoConformidade = new NaoConformidade();
-		naoConformidade.setTitulo(source.getNaoConformidade().getTitulo());
-		naoConformidade.setDescricao(source.getNaoConformidade().getDescricao());
-		naoConformidade.setProcedente(source.getNaoConformidade().isProcedente());
-		naoConformidade.setCausa(source.getNaoConformidade().getCausa());
-		naoConformidade.setPrazoConclusao(source.getNaoConformidade().getPrazoConclusao());
-		naoConformidade.setNovoPrazoConclusao(source.getNaoConformidade().getNovoPrazoConclusao());
-		naoConformidade.setDataRegistro(source.getNaoConformidade().getDataRegistro());
-
-		Set<AcaoSGQ> acoes = new HashSet<>();
-		source.getNaoConformidade().getAcaoSGQS().forEach(a -> {
-			AcaoSGQ acao = new AcaoSGQ();
-			acao.setTipo(a.getTipo());
-			acao.setTitulo(a.getTitulo());
-			acao.setDescricao(a.getDescricao());
-			acao.setPrazoConclusao(a.getPrazoConclusao());
-			acao.setNovoPrazoConclusao(a.getNovoPrazoConclusao());
-			acao.setDataRegistro(a.getDataRegistro());
-			acoes.add(acao);
-		});
-
-		naoConformidade.setAcaoSGQS(acoes);
+		NaoConformidade naoConformidade = cloneNaoConformidade(source.getNaoConformidade());
 		solicitacaoAnalise.setNaoConformidade(naoConformidade);
 
 		return solicitacaoAnalise;
+	}
+
+	private NaoConformidade cloneNaoConformidade(NaoConformidade source) {
+		NaoConformidade naoConformidade = new NaoConformidade();
+		naoConformidade.setTitulo(source.getTitulo());
+		naoConformidade.setDescricao(source.getDescricao());
+		naoConformidade.setProcedente(source.isProcedente());
+		naoConformidade.setCausa(source.getCausa());
+		naoConformidade.setPrazoConclusao(source.getPrazoConclusao());
+		naoConformidade.setNovoPrazoConclusao(source.getNovoPrazoConclusao());
+		naoConformidade.setDataRegistro(source.getDataRegistro());
+		naoConformidade.setDataRegistro(source.getDataRegistro());
+		naoConformidade.setDataConclusao(source.getDataConclusao());
+		naoConformidade.setAnaliseFinal(source.getAnaliseFinal());
+		naoConformidade.setStatusSGQ(source.getStatusSGQ());
+
+		Set<Anexo> anexos = cloneAnexos(source.getAnexos());
+		naoConformidade.setAnexos(anexos);
+
+		Set<AcaoSGQ> acoes = cloneAcoesSGQ(source.getAcaoSGQS());
+		naoConformidade.setAcaoSGQS(acoes);
+
+		return naoConformidade;
+	}
+
+	private Set<Anexo> cloneAnexos(Set<Anexo> source) {
+		HashSet<Anexo> anexos = new HashSet<>();
+		source.forEach(a -> {
+			Anexo anexo = cloneAnexo(a);
+			anexos.add(anexo);
+		});
+		return anexos;
+	}
+
+	private Anexo cloneAnexo(Anexo source) {
+		Anexo anexo = new Anexo();
+		anexo.setNomeArquivo(source.getNomeArquivo());
+		anexo.setConteudo(source.getConteudo());
+		anexo.conteudoContentType(source.getConteudoContentType());
+		return anexo;
+	}
+
+	private Set<AcaoSGQ> cloneAcoesSGQ(Set<AcaoSGQ> source) {
+		Set<AcaoSGQ> acoes = new HashSet<>();
+		source.forEach(a -> {
+			AcaoSGQ acao = cloneAcaoSGQ(a);
+			acoes.add(acao);
+		});
+
+		return acoes;
+	}
+
+	private AcaoSGQ cloneAcaoSGQ(AcaoSGQ source) {
+		AcaoSGQ acao = new AcaoSGQ();
+		acao.setTipo(source.getTipo());
+		acao.setTitulo(source.getTitulo());
+		acao.setDescricao(source.getDescricao());
+		acao.setPrazoConclusao(source.getPrazoConclusao());
+		acao.setNovoPrazoConclusao(source.getNovoPrazoConclusao());
+		acao.setDataRegistro(source.getDataRegistro());
+		acao.setDataConclusao(source.getDataConclusao());
+		acao.setResultado(source.getResultado());
+		acao.setStatusSGQ(source.getStatusSGQ());
+
+		Set<Anexo> anexosAcaoSGQ = cloneAnexos(source.getAnexos());
+		acao.setAnexos(anexosAcaoSGQ);
+
+		return acao;
 	}
 
 	private void querySolicitacoesWithStatusPendente() {

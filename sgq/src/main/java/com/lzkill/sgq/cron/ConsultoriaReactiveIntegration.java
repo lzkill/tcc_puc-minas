@@ -3,6 +3,7 @@ package com.lzkill.sgq.cron;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,11 +15,13 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 import com.lzkill.sgq.domain.AcaoSGQ;
 import com.lzkill.sgq.domain.AnaliseConsultoria;
+import com.lzkill.sgq.domain.Anexo;
 import com.lzkill.sgq.domain.Consultoria;
 import com.lzkill.sgq.domain.NaoConformidade;
 import com.lzkill.sgq.domain.SolicitacaoAnalise;
 import com.lzkill.sgq.domain.enumeration.StatusSolicitacaoAnalise;
 import com.lzkill.sgq.repository.AnaliseConsultoriaRepository;
+import com.lzkill.sgq.repository.AnexoRepository;
 import com.lzkill.sgq.repository.SolicitacaoAnaliseRepository;
 
 import reactor.core.publisher.Flux;
@@ -31,12 +34,14 @@ public class ConsultoriaReactiveIntegration {
 
 	private final SolicitacaoAnaliseRepository solicitacaoAnaliseRepository;
 	private final AnaliseConsultoriaRepository analiseConsultoriaRepository;
+	private final AnexoRepository anexoRepository;
 
 	@Autowired
 	public ConsultoriaReactiveIntegration(SolicitacaoAnaliseRepository solicitacaoAnaliseRepository,
-			AnaliseConsultoriaRepository analiseConsultoriaRepository) {
+			AnaliseConsultoriaRepository analiseConsultoriaRepository, AnexoRepository anexoRepository) {
 		this.solicitacaoAnaliseRepository = solicitacaoAnaliseRepository;
 		this.analiseConsultoriaRepository = analiseConsultoriaRepository;
+		this.anexoRepository = anexoRepository;
 	}
 
 	@Scheduled(cron = "${application.cron.sync-solicitacao-analise}")
@@ -57,10 +62,10 @@ public class ConsultoriaReactiveIntegration {
 		Consultoria consultoria = solicitacaoAnaliseSGQ.getConsultoria();
 		Mono<SolicitacaoAnalise> mono = Mono.empty();
 		if (consultoria.isHabilitado()) {
-			SolicitacaoAnalise deepClone = deepCloneIgnoringIds(solicitacaoAnaliseSGQ);
+			SolicitacaoAnalise clone = cloneSolicitacaoAnalise(solicitacaoAnaliseSGQ);
 			String requestUrl = consultoria.getUrlIntegracao() + "/api/solicitacao-analises/";
 
-			mono = WebClient.create(requestUrl).post().body(BodyInserters.fromObject(deepClone)).retrieve()
+			mono = WebClient.create(requestUrl).post().body(BodyInserters.fromObject(clone)).retrieve()
 					.bodyToMono(SolicitacaoAnalise.class)
 					.doOnSuccess(solicitacaoAnaliseConsultoria -> updateSolicitacaoAnaliseSGQ(solicitacaoAnaliseSGQ,
 							solicitacaoAnaliseConsultoria))
@@ -73,39 +78,84 @@ public class ConsultoriaReactiveIntegration {
 		return mono;
 	}
 
-	private SolicitacaoAnalise deepCloneIgnoringIds(SolicitacaoAnalise source) {
+	private SolicitacaoAnalise cloneSolicitacaoAnalise(SolicitacaoAnalise source) {
 		SolicitacaoAnalise solicitacaoAnalise = new SolicitacaoAnalise();
-
-		solicitacaoAnalise.setIdUsuarioRegistro(source.getIdUsuarioRegistro());
 		solicitacaoAnalise.setDataRegistro(source.getDataRegistro());
 		solicitacaoAnalise.setDataSolicitacao(source.getDataSolicitacao());
 		solicitacaoAnalise.setStatus(source.getStatus());
 
-		NaoConformidade naoConformidade = new NaoConformidade();
-		naoConformidade.setTitulo(source.getNaoConformidade().getTitulo());
-		naoConformidade.setDescricao(source.getNaoConformidade().getDescricao());
-		naoConformidade.setProcedente(source.getNaoConformidade().isProcedente());
-		naoConformidade.setCausa(source.getNaoConformidade().getCausa());
-		naoConformidade.setPrazoConclusao(source.getNaoConformidade().getPrazoConclusao());
-		naoConformidade.setNovoPrazoConclusao(source.getNaoConformidade().getNovoPrazoConclusao());
-		naoConformidade.setDataRegistro(source.getNaoConformidade().getDataRegistro());
-
-		Set<AcaoSGQ> acoes = new HashSet<>();
-		source.getNaoConformidade().getAcaoSGQS().forEach(a -> {
-			AcaoSGQ acao = new AcaoSGQ();
-			acao.setTipo(a.getTipo());
-			acao.setTitulo(a.getTitulo());
-			acao.setDescricao(a.getDescricao());
-			acao.setPrazoConclusao(a.getPrazoConclusao());
-			acao.setNovoPrazoConclusao(a.getNovoPrazoConclusao());
-			acao.setDataRegistro(a.getDataRegistro());
-			acoes.add(acao);
-		});
-
-		naoConformidade.setAcaoSGQS(acoes);
+		NaoConformidade naoConformidade = cloneNaoConformidade(source.getNaoConformidade());
 		solicitacaoAnalise.setNaoConformidade(naoConformidade);
 
 		return solicitacaoAnalise;
+	}
+
+	private NaoConformidade cloneNaoConformidade(NaoConformidade source) {
+		NaoConformidade naoConformidade = new NaoConformidade();
+		naoConformidade.setTitulo(source.getTitulo());
+		naoConformidade.setDescricao(source.getDescricao());
+		naoConformidade.setProcedente(source.isProcedente());
+		naoConformidade.setCausa(source.getCausa());
+		naoConformidade.setPrazoConclusao(source.getPrazoConclusao());
+		naoConformidade.setNovoPrazoConclusao(source.getNovoPrazoConclusao());
+		naoConformidade.setDataRegistro(source.getDataRegistro());
+		naoConformidade.setDataRegistro(source.getDataRegistro());
+		naoConformidade.setDataConclusao(source.getDataConclusao());
+		naoConformidade.setAnaliseFinal(source.getAnaliseFinal());
+		naoConformidade.setStatusSGQ(source.getStatusSGQ());
+
+		Set<Anexo> anexos = cloneAnexos(source.getAnexos());
+		naoConformidade.setAnexos(anexos);
+
+		Set<AcaoSGQ> acoes = cloneAcoesSGQ(source.getAcaoSGQS());
+		naoConformidade.setAcaoSGQS(acoes);
+
+		return naoConformidade;
+	}
+
+	private Set<Anexo> cloneAnexos(Set<Anexo> source) {
+		HashSet<Anexo> anexos = new HashSet<>();
+		source.forEach(a -> {
+			Anexo anexo = cloneAnexo(a);
+			anexos.add(anexo);
+		});
+		return anexos;
+	}
+
+	private Anexo cloneAnexo(Anexo source) {
+		Anexo anexo = new Anexo();
+		anexo.setNomeArquivo(source.getNomeArquivo());
+		anexo.setConteudo(source.getConteudo());
+		anexo.conteudoContentType(source.getConteudoContentType());
+		return anexo;
+	}
+
+	private Set<AcaoSGQ> cloneAcoesSGQ(Set<AcaoSGQ> source) {
+		Set<AcaoSGQ> acoes = new HashSet<>();
+		source.forEach(a -> {
+			AcaoSGQ acao = cloneAcaoSGQ(a);
+			acoes.add(acao);
+		});
+
+		return acoes;
+	}
+
+	private AcaoSGQ cloneAcaoSGQ(AcaoSGQ source) {
+		AcaoSGQ acao = new AcaoSGQ();
+		acao.setTipo(source.getTipo());
+		acao.setTitulo(source.getTitulo());
+		acao.setDescricao(source.getDescricao());
+		acao.setPrazoConclusao(source.getPrazoConclusao());
+		acao.setNovoPrazoConclusao(source.getNovoPrazoConclusao());
+		acao.setDataRegistro(source.getDataRegistro());
+		acao.setDataConclusao(source.getDataConclusao());
+		acao.setResultado(source.getResultado());
+		acao.setStatusSGQ(source.getStatusSGQ());
+
+		Set<Anexo> anexosAcaoSGQ = cloneAnexos(source.getAnexos());
+		acao.setAnexos(anexosAcaoSGQ);
+
+		return acao;
 	}
 
 	private Flux<SolicitacaoAnalise> querySolicitacoesWithStatusPendente() {
@@ -148,8 +198,16 @@ public class ConsultoriaReactiveIntegration {
 				&& solicitacaoAnaliseConsultoria.getStatus() == StatusSolicitacaoAnalise.CONCLUIDO) {
 			log.debug("SolicitacaoAnalise reviewed by consultoria: id {}", solicitacaoAnaliseSGQ.getId());
 			solicitacaoAnaliseSGQ.setStatus(solicitacaoAnaliseConsultoria.getStatus());
-			AnaliseConsultoria analiseConsultoria = solicitacaoAnaliseConsultoria.getAnaliseConsultoria();
-			analiseConsultoriaRepository.save(analiseConsultoria.id(null));
+			AnaliseConsultoria analiseConsultoria = solicitacaoAnaliseConsultoria.getAnaliseConsultoria().id(null);
+
+			Set<Anexo> anexos = analiseConsultoria.getAnexos();
+			if (anexos != null) {
+				anexos = anexos.stream().map(a -> a.id(null)).collect(Collectors.toSet());
+				anexoRepository.saveAll(anexos);
+			}
+
+			analiseConsultoriaRepository.save(analiseConsultoria);
+
 			solicitacaoAnaliseSGQ.setAnaliseConsultoria(analiseConsultoria);
 		}
 

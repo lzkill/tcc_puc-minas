@@ -46,8 +46,6 @@ public class SolicitacaoAnaliseCriteria implements Serializable, Criteria {
 
     private LongFilter id;
 
-    private IntegerFilter idUsuarioRegistro;
-
     private InstantFilter dataRegistro;
 
     private InstantFilter dataSolicitacao;
@@ -63,7 +61,6 @@ public class SolicitacaoAnaliseCriteria implements Serializable, Criteria {
 
     public SolicitacaoAnaliseCriteria(SolicitacaoAnaliseCriteria other){
         this.id = other.id == null ? null : other.id.copy();
-        this.idUsuarioRegistro = other.idUsuarioRegistro == null ? null : other.idUsuarioRegistro.copy();
         this.dataRegistro = other.dataRegistro == null ? null : other.dataRegistro.copy();
         this.dataSolicitacao = other.dataSolicitacao == null ? null : other.dataSolicitacao.copy();
         this.status = other.status == null ? null : other.status.copy();
@@ -82,14 +79,6 @@ public class SolicitacaoAnaliseCriteria implements Serializable, Criteria {
 
     public void setId(LongFilter id) {
         this.id = id;
-    }
-
-    public IntegerFilter getIdUsuarioRegistro() {
-        return idUsuarioRegistro;
-    }
-
-    public void setIdUsuarioRegistro(IntegerFilter idUsuarioRegistro) {
-        this.idUsuarioRegistro = idUsuarioRegistro;
     }
 
     public InstantFilter getDataRegistro() {
@@ -144,7 +133,6 @@ public class SolicitacaoAnaliseCriteria implements Serializable, Criteria {
         final SolicitacaoAnaliseCriteria that = (SolicitacaoAnaliseCriteria) o;
         return
             Objects.equals(id, that.id) &&
-            Objects.equals(idUsuarioRegistro, that.idUsuarioRegistro) &&
             Objects.equals(dataRegistro, that.dataRegistro) &&
             Objects.equals(dataSolicitacao, that.dataSolicitacao) &&
             Objects.equals(status, that.status) &&
@@ -156,7 +144,6 @@ public class SolicitacaoAnaliseCriteria implements Serializable, Criteria {
     public int hashCode() {
         return Objects.hash(
         id,
-        idUsuarioRegistro,
         dataRegistro,
         dataSolicitacao,
         status,
@@ -169,7 +156,6 @@ public class SolicitacaoAnaliseCriteria implements Serializable, Criteria {
     public String toString() {
         return "SolicitacaoAnaliseCriteria{" +
                 (id != null ? "id=" + id + ", " : "") +
-                (idUsuarioRegistro != null ? "idUsuarioRegistro=" + idUsuarioRegistro + ", " : "") +
                 (dataRegistro != null ? "dataRegistro=" + dataRegistro + ", " : "") +
                 (dataSolicitacao != null ? "dataSolicitacao=" + dataSolicitacao + ", " : "") +
                 (status != null ? "status=" + status + ", " : "") +

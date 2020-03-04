@@ -53,6 +53,15 @@ public class AnaliseConsultoriaService {
         return analiseConsultoriaRepository.findAll(pageable);
     }
 
+    /**
+     * Get all the analiseConsultorias with eager load of many-to-many relationships.
+     *
+     * @return the list of entities.
+     */
+    public Page<AnaliseConsultoria> findAllWithEagerRelationships(Pageable pageable) {
+        return analiseConsultoriaRepository.findAllWithEagerRelationships(pageable);
+    }
+    
 
 
     /**
@@ -77,7 +86,7 @@ public class AnaliseConsultoriaService {
     @Transactional(readOnly = true)
     public Optional<AnaliseConsultoria> findOne(Long id) {
         log.debug("Request to get AnaliseConsultoria : {}", id);
-        return analiseConsultoriaRepository.findById(id);
+        return analiseConsultoriaRepository.findOneWithEagerRelationships(id);
     }
 
     /**

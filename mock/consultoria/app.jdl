@@ -29,6 +29,9 @@ entity NaoConformidade {
   prazoConclusao Instant
   novoPrazoConclusao Instant
   dataRegistro Instant required
+  dataConclusao Instant
+  analiseFinal TextBlob
+  statusSGQ StatusSGQ required
 }
 
 entity AcaoSGQ {
@@ -38,6 +41,9 @@ entity AcaoSGQ {
   prazoConclusao Instant
   novoPrazoConclusao Instant
   dataRegistro Instant required
+  dataConclusao Instant
+  resultado TextBlob
+  statusSGQ StatusSGQ required
 }
 
 enum TipoAcaoSGQ {
@@ -46,8 +52,15 @@ enum TipoAcaoSGQ {
   CORRECAO_PONTUAL
 }
 
+enum StatusSGQ {
+  REGISTRADO,
+  PENDENTE,
+  CONCLUIDO,
+  SUSPENSO,
+  CANCELADO
+}
+
 entity SolicitacaoAnalise {
-  idUsuarioRegistro Integer required
   dataRegistro Instant required
   dataSolicitacao Instant
   status StatusSolicitacaoAnalise required
@@ -72,6 +85,11 @@ enum StatusAprovacao {
   REPROVADO
 }
 
+entity Anexo {
+  nomeArquivo String required
+  conteudo AnyBlob required maxbytes(10485760) // 10 MB
+}
+
 relationship OneToOne {
   SolicitacaoAnalise{analiseConsultoria} to AnaliseConsultoria{solicitacaoAnalise required}
   SolicitacaoAnalise{naoConformidade(titulo) required} to NaoConformidade
@@ -79,6 +97,12 @@ relationship OneToOne {
 
 relationship OneToMany {
   NaoConformidade{acaoSGQ(titulo)} to AcaoSGQ{naoConformidade(titulo)}
+}
+
+relationship ManyToMany {
+    AcaoSGQ{anexo(nomeArquivo)} to Anexo{acaoSGQ}
+    AnaliseConsultoria{anexo(nomeArquivo)} to Anexo{analiseConsultoria}
+    NaoConformidade{anexo(nomeArquivo)} to Anexo{naoConformidade}
 }
 
 filter *

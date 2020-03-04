@@ -35,6 +35,17 @@
 
     <changeSet id="20200227165231-1-relations" author="jhipster">
 
+        <createTable tableName="analise_consultoria_anexo">
+            <column name="anexo_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="analise_consultoria_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addPrimaryKey columnNames="analise_consultoria_id, anexo_id" tableName="analise_consultoria_anexo"/>
+        
     </changeSet>
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here, do not remove-->
 

@@ -25,9 +25,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.xpto.consultoria.domain.NaoConformidade;
 import com.xpto.consultoria.domain.SolicitacaoAnalise;
 import com.xpto.consultoria.domain.enumeration.StatusSolicitacaoAnalise;
 import com.xpto.consultoria.service.AcaoSGQService;
+import com.xpto.consultoria.service.AnexoService;
 import com.xpto.consultoria.service.NaoConformidadeService;
 import com.xpto.consultoria.service.SolicitacaoAnaliseQueryService;
 import com.xpto.consultoria.service.SolicitacaoAnaliseService;
@@ -54,18 +56,19 @@ public class SolicitacaoAnaliseResource {
 	private String applicationName;
 
 	private final SolicitacaoAnaliseService solicitacaoAnaliseService;
+	private final SolicitacaoAnaliseQueryService solicitacaoAnaliseQueryService;
 	private final NaoConformidadeService naoConformidadeService;
 	private final AcaoSGQService acaoService;
-
-	private final SolicitacaoAnaliseQueryService solicitacaoAnaliseQueryService;
+	private final AnexoService anexoService;
 
 	public SolicitacaoAnaliseResource(SolicitacaoAnaliseService solicitacaoAnaliseService,
 			SolicitacaoAnaliseQueryService solicitacaoAnaliseQueryService,
-			NaoConformidadeService naoConformidadeService, AcaoSGQService acaoService) {
+			NaoConformidadeService naoConformidadeService, AcaoSGQService acaoService, AnexoService anexoService) {
 		this.solicitacaoAnaliseService = solicitacaoAnaliseService;
 		this.solicitacaoAnaliseQueryService = solicitacaoAnaliseQueryService;
 		this.naoConformidadeService = naoConformidadeService;
 		this.acaoService = acaoService;
+		this.anexoService = anexoService;
 	}
 
 	/**
@@ -87,11 +90,18 @@ public class SolicitacaoAnaliseResource {
 					"idexists");
 		}
 
+		NaoConformidade naoConformidade = solicitacaoAnalise.getNaoConformidade();
+		naoConformidadeService.save(naoConformidade);
+
+		anexoService.saveAll(naoConformidade.getAnexos());
+
+		naoConformidade.getAcaoSGQS().forEach(a -> {
+			acaoService.save(a);
+			anexoService.saveAll(a.getAnexos());
+		});
+
 		solicitacaoAnalise.setStatus(StatusSolicitacaoAnalise.PENDENTE);
 		solicitacaoAnalise.setDataSolicitacao(Instant.now());
-
-		naoConformidadeService.save(solicitacaoAnalise.getNaoConformidade());
-		solicitacaoAnalise.getNaoConformidade().getAcaoSGQS().forEach(a -> acaoService.save(a));
 		SolicitacaoAnalise result = solicitacaoAnaliseService.save(solicitacaoAnalise);
 
 		return ResponseEntity

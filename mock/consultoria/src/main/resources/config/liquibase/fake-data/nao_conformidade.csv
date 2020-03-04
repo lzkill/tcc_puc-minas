@@ -1,11 +1,11 @@
-id;titulo;descricao;procedente;causa;prazo_conclusao;novo_prazo_conclusao;data_registro
-1;Kids mobile;../fake-data/blob/hipster.txt;false;../fake-data/blob/hipster.txt;2020-02-26T17:23:19;2020-02-27T10:12:02;2020-02-27T08:27:50
-2;Gloves;../fake-data/blob/hipster.txt;true;../fake-data/blob/hipster.txt;2020-02-26T17:39:28;2020-02-27T03:51:31;2020-02-27T09:49:51
-3;networks;../fake-data/blob/hipster.txt;false;../fake-data/blob/hipster.txt;2020-02-27T16:12:21;2020-02-27T14:52:06;2020-02-27T15:31:18
-4;Refined AI Lithuanian Litas;../fake-data/blob/hipster.txt;true;../fake-data/blob/hipster.txt;2020-02-27T14:26:25;2020-02-27T05:15:13;2020-02-27T08:06:46
-5;content Intelligent;../fake-data/blob/hipster.txt;false;../fake-data/blob/hipster.txt;2020-02-27T02:17:57;2020-02-27T04:41:19;2020-02-26T21:15:10
-6;port;../fake-data/blob/hipster.txt;false;../fake-data/blob/hipster.txt;2020-02-27T15:54:46;2020-02-27T01:59:39;2020-02-27T10:38:30
-7;granular Rustic Wooden Ball;../fake-data/blob/hipster.txt;true;../fake-data/blob/hipster.txt;2020-02-27T01:15:55;2020-02-27T10:48:46;2020-02-26T19:45:50
-8;sensor Auto Loan Account Chicken;../fake-data/blob/hipster.txt;true;../fake-data/blob/hipster.txt;2020-02-27T09:20:48;2020-02-26T17:49:54;2020-02-27T12:22:58
-9;optical Handmade Saudi Arabia;../fake-data/blob/hipster.txt;false;../fake-data/blob/hipster.txt;2020-02-27T15:01:39;2020-02-27T05:47:03;2020-02-27T02:26:03
-10;Grocery Avon Roads;../fake-data/blob/hipster.txt;true;../fake-data/blob/hipster.txt;2020-02-26T22:52:13;2020-02-27T07:19:57;2020-02-27T15:53:39
+id;titulo;descricao;procedente;causa;prazo_conclusao;novo_prazo_conclusao;data_registro;data_conclusao;analise_final;status_sgq
+1;Kids mobile;../fake-data/blob/hipster.txt;false;../fake-data/blob/hipster.txt;2020-02-26T17:23:19;2020-02-27T10:12:02;2020-02-27T08:27:50;2020-02-27T16:10:51;../fake-data/blob/hipster.txt;CANCELADO
+2;asymmetric networks;../fake-data/blob/hipster.txt;false;../fake-data/blob/hipster.txt;2020-02-27T16:12:21;2020-02-27T14:52:06;2020-02-27T15:31:18;2020-02-26T23:34:08;../fake-data/blob/hipster.txt;CONCLUIDO
+3;Buckinghamshire Sleek front-end;../fake-data/blob/hipster.txt;false;../fake-data/blob/hipster.txt;2020-02-27T06:09:53;2020-02-27T14:17:20;2020-02-27T11:52:19;2020-02-27T09:43:00;../fake-data/blob/hipster.txt;PENDENTE
+4;Generic Concrete Towels granular;../fake-data/blob/hipster.txt;false;../fake-data/blob/hipster.txt;2020-02-27T13:42:37;2020-02-27T13:57:59;2020-02-27T10:16:05;2020-02-26T18:09:10;../fake-data/blob/hipster.txt;CONCLUIDO
+5;back-end Tunisian Dinar;../fake-data/blob/hipster.txt;false;../fake-data/blob/hipster.txt;2020-02-26T17:49:54;2020-02-27T12:22:58;2020-02-26T20:58:45;2020-02-26T21:33:03;../fake-data/blob/hipster.txt;CONCLUIDO
+6;back up Mission;../fake-data/blob/hipster.txt;false;../fake-data/blob/hipster.txt;2020-02-27T05:57:38;2020-02-26T23:38:39;2020-02-26T18:36:54;2020-02-26T22:52:13;../fake-data/blob/hipster.txt;CONCLUIDO
+7;SMS;../fake-data/blob/hipster.txt;true;../fake-data/blob/hipster.txt;2020-02-27T00:51:35;2020-02-26T22:44:21;2020-02-27T14:18:04;2020-02-27T07:01:10;../fake-data/blob/hipster.txt;PENDENTE
+8;Granite;../fake-data/blob/hipster.txt;true;../fake-data/blob/hipster.txt;2020-02-27T05:52:46;2020-02-27T05:29:51;2020-02-27T16:40:29;2020-02-26T17:37:02;../fake-data/blob/hipster.txt;REGISTRADO
+9;orchid;../fake-data/blob/hipster.txt;false;../fake-data/blob/hipster.txt;2020-02-26T20:12:47;2020-02-27T10:02:20;2020-02-27T04:18:08;2020-02-27T15:38:20;../fake-data/blob/hipster.txt;REGISTRADO
+10;Toys action-items;../fake-data/blob/hipster.txt;true;../fake-data/blob/hipster.txt;2020-02-27T04:01:47;2020-02-26T21:27:23;2020-02-27T05:04:18;2020-02-26T21:04:48;../fake-data/blob/hipster.txt;CONCLUIDO

@@ -42,9 +42,34 @@
             "fieldValidateRules": [
                 "required"
             ]
+        },
+        {
+            "fieldName": "dataConclusao",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "resultado",
+            "fieldType": "byte[]",
+            "fieldTypeBlobContent": "text"
+        },
+        {
+            "fieldName": "statusSGQ",
+            "fieldType": "StatusSGQ",
+            "fieldValues": "REGISTRADO,PENDENTE,CONCLUIDO,SUSPENSO,CANCELADO",
+            "fieldValidateRules": [
+                "required"
+            ]
         }
     ],
     "relationships": [
+        {
+            "relationshipType": "many-to-many",
+            "otherEntityName": "anexo",
+            "otherEntityRelationshipName": "acaoSGQ",
+            "relationshipName": "anexo",
+            "otherEntityField": "nomeArquivo",
+            "ownerSide": true
+        },
         {
             "relationshipType": "many-to-one",
             "otherEntityName": "naoConformidade",

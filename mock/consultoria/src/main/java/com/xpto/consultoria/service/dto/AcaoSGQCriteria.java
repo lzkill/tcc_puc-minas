@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Objects;
 import io.github.jhipster.service.Criteria;
 import com.xpto.consultoria.domain.enumeration.TipoAcaoSGQ;
+import com.xpto.consultoria.domain.enumeration.StatusSGQ;
 import io.github.jhipster.service.filter.BooleanFilter;
 import io.github.jhipster.service.filter.DoubleFilter;
 import io.github.jhipster.service.filter.Filter;
@@ -41,6 +42,24 @@ public class AcaoSGQCriteria implements Serializable, Criteria {
         }
 
     }
+    /**
+     * Class for filtering StatusSGQ
+     */
+    public static class StatusSGQFilter extends Filter<StatusSGQ> {
+
+        public StatusSGQFilter() {
+        }
+
+        public StatusSGQFilter(StatusSGQFilter filter) {
+            super(filter);
+        }
+
+        @Override
+        public StatusSGQFilter copy() {
+            return new StatusSGQFilter(this);
+        }
+
+    }
 
     private static final long serialVersionUID = 1L;
 
@@ -56,6 +75,12 @@ public class AcaoSGQCriteria implements Serializable, Criteria {
 
     private InstantFilter dataRegistro;
 
+    private InstantFilter dataConclusao;
+
+    private StatusSGQFilter statusSGQ;
+
+    private LongFilter anexoId;
+
     private LongFilter naoConformidadeId;
 
     public AcaoSGQCriteria(){
@@ -68,6 +93,9 @@ public class AcaoSGQCriteria implements Serializable, Criteria {
         this.prazoConclusao = other.prazoConclusao == null ? null : other.prazoConclusao.copy();
         this.novoPrazoConclusao = other.novoPrazoConclusao == null ? null : other.novoPrazoConclusao.copy();
         this.dataRegistro = other.dataRegistro == null ? null : other.dataRegistro.copy();
+        this.dataConclusao = other.dataConclusao == null ? null : other.dataConclusao.copy();
+        this.statusSGQ = other.statusSGQ == null ? null : other.statusSGQ.copy();
+        this.anexoId = other.anexoId == null ? null : other.anexoId.copy();
         this.naoConformidadeId = other.naoConformidadeId == null ? null : other.naoConformidadeId.copy();
     }
 
@@ -124,6 +152,30 @@ public class AcaoSGQCriteria implements Serializable, Criteria {
         this.dataRegistro = dataRegistro;
     }
 
+    public InstantFilter getDataConclusao() {
+        return dataConclusao;
+    }
+
+    public void setDataConclusao(InstantFilter dataConclusao) {
+        this.dataConclusao = dataConclusao;
+    }
+
+    public StatusSGQFilter getStatusSGQ() {
+        return statusSGQ;
+    }
+
+    public void setStatusSGQ(StatusSGQFilter statusSGQ) {
+        this.statusSGQ = statusSGQ;
+    }
+
+    public LongFilter getAnexoId() {
+        return anexoId;
+    }
+
+    public void setAnexoId(LongFilter anexoId) {
+        this.anexoId = anexoId;
+    }
+
     public LongFilter getNaoConformidadeId() {
         return naoConformidadeId;
     }
@@ -149,6 +201,9 @@ public class AcaoSGQCriteria implements Serializable, Criteria {
             Objects.equals(prazoConclusao, that.prazoConclusao) &&
             Objects.equals(novoPrazoConclusao, that.novoPrazoConclusao) &&
             Objects.equals(dataRegistro, that.dataRegistro) &&
+            Objects.equals(dataConclusao, that.dataConclusao) &&
+            Objects.equals(statusSGQ, that.statusSGQ) &&
+            Objects.equals(anexoId, that.anexoId) &&
             Objects.equals(naoConformidadeId, that.naoConformidadeId);
     }
 
@@ -161,6 +216,9 @@ public class AcaoSGQCriteria implements Serializable, Criteria {
         prazoConclusao,
         novoPrazoConclusao,
         dataRegistro,
+        dataConclusao,
+        statusSGQ,
+        anexoId,
         naoConformidadeId
         );
     }
@@ -174,6 +232,9 @@ public class AcaoSGQCriteria implements Serializable, Criteria {
                 (prazoConclusao != null ? "prazoConclusao=" + prazoConclusao + ", " : "") +
                 (novoPrazoConclusao != null ? "novoPrazoConclusao=" + novoPrazoConclusao + ", " : "") +
                 (dataRegistro != null ? "dataRegistro=" + dataRegistro + ", " : "") +
+                (dataConclusao != null ? "dataConclusao=" + dataConclusao + ", " : "") +
+                (statusSGQ != null ? "statusSGQ=" + statusSGQ + ", " : "") +
+                (anexoId != null ? "anexoId=" + anexoId + ", " : "") +
                 (naoConformidadeId != null ? "naoConformidadeId=" + naoConformidadeId + ", " : "") +
             "}";
     }

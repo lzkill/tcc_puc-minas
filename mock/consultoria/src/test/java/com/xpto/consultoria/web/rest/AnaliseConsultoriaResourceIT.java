@@ -2,6 +2,7 @@ package com.xpto.consultoria.web.rest;
 
 import com.xpto.consultoria.ConsultoriaApp;
 import com.xpto.consultoria.domain.AnaliseConsultoria;
+import com.xpto.consultoria.domain.Anexo;
 import com.xpto.consultoria.domain.SolicitacaoAnalise;
 import com.xpto.consultoria.repository.AnaliseConsultoriaRepository;
 import com.xpto.consultoria.service.AnaliseConsultoriaService;
@@ -11,9 +12,12 @@ import com.xpto.consultoria.service.AnaliseConsultoriaQueryService;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -26,11 +30,13 @@ import org.springframework.validation.Validator;
 import javax.persistence.EntityManager;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.xpto.consultoria.web.rest.TestUtil.createFormattingConversionService;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -55,6 +61,12 @@ public class AnaliseConsultoriaResourceIT {
 
     @Autowired
     private AnaliseConsultoriaRepository analiseConsultoriaRepository;
+
+    @Mock
+    private AnaliseConsultoriaRepository analiseConsultoriaRepositoryMock;
+
+    @Mock
+    private AnaliseConsultoriaService analiseConsultoriaServiceMock;
 
     @Autowired
     private AnaliseConsultoriaService analiseConsultoriaService;
@@ -259,6 +271,39 @@ public class AnaliseConsultoriaResourceIT {
             .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())));
     }
     
+    @SuppressWarnings({"unchecked"})
+    public void getAllAnaliseConsultoriasWithEagerRelationshipsIsEnabled() throws Exception {
+        AnaliseConsultoriaResource analiseConsultoriaResource = new AnaliseConsultoriaResource(analiseConsultoriaServiceMock, analiseConsultoriaQueryService);
+        when(analiseConsultoriaServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+
+        MockMvc restAnaliseConsultoriaMockMvc = MockMvcBuilders.standaloneSetup(analiseConsultoriaResource)
+            .setCustomArgumentResolvers(pageableArgumentResolver)
+            .setControllerAdvice(exceptionTranslator)
+            .setConversionService(createFormattingConversionService())
+            .setMessageConverters(jacksonMessageConverter).build();
+
+        restAnaliseConsultoriaMockMvc.perform(get("/api/analise-consultorias?eagerload=true"))
+        .andExpect(status().isOk());
+
+        verify(analiseConsultoriaServiceMock, times(1)).findAllWithEagerRelationships(any());
+    }
+
+    @SuppressWarnings({"unchecked"})
+    public void getAllAnaliseConsultoriasWithEagerRelationshipsIsNotEnabled() throws Exception {
+        AnaliseConsultoriaResource analiseConsultoriaResource = new AnaliseConsultoriaResource(analiseConsultoriaServiceMock, analiseConsultoriaQueryService);
+            when(analiseConsultoriaServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+            MockMvc restAnaliseConsultoriaMockMvc = MockMvcBuilders.standaloneSetup(analiseConsultoriaResource)
+            .setCustomArgumentResolvers(pageableArgumentResolver)
+            .setControllerAdvice(exceptionTranslator)
+            .setConversionService(createFormattingConversionService())
+            .setMessageConverters(jacksonMessageConverter).build();
+
+        restAnaliseConsultoriaMockMvc.perform(get("/api/analise-consultorias?eagerload=true"))
+        .andExpect(status().isOk());
+
+            verify(analiseConsultoriaServiceMock, times(1)).findAllWithEagerRelationships(any());
+    }
+
     @Test
     @Transactional
     public void getAnaliseConsultoria() throws Exception {
@@ -477,6 +522,26 @@ public class AnaliseConsultoriaResourceIT {
         // Get all the analiseConsultoriaList where status is null
         defaultAnaliseConsultoriaShouldNotBeFound("status.specified=false");
     }
+
+    @Test
+    @Transactional
+    public void getAllAnaliseConsultoriasByAnexoIsEqualToSomething() throws Exception {
+        // Initialize the database
+        analiseConsultoriaRepository.saveAndFlush(analiseConsultoria);
+        Anexo anexo = AnexoResourceIT.createEntity(em);
+        em.persist(anexo);
+        em.flush();
+        analiseConsultoria.addAnexo(anexo);
+        analiseConsultoriaRepository.saveAndFlush(analiseConsultoria);
+        Long anexoId = anexo.getId();
+
+        // Get all the analiseConsultoriaList where anexo equals to anexoId
+        defaultAnaliseConsultoriaShouldBeFound("anexoId.equals=" + anexoId);
+
+        // Get all the analiseConsultoriaList where anexo equals to anexoId + 1
+        defaultAnaliseConsultoriaShouldNotBeFound("anexoId.equals=" + (anexoId + 1));
+    }
+
 
     @Test
     @Transactional

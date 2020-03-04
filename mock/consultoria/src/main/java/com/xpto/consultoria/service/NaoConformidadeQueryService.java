@@ -100,9 +100,19 @@ public class NaoConformidadeQueryService extends QueryService<NaoConformidade> {
             if (criteria.getDataRegistro() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getDataRegistro(), NaoConformidade_.dataRegistro));
             }
+            if (criteria.getDataConclusao() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getDataConclusao(), NaoConformidade_.dataConclusao));
+            }
+            if (criteria.getStatusSGQ() != null) {
+                specification = specification.and(buildSpecification(criteria.getStatusSGQ(), NaoConformidade_.statusSGQ));
+            }
             if (criteria.getAcaoSGQId() != null) {
                 specification = specification.and(buildSpecification(criteria.getAcaoSGQId(),
                     root -> root.join(NaoConformidade_.acaoSGQS, JoinType.LEFT).get(AcaoSGQ_.id)));
+            }
+            if (criteria.getAnexoId() != null) {
+                specification = specification.and(buildSpecification(criteria.getAnexoId(),
+                    root -> root.join(NaoConformidade_.anexos, JoinType.LEFT).get(Anexo_.id)));
             }
         }
         return specification;
