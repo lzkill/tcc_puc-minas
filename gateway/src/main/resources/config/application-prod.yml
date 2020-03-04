@@ -126,7 +126,7 @@ server:
 jhipster:
   gateway:
     rate-limiting:
-      enabled: false
+      enabled: true
     authorized-microservices-endpoints: # Access Control Policy, if left empty for a route, all endpoints will be accessible
       app1: /api # recommended prod configuration
   http:
