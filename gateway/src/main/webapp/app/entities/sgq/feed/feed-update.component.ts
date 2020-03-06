@@ -134,4 +134,9 @@ export class FeedUpdateComponent implements OnInit {
   protected onSaveError(): void {
     this.isSaving = false;
   }
+
+  trackId(index: number, item: IFeed): number {
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
+    return item.id!;
+  }
 }

@@ -22,12 +22,12 @@
                 <div class="table-responsive" *ngIf="itemPlanoAuditorias?.length > 0">
                     <table class="table table-striped" aria-describedby="page-heading">
                         <thead>
-                        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
-                        <th scope="col" jhiSortBy="plano.titulo"><span jhiTranslate="gatewayApp.sgqItemPlanoAuditoria.plano">Plano</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-                        <th scope="col" jhiSortBy="itemAuditoria.titulo"><span jhiTranslate="gatewayApp.sgqItemPlanoAuditoria.itemAuditoria">Item de auditoria</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-                        <th scope="col" jhiSortBy="itemPlanoAuditoria.modalidade"><span jhiTranslate="gatewayApp.sgqItemPlanoAuditoria.modalidade">Modalidade</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-                        <th scope="col" jhiSortBy="dataInicio"><span jhiTranslate="gatewayApp.sgqItemPlanoAuditoria.dataInicio">Data Inicio</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-                        <th scope="col" jhiSortBy="dataFim"><span jhiTranslate="gatewayApp.sgqItemPlanoAuditoria.dataFim">Data Fim</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                        <tr>
+                        <th scope="col"><span jhiTranslate="gatewayApp.sgqItemPlanoAuditoria.plano">Plano</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                        <th scope="col"><span jhiTranslate="gatewayApp.sgqItemPlanoAuditoria.itemAuditoria">Item de auditoria</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                        <th scope="col"><span jhiTranslate="gatewayApp.sgqItemPlanoAuditoria.modalidade">Modalidade</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                        <th scope="col"><span jhiTranslate="gatewayApp.sgqItemPlanoAuditoria.dataInicio">Data Inicio</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                        <th scope="col"><span jhiTranslate="gatewayApp.sgqItemPlanoAuditoria.dataFim">Data Fim</span> <fa-icon [icon]="'sort'"></fa-icon></th>
                         <th scope="col"></th>
                         </tr>
                         </thead>

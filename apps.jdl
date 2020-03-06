@@ -400,7 +400,7 @@ relationship OneToMany {
   Empresa{setor(nome)} to Setor{empresa(nome) required}
   NaoConformidade{acaoSGQ(titulo)} to AcaoSGQ{naoConformidade(titulo)}
   PlanoAuditoria{item(titulo)} to ItemPlanoAuditoria{plano(titulo) required}
-  ResultadoChecklist{resultadoItem} to ResultadoItemChecklist{resultado(titulo) required}
+  ResultadoChecklist{resultadoItem} to ResultadoItemChecklist{resultado required}
   ResultadoChecklist{naoConformidade(titulo)} to NaoConformidade{resultadoChecklist}
   ResultadoChecklist{produtoNaoConforme(titulo)} to ProdutoNaoConforme{resultadoChecklist}
   Setor{checklist(titulo)} to Checklist{setor(nome) required}

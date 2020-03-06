@@ -132,4 +132,9 @@ export class AnexoUpdateComponent implements OnInit {
   protected onSaveError(): void {
     this.isSaving = false;
   }
+
+  trackId(index: number, item: IAnexo): number {
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
+    return item.id!;
+  }
 }

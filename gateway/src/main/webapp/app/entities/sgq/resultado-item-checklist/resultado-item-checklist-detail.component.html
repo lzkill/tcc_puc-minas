@@ -28,7 +28,7 @@
                 <dt><span jhiTranslate="gatewayApp.sgqResultadoItemChecklist.resultado">Resultado</span></dt>
                 <dd>
                     <div *ngIf="resultadoItemChecklist.resultado">
-                        <a [routerLink]="['/resultado-checklist', resultadoItemChecklist.resultado?.id, 'view']">{{resultadoItemChecklist.resultado?.titulo}}</a>
+                        <a [routerLink]="['/resultado-checklist', resultadoItemChecklist.resultado?.id, 'view']">{{resultadoItemChecklist.resultado?.id}}</a>
                     </div>
                 </dd>
             </dl>

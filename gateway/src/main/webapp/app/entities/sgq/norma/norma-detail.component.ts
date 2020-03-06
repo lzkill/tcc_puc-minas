@@ -31,7 +31,7 @@ export class NormaDetailComponent implements OnInit {
     window.history.back();
   }
 
-  protected download(url: string): void {
-    window.open(url, '_blank', '_noopener');
+  download(url: string | undefined): void {
+    if (url) window.open(url, '_blank', '_noopener');
   }
 }
