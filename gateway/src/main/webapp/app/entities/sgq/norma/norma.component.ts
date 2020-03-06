@@ -104,7 +104,7 @@ export class NormaComponent implements OnInit, OnDestroy {
     this.ngbPaginationPage = this.page;
   }
 
-  protected download(url: string): void {
+  download(url: string): void {
     window.open(url, '_blank', '_noopener');
   }
 }
