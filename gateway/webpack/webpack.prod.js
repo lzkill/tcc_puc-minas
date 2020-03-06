@@ -134,11 +134,9 @@ module.exports = webpackMerge(commonConfig({ env: ENV }), {
                     // jhipster-needle-i18n-language-moment-webpack - JHipster will add/remove languages in this array
                 ]
         }),
-        new BundleAnalyzerPlugin({
-            analyzerMode: 'static',
-            openAnalyzer: false,
+        new Visualizer({
             // Webpack statistics in target folder
-            reportFilename: '../stats.html'
+            filename: '../stats.html'
         }),
         new AngularCompilerPlugin({
             mainPath: utils.root('src/main/webapp/app/app.main.ts'),
@@ -150,9 +148,9 @@ module.exports = webpackMerge(commonConfig({ env: ENV }), {
             debug: false
         }),
         new WorkboxPlugin.GenerateSW({
-            clientsClaim: true,
-            skipWaiting: true,
-            exclude: [/swagger-ui/]
+          clientsClaim: true,
+          skipWaiting: true,
+          exclude: [/swagger-ui/]
         })
     ],
     mode: 'production'
