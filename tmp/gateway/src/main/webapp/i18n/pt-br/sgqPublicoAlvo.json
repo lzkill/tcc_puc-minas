@@ -1,0 +1,28 @@
+{
+  "gatewayApp": {
+    "sgqPublicoAlvo": {
+      "home": {
+        "title": "Publico Alvos",
+        "createLabel": "Criar novo Publico Alvo",
+        "createOrEditLabel": "Criar ou editar Publico Alvo",
+        "notFound": "Nenhum Publico Alvo encontrado"
+      },
+      "delete": {
+        "question": "Tem certeza de que deseja excluir Publico Alvo {{ id }}?"
+      },
+      "detail": {
+        "title": "Publico Alvo"
+      },
+      "nome": "Nome",
+      "descricao": "Descricao",
+      "habilitado": "Habilitado"
+    }
+  },
+  "sgqApp": {
+    "sgqPublicoAlvo": {
+      "created": "Um novo Publico Alvo foi criado com o identificador {{ param }}",
+      "updated": "Um Publico Alvo foi atualizado com o identificador {{ param }}",
+      "deleted": "Um Publico Alvo foi excluído com o identificador {{ param }}"
+    }
+  }
+}

@@ -1,0 +1,39 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="consultoria">
+            <h2><span jhiTranslate="gatewayApp.sgqConsultoria.detail.title">Consultoria</span> {{consultoria.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="gatewayApp.sgqConsultoria.nome">Nome</span></dt>
+                <dd>
+                    <span>{{consultoria.nome}}</span>
+                </dd>
+                <dt><span jhiTranslate="gatewayApp.sgqConsultoria.urlIntegracao">Url Integracao</span></dt>
+                <dd>
+                    <span>{{consultoria.urlIntegracao}}</span>
+                </dd>
+                <dt><span jhiTranslate="gatewayApp.sgqConsultoria.tokenAcesso" [ngbTooltip]="'gatewayApp.sgqConsultoria.help.tokenAcesso' | translate">Token Acesso</span></dt>
+                <dd>
+                    <span>{{consultoria.tokenAcesso}}</span>
+                </dd>
+                <dt><span jhiTranslate="gatewayApp.sgqConsultoria.habilitado">Habilitado</span></dt>
+                <dd>
+                    <span>{{consultoria.habilitado}}</span>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/consultoria', consultoria.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

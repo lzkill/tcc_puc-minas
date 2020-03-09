@@ -1,0 +1,79 @@
+<div>
+    <h2 id="page-heading">
+        <span jhiTranslate="gatewayApp.sgqBoletimInformativo.home.title">Boletim Informativos</span>
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-boletim-informativo" [routerLink]="['/boletim-informativo/new']">
+            <fa-icon [icon]="'plus'"></fa-icon>
+            <span  jhiTranslate="gatewayApp.sgqBoletimInformativo.home.createLabel">
+            Create a new Boletim Informativo
+            </span>
+        </button>
+    </h2>
+    <jhi-alert-error></jhi-alert-error>
+    <jhi-alert></jhi-alert>
+    <br/>
+    <div class="alert alert-warning" *ngIf="boletimInformativos?.length === 0">
+        <span jhiTranslate="gatewayApp.sgqBoletimInformativo.home.notFound">No boletimInformativos found</span>
+    </div>
+    <div class="table-responsive" *ngIf="boletimInformativos?.length > 0">
+        <table class="table table-striped" aria-describedby="page-heading">
+            <thead>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
+            <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="idUsuarioRegistro"><span jhiTranslate="gatewayApp.sgqBoletimInformativo.idUsuarioRegistro">Id Usuario Registro</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="titulo"><span jhiTranslate="gatewayApp.sgqBoletimInformativo.titulo">Titulo</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="descricao"><span jhiTranslate="gatewayApp.sgqBoletimInformativo.descricao">Descricao</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="dataRegistro"><span jhiTranslate="gatewayApp.sgqBoletimInformativo.dataRegistro">Data Registro</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="dataPublicacao"><span jhiTranslate="gatewayApp.sgqBoletimInformativo.dataPublicacao">Data Publicacao</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="status"><span jhiTranslate="gatewayApp.sgqBoletimInformativo.status">Status</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="publicoAlvo.nome"><span jhiTranslate="gatewayApp.sgqBoletimInformativo.publicoAlvo">Publico Alvo</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let boletimInformativo of boletimInformativos ;trackBy: trackId">
+                <td><a [routerLink]="['/boletim-informativo', boletimInformativo.id, 'view' ]">{{boletimInformativo.id}}</a></td>
+                <td>{{boletimInformativo.idUsuarioRegistro}}</td>
+                <td>{{boletimInformativo.titulo}}</td>
+                <td>{{boletimInformativo.descricao}}</td>
+                <td>{{boletimInformativo.dataRegistro | date:'medium'}}</td>
+                <td>{{boletimInformativo.dataPublicacao | date:'medium'}}</td>
+                <td jhiTranslate="{{'gatewayApp.StatusPublicacao.' + boletimInformativo.status}}">{{boletimInformativo.status}}</td>
+                <td>
+                    <div *ngIf="boletimInformativo.publicoAlvo">
+                        <a [routerLink]="['/publico-alvo', boletimInformativo.publicoAlvo?.id, 'view' ]" >{{boletimInformativo.publicoAlvo?.nome}}</a>
+                    </div>
+                </td>
+                <td class="text-right">
+                    <div class="btn-group">
+                        <button type="submit"
+                                [routerLink]="['/boletim-informativo', boletimInformativo.id, 'view' ]"
+                                class="btn btn-info btn-sm">
+                            <fa-icon [icon]="'eye'"></fa-icon>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/boletim-informativo', boletimInformativo.id, 'edit']"
+                                class="btn btn-primary btn-sm">
+                            <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                        </button>
+                        <button type="submit" (click)="delete(boletimInformativo)"
+                                class="btn btn-danger btn-sm">
+                            <fa-icon [icon]="'times'"></fa-icon>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div *ngIf="boletimInformativos?.length > 0">
+        <div class="row justify-content-center">
+            <jhi-item-count [page]="page" [total]="totalItems" [itemsPerPage]="itemsPerPage"></jhi-item-count>
+        </div>
+        <div class="row justify-content-center">
+            <ngb-pagination [collectionSize]="totalItems" [(page)]="ngbPaginationPage" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage($event)"></ngb-pagination>
+        </div>
+    </div>
+</div>

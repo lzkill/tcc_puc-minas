@@ -1,0 +1,35 @@
+{
+  "gatewayApp": {
+    "sgqEventoOperacional": {
+      "home": {
+        "title": "Evento Operacionals",
+        "createLabel": "Criar novo Evento Operacional",
+        "createOrEditLabel": "Criar ou editar Evento Operacional",
+        "notFound": "Nenhum Evento Operacional encontrado"
+      },
+      "delete": {
+        "question": "Tem certeza de que deseja excluir Evento Operacional {{ id }}?"
+      },
+      "detail": {
+        "title": "Evento Operacional"
+      },
+      "idUsuarioRegistro": "Id Usuario Registro",
+      "tipo": "Tipo",
+      "titulo": "Titulo",
+      "descricao": "Descricao",
+      "dataRegistro": "Data Registro",
+      "dataEvento": "Data Evento",
+      "duracao": "Duracao",
+      "houveParadaProducao": "Houve Parada Producao",
+      "processo": "Processo",
+      "anexo": "Anexo"
+    }
+  },
+  "sgqApp": {
+    "sgqEventoOperacional": {
+      "created": "Um novo Evento Operacional foi criado com o identificador {{ param }}",
+      "updated": "Um Evento Operacional foi atualizado com o identificador {{ param }}",
+      "deleted": "Um Evento Operacional foi excluído com o identificador {{ param }}"
+    }
+  }
+}

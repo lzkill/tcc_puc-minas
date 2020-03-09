@@ -1,0 +1,85 @@
+<div>
+    <h2 id="page-heading">
+        <span jhiTranslate="gatewayApp.sgqPublicacaoFeed.home.title">Publicacao Feeds</span>
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-publicacao-feed" [routerLink]="['/publicacao-feed/new']">
+            <fa-icon [icon]="'plus'"></fa-icon>
+            <span  jhiTranslate="gatewayApp.sgqPublicacaoFeed.home.createLabel">
+            Create a new Publicacao Feed
+            </span>
+        </button>
+    </h2>
+    <jhi-alert-error></jhi-alert-error>
+    <jhi-alert></jhi-alert>
+    <br/>
+    <div class="alert alert-warning" *ngIf="publicacaoFeeds?.length === 0">
+        <span jhiTranslate="gatewayApp.sgqPublicacaoFeed.home.notFound">No publicacaoFeeds found</span>
+    </div>
+    <div class="table-responsive" *ngIf="publicacaoFeeds?.length > 0">
+        <table class="table table-striped" aria-describedby="page-heading">
+            <thead>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
+            <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="idUsuarioRegistro"><span jhiTranslate="gatewayApp.sgqPublicacaoFeed.idUsuarioRegistro">Id Usuario Registro</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="titulo"><span jhiTranslate="gatewayApp.sgqPublicacaoFeed.titulo">Titulo</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="autor"><span jhiTranslate="gatewayApp.sgqPublicacaoFeed.autor">Autor</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="uri"><span jhiTranslate="gatewayApp.sgqPublicacaoFeed.uri">Uri</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="link"><span jhiTranslate="gatewayApp.sgqPublicacaoFeed.link">Link</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="conteudo"><span jhiTranslate="gatewayApp.sgqPublicacaoFeed.conteudo">Conteudo</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="dataRegistro"><span jhiTranslate="gatewayApp.sgqPublicacaoFeed.dataRegistro">Data Registro</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="dataPublicacao"><span jhiTranslate="gatewayApp.sgqPublicacaoFeed.dataPublicacao">Data Publicacao</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="status"><span jhiTranslate="gatewayApp.sgqPublicacaoFeed.status">Status</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="feed.titulo"><span jhiTranslate="gatewayApp.sgqPublicacaoFeed.feed">Feed</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let publicacaoFeed of publicacaoFeeds ;trackBy: trackId">
+                <td><a [routerLink]="['/publicacao-feed', publicacaoFeed.id, 'view' ]">{{publicacaoFeed.id}}</a></td>
+                <td>{{publicacaoFeed.idUsuarioRegistro}}</td>
+                <td>{{publicacaoFeed.titulo}}</td>
+                <td>{{publicacaoFeed.autor}}</td>
+                <td>{{publicacaoFeed.uri}}</td>
+                <td>{{publicacaoFeed.link}}</td>
+                <td>{{publicacaoFeed.conteudo}}</td>
+                <td>{{publicacaoFeed.dataRegistro | date:'medium'}}</td>
+                <td>{{publicacaoFeed.dataPublicacao | date:'medium'}}</td>
+                <td jhiTranslate="{{'gatewayApp.StatusPublicacao.' + publicacaoFeed.status}}">{{publicacaoFeed.status}}</td>
+                <td>
+                    <div *ngIf="publicacaoFeed.feed">
+                        <a [routerLink]="['/feed', publicacaoFeed.feed?.id, 'view' ]" >{{publicacaoFeed.feed?.titulo}}</a>
+                    </div>
+                </td>
+                <td class="text-right">
+                    <div class="btn-group">
+                        <button type="submit"
+                                [routerLink]="['/publicacao-feed', publicacaoFeed.id, 'view' ]"
+                                class="btn btn-info btn-sm">
+                            <fa-icon [icon]="'eye'"></fa-icon>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/publicacao-feed', publicacaoFeed.id, 'edit']"
+                                class="btn btn-primary btn-sm">
+                            <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                        </button>
+                        <button type="submit" (click)="delete(publicacaoFeed)"
+                                class="btn btn-danger btn-sm">
+                            <fa-icon [icon]="'times'"></fa-icon>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div *ngIf="publicacaoFeeds?.length > 0">
+        <div class="row justify-content-center">
+            <jhi-item-count [page]="page" [total]="totalItems" [itemsPerPage]="itemsPerPage"></jhi-item-count>
+        </div>
+        <div class="row justify-content-center">
+            <ngb-pagination [collectionSize]="totalItems" [(page)]="ngbPaginationPage" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage($event)"></ngb-pagination>
+        </div>
+    </div>
+</div>

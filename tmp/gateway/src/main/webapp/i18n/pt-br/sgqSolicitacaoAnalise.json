@@ -1,0 +1,37 @@
+{
+  "gatewayApp": {
+    "sgqSolicitacaoAnalise": {
+      "home": {
+        "title": "Solicitacao Analises",
+        "createLabel": "Criar novo Solicitacao Analise",
+        "createOrEditLabel": "Criar ou editar Solicitacao Analise",
+        "notFound": "Nenhum Solicitacao Analise encontrado"
+      },
+      "delete": {
+        "question": "Tem certeza de que deseja excluir Solicitacao Analise {{ id }}?"
+      },
+      "detail": {
+        "title": "Solicitacao Analise"
+      },
+      "idUsuarioRegistro": "Id Usuario Registro",
+      "dataRegistro": "Data Registro",
+      "dataSolicitacao": "Data Solicitacao",
+      "idAcompanhamento": "Id Acompanhamento",
+      "status": "Status",
+      "analiseConsultoria": "Analise Consultoria",
+      "naoConformidade": "Nao Conformidade",
+      "consultoria": "Consultoria",
+      "help": {
+        "dataSolicitacao": "Data em que a solicitação foi recebida pela consultoria",
+        "idAcompanhamento": "ID retornado pela consultoria para acompanhamento da solicitação"
+      }
+    }
+  },
+  "sgqApp": {
+    "sgqSolicitacaoAnalise": {
+      "created": "Um novo Solicitacao Analise foi criado com o identificador {{ param }}",
+      "updated": "Um Solicitacao Analise foi atualizado com o identificador {{ param }}",
+      "deleted": "Um Solicitacao Analise foi excluído com o identificador {{ param }}"
+    }
+  }
+}

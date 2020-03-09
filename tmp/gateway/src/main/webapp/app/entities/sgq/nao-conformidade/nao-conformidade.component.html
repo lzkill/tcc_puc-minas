@@ -1,0 +1,97 @@
+<div>
+    <h2 id="page-heading">
+        <span jhiTranslate="gatewayApp.sgqNaoConformidade.home.title">Nao Conformidades</span>
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-nao-conformidade" [routerLink]="['/nao-conformidade/new']">
+            <fa-icon [icon]="'plus'"></fa-icon>
+            <span  jhiTranslate="gatewayApp.sgqNaoConformidade.home.createLabel">
+            Create a new Nao Conformidade
+            </span>
+        </button>
+    </h2>
+    <jhi-alert-error></jhi-alert-error>
+    <jhi-alert></jhi-alert>
+    <br/>
+    <div class="alert alert-warning" *ngIf="naoConformidades?.length === 0">
+        <span jhiTranslate="gatewayApp.sgqNaoConformidade.home.notFound">No naoConformidades found</span>
+    </div>
+    <div class="table-responsive" *ngIf="naoConformidades?.length > 0">
+        <table class="table table-striped" aria-describedby="page-heading">
+            <thead>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
+            <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="idUsuarioRegistro"><span jhiTranslate="gatewayApp.sgqNaoConformidade.idUsuarioRegistro">Id Usuario Registro</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="idUsuarioResponsavel"><span jhiTranslate="gatewayApp.sgqNaoConformidade.idUsuarioResponsavel">Id Usuario Responsavel</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="titulo"><span jhiTranslate="gatewayApp.sgqNaoConformidade.titulo">Titulo</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="descricao"><span jhiTranslate="gatewayApp.sgqNaoConformidade.descricao">Descricao</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="procedente"><span jhiTranslate="gatewayApp.sgqNaoConformidade.procedente">Procedente</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="causa"><span jhiTranslate="gatewayApp.sgqNaoConformidade.causa">Causa</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="prazoConclusao"><span jhiTranslate="gatewayApp.sgqNaoConformidade.prazoConclusao">Prazo Conclusao</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="novoPrazoConclusao"><span jhiTranslate="gatewayApp.sgqNaoConformidade.novoPrazoConclusao">Novo Prazo Conclusao</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="dataRegistro"><span jhiTranslate="gatewayApp.sgqNaoConformidade.dataRegistro">Data Registro</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="dataConclusao"><span jhiTranslate="gatewayApp.sgqNaoConformidade.dataConclusao">Data Conclusao</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="analiseFinal"><span jhiTranslate="gatewayApp.sgqNaoConformidade.analiseFinal">Analise Final</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="statusSGQ"><span jhiTranslate="gatewayApp.sgqNaoConformidade.statusSGQ">Status SGQ</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="auditoria.id"><span jhiTranslate="gatewayApp.sgqNaoConformidade.auditoria">Auditoria</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="resultadoChecklist.id"><span jhiTranslate="gatewayApp.sgqNaoConformidade.resultadoChecklist">Resultado Checklist</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let naoConformidade of naoConformidades ;trackBy: trackId">
+                <td><a [routerLink]="['/nao-conformidade', naoConformidade.id, 'view' ]">{{naoConformidade.id}}</a></td>
+                <td>{{naoConformidade.idUsuarioRegistro}}</td>
+                <td>{{naoConformidade.idUsuarioResponsavel}}</td>
+                <td>{{naoConformidade.titulo}}</td>
+                <td>{{naoConformidade.descricao}}</td>
+                <td>{{naoConformidade.procedente}}</td>
+                <td>{{naoConformidade.causa}}</td>
+                <td>{{naoConformidade.prazoConclusao | date:'medium'}}</td>
+                <td>{{naoConformidade.novoPrazoConclusao | date:'medium'}}</td>
+                <td>{{naoConformidade.dataRegistro | date:'medium'}}</td>
+                <td>{{naoConformidade.dataConclusao | date:'medium'}}</td>
+                <td>{{naoConformidade.analiseFinal}}</td>
+                <td jhiTranslate="{{'gatewayApp.StatusSGQ.' + naoConformidade.statusSGQ}}">{{naoConformidade.statusSGQ}}</td>
+                <td>
+                    <div *ngIf="naoConformidade.auditoria">
+                        <a [routerLink]="['/auditoria', naoConformidade.auditoria?.id, 'view' ]" >{{naoConformidade.auditoria?.id}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="naoConformidade.resultadoChecklist">
+                        <a [routerLink]="['/resultado-checklist', naoConformidade.resultadoChecklist?.id, 'view' ]" >{{naoConformidade.resultadoChecklist?.id}}</a>
+                    </div>
+                </td>
+                <td class="text-right">
+                    <div class="btn-group">
+                        <button type="submit"
+                                [routerLink]="['/nao-conformidade', naoConformidade.id, 'view' ]"
+                                class="btn btn-info btn-sm">
+                            <fa-icon [icon]="'eye'"></fa-icon>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/nao-conformidade', naoConformidade.id, 'edit']"
+                                class="btn btn-primary btn-sm">
+                            <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                        </button>
+                        <button type="submit" (click)="delete(naoConformidade)"
+                                class="btn btn-danger btn-sm">
+                            <fa-icon [icon]="'times'"></fa-icon>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div *ngIf="naoConformidades?.length > 0">
+        <div class="row justify-content-center">
+            <jhi-item-count [page]="page" [total]="totalItems" [itemsPerPage]="itemsPerPage"></jhi-item-count>
+        </div>
+        <div class="row justify-content-center">
+            <ngb-pagination [collectionSize]="totalItems" [(page)]="ngbPaginationPage" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage($event)"></ngb-pagination>
+        </div>
+    </div>
+</div>

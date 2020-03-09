@@ -1,0 +1,72 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+            <h2 id="jhi-resultado-item-checklist-heading" jhiTranslate="gatewayApp.sgqResultadoItemChecklist.home.createOrEditLabel">Create or edit a Resultado Item Checklist</h2>
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+                <div class="form-group" [hidden]="!editForm.get('id')!.value">
+                    <label for="id" jhiTranslate="global.field.id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id" formControlName="id"
+                        readonly />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="gatewayApp.sgqResultadoItemChecklist.conforme" for="field_conforme">Conforme</label>
+                    <input type="checkbox" class="form-control" name="conforme" id="field_conforme"
+                           formControlName="conforme"/>
+                    <div *ngIf="editForm.get('conforme')!.invalid && (editForm.get('conforme')!.dirty || editForm.get('conforme')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('conforme')?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="gatewayApp.sgqResultadoItemChecklist.descricao" for="field_descricao">Descricao</label>
+                    <textarea class="form-control" name="descricao" id="field_descricao"
+                              formControlName="descricao"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="gatewayApp.sgqResultadoItemChecklist.item" for="field_item">Item</label>
+                    <select class="form-control" id="field_item" name="item" formControlName="item">
+                        <option *ngIf="!editForm.get('item')!.value" [ngValue]="null" selected></option>
+                        <option [ngValue]="itemChecklistOption.id === editForm.get('item')!.value?.id ? editForm.get('item')!.value : itemChecklistOption" *ngFor="let itemChecklistOption of itemchecklists; trackBy: trackById">{{itemChecklistOption.titulo}}</option>
+                    </select>
+                </div>
+                <div *ngIf="editForm.get('item')!.invalid && (editForm.get('item')!.dirty || editForm.get('item')!.touched)">
+                    <small class="form-text text-danger"
+                           *ngIf="editForm.get('item')?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                    </small>
+                </div>
+                <div class="form-group">
+                    <label jhiTranslate="gatewayApp.sgqResultadoItemChecklist.anexo" for="field_anexos">Anexo</label>
+                    <select class="form-control" id="field_anexos" multiple name="anexos" formControlName="anexos">
+                        <option [ngValue]="getSelected(editForm.get('anexos')!.value, anexoOption)" *ngFor="let anexoOption of anexos; trackBy: trackById">{{anexoOption.nomeArquivo}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="gatewayApp.sgqResultadoItemChecklist.resultado" for="field_resultado">Resultado</label>
+                    <select class="form-control" id="field_resultado" name="resultado" formControlName="resultado">
+                        <option *ngIf="!editForm.get('resultado')!.value" [ngValue]="null" selected></option>
+                        <option [ngValue]="resultadoChecklistOption.id === editForm.get('resultado')!.value?.id ? editForm.get('resultado')!.value : resultadoChecklistOption" *ngFor="let resultadoChecklistOption of resultadochecklists; trackBy: trackById">{{resultadoChecklistOption.id}}</option>
+                    </select>
+                </div>
+                <div *ngIf="editForm.get('resultado')!.invalid && (editForm.get('resultado')!.dirty || editForm.get('resultado')!.touched)">
+                    <small class="form-text text-danger"
+                           *ngIf="editForm.get('resultado')?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                    </small>
+                </div>
+            </div>
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

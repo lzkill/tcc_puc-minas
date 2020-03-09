@@ -1,0 +1,85 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="produtoNaoConforme">
+            <h2><span jhiTranslate="gatewayApp.sgqProdutoNaoConforme.detail.title">Produto Nao Conforme</span> {{produtoNaoConforme.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="gatewayApp.sgqProdutoNaoConforme.idUsuarioRegistro">Id Usuario Registro</span></dt>
+                <dd>
+                    <span>{{produtoNaoConforme.idUsuarioRegistro}}</span>
+                </dd>
+                <dt><span jhiTranslate="gatewayApp.sgqProdutoNaoConforme.idUsuarioResponsavel">Id Usuario Responsavel</span></dt>
+                <dd>
+                    <span>{{produtoNaoConforme.idUsuarioResponsavel}}</span>
+                </dd>
+                <dt><span jhiTranslate="gatewayApp.sgqProdutoNaoConforme.titulo">Titulo</span></dt>
+                <dd>
+                    <span>{{produtoNaoConforme.titulo}}</span>
+                </dd>
+                <dt><span jhiTranslate="gatewayApp.sgqProdutoNaoConforme.descricao">Descricao</span></dt>
+                <dd>
+                    <span>{{produtoNaoConforme.descricao}}</span>
+                </dd>
+                <dt><span jhiTranslate="gatewayApp.sgqProdutoNaoConforme.procedente" [ngbTooltip]="'gatewayApp.sgqProdutoNaoConforme.help.procedente' | translate">Procedente</span></dt>
+                <dd>
+                    <span>{{produtoNaoConforme.procedente}}</span>
+                </dd>
+                <dt><span jhiTranslate="gatewayApp.sgqProdutoNaoConforme.dataRegistro">Data Registro</span></dt>
+                <dd>
+                    <span>{{produtoNaoConforme.dataRegistro}}</span>
+                </dd>
+                <dt><span jhiTranslate="gatewayApp.sgqProdutoNaoConforme.analiseFinal" [ngbTooltip]="'gatewayApp.sgqProdutoNaoConforme.help.analiseFinal' | translate">Analise Final</span></dt>
+                <dd>
+                    <span>{{produtoNaoConforme.analiseFinal}}</span>
+                </dd>
+                <dt><span jhiTranslate="gatewayApp.sgqProdutoNaoConforme.statusSGQ">Status SGQ</span></dt>
+                <dd>
+                    <span jhiTranslate="{{'gatewayApp.StatusSGQ.' + produtoNaoConforme.statusSGQ}}">{{produtoNaoConforme.statusSGQ}}</span>
+                </dd>
+                <dt><span jhiTranslate="gatewayApp.sgqProdutoNaoConforme.acao">Acao</span></dt>
+                <dd>
+                    <div *ngIf="produtoNaoConforme.acao">
+                        <a [routerLink]="['/acao-sgq', produtoNaoConforme.acao?.id, 'view']">{{produtoNaoConforme.acao?.titulo}}</a>
+                    </div>
+                </dd>
+                <dt><span jhiTranslate="gatewayApp.sgqProdutoNaoConforme.naoConformidade">Nao Conformidade</span></dt>
+                <dd>
+                    <div *ngIf="produtoNaoConforme.naoConformidade">
+                        <a [routerLink]="['/nao-conformidade', produtoNaoConforme.naoConformidade?.id, 'view']">{{produtoNaoConforme.naoConformidade?.titulo}}</a>
+                    </div>
+                </dd>
+                <dt><span jhiTranslate="gatewayApp.sgqProdutoNaoConforme.produto">Produto</span></dt>
+                <dd>
+                    <div *ngIf="produtoNaoConforme.produto">
+                        <a [routerLink]="['/produto', produtoNaoConforme.produto?.id, 'view']">{{produtoNaoConforme.produto?.nome}}</a>
+                    </div>
+                </dd>
+                <dt><span jhiTranslate="gatewayApp.sgqProdutoNaoConforme.anexo">Anexo</span></dt>
+                <dd>
+                    <span *ngFor="let anexo of produtoNaoConforme.anexos; let last = last">
+                        <a [routerLink]="['/anexo', anexo?.id, 'view' ]">{{anexo.nomeArquivo}}</a>{{last ? '' : ', '}}
+                    </span>
+                </dd>
+                <dt><span jhiTranslate="gatewayApp.sgqProdutoNaoConforme.resultadoChecklist">Resultado Checklist</span></dt>
+                <dd>
+                    <div *ngIf="produtoNaoConforme.resultadoChecklist">
+                        <a [routerLink]="['/resultado-checklist', produtoNaoConforme.resultadoChecklist?.id, 'view']">{{produtoNaoConforme.resultadoChecklist?.id}}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/produto-nao-conforme', produtoNaoConforme.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

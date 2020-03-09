@@ -1,0 +1,30 @@
+{
+  "gatewayApp": {
+    "sgqResultadoItemChecklist": {
+      "home": {
+        "title": "Resultado Item Checklists",
+        "createLabel": "Criar novo Resultado Item Checklist",
+        "createOrEditLabel": "Criar ou editar Resultado Item Checklist",
+        "notFound": "Nenhum Resultado Item Checklist encontrado"
+      },
+      "delete": {
+        "question": "Tem certeza de que deseja excluir Resultado Item Checklist {{ id }}?"
+      },
+      "detail": {
+        "title": "Resultado Item Checklist"
+      },
+      "conforme": "Conforme",
+      "descricao": "Descricao",
+      "item": "Item",
+      "anexo": "Anexo",
+      "resultado": "Resultado"
+    }
+  },
+  "sgqApp": {
+    "sgqResultadoItemChecklist": {
+      "created": "Um novo Resultado Item Checklist foi criado com o identificador {{ param }}",
+      "updated": "Um Resultado Item Checklist foi atualizado com o identificador {{ param }}",
+      "deleted": "Um Resultado Item Checklist foi excluído com o identificador {{ param }}"
+    }
+  }
+}

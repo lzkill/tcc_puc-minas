@@ -1,0 +1,61 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="itemPlanoAuditoria">
+            <h2><span jhiTranslate="gatewayApp.sgqItemPlanoAuditoria.detail.title">Item Plano Auditoria</span> {{itemPlanoAuditoria.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="gatewayApp.sgqItemPlanoAuditoria.titulo">Titulo</span></dt>
+                <dd>
+                    <span>{{itemPlanoAuditoria.titulo}}</span>
+                </dd>
+                <dt><span jhiTranslate="gatewayApp.sgqItemPlanoAuditoria.descricao">Descricao</span></dt>
+                <dd>
+                    <span>{{itemPlanoAuditoria.descricao}}</span>
+                </dd>
+                <dt><span jhiTranslate="gatewayApp.sgqItemPlanoAuditoria.modalidade">Modalidade</span></dt>
+                <dd>
+                    <span jhiTranslate="{{'gatewayApp.ModalidadeAuditoria.' + itemPlanoAuditoria.modalidade}}">{{itemPlanoAuditoria.modalidade}}</span>
+                </dd>
+                <dt><span jhiTranslate="gatewayApp.sgqItemPlanoAuditoria.dataInicio">Data Inicio</span></dt>
+                <dd>
+                    <span>{{itemPlanoAuditoria.dataInicio}}</span>
+                </dd>
+                <dt><span jhiTranslate="gatewayApp.sgqItemPlanoAuditoria.dataFim">Data Fim</span></dt>
+                <dd>
+                    <span>{{itemPlanoAuditoria.dataFim}}</span>
+                </dd>
+                <dt><span jhiTranslate="gatewayApp.sgqItemPlanoAuditoria.itemAuditoria">Item Auditoria</span></dt>
+                <dd>
+                    <div *ngIf="itemPlanoAuditoria.itemAuditoria">
+                        <a [routerLink]="['/item-auditoria', itemPlanoAuditoria.itemAuditoria?.id, 'view']">{{itemPlanoAuditoria.itemAuditoria?.titulo}}</a>
+                    </div>
+                </dd>
+                <dt><span jhiTranslate="gatewayApp.sgqItemPlanoAuditoria.anexo">Anexo</span></dt>
+                <dd>
+                    <span *ngFor="let anexo of itemPlanoAuditoria.anexos; let last = last">
+                        <a [routerLink]="['/anexo', anexo?.id, 'view' ]">{{anexo.nomeArquivo}}</a>{{last ? '' : ', '}}
+                    </span>
+                </dd>
+                <dt><span jhiTranslate="gatewayApp.sgqItemPlanoAuditoria.plano">Plano</span></dt>
+                <dd>
+                    <div *ngIf="itemPlanoAuditoria.plano">
+                        <a [routerLink]="['/plano-auditoria', itemPlanoAuditoria.plano?.id, 'view']">{{itemPlanoAuditoria.plano?.titulo}}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/item-plano-auditoria', itemPlanoAuditoria.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

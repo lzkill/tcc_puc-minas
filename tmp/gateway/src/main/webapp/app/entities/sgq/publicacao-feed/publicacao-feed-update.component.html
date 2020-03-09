@@ -1,0 +1,189 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+            <h2 id="jhi-publicacao-feed-heading" jhiTranslate="gatewayApp.sgqPublicacaoFeed.home.createOrEditLabel">Create or edit a Publicacao Feed</h2>
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+                <div class="form-group" [hidden]="!editForm.get('id')!.value">
+                    <label for="id" jhiTranslate="global.field.id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id" formControlName="id"
+                        readonly />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="gatewayApp.sgqPublicacaoFeed.idUsuarioRegistro" for="field_idUsuarioRegistro">Id Usuario Registro</label>
+                    <input type="number" class="form-control" name="idUsuarioRegistro" id="field_idUsuarioRegistro"
+                           formControlName="idUsuarioRegistro"/>
+                    <div *ngIf="editForm.get('idUsuarioRegistro')!.invalid && (editForm.get('idUsuarioRegistro')!.dirty || editForm.get('idUsuarioRegistro')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('idUsuarioRegistro')?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.get('idUsuarioRegistro')?.errors?.number" jhiTranslate="entity.validation.number">
+                            This field should be a number.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="gatewayApp.sgqPublicacaoFeed.titulo" for="field_titulo">Titulo</label>
+                    <input type="text" class="form-control" name="titulo" id="field_titulo"
+                           formControlName="titulo"/>
+                    <div *ngIf="editForm.get('titulo')!.invalid && (editForm.get('titulo')!.dirty || editForm.get('titulo')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('titulo')?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('titulo')?.errors?.minlength" jhiTranslate="entity.validation.minlength" [translateValues]="{ min: 1 }">
+                        This field is required to be at least 1 characters.
+                        </small>
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('titulo')?.errors?.maxlength" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: 100 }">
+                        This field cannot be longer than 100 characters.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="gatewayApp.sgqPublicacaoFeed.autor" for="field_autor">Autor</label>
+                    <input type="text" class="form-control" name="autor" id="field_autor"
+                           formControlName="autor"/>
+                    <div *ngIf="editForm.get('autor')!.invalid && (editForm.get('autor')!.dirty || editForm.get('autor')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('autor')?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('autor')?.errors?.minlength" jhiTranslate="entity.validation.minlength" [translateValues]="{ min: 1 }">
+                        This field is required to be at least 1 characters.
+                        </small>
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('autor')?.errors?.maxlength" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: 100 }">
+                        This field cannot be longer than 100 characters.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="gatewayApp.sgqPublicacaoFeed.uri" for="field_uri">Uri</label>
+                    <input type="text" class="form-control" name="uri" id="field_uri"
+                           formControlName="uri"/>
+                    <div *ngIf="editForm.get('uri')!.invalid && (editForm.get('uri')!.dirty || editForm.get('uri')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('uri')?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('uri')?.errors?.minlength" jhiTranslate="entity.validation.minlength" [translateValues]="{ min: 1 }">
+                        This field is required to be at least 1 characters.
+                        </small>
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('uri')?.errors?.maxlength" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: 150 }">
+                        This field cannot be longer than 150 characters.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="gatewayApp.sgqPublicacaoFeed.link" for="field_link">Link</label>
+                    <input type="text" class="form-control" name="link" id="field_link"
+                           formControlName="link"/>
+                    <div *ngIf="editForm.get('link')!.invalid && (editForm.get('link')!.dirty || editForm.get('link')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('link')?.errors?.minlength" jhiTranslate="entity.validation.minlength" [translateValues]="{ min: 1 }">
+                        This field is required to be at least 1 characters.
+                        </small>
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('link')?.errors?.maxlength" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: 150 }">
+                        This field cannot be longer than 150 characters.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="gatewayApp.sgqPublicacaoFeed.conteudo" for="field_conteudo">Conteudo</label>
+                    <textarea class="form-control" name="conteudo" id="field_conteudo"
+                              formControlName="conteudo"></textarea>
+                    <div *ngIf="editForm.get('conteudo')!.invalid && (editForm.get('conteudo')!.dirty || editForm.get('conteudo')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('conteudo')?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="gatewayApp.sgqPublicacaoFeed.dataRegistro" for="field_dataRegistro">Data Registro</label>
+                    <div class="d-flex">
+                        <input id="field_dataRegistro" type="datetime-local" class="form-control" name="dataRegistro" formControlName="dataRegistro" placeholder="YYYY-MM-DD HH:mm"/>
+                    </div>
+                    <div *ngIf="editForm.get('dataRegistro')!.invalid && (editForm.get('dataRegistro')!.dirty || editForm.get('dataRegistro')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('dataRegistro')?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.get('dataRegistro')?.errors?.ZonedDateTimelocal" jhiTranslate="entity.validation.ZonedDateTimelocal">
+                            This field should be a date and time.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="gatewayApp.sgqPublicacaoFeed.dataPublicacao" for="field_dataPublicacao">Data Publicacao</label>
+                    <div class="d-flex">
+                        <input id="field_dataPublicacao" type="datetime-local" class="form-control" name="dataPublicacao" formControlName="dataPublicacao" placeholder="YYYY-MM-DD HH:mm"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="gatewayApp.sgqPublicacaoFeed.status" for="field_status">Status</label>
+                    <select class="form-control" name="status" formControlName="status" id="field_status">
+                        <option value="RASCUNHO">{{'gatewayApp.StatusPublicacao.RASCUNHO' | translate}}</option>
+                        <option value="APROVADO">{{'gatewayApp.StatusPublicacao.APROVADO' | translate}}</option>
+                        <option value="PUBLICADO">{{'gatewayApp.StatusPublicacao.PUBLICADO' | translate}}</option>
+                    </select>
+                    <div *ngIf="editForm.get('status')!.invalid && (editForm.get('status')!.dirty || editForm.get('status')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('status')?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="gatewayApp.sgqPublicacaoFeed.feed" for="field_feed">Feed</label>
+                    <select class="form-control" id="field_feed" name="feed" formControlName="feed">
+                        <option *ngIf="!editForm.get('feed')!.value" [ngValue]="null" selected></option>
+                        <option [ngValue]="feedOption.id === editForm.get('feed')!.value?.id ? editForm.get('feed')!.value : feedOption" *ngFor="let feedOption of feeds; trackBy: trackById">{{feedOption.titulo}}</option>
+                    </select>
+                </div>
+                <div *ngIf="editForm.get('feed')!.invalid && (editForm.get('feed')!.dirty || editForm.get('feed')!.touched)">
+                    <small class="form-text text-danger"
+                           *ngIf="editForm.get('feed')?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                    </small>
+                </div>
+                <div class="form-group">
+                    <label jhiTranslate="gatewayApp.sgqPublicacaoFeed.categoria" for="field_categorias">Categoria</label>
+                    <select class="form-control" id="field_categorias" multiple name="categorias" formControlName="categorias">
+                        <option [ngValue]="getSelected(editForm.get('categorias')!.value, categoriaPublicacaoOption)" *ngFor="let categoriaPublicacaoOption of categoriapublicacaos; trackBy: trackById">{{categoriaPublicacaoOption.titulo}}</option>
+                    </select>
+                </div>
+                <div *ngIf="editForm.get('categorias')!.invalid && (editForm.get('categorias')!.dirty || editForm.get('categorias')!.touched)">
+                    <small class="form-text text-danger"
+                           *ngIf="editForm.get('categorias')?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                    </small>
+                </div>
+                <div class="form-group">
+                    <label jhiTranslate="gatewayApp.sgqPublicacaoFeed.anexo" for="field_anexos">Anexo</label>
+                    <select class="form-control" id="field_anexos" multiple name="anexos" formControlName="anexos">
+                        <option [ngValue]="getSelected(editForm.get('anexos')!.value, anexoOption)" *ngFor="let anexoOption of anexos; trackBy: trackById">{{anexoOption.nomeArquivo}}</option>
+                    </select>
+                </div>
+            </div>
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,76 @@
+{
+    "name": "ResultadoChecklist",
+    "fields": [
+        {
+            "fieldName": "idUsuarioRegistro",
+            "fieldType": "Integer",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "dataRegistro",
+            "fieldType": "Instant",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "dataVerificacao",
+            "fieldType": "Instant",
+            "fieldValidateRules": [
+                "required"
+            ]
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "one-to-many",
+            "otherEntityName": "resultadoItemChecklist",
+            "otherEntityRelationshipName": "resultado",
+            "relationshipName": "resultadoItem"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "otherEntityName": "naoConformidade",
+            "otherEntityRelationshipName": "resultadoChecklist",
+            "relationshipName": "naoConformidade"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "otherEntityName": "produtoNaoConforme",
+            "otherEntityRelationshipName": "resultadoChecklist",
+            "relationshipName": "produtoNaoConforme"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "checklist",
+            "otherEntityRelationshipName": "resultadoChecklist",
+            "relationshipValidateRules": "required",
+            "relationshipName": "checklist",
+            "otherEntityField": "titulo"
+        },
+        {
+            "relationshipType": "many-to-many",
+            "otherEntityName": "anexo",
+            "otherEntityRelationshipName": "resultadoChecklist",
+            "relationshipName": "anexo",
+            "otherEntityField": "nomeArquivo",
+            "ownerSide": true
+        }
+    ],
+    "changelogDate": "20200309095450",
+    "entityTableName": "resultado_checklist",
+    "dto": "no",
+    "pagination": "pagination",
+    "service": "serviceClass",
+    "jpaMetamodelFiltering": true,
+    "fluentMethods": true,
+    "readOnly": false,
+    "clientRootFolder": "",
+    "applications": [
+        "gateway",
+        "sgq"
+    ],
+    "microserviceName": "sgq"
+}

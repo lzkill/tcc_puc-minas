@@ -1,0 +1,65 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="boletimInformativo">
+            <h2><span jhiTranslate="gatewayApp.sgqBoletimInformativo.detail.title">Boletim Informativo</span> {{boletimInformativo.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="gatewayApp.sgqBoletimInformativo.idUsuarioRegistro">Id Usuario Registro</span></dt>
+                <dd>
+                    <span>{{boletimInformativo.idUsuarioRegistro}}</span>
+                </dd>
+                <dt><span jhiTranslate="gatewayApp.sgqBoletimInformativo.titulo">Titulo</span></dt>
+                <dd>
+                    <span>{{boletimInformativo.titulo}}</span>
+                </dd>
+                <dt><span jhiTranslate="gatewayApp.sgqBoletimInformativo.descricao">Descricao</span></dt>
+                <dd>
+                    <span>{{boletimInformativo.descricao}}</span>
+                </dd>
+                <dt><span jhiTranslate="gatewayApp.sgqBoletimInformativo.dataRegistro">Data Registro</span></dt>
+                <dd>
+                    <span>{{boletimInformativo.dataRegistro}}</span>
+                </dd>
+                <dt><span jhiTranslate="gatewayApp.sgqBoletimInformativo.dataPublicacao">Data Publicacao</span></dt>
+                <dd>
+                    <span>{{boletimInformativo.dataPublicacao}}</span>
+                </dd>
+                <dt><span jhiTranslate="gatewayApp.sgqBoletimInformativo.status">Status</span></dt>
+                <dd>
+                    <span jhiTranslate="{{'gatewayApp.StatusPublicacao.' + boletimInformativo.status}}">{{boletimInformativo.status}}</span>
+                </dd>
+                <dt><span jhiTranslate="gatewayApp.sgqBoletimInformativo.publicoAlvo">Publico Alvo</span></dt>
+                <dd>
+                    <div *ngIf="boletimInformativo.publicoAlvo">
+                        <a [routerLink]="['/publico-alvo', boletimInformativo.publicoAlvo?.id, 'view']">{{boletimInformativo.publicoAlvo?.nome}}</a>
+                    </div>
+                </dd>
+                <dt><span jhiTranslate="gatewayApp.sgqBoletimInformativo.categoria">Categoria</span></dt>
+                <dd>
+                    <span *ngFor="let categoria of boletimInformativo.categorias; let last = last">
+                        <a [routerLink]="['/categoria-publicacao', categoria?.id, 'view' ]">{{categoria.titulo}}</a>{{last ? '' : ', '}}
+                    </span>
+                </dd>
+                <dt><span jhiTranslate="gatewayApp.sgqBoletimInformativo.anexo">Anexo</span></dt>
+                <dd>
+                    <span *ngFor="let anexo of boletimInformativo.anexos; let last = last">
+                        <a [routerLink]="['/anexo', anexo?.id, 'view' ]">{{anexo.nomeArquivo}}</a>{{last ? '' : ', '}}
+                    </span>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/boletim-informativo', boletimInformativo.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

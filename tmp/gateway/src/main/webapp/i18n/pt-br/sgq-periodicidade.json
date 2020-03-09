@@ -1,0 +1,15 @@
+{
+  "gatewayApp": {
+    "Periodicidade": {
+      "null": "",
+      "DIARIA": "DIARIA",
+      "SEMANAL": "SEMANAL",
+      "QUINZENAL": "QUINZENAL",
+      "MENSAL": "MENSAL",
+      "BIMESTRAL": "BIMESTRAL",
+      "TRIMESTRAL": "TRIMESTRAL",
+      "SEMESTRAL": "SEMESTRAL",
+      "ANUAL": "ANUAL"
+    }
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "gatewayApp": {
+    "StatusSolicitacaoAnalise": {
+      "null": "",
+      "REGISTRADO": "REGISTRADO",
+      "PENDENTE": "PENDENTE",
+      "CONCLUIDO": "CONCLUIDO"
+    }
+  }
+}

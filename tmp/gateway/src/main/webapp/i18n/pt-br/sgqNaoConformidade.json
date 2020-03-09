@@ -1,0 +1,46 @@
+{
+  "gatewayApp": {
+    "sgqNaoConformidade": {
+      "home": {
+        "title": "Nao Conformidades",
+        "createLabel": "Criar novo Nao Conformidade",
+        "createOrEditLabel": "Criar ou editar Nao Conformidade",
+        "notFound": "Nenhum Nao Conformidade encontrado"
+      },
+      "delete": {
+        "question": "Tem certeza de que deseja excluir Nao Conformidade {{ id }}?"
+      },
+      "detail": {
+        "title": "Nao Conformidade"
+      },
+      "idUsuarioRegistro": "Id Usuario Registro",
+      "idUsuarioResponsavel": "Id Usuario Responsavel",
+      "titulo": "Titulo",
+      "descricao": "Descricao",
+      "procedente": "Procedente",
+      "causa": "Causa",
+      "prazoConclusao": "Prazo Conclusao",
+      "novoPrazoConclusao": "Novo Prazo Conclusao",
+      "dataRegistro": "Data Registro",
+      "dataConclusao": "Data Conclusao",
+      "analiseFinal": "Analise Final",
+      "statusSGQ": "Status SGQ",
+      "acaoSGQ": "Acao SGQ",
+      "anexo": "Anexo",
+      "auditoria": "Auditoria",
+      "resultadoChecklist": "Resultado Checklist",
+      "help": {
+        "procedente": "O fato descrito implica de fato uma NC?",
+        "causa": "O fechamento da NC só é possível se houver identificação de causa",
+        "analiseFinal": "Análise de eficácia"
+      }
+    }
+  },
+  "sgqApp": {
+    "sgqNaoConformidade": {
+      "created": "Um novo Nao Conformidade foi criado com o identificador {{ param }}",
+      "updated": "Um Nao Conformidade foi atualizado com o identificador {{ param }}",
+      "deleted": "Um Nao Conformidade foi excluído com o identificador {{ param }}"
+    }
+  }
+}

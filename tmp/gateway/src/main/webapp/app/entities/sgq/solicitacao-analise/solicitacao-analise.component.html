@@ -1,0 +1,89 @@
+<div>
+    <h2 id="page-heading">
+        <span jhiTranslate="gatewayApp.sgqSolicitacaoAnalise.home.title">Solicitacao Analises</span>
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-solicitacao-analise" [routerLink]="['/solicitacao-analise/new']">
+            <fa-icon [icon]="'plus'"></fa-icon>
+            <span  jhiTranslate="gatewayApp.sgqSolicitacaoAnalise.home.createLabel">
+            Create a new Solicitacao Analise
+            </span>
+        </button>
+    </h2>
+    <jhi-alert-error></jhi-alert-error>
+    <jhi-alert></jhi-alert>
+    <br/>
+    <div class="alert alert-warning" *ngIf="solicitacaoAnalises?.length === 0">
+        <span jhiTranslate="gatewayApp.sgqSolicitacaoAnalise.home.notFound">No solicitacaoAnalises found</span>
+    </div>
+    <div class="table-responsive" *ngIf="solicitacaoAnalises?.length > 0">
+        <table class="table table-striped" aria-describedby="page-heading">
+            <thead>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
+            <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="idUsuarioRegistro"><span jhiTranslate="gatewayApp.sgqSolicitacaoAnalise.idUsuarioRegistro">Id Usuario Registro</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="dataRegistro"><span jhiTranslate="gatewayApp.sgqSolicitacaoAnalise.dataRegistro">Data Registro</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="dataSolicitacao"><span jhiTranslate="gatewayApp.sgqSolicitacaoAnalise.dataSolicitacao">Data Solicitacao</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="idAcompanhamento"><span jhiTranslate="gatewayApp.sgqSolicitacaoAnalise.idAcompanhamento">Id Acompanhamento</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="status"><span jhiTranslate="gatewayApp.sgqSolicitacaoAnalise.status">Status</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="analiseConsultoria.id"><span jhiTranslate="gatewayApp.sgqSolicitacaoAnalise.analiseConsultoria">Analise Consultoria</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="naoConformidade.titulo"><span jhiTranslate="gatewayApp.sgqSolicitacaoAnalise.naoConformidade">Nao Conformidade</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="consultoria.nome"><span jhiTranslate="gatewayApp.sgqSolicitacaoAnalise.consultoria">Consultoria</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let solicitacaoAnalise of solicitacaoAnalises ;trackBy: trackId">
+                <td><a [routerLink]="['/solicitacao-analise', solicitacaoAnalise.id, 'view' ]">{{solicitacaoAnalise.id}}</a></td>
+                <td>{{solicitacaoAnalise.idUsuarioRegistro}}</td>
+                <td>{{solicitacaoAnalise.dataRegistro | date:'medium'}}</td>
+                <td>{{solicitacaoAnalise.dataSolicitacao | date:'medium'}}</td>
+                <td>{{solicitacaoAnalise.idAcompanhamento}}</td>
+                <td jhiTranslate="{{'gatewayApp.StatusSolicitacaoAnalise.' + solicitacaoAnalise.status}}">{{solicitacaoAnalise.status}}</td>
+                <td>
+                    <div *ngIf="solicitacaoAnalise.analiseConsultoria">
+                        <a [routerLink]="['/analise-consultoria', solicitacaoAnalise.analiseConsultoria?.id, 'view' ]" >{{solicitacaoAnalise.analiseConsultoria?.id}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="solicitacaoAnalise.naoConformidade">
+                        <a [routerLink]="['/nao-conformidade', solicitacaoAnalise.naoConformidade?.id, 'view' ]" >{{solicitacaoAnalise.naoConformidade?.titulo}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="solicitacaoAnalise.consultoria">
+                        <a [routerLink]="['/consultoria', solicitacaoAnalise.consultoria?.id, 'view' ]" >{{solicitacaoAnalise.consultoria?.nome}}</a>
+                    </div>
+                </td>
+                <td class="text-right">
+                    <div class="btn-group">
+                        <button type="submit"
+                                [routerLink]="['/solicitacao-analise', solicitacaoAnalise.id, 'view' ]"
+                                class="btn btn-info btn-sm">
+                            <fa-icon [icon]="'eye'"></fa-icon>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/solicitacao-analise', solicitacaoAnalise.id, 'edit']"
+                                class="btn btn-primary btn-sm">
+                            <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                        </button>
+                        <button type="submit" (click)="delete(solicitacaoAnalise)"
+                                class="btn btn-danger btn-sm">
+                            <fa-icon [icon]="'times'"></fa-icon>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div *ngIf="solicitacaoAnalises?.length > 0">
+        <div class="row justify-content-center">
+            <jhi-item-count [page]="page" [total]="totalItems" [itemsPerPage]="itemsPerPage"></jhi-item-count>
+        </div>
+        <div class="row justify-content-center">
+            <ngb-pagination [collectionSize]="totalItems" [(page)]="ngbPaginationPage" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage($event)"></ngb-pagination>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,109 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+            <h2 id="jhi-item-plano-auditoria-heading" jhiTranslate="gatewayApp.sgqItemPlanoAuditoria.home.createOrEditLabel">Create or edit a Item Plano Auditoria</h2>
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+                <div class="form-group" [hidden]="!editForm.get('id')!.value">
+                    <label for="id" jhiTranslate="global.field.id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id" formControlName="id"
+                        readonly />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="gatewayApp.sgqItemPlanoAuditoria.titulo" for="field_titulo">Titulo</label>
+                    <input type="text" class="form-control" name="titulo" id="field_titulo"
+                           formControlName="titulo"/>
+                    <div *ngIf="editForm.get('titulo')!.invalid && (editForm.get('titulo')!.dirty || editForm.get('titulo')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('titulo')?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('titulo')?.errors?.minlength" jhiTranslate="entity.validation.minlength" [translateValues]="{ min: 1 }">
+                        This field is required to be at least 1 characters.
+                        </small>
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('titulo')?.errors?.maxlength" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: 100 }">
+                        This field cannot be longer than 100 characters.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="gatewayApp.sgqItemPlanoAuditoria.descricao" for="field_descricao">Descricao</label>
+                    <textarea class="form-control" name="descricao" id="field_descricao"
+                              formControlName="descricao"></textarea>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="gatewayApp.sgqItemPlanoAuditoria.modalidade" for="field_modalidade">Modalidade</label>
+                    <select class="form-control" name="modalidade" formControlName="modalidade" id="field_modalidade">
+                        <option value="INTERNA">{{'gatewayApp.ModalidadeAuditoria.INTERNA' | translate}}</option>
+                        <option value="EXTERNA">{{'gatewayApp.ModalidadeAuditoria.EXTERNA' | translate}}</option>
+                    </select>
+                    <div *ngIf="editForm.get('modalidade')!.invalid && (editForm.get('modalidade')!.dirty || editForm.get('modalidade')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('modalidade')?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="gatewayApp.sgqItemPlanoAuditoria.dataInicio" for="field_dataInicio">Data Inicio</label>
+                    <div class="d-flex">
+                        <input id="field_dataInicio" type="datetime-local" class="form-control" name="dataInicio" formControlName="dataInicio" placeholder="YYYY-MM-DD HH:mm"/>
+                    </div>
+                    <div *ngIf="editForm.get('dataInicio')!.invalid && (editForm.get('dataInicio')!.dirty || editForm.get('dataInicio')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('dataInicio')?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.get('dataInicio')?.errors?.ZonedDateTimelocal" jhiTranslate="entity.validation.ZonedDateTimelocal">
+                            This field should be a date and time.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="gatewayApp.sgqItemPlanoAuditoria.dataFim" for="field_dataFim">Data Fim</label>
+                    <div class="d-flex">
+                        <input id="field_dataFim" type="datetime-local" class="form-control" name="dataFim" formControlName="dataFim" placeholder="YYYY-MM-DD HH:mm"/>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="gatewayApp.sgqItemPlanoAuditoria.itemAuditoria" for="field_itemAuditoria">Item Auditoria</label>
+                    <select class="form-control" id="field_itemAuditoria" name="itemAuditoria" formControlName="itemAuditoria">
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="itemAuditoriaOption.id === editForm.get('itemAuditoria')!.value?.id ? editForm.get('itemAuditoria')!.value : itemAuditoriaOption" *ngFor="let itemAuditoriaOption of itemauditorias; trackBy: trackById">{{itemAuditoriaOption.titulo}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label jhiTranslate="gatewayApp.sgqItemPlanoAuditoria.anexo" for="field_anexos">Anexo</label>
+                    <select class="form-control" id="field_anexos" multiple name="anexos" formControlName="anexos">
+                        <option [ngValue]="getSelected(editForm.get('anexos')!.value, anexoOption)" *ngFor="let anexoOption of anexos; trackBy: trackById">{{anexoOption.nomeArquivo}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="gatewayApp.sgqItemPlanoAuditoria.plano" for="field_plano">Plano</label>
+                    <select class="form-control" id="field_plano" name="plano" formControlName="plano">
+                        <option *ngIf="!editForm.get('plano')!.value" [ngValue]="null" selected></option>
+                        <option [ngValue]="planoAuditoriaOption.id === editForm.get('plano')!.value?.id ? editForm.get('plano')!.value : planoAuditoriaOption" *ngFor="let planoAuditoriaOption of planoauditorias; trackBy: trackById">{{planoAuditoriaOption.titulo}}</option>
+                    </select>
+                </div>
+                <div *ngIf="editForm.get('plano')!.invalid && (editForm.get('plano')!.dirty || editForm.get('plano')!.touched)">
+                    <small class="form-text text-danger"
+                           *ngIf="editForm.get('plano')?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                    </small>
+                </div>
+            </div>
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

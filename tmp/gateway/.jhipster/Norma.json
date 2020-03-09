@@ -1,0 +1,56 @@
+{
+    "name": "Norma",
+    "fields": [
+        {
+            "fieldName": "orgao",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "titulo",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "descricao",
+            "fieldType": "byte[]",
+            "fieldTypeBlobContent": "text"
+        },
+        {
+            "fieldName": "versao",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "numeroEdicao",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "dataEdicao",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "dataInicioValidade",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "categoria",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "urlDownload",
+            "fieldType": "String"
+        }
+    ],
+    "relationships": [],
+    "changelogDate": "20200309095500",
+    "javadoc": "Do trecho\\n\\n<i>\"O repositório de normas está disponível em nuvem como um serviço (SaaS)...\"</i>\\n\\nentende-se que a aplicação deve consumir uma API cuja interface é definida\\npela empresa fornecedora de SaaS.",
+    "entityTableName": "norma",
+    "dto": "no",
+    "pagination": "pagination",
+    "service": "serviceClass",
+    "jpaMetamodelFiltering": true,
+    "fluentMethods": true,
+    "readOnly": true,
+    "clientRootFolder": "",
+    "applications": [
+        "gateway"
+    ]
+}
