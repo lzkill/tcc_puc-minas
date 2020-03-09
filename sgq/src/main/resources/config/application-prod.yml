@@ -173,4 +173,9 @@ jhipster:
 # https://www.jhipster.tech/common-application-properties/
 # ===================================================================
 
-# application:
+application:
+  scheduler:
+    enabled:
+    task-pool-size:
+  cron:
+    sync-solicitacao-analise:
