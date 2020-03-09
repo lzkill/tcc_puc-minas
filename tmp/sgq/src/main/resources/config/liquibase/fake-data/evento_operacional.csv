@@ -1,0 +1,11 @@
+id;id_usuario_registro;tipo;titulo;descricao;data_registro;data_evento;duracao;houve_parada_producao
+1;62506;FALHA_EQUIPAMENTO;demand-driven port;../fake-data/blob/hipster.txt;2020-03-09T06:34:15;2020-03-09T09:22:35;23463;true
+2;46708;FALHA_PROCESSO;Tasty;../fake-data/blob/hipster.txt;2020-03-08T16:19:41;2020-03-09T02:17:53;89190;false
+3;27783;FALHA_EQUIPAMENTO;Bedfordshire monitor;../fake-data/blob/hipster.txt;2020-03-08T14:02:02;2020-03-09T08:17:11;77568;true
+4;45381;FALHA_PROCESSO;clicks-and-mortar info-mediaries;../fake-data/blob/hipster.txt;2020-03-09T09:15:13;2020-03-08T22:03:19;94261;false
+5;12183;FALHA_EQUIPAMENTO;Metal Dynamic Table;../fake-data/blob/hipster.txt;2020-03-09T03:46:40;2020-03-08T12:11:41;60427;false
+6;25280;FALHA_PROCESSO;Soft;../fake-data/blob/hipster.txt;2020-03-09T08:43:54;2020-03-09T06:24:12;30166;true
+7;80947;FALHA_INFRA_ESTRUTURA;cross-platform;../fake-data/blob/hipster.txt;2020-03-08T17:45:36;2020-03-09T02:53:10;44756;false
+8;68107;FALHA_INFRA_ESTRUTURA;invoice Concrete;../fake-data/blob/hipster.txt;2020-03-08T11:09:35;2020-03-09T07:33:04;2301;false
+9;12258;FALHA_INFRA_ESTRUTURA;Regional Rubber transmit;../fake-data/blob/hipster.txt;2020-03-09T08:24:02;2020-03-08T16:12:38;81067;true
+10;91704;FALHA_INFRA_ESTRUTURA;back-end collaboration XSS;../fake-data/blob/hipster.txt;2020-03-09T00:25:36;2020-03-09T06:37:57;30773;false

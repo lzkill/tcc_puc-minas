@@ -1,0 +1,11 @@
+id;id_usuario_registro;titulo;descricao;data_registro;data_publicacao;status;publico_alvo_id
+1;10640;Chicken;../fake-data/blob/hipster.txt;2020-03-09T09:18:06;2020-03-09T08:01:10;PUBLICADO;1
+2;65027;Jewelery User-friendly Implemented;../fake-data/blob/hipster.txt;2020-03-08T21:32:04;2020-03-09T06:52:54;APROVADO;2
+3;22625;task-force;../fake-data/blob/hipster.txt;2020-03-08T20:37:10;2020-03-09T08:52:33;PUBLICADO;3
+4;36682;payment seamless;../fake-data/blob/hipster.txt;2020-03-09T04:16:54;2020-03-09T00:45:05;APROVADO;4
+5;58249;Iraq Avon;../fake-data/blob/hipster.txt;2020-03-08T20:36:18;2020-03-08T13:51:48;PUBLICADO;5
+6;42519;Savings Account firewall;../fake-data/blob/hipster.txt;2020-03-08T21:01:05;2020-03-09T09:11:06;PUBLICADO;6
+7;81025;Village Soft;../fake-data/blob/hipster.txt;2020-03-08T16:10:51;2020-03-08T15:24:32;RASCUNHO;7
+8;4951;synergies bus Forward;../fake-data/blob/hipster.txt;2020-03-09T03:23:47;2020-03-08T21:36:12;RASCUNHO;8
+9;11492;Table;../fake-data/blob/hipster.txt;2020-03-08T23:54:28;2020-03-09T03:54:45;PUBLICADO;9
+10;47565;Pitcairn Islands end-to-end Mobility;../fake-data/blob/hipster.txt;2020-03-09T01:12:49;2020-03-09T09:44:30;APROVADO;10

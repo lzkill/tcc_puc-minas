@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+    <!--
+        Added the constraints for entity ItemPlanoAuditoria.
+    -->
+    <changeSet id="20200309095445-2" author="jhipster">
+        
+        <addForeignKeyConstraint baseColumnNames="item_auditoria_id"
+                                 baseTableName="item_plano_auditoria"
+                                 constraintName="fk_item_plano_auditoria_item_auditoria_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="item_auditoria"/>
+
+        <addForeignKeyConstraint baseColumnNames="item_plano_auditoria_id"
+                                 baseTableName="item_plano_auditoria_anexo"
+                                 constraintName="fk_item_plano_auditoria_anexo_item_plano_auditoria_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="item_plano_auditoria"/>
+
+        <addForeignKeyConstraint baseColumnNames="anexo_id"
+                                 baseTableName="item_plano_auditoria_anexo"
+                                 constraintName="fk_item_plano_auditoria_anexo_anexo_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="anexo"/>
+        
+        <addForeignKeyConstraint baseColumnNames="plano_id"
+                                 baseTableName="item_plano_auditoria"
+                                 constraintName="fk_item_plano_auditoria_plano_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="plano_auditoria"/>
+
+    </changeSet>
+</databaseChangeLog>

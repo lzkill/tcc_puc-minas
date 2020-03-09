@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+    <!--
+        Added the constraints for entity CampanhaRecall.
+    -->
+    <changeSet id="20200309095453-2" author="jhipster">
+        
+        <addForeignKeyConstraint baseColumnNames="produto_id"
+                                 baseTableName="campanha_recall"
+                                 constraintName="fk_campanha_recall_produto_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="produto"/>
+
+        <addForeignKeyConstraint baseColumnNames="setor_responsavel_id"
+                                 baseTableName="campanha_recall"
+                                 constraintName="fk_campanha_recall_setor_responsavel_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="setor"/>
+
+        <addForeignKeyConstraint baseColumnNames="campanha_recall_id"
+                                 baseTableName="campanha_recall_anexo"
+                                 constraintName="fk_campanha_recall_anexo_campanha_recall_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="campanha_recall"/>
+
+        <addForeignKeyConstraint baseColumnNames="anexo_id"
+                                 baseTableName="campanha_recall_anexo"
+                                 constraintName="fk_campanha_recall_anexo_anexo_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="anexo"/>
+        
+    </changeSet>
+</databaseChangeLog>

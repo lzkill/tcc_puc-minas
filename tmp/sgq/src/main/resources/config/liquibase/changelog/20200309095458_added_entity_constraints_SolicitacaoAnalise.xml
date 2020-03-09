@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+    <!--
+        Added the constraints for entity SolicitacaoAnalise.
+    -->
+    <changeSet id="20200309095458-2" author="jhipster">
+        
+        <addForeignKeyConstraint baseColumnNames="analise_consultoria_id"
+                                 baseTableName="solicitacao_analise"
+                                 constraintName="fk_solicitacao_analise_analise_consultoria_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="analise_consultoria"/>
+
+        <addForeignKeyConstraint baseColumnNames="nao_conformidade_id"
+                                 baseTableName="solicitacao_analise"
+                                 constraintName="fk_solicitacao_analise_nao_conformidade_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="nao_conformidade"/>
+
+        <addForeignKeyConstraint baseColumnNames="consultoria_id"
+                                 baseTableName="solicitacao_analise"
+                                 constraintName="fk_solicitacao_analise_consultoria_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="consultoria"/>
+
+    </changeSet>
+</databaseChangeLog>

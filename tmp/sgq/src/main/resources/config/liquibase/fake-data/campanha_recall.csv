@@ -1,0 +1,11 @@
+id;id_usuario_registro;titulo;descricao;data_registro;data_inicio;data_fim;data_publicacao;status;produto_id;setor_responsavel_id
+1;653;Representative connect;../fake-data/blob/hipster.txt;2020-03-08T17:48:28;2020-03-08T22:39:08;2020-03-09T09:41:05;2020-03-09T02:48:21;PUBLICADO;1;1
+2;4442;TCP viral Corporate;../fake-data/blob/hipster.txt;2020-03-09T02:38:49;2020-03-08T14:40:43;2020-03-08T20:14:24;2020-03-08T15:12:45;PUBLICADO;2;2
+3;16164;Engineer bypass Borders;../fake-data/blob/hipster.txt;2020-03-09T02:25:50;2020-03-09T09:11:38;2020-03-08T17:16:11;2020-03-08T19:50:00;PUBLICADO;3;3
+4;20956;strategize;../fake-data/blob/hipster.txt;2020-03-09T07:25:54;2020-03-08T14:05:51;2020-03-08T15:41:35;2020-03-09T00:24:46;APROVADO;4;4
+5;32742;homogeneous challenge Missouri;../fake-data/blob/hipster.txt;2020-03-09T01:29:37;2020-03-09T01:20:39;2020-03-09T07:53:05;2020-03-08T18:04:38;RASCUNHO;5;5
+6;97519;Auto Loan Account Specialist expedite;../fake-data/blob/hipster.txt;2020-03-08T14:05:07;2020-03-08T20:26:34;2020-03-09T06:09:23;2020-03-08T17:10:00;APROVADO;6;6
+7;80290;Buckinghamshire withdrawal cyan;../fake-data/blob/hipster.txt;2020-03-08T23:47:50;2020-03-09T02:22:51;2020-03-08T10:34:07;2020-03-09T02:10:47;APROVADO;7;7
+8;96805;sticky;../fake-data/blob/hipster.txt;2020-03-08T17:22:27;2020-03-09T09:48:39;2020-03-08T10:09:51;2020-03-08T12:27:29;RASCUNHO;8;8
+9;79915;neural input;../fake-data/blob/hipster.txt;2020-03-08T22:29:23;2020-03-09T09:04:29;2020-03-09T00:25:21;2020-03-08T17:09:22;PUBLICADO;9;9
+10;46672;Savings Account Principal SMS;../fake-data/blob/hipster.txt;2020-03-08T14:13:10;2020-03-09T07:24:20;2020-03-09T02:23:33;2020-03-09T04:52:17;PUBLICADO;10;10

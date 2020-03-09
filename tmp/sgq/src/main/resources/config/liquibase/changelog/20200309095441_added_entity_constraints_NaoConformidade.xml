@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+    <!--
+        Added the constraints for entity NaoConformidade.
+    -->
+    <changeSet id="20200309095441-2" author="jhipster">
+        
+        <addForeignKeyConstraint baseColumnNames="nao_conformidade_id"
+                                 baseTableName="nao_conformidade_anexo"
+                                 constraintName="fk_nao_conformidade_anexo_nao_conformidade_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="nao_conformidade"/>
+
+        <addForeignKeyConstraint baseColumnNames="anexo_id"
+                                 baseTableName="nao_conformidade_anexo"
+                                 constraintName="fk_nao_conformidade_anexo_anexo_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="anexo"/>
+        
+        <addForeignKeyConstraint baseColumnNames="auditoria_id"
+                                 baseTableName="nao_conformidade"
+                                 constraintName="fk_nao_conformidade_auditoria_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="auditoria"/>
+
+        <addForeignKeyConstraint baseColumnNames="resultado_checklist_id"
+                                 baseTableName="nao_conformidade"
+                                 constraintName="fk_nao_conformidade_resultado_checklist_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="resultado_checklist"/>
+
+    </changeSet>
+</databaseChangeLog>
