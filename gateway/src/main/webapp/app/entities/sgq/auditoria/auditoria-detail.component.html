@@ -7,7 +7,7 @@
             <dl class="row-md jh-entity-details">
                 <dt><span jhiTranslate="gatewayApp.sgqAuditoria.idUsuarioRegistro">Id Usuario Registro</span></dt>
                 <dd>
-                    <span>{{usuarios.has(auditoria.idUsuarioRegistro) ? usuarios.get(auditoria.idUsuarioRegistro).firstName + " " + usuarios.get(auditoria.idUsuarioRegistro).lastName : ""}}</span>
+                    <span>{{usuarios.has(auditoria.idUsuarioRegistro) ? usuarios.get(auditoria.idUsuarioRegistro)!.firstName + " " + usuarios.get(auditoria.idUsuarioRegistro)!.lastName : ""}}</span>
                 </dd>
                 <dt><span jhiTranslate="gatewayApp.sgqAuditoria.titulo">Titulo</span></dt>
                 <dd>

@@ -1,9 +1,0 @@
-{
-  "gatewayApp": {
-    "TipoFeed": {
-      "null": "",
-      "RSS": "RSS",
-      "ATOM": "ATOM"
-    }
-  }
-}

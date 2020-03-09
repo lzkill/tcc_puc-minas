@@ -39,8 +39,8 @@
             <tbody>
             <tr *ngFor="let naoConformidade of naoConformidades ;trackBy: trackId">
                 <td><a [routerLink]="['/nao-conformidade', naoConformidade.id, 'view' ]">{{naoConformidade.id}}</a></td>
-                <td>{{usuarios.has(naoConformidade.idUsuarioRegistro) ? usuarios.get(naoConformidade.idUsuarioRegistro).login : ""}}</td>
-                <td>{{usuarios.has(naoConformidade.idUsuarioResponsavel) ? usuarios.get(naoConformidade.idUsuarioResponsavel).login : ""}}</td>
+                <td>{{usuarios.has(naoConformidade.idUsuarioRegistro) ? usuarios.get(naoConformidade.idUsuarioRegistro)!.login : ""}}</td>
+                <td>{{usuarios.has(naoConformidade.idUsuarioResponsavel) ? usuarios.get(naoConformidade.idUsuarioResponsavel)!.login : ""}}</td>
                 <td>{{naoConformidade.titulo}}</td>
                 <td>{{naoConformidade.descricao}}</td>
                 <td>{{naoConformidade.procedente}}</td>

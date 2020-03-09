@@ -37,8 +37,8 @@
             <tbody>
             <tr *ngFor="let acaoSGQ of acaoSGQS ;trackBy: trackId">
                 <td><a [routerLink]="['/acao-sgq', acaoSGQ.id, 'view' ]">{{acaoSGQ.id}}</a></td>
-                <td>{{usuarios.has(acaoSGQ.idUsuarioRegistro) ? usuarios.get(acaoSGQ.idUsuarioRegistro).login : ""}}</td>
-                <td>{{usuarios.has(acaoSGQ.idUsuarioResponsavel) ? usuarios.get(acaoSGQ.idUsuarioResponsavel).login : ""}}</td>
+                <td>{{usuarios.has(acaoSGQ.idUsuarioRegistro) ? usuarios.get(acaoSGQ.idUsuarioRegistro)!.login : ""}}</td>
+                <td>{{usuarios.has(acaoSGQ.idUsuarioResponsavel) ? usuarios.get(acaoSGQ.idUsuarioResponsavel)!.login : ""}}</td>
                 <td jhiTranslate="{{'gatewayApp.TipoAcaoSGQ.' + acaoSGQ.tipo}}">{{acaoSGQ.tipo}}</td>
                 <td>{{acaoSGQ.titulo}}</td>
                 <td>{{acaoSGQ.descricao}}</td>

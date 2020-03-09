@@ -37,7 +37,7 @@
             <tbody>
             <tr *ngFor="let feed of feeds ;trackBy: trackId">
                 <td><a [routerLink]="['/feed', feed.id, 'view' ]">{{feed.id}}</a></td>
-                <td>{{usuarios.has(feed.idUsuarioRegistro) ? usuarios.get(feed.idUsuarioRegistro).login : ""}}</td>
+                <td>{{usuarios.has(feed.idUsuarioRegistro) ? usuarios.get(feed.idUsuarioRegistro)!.login : ""}}</td>
                 <td jhiTranslate="{{'gatewayApp.TipoFeed.' + feed.tipo}}">{{feed.tipo}}</td>
                 <td>{{feed.titulo}}</td>
                 <td>{{feed.descricao}}</td>
