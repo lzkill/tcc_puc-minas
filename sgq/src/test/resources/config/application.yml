@@ -116,4 +116,9 @@ jhipster:
 # https://www.jhipster.tech/common-application-properties/
 # ===================================================================
 
-# application:
+application:
+  scheduler:
+    enabled: false
+    task-pool-size: 10
+  cron:
+    sync-solicitacao-analise: 0 0/15 * * * *
