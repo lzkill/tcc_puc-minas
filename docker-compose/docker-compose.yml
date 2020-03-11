@@ -16,7 +16,7 @@ services:
   gateway-mariadb:
     image: 'mariadb:10.4.10'
     volumes:
-      - ~/volumes/jhipster/gateway/mysql/:/var/lib/mysql/
+      - vol-gateway-mariadb:/var/lib/mysql
     environment:
       - MYSQL_USER=root
       - MYSQL_ALLOW_EMPTY_PASSWORD=yes
@@ -40,7 +40,7 @@ services:
   sgq-mariadb:
     image: 'mariadb:10.4.10'
     volumes:
-      - ~/volumes/jhipster/sgq/mysql/:/var/lib/mysql/
+      - vol-sgq-mariadb:/var/lib/mysql
     environment:
       - MYSQL_USER=root
       - MYSQL_ALLOW_EMPTY_PASSWORD=yes
@@ -91,3 +91,7 @@ services:
     extends:
       file: hazelcast-management-center.yml
       service: jhipster-hazelcast-management-center
+
+volumes:
+  vol-gateway-mariadb:
+  vol-sgq-mariadb:

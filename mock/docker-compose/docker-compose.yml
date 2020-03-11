@@ -11,7 +11,7 @@ services:
   normas-mariadb:
     image: mariadb:10.4.10
     volumes:
-      - ~/volumes/jhipster/normas/mysql/:/var/lib/mysql/
+      - vol-normas-mariadb:/var/lib/mysql
     environment:
       - MYSQL_USER=root
       - MYSQL_ALLOW_EMPTY_PASSWORD=yes
@@ -31,7 +31,7 @@ services:
   consultoria-mariadb:
     image: mariadb:10.4.10
     volumes:
-      - ~/volumes/jhipster/consultoria/mysql/:/var/lib/mysql/
+      - vol-consultoria-mariadb:/var/lib/mysql
     environment:
       - MYSQL_USER=root
       - MYSQL_ALLOW_EMPTY_PASSWORD=yes
@@ -48,3 +48,7 @@ services:
     #extends:
       #file: monitoring.yml
       #service: mock-grafana
+
+volumes:
+  vol-normas-mariadb:
+  vol-consultoria-mariadb:
