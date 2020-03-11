@@ -33,10 +33,10 @@ services:
       - MANAGEMENT_METRICS_EXPORT_PROMETHEUS_ENABLED=true
       - 'EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE=http://admin:$${jhipster.registry.password}@jhipster-registry:8761/eureka'
       - 'SPRING_CLOUD_CONFIG_URI=http://admin:$${jhipster.registry.password}@jhipster-registry:8761/config'
-      - 'SPRING_DATASOURCE_URL=jdbc:mariadb://sgq-mariadb:3307/sgq'
+      - 'SPRING_DATASOURCE_URL=jdbc:mariadb://sgq-mariadb:3306/sgq'
       - JHIPSTER_SLEEP=120
       - JHIPSTER_REGISTRY_PASSWORD=admin
-      - APPLICATION_CRON_SYNC-SOLICITACAO-ANALISE=0/30 * * * * *
+      - 'APPLICATION_CRON_SYNC-SOLICITACAO-ANALISE=0/30 * * * * *'
   sgq-mariadb:
     image: 'mariadb:10.4.10'
     volumes:
@@ -75,18 +75,18 @@ services:
       service: jhipster-import-dashboards
     depends_on:
       - jhipster-elasticsearch
-  jhipster-curator:
-    extends:
-      file: jhipster-console.yml
-      service: jhipster-curator
-    depends_on:
-      - jhipster-elasticsearch
-  jhipster-zipkin:
-    extends:
-      file: jhipster-console.yml
-      service: jhipster-zipkin
-    depends_on:
-      - jhipster-elasticsearch
+  # jhipster-curator:
+  #   extends:
+  #     file: jhipster-console.yml
+  #     service: jhipster-curator
+  #   depends_on:
+  #     - jhipster-elasticsearch
+  # jhipster-zipkin:
+  #   extends:
+  #     file: jhipster-console.yml
+  #     service: jhipster-zipkin
+  #   depends_on:
+  #     - jhipster-elasticsearch
   jhipster-hazelcast-management-center:
     extends:
       file: hazelcast-management-center.yml
