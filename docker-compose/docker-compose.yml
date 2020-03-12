@@ -53,10 +53,10 @@ services:
     extends:
       file: jhipster-registry.yml
       service: jhipster-registry
-  jhipster-hazelcast-management-center:
-    extends:
-      file: hazelcast-management-center.yml
-      service: jhipster-hazelcast-management-center
+  # jhipster-hazelcast-management-center:
+  #   extends:
+  #     file: hazelcast-management-center.yml
+  #     service: jhipster-hazelcast-management-center
 
 volumes:
   vol-gateway-mariadb:
