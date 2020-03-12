@@ -8,6 +8,8 @@ services:
       - MANAGEMENT_METRICS_EXPORT_PROMETHEUS_ENABLED=true
       - SPRING_DATASOURCE_URL=jdbc:mariadb://normas-mariadb:3306/normas
       - JHIPSTER_SLEEP=120 # gives time for mariadb server to start
+    ports:
+      - 8082:8082
   normas-mariadb:
     image: mariadb:10.4.10
     volumes:
@@ -28,6 +30,8 @@ services:
       - MANAGEMENT_METRICS_EXPORT_PROMETHEUS_ENABLED=true
       - SPRING_DATASOURCE_URL=jdbc:mariadb://consultoria-mariadb:3306/consultoria
       - JHIPSTER_SLEEP=120 # gives time for mariadb server to start
+    ports:
+      - 8083:8083
   consultoria-mariadb:
     image: mariadb:10.4.10
     volumes:
