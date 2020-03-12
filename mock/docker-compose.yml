@@ -40,15 +40,6 @@ services:
       - 3309:3306
     command: mysqld --lower_case_table_names=1 --skip-ssl --character_set_server=utf8mb4 --explicit_defaults_for_timestamp
 
-  #mock-prometheus:
-    #extends:
-      #file: monitoring.yml
-      #service: mock-prometheus
-  #mock-grafana:
-    #extends:
-      #file: monitoring.yml
-      #service: mock-grafana
-
 volumes:
   vol-normas-mariadb:
   vol-consultoria-mariadb:

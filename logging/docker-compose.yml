@@ -1,0 +1,28 @@
+version: '2'
+services:
+  jhipster-elasticsearch:
+    extends:
+      file: jhipster-console.yml
+      service: jhipster-elasticsearch
+  jhipster-logstash:
+    extends:
+      file: jhipster-console.yml
+      service: jhipster-logstash
+    depends_on:
+      - jhipster-elasticsearch
+  jhipster-console:
+    extends:
+      file: jhipster-console.yml
+      service: jhipster-console
+    depends_on:
+      - jhipster-elasticsearch
+  jhipster-import-dashboards:
+    extends:
+      file: jhipster-console.yml
+      service: jhipster-import-dashboards
+    depends_on:
+      - jhipster-elasticsearch
+  jhipster-hazelcast-management-center:
+    extends:
+      file: hazelcast-management-center.yml
+      service: jhipster-hazelcast-management-center
