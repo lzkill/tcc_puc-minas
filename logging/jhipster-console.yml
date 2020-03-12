@@ -27,7 +27,3 @@ services:
     image: jhipster/jhipster-import-dashboards:v4.1.0
     environment:
       - ELASTICSEARCH_URL=http://jhipster-elasticsearch:9200
-
-volumes:
-    log-data:
-        driver: local
