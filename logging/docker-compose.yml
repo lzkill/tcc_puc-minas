@@ -22,7 +22,4 @@ services:
       service: jhipster-import-dashboards
     depends_on:
       - jhipster-elasticsearch
-  jhipster-hazelcast-management-center:
-    extends:
-      file: hazelcast-management-center.yml
-      service: jhipster-hazelcast-management-center
+
