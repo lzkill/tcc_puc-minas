@@ -8,15 +8,18 @@ services:
       - MANAGEMENT_METRICS_EXPORT_PROMETHEUS_ENABLED=true
       - 'EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE=http://admin:$${jhipster.registry.password}@jhipster-registry:8761/eureka'
       - 'SPRING_CLOUD_CONFIG_URI=http://admin:$${jhipster.registry.password}@jhipster-registry:8761/config'
-      - 'SPRING_DATASOURCE_URL=jdbc:mariadb://gateway-mariadb:3306/gateway'
-      - JHIPSTER_SLEEP=120
+      - 'SPRING_DATASOURCE_URL=jdbc:mariadb://gateway-mariadb:3306/gateway?useLegacyDatetimeCode=false&serverTimezone=UTC'
+      - JHIPSTER_SLEEP=30
       - JHIPSTER_REGISTRY_PASSWORD=admin
     ports:
       - '8080:8080'
+    depends_on:
+      - gateway-mariadb
+    restart: always
   gateway-mariadb:
     image: 'mariadb:10.4.10'
     volumes:
-      - vol-gateway-mariadb:/var/lib/mysql
+      - gateway-mariadb:/var/lib/mysql
     environment:
       - MYSQL_USER=root
       - MYSQL_ALLOW_EMPTY_PASSWORD=yes
@@ -33,14 +36,17 @@ services:
       - MANAGEMENT_METRICS_EXPORT_PROMETHEUS_ENABLED=true
       - 'EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE=http://admin:$${jhipster.registry.password}@jhipster-registry:8761/eureka'
       - 'SPRING_CLOUD_CONFIG_URI=http://admin:$${jhipster.registry.password}@jhipster-registry:8761/config'
-      - 'SPRING_DATASOURCE_URL=jdbc:mariadb://sgq-mariadb:3306/sgq'
-      - JHIPSTER_SLEEP=120
+      - 'SPRING_DATASOURCE_URL=jdbc:mariadb://sgq-mariadb:3306/sgq?useLegacyDatetimeCode=false&serverTimezone=UTC'
+      - JHIPSTER_SLEEP=30
       - JHIPSTER_REGISTRY_PASSWORD=admin
       - 'APPLICATION_CRON_SYNC-SOLICITACAO-ANALISE=0/30 * * * * *'
+    depends_on:
+      - sgq-mariadb
+    restart: always
   sgq-mariadb:
     image: 'mariadb:10.4.10'
     volumes:
-      - vol-sgq-mariadb:/var/lib/mysql
+      - sgq-mariadb:/var/lib/mysql
     environment:
       - MYSQL_USER=root
       - MYSQL_ALLOW_EMPTY_PASSWORD=yes
@@ -59,5 +65,5 @@ services:
   #     service: jhipster-hazelcast-management-center
 
 volumes:
-  vol-gateway-mariadb:
-  vol-sgq-mariadb:
+  gateway-mariadb:
+  sgq-mariadb:

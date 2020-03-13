@@ -6,14 +6,17 @@ services:
       - _JAVA_OPTIONS=-Xmx512m -Xms256m
       - SPRING_PROFILES_ACTIVE=prod,swagger
       - MANAGEMENT_METRICS_EXPORT_PROMETHEUS_ENABLED=true
-      - SPRING_DATASOURCE_URL=jdbc:mariadb://normas-mariadb:3306/normas
-      - JHIPSTER_SLEEP=120 # gives time for mariadb server to start
+      - SPRING_DATASOURCE_URL=jdbc:mariadb://normas-mariadb:3306/normas?useLegacyDatetimeCode=false&serverTimezone=UTC
+      - JHIPSTER_SLEEP=30 # gives time for mariadb server to start
     ports:
       - 8082:8082
+    depends_on:
+      - normas-mariadb
+    restart: always
   normas-mariadb:
     image: mariadb:10.4.10
     volumes:
-      - vol-normas-mariadb:/var/lib/mysql
+      - normas-mariadb:/var/lib/mysql
     environment:
       - MYSQL_USER=root
       - MYSQL_ALLOW_EMPTY_PASSWORD=yes
@@ -21,6 +24,7 @@ services:
     ports:
       - 3308:3306
     command: mysqld --lower_case_table_names=1 --skip-ssl --character_set_server=utf8mb4 --explicit_defaults_for_timestamp
+    restart: always
 
   consultoria-app:
     image: consultoria
@@ -28,14 +32,17 @@ services:
       - _JAVA_OPTIONS=-Xmx512m -Xms256m
       - SPRING_PROFILES_ACTIVE=prod,swagger
       - MANAGEMENT_METRICS_EXPORT_PROMETHEUS_ENABLED=true
-      - SPRING_DATASOURCE_URL=jdbc:mariadb://consultoria-mariadb:3306/consultoria
-      - JHIPSTER_SLEEP=120 # gives time for mariadb server to start
+      - SPRING_DATASOURCE_URL=jdbc:mariadb://consultoria-mariadb:3306/consultoria?useLegacyDatetimeCode=false&serverTimezone=UTC
+      - JHIPSTER_SLEEP=30 # gives time for mariadb server to start
     ports:
       - 8083:8083
+    depends_on:
+      - consultoria-mariadb
+    restart: always
   consultoria-mariadb:
     image: mariadb:10.4.10
     volumes:
-      - vol-consultoria-mariadb:/var/lib/mysql
+      - consultoria-mariadb:/var/lib/mysql
     environment:
       - MYSQL_USER=root
       - MYSQL_ALLOW_EMPTY_PASSWORD=yes
@@ -43,7 +50,8 @@ services:
     ports:
       - 3309:3306
     command: mysqld --lower_case_table_names=1 --skip-ssl --character_set_server=utf8mb4 --explicit_defaults_for_timestamp
+    restart: always
 
 volumes:
-  vol-normas-mariadb:
-  vol-consultoria-mariadb:
+  normas-mariadb:
+  consultoria-mariadb:

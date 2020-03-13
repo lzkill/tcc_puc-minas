@@ -24,4 +24,4 @@ services:
       - jhipster-elasticsearch
 
 volumes:
-  log-data:
+  elasticsearch-data:
