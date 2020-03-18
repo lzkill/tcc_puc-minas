@@ -41,7 +41,7 @@ import com.acme.normas.domain.enumeration.CategoriaNorma;
 @SpringBootTest(classes = NormasApp.class)
 public class NormaResourceIT {
 
-    private static final OrgaoNorma DEFAULT_ORGAO = OrgaoNorma.ABNT_ISO;
+    private static final OrgaoNorma DEFAULT_ORGAO = OrgaoNorma.ABNT;
     private static final OrgaoNorma UPDATED_ORGAO = OrgaoNorma.IEEE;
 
     private static final String DEFAULT_TITULO = "AAAAAAAAAA";
