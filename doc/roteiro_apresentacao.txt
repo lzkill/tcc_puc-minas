@@ -5,43 +5,18 @@ Modelagem funcional
     Principais casos de uso
 
 Arquitetura
-    - Componentes JHipster (Netflix OSS + apps.jdl)
-    - JWT (escalável) + roles customizadas (aplicáveis no back e no frontend)
-    - Módulos Angular
-    - Service worker
-    - APIs (filtros + paginação)
-    - Kong + JWT plugin
 
 Tecnologias
-    - Angular + Spring Boot
-    - Docker / docker-compose
-    - Swagger (api-first)
-    - Maven
-    - Liquibase
-    - Husky / Prettier
-    - Testes unitários
-    - Translation
-    - Caching
-    - Bootstrap / Bootswatch
-    - SaaS (CSS)
-    - Validações (frontend + backend)
-    - Monitoramento (Prometheus + Grafana)
-    - Logs centralizados (ELK)
-    - Sonar
-    - Hibernate cache
-    - Hikari
 
 Demonstração
+    - Github
     - Página públca (Home)
-    - Fake data
     - Roles customizadas
     - Scaling do sgq com Docker swarm
     - Responsividade
     - Chamadas Rest + tempos de resposta
-    - [Consulta ao cache]
     - Resiliência à falhas (sgq fora)
     - Issues
-
 
 => Janela secundária no OBS com agenda da apresentação
 => Citar que os includes dos casos de uso foram suprimidos para fins de simplificação

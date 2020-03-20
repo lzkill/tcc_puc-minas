@@ -4,3 +4,7 @@
 apps.png
 .project
 .settings
+
+**/volumes
+
+*~lock.*

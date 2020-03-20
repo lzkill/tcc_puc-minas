@@ -16,7 +16,7 @@ services:
   normas-mariadb:
     image: mariadb:10.4.10
     volumes:
-      - normas-mariadb:/var/lib/mysql
+      - ../volumes/normas-mariadb:/var/lib/mysql
     environment:
       - MYSQL_USER=root
       - MYSQL_ALLOW_EMPTY_PASSWORD=yes
@@ -42,7 +42,7 @@ services:
   consultoria-mariadb:
     image: mariadb:10.4.10
     volumes:
-      - consultoria-mariadb:/var/lib/mysql
+      - ../volumes/consultoria-mariadb:/var/lib/mysql
     environment:
       - MYSQL_USER=root
       - MYSQL_ALLOW_EMPTY_PASSWORD=yes
@@ -52,6 +52,3 @@ services:
     command: mysqld --lower_case_table_names=1 --skip-ssl --character_set_server=utf8mb4 --explicit_defaults_for_timestamp
     restart: always
 
-volumes:
-  normas-mariadb:
-  consultoria-mariadb:
