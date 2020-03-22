@@ -3,7 +3,7 @@
     "sgqPublicoAlvo": {
       "home": {
         "title": "Públicos alvos",
-        "createLabel": "Criar novo público alvo",
+        "createLabel": "Adicionar",
         "createOrEditLabel": "Criar ou editar público alvo",
         "notFound": "Nenhum público alvo encontrado"
       },

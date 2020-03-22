@@ -78,13 +78,6 @@
                     </small>
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="gatewayApp.sgqSolicitacaoAnalise.analiseConsultoria" for="field_analiseConsultoria">Analise Consultoria</label>
-                    <select class="form-control" id="field_analiseConsultoria" name="analiseConsultoria" formControlName="analiseConsultoria">
-                        <option [ngValue]="null"></option>
-                        <option [ngValue]="analiseConsultoriaOption.id === editForm.get('analiseConsultoria')!.value?.id ? editForm.get('analiseConsultoria')!.value : analiseConsultoriaOption" *ngFor="let analiseConsultoriaOption of analiseconsultorias; trackBy: trackById">{{analiseConsultoriaOption.id}}</option>
-                    </select>
-                </div>
-                <div class="form-group">
                     <label class="form-control-label" jhiTranslate="gatewayApp.sgqSolicitacaoAnalise.consultoria" for="field_consultoria">Consultoria</label>
                     <select class="form-control" id="field_consultoria" name="consultoria" formControlName="consultoria">
                         <option *ngIf="!editForm.get('consultoria')!.value" [ngValue]="null" selected></option>
