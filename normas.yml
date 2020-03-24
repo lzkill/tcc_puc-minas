@@ -1,0 +1,839 @@
+swagger: '2.0'
+info:
+  description: normas API documentation
+  version: 0.0.1
+  title: normas API
+basePath: /services/normas
+tags:
+  - name: norma-resource
+    description: Norma Resource
+paths:
+  /api/normas:
+    get:
+      tags:
+        - norma-resource
+      summary: getAllNormas
+      operationId: getAllNormasUsingGET
+      produces:
+        - '*/*'
+      parameters:
+        - name: categoria.equals
+          in: query
+          required: false
+          type: string
+          enum:
+            - QUALIDADE
+            - AMBIENTAL
+            - SEGURANCA
+        - name: categoria.in
+          in: query
+          required: false
+          type: array
+          items:
+            type: string
+            enum:
+              - QUALIDADE
+              - AMBIENTAL
+              - SEGURANCA
+          collectionFormat: multi
+          enum:
+            - QUALIDADE
+            - AMBIENTAL
+            - SEGURANCA
+        - name: categoria.notEquals
+          in: query
+          required: false
+          type: string
+          enum:
+            - QUALIDADE
+            - AMBIENTAL
+            - SEGURANCA
+        - name: categoria.specified
+          in: query
+          required: false
+          type: boolean
+        - name: dataEdicao.equals
+          in: query
+          required: false
+          type: string
+          format: date-time
+        - name: dataEdicao.greaterThan
+          in: query
+          required: false
+          type: string
+          format: date-time
+        - name: dataEdicao.greaterThanOrEqual
+          in: query
+          required: false
+          type: string
+          format: date-time
+        - name: 'dataEdicao.in[0].epochSecond'
+          in: query
+          required: false
+          type: integer
+          format: int64
+        - name: 'dataEdicao.in[0].nano'
+          in: query
+          required: false
+          type: integer
+          format: int32
+        - name: dataEdicao.lessThan
+          in: query
+          required: false
+          type: string
+          format: date-time
+        - name: dataEdicao.lessThanOrEqual
+          in: query
+          required: false
+          type: string
+          format: date-time
+        - name: dataEdicao.notEquals
+          in: query
+          required: false
+          type: string
+          format: date-time
+        - name: dataEdicao.specified
+          in: query
+          required: false
+          type: boolean
+        - name: dataInicioValidade.equals
+          in: query
+          required: false
+          type: string
+          format: date-time
+        - name: dataInicioValidade.greaterThan
+          in: query
+          required: false
+          type: string
+          format: date-time
+        - name: dataInicioValidade.greaterThanOrEqual
+          in: query
+          required: false
+          type: string
+          format: date-time
+        - name: 'dataInicioValidade.in[0].epochSecond'
+          in: query
+          required: false
+          type: integer
+          format: int64
+        - name: 'dataInicioValidade.in[0].nano'
+          in: query
+          required: false
+          type: integer
+          format: int32
+        - name: dataInicioValidade.lessThan
+          in: query
+          required: false
+          type: string
+          format: date-time
+        - name: dataInicioValidade.lessThanOrEqual
+          in: query
+          required: false
+          type: string
+          format: date-time
+        - name: dataInicioValidade.notEquals
+          in: query
+          required: false
+          type: string
+          format: date-time
+        - name: dataInicioValidade.specified
+          in: query
+          required: false
+          type: boolean
+        - name: id.equals
+          in: query
+          required: false
+          type: integer
+          format: int64
+        - name: id.greaterThan
+          in: query
+          required: false
+          type: integer
+          format: int64
+        - name: id.greaterThanOrEqual
+          in: query
+          required: false
+          type: integer
+          format: int64
+        - name: id.in
+          in: query
+          required: false
+          type: array
+          items:
+            type: integer
+            format: int64
+          collectionFormat: multi
+        - name: id.lessThan
+          in: query
+          required: false
+          type: integer
+          format: int64
+        - name: id.lessThanOrEqual
+          in: query
+          required: false
+          type: integer
+          format: int64
+        - name: id.notEquals
+          in: query
+          required: false
+          type: integer
+          format: int64
+        - name: id.specified
+          in: query
+          required: false
+          type: boolean
+        - name: numeroEdicao.equals
+          in: query
+          required: false
+          type: integer
+          format: int32
+        - name: numeroEdicao.greaterThan
+          in: query
+          required: false
+          type: integer
+          format: int32
+        - name: numeroEdicao.greaterThanOrEqual
+          in: query
+          required: false
+          type: integer
+          format: int32
+        - name: numeroEdicao.in
+          in: query
+          required: false
+          type: array
+          items:
+            type: integer
+            format: int32
+          collectionFormat: multi
+        - name: numeroEdicao.lessThan
+          in: query
+          required: false
+          type: integer
+          format: int32
+        - name: numeroEdicao.lessThanOrEqual
+          in: query
+          required: false
+          type: integer
+          format: int32
+        - name: numeroEdicao.notEquals
+          in: query
+          required: false
+          type: integer
+          format: int32
+        - name: numeroEdicao.specified
+          in: query
+          required: false
+          type: boolean
+        - name: orgao.equals
+          in: query
+          required: false
+          type: string
+          enum:
+            - ABNT
+            - ISO
+            - ISO_TS
+            - ISO_IEC
+            - IEEE
+            - ASTM
+            - SAE
+            - OHSAS
+        - name: orgao.in
+          in: query
+          required: false
+          type: array
+          items:
+            type: string
+            enum:
+              - ABNT
+              - ISO
+              - ISO_TS
+              - ISO_IEC
+              - IEEE
+              - ASTM
+              - SAE
+              - OHSAS
+          collectionFormat: multi
+          enum:
+            - ABNT
+            - ISO
+            - ISO_TS
+            - ISO_IEC
+            - IEEE
+            - ASTM
+            - SAE
+            - OHSAS
+        - name: orgao.notEquals
+          in: query
+          required: false
+          type: string
+          enum:
+            - ABNT
+            - ISO
+            - ISO_TS
+            - ISO_IEC
+            - IEEE
+            - ASTM
+            - SAE
+            - OHSAS
+        - name: orgao.specified
+          in: query
+          required: false
+          type: boolean
+        - name: page
+          in: query
+          description: Page number of the requested page
+          required: false
+          type: integer
+          format: int32
+        - name: size
+          in: query
+          description: Size of a page
+          required: false
+          type: integer
+          format: int32
+        - name: sort
+          in: query
+          description: 'Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.'
+          required: false
+          type: array
+          items:
+            type: string
+          collectionFormat: multi
+        - name: titulo.contains
+          in: query
+          required: false
+          type: string
+        - name: titulo.doesNotContain
+          in: query
+          required: false
+          type: string
+        - name: titulo.equals
+          in: query
+          required: false
+          type: string
+        - name: titulo.in
+          in: query
+          required: false
+          type: array
+          items:
+            type: string
+          collectionFormat: multi
+        - name: titulo.notEquals
+          in: query
+          required: false
+          type: string
+        - name: titulo.specified
+          in: query
+          required: false
+          type: boolean
+        - name: urlDownload.contains
+          in: query
+          required: false
+          type: string
+        - name: urlDownload.doesNotContain
+          in: query
+          required: false
+          type: string
+        - name: urlDownload.equals
+          in: query
+          required: false
+          type: string
+        - name: urlDownload.in
+          in: query
+          required: false
+          type: array
+          items:
+            type: string
+          collectionFormat: multi
+        - name: urlDownload.notEquals
+          in: query
+          required: false
+          type: string
+        - name: urlDownload.specified
+          in: query
+          required: false
+          type: boolean
+        - name: versao.contains
+          in: query
+          required: false
+          type: string
+        - name: versao.doesNotContain
+          in: query
+          required: false
+          type: string
+        - name: versao.equals
+          in: query
+          required: false
+          type: string
+        - name: versao.in
+          in: query
+          required: false
+          type: array
+          items:
+            type: string
+          collectionFormat: multi
+        - name: versao.notEquals
+          in: query
+          required: false
+          type: string
+        - name: versao.specified
+          in: query
+          required: false
+          type: boolean
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Norma'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+  /api/normas/count:
+    get:
+      tags:
+        - norma-resource
+      summary: countNormas
+      operationId: countNormasUsingGET
+      produces:
+        - '*/*'
+      parameters:
+        - name: categoria.equals
+          in: query
+          required: false
+          type: string
+          enum:
+            - QUALIDADE
+            - AMBIENTAL
+            - SEGURANCA
+        - name: categoria.in
+          in: query
+          required: false
+          type: array
+          items:
+            type: string
+            enum:
+              - QUALIDADE
+              - AMBIENTAL
+              - SEGURANCA
+          collectionFormat: multi
+          enum:
+            - QUALIDADE
+            - AMBIENTAL
+            - SEGURANCA
+        - name: categoria.notEquals
+          in: query
+          required: false
+          type: string
+          enum:
+            - QUALIDADE
+            - AMBIENTAL
+            - SEGURANCA
+        - name: categoria.specified
+          in: query
+          required: false
+          type: boolean
+        - name: dataEdicao.equals
+          in: query
+          required: false
+          type: string
+          format: date-time
+        - name: dataEdicao.greaterThan
+          in: query
+          required: false
+          type: string
+          format: date-time
+        - name: dataEdicao.greaterThanOrEqual
+          in: query
+          required: false
+          type: string
+          format: date-time
+        - name: 'dataEdicao.in[0].epochSecond'
+          in: query
+          required: false
+          type: integer
+          format: int64
+        - name: 'dataEdicao.in[0].nano'
+          in: query
+          required: false
+          type: integer
+          format: int32
+        - name: dataEdicao.lessThan
+          in: query
+          required: false
+          type: string
+          format: date-time
+        - name: dataEdicao.lessThanOrEqual
+          in: query
+          required: false
+          type: string
+          format: date-time
+        - name: dataEdicao.notEquals
+          in: query
+          required: false
+          type: string
+          format: date-time
+        - name: dataEdicao.specified
+          in: query
+          required: false
+          type: boolean
+        - name: dataInicioValidade.equals
+          in: query
+          required: false
+          type: string
+          format: date-time
+        - name: dataInicioValidade.greaterThan
+          in: query
+          required: false
+          type: string
+          format: date-time
+        - name: dataInicioValidade.greaterThanOrEqual
+          in: query
+          required: false
+          type: string
+          format: date-time
+        - name: 'dataInicioValidade.in[0].epochSecond'
+          in: query
+          required: false
+          type: integer
+          format: int64
+        - name: 'dataInicioValidade.in[0].nano'
+          in: query
+          required: false
+          type: integer
+          format: int32
+        - name: dataInicioValidade.lessThan
+          in: query
+          required: false
+          type: string
+          format: date-time
+        - name: dataInicioValidade.lessThanOrEqual
+          in: query
+          required: false
+          type: string
+          format: date-time
+        - name: dataInicioValidade.notEquals
+          in: query
+          required: false
+          type: string
+          format: date-time
+        - name: dataInicioValidade.specified
+          in: query
+          required: false
+          type: boolean
+        - name: id.equals
+          in: query
+          required: false
+          type: integer
+          format: int64
+        - name: id.greaterThan
+          in: query
+          required: false
+          type: integer
+          format: int64
+        - name: id.greaterThanOrEqual
+          in: query
+          required: false
+          type: integer
+          format: int64
+        - name: id.in
+          in: query
+          required: false
+          type: array
+          items:
+            type: integer
+            format: int64
+          collectionFormat: multi
+        - name: id.lessThan
+          in: query
+          required: false
+          type: integer
+          format: int64
+        - name: id.lessThanOrEqual
+          in: query
+          required: false
+          type: integer
+          format: int64
+        - name: id.notEquals
+          in: query
+          required: false
+          type: integer
+          format: int64
+        - name: id.specified
+          in: query
+          required: false
+          type: boolean
+        - name: numeroEdicao.equals
+          in: query
+          required: false
+          type: integer
+          format: int32
+        - name: numeroEdicao.greaterThan
+          in: query
+          required: false
+          type: integer
+          format: int32
+        - name: numeroEdicao.greaterThanOrEqual
+          in: query
+          required: false
+          type: integer
+          format: int32
+        - name: numeroEdicao.in
+          in: query
+          required: false
+          type: array
+          items:
+            type: integer
+            format: int32
+          collectionFormat: multi
+        - name: numeroEdicao.lessThan
+          in: query
+          required: false
+          type: integer
+          format: int32
+        - name: numeroEdicao.lessThanOrEqual
+          in: query
+          required: false
+          type: integer
+          format: int32
+        - name: numeroEdicao.notEquals
+          in: query
+          required: false
+          type: integer
+          format: int32
+        - name: numeroEdicao.specified
+          in: query
+          required: false
+          type: boolean
+        - name: orgao.equals
+          in: query
+          required: false
+          type: string
+          enum:
+            - ABNT
+            - ISO
+            - ISO_TS
+            - ISO_IEC
+            - IEEE
+            - ASTM
+            - SAE
+            - OHSAS
+        - name: orgao.in
+          in: query
+          required: false
+          type: array
+          items:
+            type: string
+            enum:
+              - ABNT
+              - ISO
+              - ISO_TS
+              - ISO_IEC
+              - IEEE
+              - ASTM
+              - SAE
+              - OHSAS
+          collectionFormat: multi
+          enum:
+            - ABNT
+            - ISO
+            - ISO_TS
+            - ISO_IEC
+            - IEEE
+            - ASTM
+            - SAE
+            - OHSAS
+        - name: orgao.notEquals
+          in: query
+          required: false
+          type: string
+          enum:
+            - ABNT
+            - ISO
+            - ISO_TS
+            - ISO_IEC
+            - IEEE
+            - ASTM
+            - SAE
+            - OHSAS
+        - name: orgao.specified
+          in: query
+          required: false
+          type: boolean
+        - name: titulo.contains
+          in: query
+          required: false
+          type: string
+        - name: titulo.doesNotContain
+          in: query
+          required: false
+          type: string
+        - name: titulo.equals
+          in: query
+          required: false
+          type: string
+        - name: titulo.in
+          in: query
+          required: false
+          type: array
+          items:
+            type: string
+          collectionFormat: multi
+        - name: titulo.notEquals
+          in: query
+          required: false
+          type: string
+        - name: titulo.specified
+          in: query
+          required: false
+          type: boolean
+        - name: urlDownload.contains
+          in: query
+          required: false
+          type: string
+        - name: urlDownload.doesNotContain
+          in: query
+          required: false
+          type: string
+        - name: urlDownload.equals
+          in: query
+          required: false
+          type: string
+        - name: urlDownload.in
+          in: query
+          required: false
+          type: array
+          items:
+            type: string
+          collectionFormat: multi
+        - name: urlDownload.notEquals
+          in: query
+          required: false
+          type: string
+        - name: urlDownload.specified
+          in: query
+          required: false
+          type: boolean
+        - name: versao.contains
+          in: query
+          required: false
+          type: string
+        - name: versao.doesNotContain
+          in: query
+          required: false
+          type: string
+        - name: versao.equals
+          in: query
+          required: false
+          type: string
+        - name: versao.in
+          in: query
+          required: false
+          type: array
+          items:
+            type: string
+          collectionFormat: multi
+        - name: versao.notEquals
+          in: query
+          required: false
+          type: string
+        - name: versao.specified
+          in: query
+          required: false
+          type: boolean
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: integer
+            format: int64
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+  '/api/normas/{id}':
+    get:
+      tags:
+        - norma-resource
+      summary: getNorma
+      operationId: getNormaUsingGET
+      produces:
+        - '*/*'
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/Norma'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+definitions:
+  Norma:
+    type: object
+    required:
+      - orgao
+      - titulo
+      - urlDownload
+    properties:
+      categoria:
+        type: string
+        enum:
+          - QUALIDADE
+          - AMBIENTAL
+          - SEGURANCA
+      dataEdicao:
+        type: string
+        format: date-time
+      dataInicioValidade:
+        type: string
+        format: date-time
+      descricao:
+        type: string
+      id:
+        type: integer
+        format: int64
+      numeroEdicao:
+        type: integer
+        format: int32
+      orgao:
+        type: string
+        enum:
+          - ABNT
+          - ISO
+          - ISO_TS
+          - ISO_IEC
+          - IEEE
+          - ASTM
+          - SAE
+          - OHSAS
+      titulo:
+        type: string
+        minLength: 1
+        maxLength: 100
+      urlDownload:
+        type: string
+      versao:
+        type: string
+        minLength: 1
+        maxLength: 10
+    title: Norma
+

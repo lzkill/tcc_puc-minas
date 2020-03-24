@@ -1,0 +1,1421 @@
+swagger: '2.0'
+info:
+  description: consultoria API documentation
+  version: 0.0.1
+  title: consultoria API
+basePath: /services/consultoria
+tags:
+  - name: analise-consultoria-resource
+    description: Analise Consultoria Resource
+  - name: solicitacao-analise-resource
+    description: Solicitacao Analise Resource
+paths:
+  /api/analise-consultorias:
+    get:
+      tags:
+        - analise-consultoria-resource
+      summary: getAllAnaliseConsultorias
+      operationId: getAllAnaliseConsultoriasUsingGET
+      produces:
+        - '*/*'
+      parameters:
+        - name: anexoId.equals
+          in: query
+          required: false
+          type: integer
+          format: int64
+        - name: anexoId.greaterThan
+          in: query
+          required: false
+          type: integer
+          format: int64
+        - name: anexoId.greaterThanOrEqual
+          in: query
+          required: false
+          type: integer
+          format: int64
+        - name: anexoId.in
+          in: query
+          required: false
+          type: array
+          items:
+            type: integer
+            format: int64
+          collectionFormat: multi
+        - name: anexoId.lessThan
+          in: query
+          required: false
+          type: integer
+          format: int64
+        - name: anexoId.lessThanOrEqual
+          in: query
+          required: false
+          type: integer
+          format: int64
+        - name: anexoId.notEquals
+          in: query
+          required: false
+          type: integer
+          format: int64
+        - name: anexoId.specified
+          in: query
+          required: false
+          type: boolean
+        - name: dataAnalise.equals
+          in: query
+          required: false
+          type: string
+          format: date-time
+        - name: dataAnalise.greaterThan
+          in: query
+          required: false
+          type: string
+          format: date-time
+        - name: dataAnalise.greaterThanOrEqual
+          in: query
+          required: false
+          type: string
+          format: date-time
+        - name: 'dataAnalise.in[0].epochSecond'
+          in: query
+          required: false
+          type: integer
+          format: int64
+        - name: 'dataAnalise.in[0].nano'
+          in: query
+          required: false
+          type: integer
+          format: int32
+        - name: dataAnalise.lessThan
+          in: query
+          required: false
+          type: string
+          format: date-time
+        - name: dataAnalise.lessThanOrEqual
+          in: query
+          required: false
+          type: string
+          format: date-time
+        - name: dataAnalise.notEquals
+          in: query
+          required: false
+          type: string
+          format: date-time
+        - name: dataAnalise.specified
+          in: query
+          required: false
+          type: boolean
+        - name: id.equals
+          in: query
+          required: false
+          type: integer
+          format: int64
+        - name: id.greaterThan
+          in: query
+          required: false
+          type: integer
+          format: int64
+        - name: id.greaterThanOrEqual
+          in: query
+          required: false
+          type: integer
+          format: int64
+        - name: id.in
+          in: query
+          required: false
+          type: array
+          items:
+            type: integer
+            format: int64
+          collectionFormat: multi
+        - name: id.lessThan
+          in: query
+          required: false
+          type: integer
+          format: int64
+        - name: id.lessThanOrEqual
+          in: query
+          required: false
+          type: integer
+          format: int64
+        - name: id.notEquals
+          in: query
+          required: false
+          type: integer
+          format: int64
+        - name: id.specified
+          in: query
+          required: false
+          type: boolean
+        - name: page
+          in: query
+          description: Page number of the requested page
+          required: false
+          type: integer
+          format: int32
+        - name: responsavel.contains
+          in: query
+          required: false
+          type: string
+        - name: responsavel.doesNotContain
+          in: query
+          required: false
+          type: string
+        - name: responsavel.equals
+          in: query
+          required: false
+          type: string
+        - name: responsavel.in
+          in: query
+          required: false
+          type: array
+          items:
+            type: string
+          collectionFormat: multi
+        - name: responsavel.notEquals
+          in: query
+          required: false
+          type: string
+        - name: responsavel.specified
+          in: query
+          required: false
+          type: boolean
+        - name: size
+          in: query
+          description: Size of a page
+          required: false
+          type: integer
+          format: int32
+        - name: solicitacaoAnaliseId.equals
+          in: query
+          required: false
+          type: integer
+          format: int64
+        - name: solicitacaoAnaliseId.greaterThan
+          in: query
+          required: false
+          type: integer
+          format: int64
+        - name: solicitacaoAnaliseId.greaterThanOrEqual
+          in: query
+          required: false
+          type: integer
+          format: int64
+        - name: solicitacaoAnaliseId.in
+          in: query
+          required: false
+          type: array
+          items:
+            type: integer
+            format: int64
+          collectionFormat: multi
+        - name: solicitacaoAnaliseId.lessThan
+          in: query
+          required: false
+          type: integer
+          format: int64
+        - name: solicitacaoAnaliseId.lessThanOrEqual
+          in: query
+          required: false
+          type: integer
+          format: int64
+        - name: solicitacaoAnaliseId.notEquals
+          in: query
+          required: false
+          type: integer
+          format: int64
+        - name: solicitacaoAnaliseId.specified
+          in: query
+          required: false
+          type: boolean
+        - name: sort
+          in: query
+          description: 'Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.'
+          required: false
+          type: array
+          items:
+            type: string
+          collectionFormat: multi
+        - name: status.equals
+          in: query
+          required: false
+          type: string
+          enum:
+            - APROVADO
+            - APROVADO_PARCIALMENTE
+            - REPROVADO
+        - name: status.in
+          in: query
+          required: false
+          type: array
+          items:
+            type: string
+            enum:
+              - APROVADO
+              - APROVADO_PARCIALMENTE
+              - REPROVADO
+          collectionFormat: multi
+          enum:
+            - APROVADO
+            - APROVADO_PARCIALMENTE
+            - REPROVADO
+        - name: status.notEquals
+          in: query
+          required: false
+          type: string
+          enum:
+            - APROVADO
+            - APROVADO_PARCIALMENTE
+            - REPROVADO
+        - name: status.specified
+          in: query
+          required: false
+          type: boolean
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/AnaliseConsultoria'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+  /api/analise-consultorias/count:
+    get:
+      tags:
+        - analise-consultoria-resource
+      summary: countAnaliseConsultorias
+      operationId: countAnaliseConsultoriasUsingGET
+      produces:
+        - '*/*'
+      parameters:
+        - name: anexoId.equals
+          in: query
+          required: false
+          type: integer
+          format: int64
+        - name: anexoId.greaterThan
+          in: query
+          required: false
+          type: integer
+          format: int64
+        - name: anexoId.greaterThanOrEqual
+          in: query
+          required: false
+          type: integer
+          format: int64
+        - name: anexoId.in
+          in: query
+          required: false
+          type: array
+          items:
+            type: integer
+            format: int64
+          collectionFormat: multi
+        - name: anexoId.lessThan
+          in: query
+          required: false
+          type: integer
+          format: int64
+        - name: anexoId.lessThanOrEqual
+          in: query
+          required: false
+          type: integer
+          format: int64
+        - name: anexoId.notEquals
+          in: query
+          required: false
+          type: integer
+          format: int64
+        - name: anexoId.specified
+          in: query
+          required: false
+          type: boolean
+        - name: dataAnalise.equals
+          in: query
+          required: false
+          type: string
+          format: date-time
+        - name: dataAnalise.greaterThan
+          in: query
+          required: false
+          type: string
+          format: date-time
+        - name: dataAnalise.greaterThanOrEqual
+          in: query
+          required: false
+          type: string
+          format: date-time
+        - name: 'dataAnalise.in[0].epochSecond'
+          in: query
+          required: false
+          type: integer
+          format: int64
+        - name: 'dataAnalise.in[0].nano'
+          in: query
+          required: false
+          type: integer
+          format: int32
+        - name: dataAnalise.lessThan
+          in: query
+          required: false
+          type: string
+          format: date-time
+        - name: dataAnalise.lessThanOrEqual
+          in: query
+          required: false
+          type: string
+          format: date-time
+        - name: dataAnalise.notEquals
+          in: query
+          required: false
+          type: string
+          format: date-time
+        - name: dataAnalise.specified
+          in: query
+          required: false
+          type: boolean
+        - name: id.equals
+          in: query
+          required: false
+          type: integer
+          format: int64
+        - name: id.greaterThan
+          in: query
+          required: false
+          type: integer
+          format: int64
+        - name: id.greaterThanOrEqual
+          in: query
+          required: false
+          type: integer
+          format: int64
+        - name: id.in
+          in: query
+          required: false
+          type: array
+          items:
+            type: integer
+            format: int64
+          collectionFormat: multi
+        - name: id.lessThan
+          in: query
+          required: false
+          type: integer
+          format: int64
+        - name: id.lessThanOrEqual
+          in: query
+          required: false
+          type: integer
+          format: int64
+        - name: id.notEquals
+          in: query
+          required: false
+          type: integer
+          format: int64
+        - name: id.specified
+          in: query
+          required: false
+          type: boolean
+        - name: responsavel.contains
+          in: query
+          required: false
+          type: string
+        - name: responsavel.doesNotContain
+          in: query
+          required: false
+          type: string
+        - name: responsavel.equals
+          in: query
+          required: false
+          type: string
+        - name: responsavel.in
+          in: query
+          required: false
+          type: array
+          items:
+            type: string
+          collectionFormat: multi
+        - name: responsavel.notEquals
+          in: query
+          required: false
+          type: string
+        - name: responsavel.specified
+          in: query
+          required: false
+          type: boolean
+        - name: solicitacaoAnaliseId.equals
+          in: query
+          required: false
+          type: integer
+          format: int64
+        - name: solicitacaoAnaliseId.greaterThan
+          in: query
+          required: false
+          type: integer
+          format: int64
+        - name: solicitacaoAnaliseId.greaterThanOrEqual
+          in: query
+          required: false
+          type: integer
+          format: int64
+        - name: solicitacaoAnaliseId.in
+          in: query
+          required: false
+          type: array
+          items:
+            type: integer
+            format: int64
+          collectionFormat: multi
+        - name: solicitacaoAnaliseId.lessThan
+          in: query
+          required: false
+          type: integer
+          format: int64
+        - name: solicitacaoAnaliseId.lessThanOrEqual
+          in: query
+          required: false
+          type: integer
+          format: int64
+        - name: solicitacaoAnaliseId.notEquals
+          in: query
+          required: false
+          type: integer
+          format: int64
+        - name: solicitacaoAnaliseId.specified
+          in: query
+          required: false
+          type: boolean
+        - name: status.equals
+          in: query
+          required: false
+          type: string
+          enum:
+            - APROVADO
+            - APROVADO_PARCIALMENTE
+            - REPROVADO
+        - name: status.in
+          in: query
+          required: false
+          type: array
+          items:
+            type: string
+            enum:
+              - APROVADO
+              - APROVADO_PARCIALMENTE
+              - REPROVADO
+          collectionFormat: multi
+          enum:
+            - APROVADO
+            - APROVADO_PARCIALMENTE
+            - REPROVADO
+        - name: status.notEquals
+          in: query
+          required: false
+          type: string
+          enum:
+            - APROVADO
+            - APROVADO_PARCIALMENTE
+            - REPROVADO
+        - name: status.specified
+          in: query
+          required: false
+          type: boolean
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: integer
+            format: int64
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+  '/api/analise-consultorias/{id}':
+    get:
+      tags:
+        - analise-consultoria-resource
+      summary: getAnaliseConsultoria
+      operationId: getAnaliseConsultoriaUsingGET
+      produces:
+        - '*/*'
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/AnaliseConsultoria'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+  /api/solicitacao-analises:
+    get:
+      tags:
+        - solicitacao-analise-resource
+      summary: getAllSolicitacaoAnalises
+      operationId: getAllSolicitacaoAnalisesUsingGET
+      produces:
+        - '*/*'
+      parameters:
+        - name: analiseConsultoriaId.equals
+          in: query
+          required: false
+          type: integer
+          format: int64
+        - name: analiseConsultoriaId.greaterThan
+          in: query
+          required: false
+          type: integer
+          format: int64
+        - name: analiseConsultoriaId.greaterThanOrEqual
+          in: query
+          required: false
+          type: integer
+          format: int64
+        - name: analiseConsultoriaId.in
+          in: query
+          required: false
+          type: array
+          items:
+            type: integer
+            format: int64
+          collectionFormat: multi
+        - name: analiseConsultoriaId.lessThan
+          in: query
+          required: false
+          type: integer
+          format: int64
+        - name: analiseConsultoriaId.lessThanOrEqual
+          in: query
+          required: false
+          type: integer
+          format: int64
+        - name: analiseConsultoriaId.notEquals
+          in: query
+          required: false
+          type: integer
+          format: int64
+        - name: analiseConsultoriaId.specified
+          in: query
+          required: false
+          type: boolean
+        - name: dataRegistro.equals
+          in: query
+          required: false
+          type: string
+          format: date-time
+        - name: dataRegistro.greaterThan
+          in: query
+          required: false
+          type: string
+          format: date-time
+        - name: dataRegistro.greaterThanOrEqual
+          in: query
+          required: false
+          type: string
+          format: date-time
+        - name: 'dataRegistro.in[0].epochSecond'
+          in: query
+          required: false
+          type: integer
+          format: int64
+        - name: 'dataRegistro.in[0].nano'
+          in: query
+          required: false
+          type: integer
+          format: int32
+        - name: dataRegistro.lessThan
+          in: query
+          required: false
+          type: string
+          format: date-time
+        - name: dataRegistro.lessThanOrEqual
+          in: query
+          required: false
+          type: string
+          format: date-time
+        - name: dataRegistro.notEquals
+          in: query
+          required: false
+          type: string
+          format: date-time
+        - name: dataRegistro.specified
+          in: query
+          required: false
+          type: boolean
+        - name: dataSolicitacao.equals
+          in: query
+          required: false
+          type: string
+          format: date-time
+        - name: dataSolicitacao.greaterThan
+          in: query
+          required: false
+          type: string
+          format: date-time
+        - name: dataSolicitacao.greaterThanOrEqual
+          in: query
+          required: false
+          type: string
+          format: date-time
+        - name: 'dataSolicitacao.in[0].epochSecond'
+          in: query
+          required: false
+          type: integer
+          format: int64
+        - name: 'dataSolicitacao.in[0].nano'
+          in: query
+          required: false
+          type: integer
+          format: int32
+        - name: dataSolicitacao.lessThan
+          in: query
+          required: false
+          type: string
+          format: date-time
+        - name: dataSolicitacao.lessThanOrEqual
+          in: query
+          required: false
+          type: string
+          format: date-time
+        - name: dataSolicitacao.notEquals
+          in: query
+          required: false
+          type: string
+          format: date-time
+        - name: dataSolicitacao.specified
+          in: query
+          required: false
+          type: boolean
+        - name: id.equals
+          in: query
+          required: false
+          type: integer
+          format: int64
+        - name: id.greaterThan
+          in: query
+          required: false
+          type: integer
+          format: int64
+        - name: id.greaterThanOrEqual
+          in: query
+          required: false
+          type: integer
+          format: int64
+        - name: id.in
+          in: query
+          required: false
+          type: array
+          items:
+            type: integer
+            format: int64
+          collectionFormat: multi
+        - name: id.lessThan
+          in: query
+          required: false
+          type: integer
+          format: int64
+        - name: id.lessThanOrEqual
+          in: query
+          required: false
+          type: integer
+          format: int64
+        - name: id.notEquals
+          in: query
+          required: false
+          type: integer
+          format: int64
+        - name: id.specified
+          in: query
+          required: false
+          type: boolean
+        - name: naoConformidadeId.equals
+          in: query
+          required: false
+          type: integer
+          format: int64
+        - name: naoConformidadeId.greaterThan
+          in: query
+          required: false
+          type: integer
+          format: int64
+        - name: naoConformidadeId.greaterThanOrEqual
+          in: query
+          required: false
+          type: integer
+          format: int64
+        - name: naoConformidadeId.in
+          in: query
+          required: false
+          type: array
+          items:
+            type: integer
+            format: int64
+          collectionFormat: multi
+        - name: naoConformidadeId.lessThan
+          in: query
+          required: false
+          type: integer
+          format: int64
+        - name: naoConformidadeId.lessThanOrEqual
+          in: query
+          required: false
+          type: integer
+          format: int64
+        - name: naoConformidadeId.notEquals
+          in: query
+          required: false
+          type: integer
+          format: int64
+        - name: naoConformidadeId.specified
+          in: query
+          required: false
+          type: boolean
+        - name: page
+          in: query
+          description: Page number of the requested page
+          required: false
+          type: integer
+          format: int32
+        - name: size
+          in: query
+          description: Size of a page
+          required: false
+          type: integer
+          format: int32
+        - name: sort
+          in: query
+          description: 'Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.'
+          required: false
+          type: array
+          items:
+            type: string
+          collectionFormat: multi
+        - name: status.equals
+          in: query
+          required: false
+          type: string
+          enum:
+            - REGISTRADO
+            - PENDENTE
+            - CONCLUIDO
+        - name: status.in
+          in: query
+          required: false
+          type: array
+          items:
+            type: string
+            enum:
+              - REGISTRADO
+              - PENDENTE
+              - CONCLUIDO
+          collectionFormat: multi
+          enum:
+            - REGISTRADO
+            - PENDENTE
+            - CONCLUIDO
+        - name: status.notEquals
+          in: query
+          required: false
+          type: string
+          enum:
+            - REGISTRADO
+            - PENDENTE
+            - CONCLUIDO
+        - name: status.specified
+          in: query
+          required: false
+          type: boolean
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/SolicitacaoAnalise'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+    post:
+      tags:
+        - solicitacao-analise-resource
+      summary: createSolicitacaoAnalise
+      operationId: createSolicitacaoAnaliseUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - in: body
+          name: solicitacaoAnalise
+          description: solicitacaoAnalise
+          required: true
+          schema:
+            $ref: '#/definitions/SolicitacaoAnalise'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/SolicitacaoAnalise'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+    put:
+      tags:
+        - solicitacao-analise-resource
+      summary: updateSolicitacaoAnalise
+      operationId: updateSolicitacaoAnaliseUsingPUT
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - in: body
+          name: solicitacaoAnalise
+          description: solicitacaoAnalise
+          required: true
+          schema:
+            $ref: '#/definitions/SolicitacaoAnalise'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/SolicitacaoAnalise'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+  /api/solicitacao-analises/count:
+    get:
+      tags:
+        - solicitacao-analise-resource
+      summary: countSolicitacaoAnalises
+      operationId: countSolicitacaoAnalisesUsingGET
+      produces:
+        - '*/*'
+      parameters:
+        - name: analiseConsultoriaId.equals
+          in: query
+          required: false
+          type: integer
+          format: int64
+        - name: analiseConsultoriaId.greaterThan
+          in: query
+          required: false
+          type: integer
+          format: int64
+        - name: analiseConsultoriaId.greaterThanOrEqual
+          in: query
+          required: false
+          type: integer
+          format: int64
+        - name: analiseConsultoriaId.in
+          in: query
+          required: false
+          type: array
+          items:
+            type: integer
+            format: int64
+          collectionFormat: multi
+        - name: analiseConsultoriaId.lessThan
+          in: query
+          required: false
+          type: integer
+          format: int64
+        - name: analiseConsultoriaId.lessThanOrEqual
+          in: query
+          required: false
+          type: integer
+          format: int64
+        - name: analiseConsultoriaId.notEquals
+          in: query
+          required: false
+          type: integer
+          format: int64
+        - name: analiseConsultoriaId.specified
+          in: query
+          required: false
+          type: boolean
+        - name: dataRegistro.equals
+          in: query
+          required: false
+          type: string
+          format: date-time
+        - name: dataRegistro.greaterThan
+          in: query
+          required: false
+          type: string
+          format: date-time
+        - name: dataRegistro.greaterThanOrEqual
+          in: query
+          required: false
+          type: string
+          format: date-time
+        - name: 'dataRegistro.in[0].epochSecond'
+          in: query
+          required: false
+          type: integer
+          format: int64
+        - name: 'dataRegistro.in[0].nano'
+          in: query
+          required: false
+          type: integer
+          format: int32
+        - name: dataRegistro.lessThan
+          in: query
+          required: false
+          type: string
+          format: date-time
+        - name: dataRegistro.lessThanOrEqual
+          in: query
+          required: false
+          type: string
+          format: date-time
+        - name: dataRegistro.notEquals
+          in: query
+          required: false
+          type: string
+          format: date-time
+        - name: dataRegistro.specified
+          in: query
+          required: false
+          type: boolean
+        - name: dataSolicitacao.equals
+          in: query
+          required: false
+          type: string
+          format: date-time
+        - name: dataSolicitacao.greaterThan
+          in: query
+          required: false
+          type: string
+          format: date-time
+        - name: dataSolicitacao.greaterThanOrEqual
+          in: query
+          required: false
+          type: string
+          format: date-time
+        - name: 'dataSolicitacao.in[0].epochSecond'
+          in: query
+          required: false
+          type: integer
+          format: int64
+        - name: 'dataSolicitacao.in[0].nano'
+          in: query
+          required: false
+          type: integer
+          format: int32
+        - name: dataSolicitacao.lessThan
+          in: query
+          required: false
+          type: string
+          format: date-time
+        - name: dataSolicitacao.lessThanOrEqual
+          in: query
+          required: false
+          type: string
+          format: date-time
+        - name: dataSolicitacao.notEquals
+          in: query
+          required: false
+          type: string
+          format: date-time
+        - name: dataSolicitacao.specified
+          in: query
+          required: false
+          type: boolean
+        - name: id.equals
+          in: query
+          required: false
+          type: integer
+          format: int64
+        - name: id.greaterThan
+          in: query
+          required: false
+          type: integer
+          format: int64
+        - name: id.greaterThanOrEqual
+          in: query
+          required: false
+          type: integer
+          format: int64
+        - name: id.in
+          in: query
+          required: false
+          type: array
+          items:
+            type: integer
+            format: int64
+          collectionFormat: multi
+        - name: id.lessThan
+          in: query
+          required: false
+          type: integer
+          format: int64
+        - name: id.lessThanOrEqual
+          in: query
+          required: false
+          type: integer
+          format: int64
+        - name: id.notEquals
+          in: query
+          required: false
+          type: integer
+          format: int64
+        - name: id.specified
+          in: query
+          required: false
+          type: boolean
+        - name: naoConformidadeId.equals
+          in: query
+          required: false
+          type: integer
+          format: int64
+        - name: naoConformidadeId.greaterThan
+          in: query
+          required: false
+          type: integer
+          format: int64
+        - name: naoConformidadeId.greaterThanOrEqual
+          in: query
+          required: false
+          type: integer
+          format: int64
+        - name: naoConformidadeId.in
+          in: query
+          required: false
+          type: array
+          items:
+            type: integer
+            format: int64
+          collectionFormat: multi
+        - name: naoConformidadeId.lessThan
+          in: query
+          required: false
+          type: integer
+          format: int64
+        - name: naoConformidadeId.lessThanOrEqual
+          in: query
+          required: false
+          type: integer
+          format: int64
+        - name: naoConformidadeId.notEquals
+          in: query
+          required: false
+          type: integer
+          format: int64
+        - name: naoConformidadeId.specified
+          in: query
+          required: false
+          type: boolean
+        - name: status.equals
+          in: query
+          required: false
+          type: string
+          enum:
+            - REGISTRADO
+            - PENDENTE
+            - CONCLUIDO
+        - name: status.in
+          in: query
+          required: false
+          type: array
+          items:
+            type: string
+            enum:
+              - REGISTRADO
+              - PENDENTE
+              - CONCLUIDO
+          collectionFormat: multi
+          enum:
+            - REGISTRADO
+            - PENDENTE
+            - CONCLUIDO
+        - name: status.notEquals
+          in: query
+          required: false
+          type: string
+          enum:
+            - REGISTRADO
+            - PENDENTE
+            - CONCLUIDO
+        - name: status.specified
+          in: query
+          required: false
+          type: boolean
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: integer
+            format: int64
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+  '/api/solicitacao-analises/{id}':
+    get:
+      tags:
+        - solicitacao-analise-resource
+      summary: getSolicitacaoAnalise
+      operationId: getSolicitacaoAnaliseUsingGET
+      produces:
+        - '*/*'
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/SolicitacaoAnalise'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+    delete:
+      tags:
+        - solicitacao-analise-resource
+      summary: deleteSolicitacaoAnalise
+      operationId: deleteSolicitacaoAnaliseUsingDELETE
+      produces:
+        - '*/*'
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: OK
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      deprecated: false
+definitions:
+  AcaoSGQ:
+    type: object
+    required:
+      - dataRegistro
+      - statusSGQ
+      - tipo
+      - titulo
+    properties:
+      anexos:
+        type: array
+        items:
+          $ref: '#/definitions/Anexo'
+      dataConclusao:
+        type: string
+        format: date-time
+      dataRegistro:
+        type: string
+        format: date-time
+      descricao:
+        type: string
+      id:
+        type: integer
+        format: int64
+      naoConformidade:
+        $ref: '#/definitions/NaoConformidade'
+      novoPrazoConclusao:
+        type: string
+        format: date-time
+      prazoConclusao:
+        type: string
+        format: date-time
+      resultado:
+        type: string
+      statusSGQ:
+        type: string
+        enum:
+          - REGISTRADO
+          - PENDENTE
+          - CONCLUIDO
+          - SUSPENSO
+          - CANCELADO
+      tipo:
+        type: string
+        enum:
+          - ACAO_CORRETIVA
+          - ACAO_PREVENTIVA
+          - CORRECAO_PONTUAL
+      titulo:
+        type: string
+        minLength: 1
+        maxLength: 100
+    title: AcaoSGQ
+  AnaliseConsultoria:
+    type: object
+    required:
+      - dataAnalise
+      - responsavel
+      - status
+    properties:
+      anexos:
+        type: array
+        items:
+          $ref: '#/definitions/Anexo'
+      conteudo:
+        type: string
+      dataAnalise:
+        type: string
+        format: date-time
+      id:
+        type: integer
+        format: int64
+      responsavel:
+        type: string
+        minLength: 1
+        maxLength: 100
+      status:
+        type: string
+        enum:
+          - APROVADO
+          - APROVADO_PARCIALMENTE
+          - REPROVADO
+    title: AnaliseConsultoria
+  Anexo:
+    type: object
+    required:
+      - nomeArquivo
+    properties:
+      conteudo:
+        type: string
+        format: byte
+      conteudoContentType:
+        type: string
+      id:
+        type: integer
+        format: int64
+      nomeArquivo:
+        type: string
+    title: Anexo
+  NaoConformidade:
+    type: object
+    required:
+      - dataRegistro
+      - statusSGQ
+      - titulo
+    properties:
+      acaoSGQS:
+        type: array
+        items:
+          $ref: '#/definitions/AcaoSGQ'
+      analiseFinal:
+        type: string
+        description: Análise de eficácia
+      anexos:
+        type: array
+        items:
+          $ref: '#/definitions/Anexo'
+      causa:
+        type: string
+      dataConclusao:
+        type: string
+        format: date-time
+      dataRegistro:
+        type: string
+        format: date-time
+      descricao:
+        type: string
+      id:
+        type: integer
+        format: int64
+      novoPrazoConclusao:
+        type: string
+        format: date-time
+      prazoConclusao:
+        type: string
+        format: date-time
+      procedente:
+        type: boolean
+      statusSGQ:
+        type: string
+        enum:
+          - REGISTRADO
+          - PENDENTE
+          - CONCLUIDO
+          - SUSPENSO
+          - CANCELADO
+      titulo:
+        type: string
+        minLength: 1
+        maxLength: 100
+    title: NaoConformidade
+  SolicitacaoAnalise:
+    type: object
+    required:
+      - dataRegistro
+      - naoConformidade
+      - status
+    properties:
+      analiseConsultoria:
+        $ref: '#/definitions/AnaliseConsultoria'
+      dataRegistro:
+        type: string
+        format: date-time
+      dataSolicitacao:
+        type: string
+        format: date-time
+      id:
+        type: integer
+        format: int64
+      naoConformidade:
+        $ref: '#/definitions/NaoConformidade'
+      status:
+        type: string
+        enum:
+          - REGISTRADO
+          - PENDENTE
+          - CONCLUIDO
+    title: SolicitacaoAnalise
+
