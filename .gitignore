@@ -1,10 +1,12 @@
 **/.DS_Store
 .idea
 .vscode
-apps.png
 .project
+!doc/papyrus/.project
 .settings
 
 **/volumes
 
 *~lock.*
+
+apps.png
