@@ -53,6 +53,10 @@
                 <dd>
                     <span jhiTranslate="{{'gatewayApp.StatusSGQ.' + naoConformidade.statusSGQ}}">{{naoConformidade.statusSGQ}}</span>
                 </dd>
+                <dt><span jhiTranslate="gatewayApp.sgqNaoConformidade.origem">Origem</span></dt>
+                <dd>
+                    <span jhiTranslate="{{'gatewayApp.OrigemNaoConformidade.' + naoConformidade.origem}}">{{naoConformidade.origem}}</span>
+                </dd>
                 <dt><span jhiTranslate="gatewayApp.sgqNaoConformidade.anexo">Anexo</span></dt>
                 <dd>
                     <span *ngFor="let anexo of naoConformidade.anexos; let last = last">

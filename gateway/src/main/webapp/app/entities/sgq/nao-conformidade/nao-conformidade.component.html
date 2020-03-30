@@ -31,6 +31,7 @@
             <th scope="col"  jhiSortBy="dataConclusao"><span jhiTranslate="gatewayApp.sgqNaoConformidade.dataConclusao">Data Conclusao</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="analiseFinal"><span jhiTranslate="gatewayApp.sgqNaoConformidade.analiseFinal">Analise Final</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="statusSGQ"><span jhiTranslate="gatewayApp.sgqNaoConformidade.statusSGQ">Status SGQ</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="origem"><span jhiTranslate="gatewayApp.sgqNaoConformidade.origem">Origem</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="auditoria.id"><span jhiTranslate="gatewayApp.sgqNaoConformidade.auditoria">Auditoria</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="resultadoChecklist.id"><span jhiTranslate="gatewayApp.sgqNaoConformidade.resultadoChecklist">Resultado Checklist</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"></th>
@@ -51,6 +52,7 @@
                 <td>{{naoConformidade.dataConclusao | date:'shortDate'}}</td>
                 <td>{{naoConformidade.analiseFinal}}</td>
                 <td jhiTranslate="{{'gatewayApp.StatusSGQ.' + naoConformidade.statusSGQ}}">{{naoConformidade.statusSGQ}}</td>
+                <td jhiTranslate="{{'gatewayApp.OrigemNaoConformidade.' + naoConformidade.origem}}">{{naoConformidade.origem}}</td>
                 <td>
                     <div *ngIf="naoConformidade.auditoria">
                         <a [routerLink]="['/auditoria', naoConformidade.auditoria?.id, 'view' ]" >{{naoConformidade.auditoria?.id}}</a>

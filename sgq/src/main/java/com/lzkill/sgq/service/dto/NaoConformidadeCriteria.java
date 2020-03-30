@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Objects;
 import io.github.jhipster.service.Criteria;
 import com.lzkill.sgq.domain.enumeration.StatusSGQ;
+import com.lzkill.sgq.domain.enumeration.OrigemNaoConformidade;
 import io.github.jhipster.service.filter.BooleanFilter;
 import io.github.jhipster.service.filter.DoubleFilter;
 import io.github.jhipster.service.filter.Filter;
@@ -41,6 +42,24 @@ public class NaoConformidadeCriteria implements Serializable, Criteria {
         }
 
     }
+    /**
+     * Class for filtering OrigemNaoConformidade
+     */
+    public static class OrigemNaoConformidadeFilter extends Filter<OrigemNaoConformidade> {
+
+        public OrigemNaoConformidadeFilter() {
+        }
+
+        public OrigemNaoConformidadeFilter(OrigemNaoConformidadeFilter filter) {
+            super(filter);
+        }
+
+        @Override
+        public OrigemNaoConformidadeFilter copy() {
+            return new OrigemNaoConformidadeFilter(this);
+        }
+
+    }
 
     private static final long serialVersionUID = 1L;
 
@@ -64,6 +83,8 @@ public class NaoConformidadeCriteria implements Serializable, Criteria {
 
     private StatusSGQFilter statusSGQ;
 
+    private OrigemNaoConformidadeFilter origem;
+
     private LongFilter acaoSGQId;
 
     private LongFilter anexoId;
@@ -86,6 +107,7 @@ public class NaoConformidadeCriteria implements Serializable, Criteria {
         this.dataRegistro = other.dataRegistro == null ? null : other.dataRegistro.copy();
         this.dataConclusao = other.dataConclusao == null ? null : other.dataConclusao.copy();
         this.statusSGQ = other.statusSGQ == null ? null : other.statusSGQ.copy();
+        this.origem = other.origem == null ? null : other.origem.copy();
         this.acaoSGQId = other.acaoSGQId == null ? null : other.acaoSGQId.copy();
         this.anexoId = other.anexoId == null ? null : other.anexoId.copy();
         this.auditoriaId = other.auditoriaId == null ? null : other.auditoriaId.copy();
@@ -177,6 +199,14 @@ public class NaoConformidadeCriteria implements Serializable, Criteria {
         this.statusSGQ = statusSGQ;
     }
 
+    public OrigemNaoConformidadeFilter getOrigem() {
+        return origem;
+    }
+
+    public void setOrigem(OrigemNaoConformidadeFilter origem) {
+        this.origem = origem;
+    }
+
     public LongFilter getAcaoSGQId() {
         return acaoSGQId;
     }
@@ -230,6 +260,7 @@ public class NaoConformidadeCriteria implements Serializable, Criteria {
             Objects.equals(dataRegistro, that.dataRegistro) &&
             Objects.equals(dataConclusao, that.dataConclusao) &&
             Objects.equals(statusSGQ, that.statusSGQ) &&
+            Objects.equals(origem, that.origem) &&
             Objects.equals(acaoSGQId, that.acaoSGQId) &&
             Objects.equals(anexoId, that.anexoId) &&
             Objects.equals(auditoriaId, that.auditoriaId) &&
@@ -249,6 +280,7 @@ public class NaoConformidadeCriteria implements Serializable, Criteria {
         dataRegistro,
         dataConclusao,
         statusSGQ,
+        origem,
         acaoSGQId,
         anexoId,
         auditoriaId,
@@ -269,6 +301,7 @@ public class NaoConformidadeCriteria implements Serializable, Criteria {
                 (dataRegistro != null ? "dataRegistro=" + dataRegistro + ", " : "") +
                 (dataConclusao != null ? "dataConclusao=" + dataConclusao + ", " : "") +
                 (statusSGQ != null ? "statusSGQ=" + statusSGQ + ", " : "") +
+                (origem != null ? "origem=" + origem + ", " : "") +
                 (acaoSGQId != null ? "acaoSGQId=" + acaoSGQId + ", " : "") +
                 (anexoId != null ? "anexoId=" + anexoId + ", " : "") +
                 (auditoriaId != null ? "auditoriaId=" + auditoriaId + ", " : "") +

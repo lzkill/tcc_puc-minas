@@ -43,6 +43,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import com.lzkill.sgq.domain.enumeration.StatusSGQ;
+import com.lzkill.sgq.domain.enumeration.OrigemNaoConformidade;
 /**
  * Integration tests for the {@link NaoConformidadeResource} REST controller.
  */
@@ -86,6 +87,9 @@ public class NaoConformidadeResourceIT {
 
     private static final StatusSGQ DEFAULT_STATUS_SGQ = StatusSGQ.REGISTRADO;
     private static final StatusSGQ UPDATED_STATUS_SGQ = StatusSGQ.PENDENTE;
+
+    private static final OrigemNaoConformidade DEFAULT_ORIGEM = OrigemNaoConformidade.ANALISE_CRITICA;
+    private static final OrigemNaoConformidade UPDATED_ORIGEM = OrigemNaoConformidade.AUDITORIA;
 
     @Autowired
     private NaoConformidadeRepository naoConformidadeRepository;
@@ -152,7 +156,8 @@ public class NaoConformidadeResourceIT {
             .dataRegistro(DEFAULT_DATA_REGISTRO)
             .dataConclusao(DEFAULT_DATA_CONCLUSAO)
             .analiseFinal(DEFAULT_ANALISE_FINAL)
-            .statusSGQ(DEFAULT_STATUS_SGQ);
+            .statusSGQ(DEFAULT_STATUS_SGQ)
+            .origem(DEFAULT_ORIGEM);
         return naoConformidade;
     }
     /**
@@ -174,7 +179,8 @@ public class NaoConformidadeResourceIT {
             .dataRegistro(UPDATED_DATA_REGISTRO)
             .dataConclusao(UPDATED_DATA_CONCLUSAO)
             .analiseFinal(UPDATED_ANALISE_FINAL)
-            .statusSGQ(UPDATED_STATUS_SGQ);
+            .statusSGQ(UPDATED_STATUS_SGQ)
+            .origem(UPDATED_ORIGEM);
         return naoConformidade;
     }
 
@@ -210,6 +216,7 @@ public class NaoConformidadeResourceIT {
         assertThat(testNaoConformidade.getDataConclusao()).isEqualTo(DEFAULT_DATA_CONCLUSAO);
         assertThat(testNaoConformidade.getAnaliseFinal()).isEqualTo(DEFAULT_ANALISE_FINAL);
         assertThat(testNaoConformidade.getStatusSGQ()).isEqualTo(DEFAULT_STATUS_SGQ);
+        assertThat(testNaoConformidade.getOrigem()).isEqualTo(DEFAULT_ORIGEM);
     }
 
     @Test
@@ -306,6 +313,24 @@ public class NaoConformidadeResourceIT {
 
     @Test
     @Transactional
+    public void checkOrigemIsRequired() throws Exception {
+        int databaseSizeBeforeTest = naoConformidadeRepository.findAll().size();
+        // set the field null
+        naoConformidade.setOrigem(null);
+
+        // Create the NaoConformidade, which fails.
+
+        restNaoConformidadeMockMvc.perform(post("/api/nao-conformidades")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(naoConformidade)))
+            .andExpect(status().isBadRequest());
+
+        List<NaoConformidade> naoConformidadeList = naoConformidadeRepository.findAll();
+        assertThat(naoConformidadeList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     public void getAllNaoConformidades() throws Exception {
         // Initialize the database
         naoConformidadeRepository.saveAndFlush(naoConformidade);
@@ -326,7 +351,8 @@ public class NaoConformidadeResourceIT {
             .andExpect(jsonPath("$.[*].dataRegistro").value(hasItem(DEFAULT_DATA_REGISTRO.toString())))
             .andExpect(jsonPath("$.[*].dataConclusao").value(hasItem(DEFAULT_DATA_CONCLUSAO.toString())))
             .andExpect(jsonPath("$.[*].analiseFinal").value(hasItem(DEFAULT_ANALISE_FINAL.toString())))
-            .andExpect(jsonPath("$.[*].statusSGQ").value(hasItem(DEFAULT_STATUS_SGQ.toString())));
+            .andExpect(jsonPath("$.[*].statusSGQ").value(hasItem(DEFAULT_STATUS_SGQ.toString())))
+            .andExpect(jsonPath("$.[*].origem").value(hasItem(DEFAULT_ORIGEM.toString())));
     }
     
     @SuppressWarnings({"unchecked"})
@@ -384,7 +410,8 @@ public class NaoConformidadeResourceIT {
             .andExpect(jsonPath("$.dataRegistro").value(DEFAULT_DATA_REGISTRO.toString()))
             .andExpect(jsonPath("$.dataConclusao").value(DEFAULT_DATA_CONCLUSAO.toString()))
             .andExpect(jsonPath("$.analiseFinal").value(DEFAULT_ANALISE_FINAL.toString()))
-            .andExpect(jsonPath("$.statusSGQ").value(DEFAULT_STATUS_SGQ.toString()));
+            .andExpect(jsonPath("$.statusSGQ").value(DEFAULT_STATUS_SGQ.toString()))
+            .andExpect(jsonPath("$.origem").value(DEFAULT_ORIGEM.toString()));
     }
 
 
@@ -1009,6 +1036,58 @@ public class NaoConformidadeResourceIT {
 
     @Test
     @Transactional
+    public void getAllNaoConformidadesByOrigemIsEqualToSomething() throws Exception {
+        // Initialize the database
+        naoConformidadeRepository.saveAndFlush(naoConformidade);
+
+        // Get all the naoConformidadeList where origem equals to DEFAULT_ORIGEM
+        defaultNaoConformidadeShouldBeFound("origem.equals=" + DEFAULT_ORIGEM);
+
+        // Get all the naoConformidadeList where origem equals to UPDATED_ORIGEM
+        defaultNaoConformidadeShouldNotBeFound("origem.equals=" + UPDATED_ORIGEM);
+    }
+
+    @Test
+    @Transactional
+    public void getAllNaoConformidadesByOrigemIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        naoConformidadeRepository.saveAndFlush(naoConformidade);
+
+        // Get all the naoConformidadeList where origem not equals to DEFAULT_ORIGEM
+        defaultNaoConformidadeShouldNotBeFound("origem.notEquals=" + DEFAULT_ORIGEM);
+
+        // Get all the naoConformidadeList where origem not equals to UPDATED_ORIGEM
+        defaultNaoConformidadeShouldBeFound("origem.notEquals=" + UPDATED_ORIGEM);
+    }
+
+    @Test
+    @Transactional
+    public void getAllNaoConformidadesByOrigemIsInShouldWork() throws Exception {
+        // Initialize the database
+        naoConformidadeRepository.saveAndFlush(naoConformidade);
+
+        // Get all the naoConformidadeList where origem in DEFAULT_ORIGEM or UPDATED_ORIGEM
+        defaultNaoConformidadeShouldBeFound("origem.in=" + DEFAULT_ORIGEM + "," + UPDATED_ORIGEM);
+
+        // Get all the naoConformidadeList where origem equals to UPDATED_ORIGEM
+        defaultNaoConformidadeShouldNotBeFound("origem.in=" + UPDATED_ORIGEM);
+    }
+
+    @Test
+    @Transactional
+    public void getAllNaoConformidadesByOrigemIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        naoConformidadeRepository.saveAndFlush(naoConformidade);
+
+        // Get all the naoConformidadeList where origem is not null
+        defaultNaoConformidadeShouldBeFound("origem.specified=true");
+
+        // Get all the naoConformidadeList where origem is null
+        defaultNaoConformidadeShouldNotBeFound("origem.specified=false");
+    }
+
+    @Test
+    @Transactional
     public void getAllNaoConformidadesByAcaoSGQIsEqualToSomething() throws Exception {
         // Initialize the database
         naoConformidadeRepository.saveAndFlush(naoConformidade);
@@ -1105,7 +1184,8 @@ public class NaoConformidadeResourceIT {
             .andExpect(jsonPath("$.[*].dataRegistro").value(hasItem(DEFAULT_DATA_REGISTRO.toString())))
             .andExpect(jsonPath("$.[*].dataConclusao").value(hasItem(DEFAULT_DATA_CONCLUSAO.toString())))
             .andExpect(jsonPath("$.[*].analiseFinal").value(hasItem(DEFAULT_ANALISE_FINAL.toString())))
-            .andExpect(jsonPath("$.[*].statusSGQ").value(hasItem(DEFAULT_STATUS_SGQ.toString())));
+            .andExpect(jsonPath("$.[*].statusSGQ").value(hasItem(DEFAULT_STATUS_SGQ.toString())))
+            .andExpect(jsonPath("$.[*].origem").value(hasItem(DEFAULT_ORIGEM.toString())));
 
         // Check, that the count call also returns 1
         restNaoConformidadeMockMvc.perform(get("/api/nao-conformidades/count?sort=id,desc&" + filter))
@@ -1164,7 +1244,8 @@ public class NaoConformidadeResourceIT {
             .dataRegistro(UPDATED_DATA_REGISTRO)
             .dataConclusao(UPDATED_DATA_CONCLUSAO)
             .analiseFinal(UPDATED_ANALISE_FINAL)
-            .statusSGQ(UPDATED_STATUS_SGQ);
+            .statusSGQ(UPDATED_STATUS_SGQ)
+            .origem(UPDATED_ORIGEM);
 
         restNaoConformidadeMockMvc.perform(put("/api/nao-conformidades")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -1187,6 +1268,7 @@ public class NaoConformidadeResourceIT {
         assertThat(testNaoConformidade.getDataConclusao()).isEqualTo(UPDATED_DATA_CONCLUSAO);
         assertThat(testNaoConformidade.getAnaliseFinal()).isEqualTo(UPDATED_ANALISE_FINAL);
         assertThat(testNaoConformidade.getStatusSGQ()).isEqualTo(UPDATED_STATUS_SGQ);
+        assertThat(testNaoConformidade.getOrigem()).isEqualTo(UPDATED_ORIGEM);
     }
 
     @Test

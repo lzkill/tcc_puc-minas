@@ -1,0 +1,11 @@
+{
+  "gatewayApp": {
+    "OrigemNaoConformidade": {
+      "null": "",
+      "ANALISE_CRITICA": "ANALISE_CRITICA",
+      "AUDITORIA": "AUDITORIA",
+      "RECLAMACAO_CLIENTE": "RECLAMACAO_CLIENTE",
+      "PRODUTO_NAO_CONFORME": "PRODUTO_NAO_CONFORME"
+    }
+  }
+}

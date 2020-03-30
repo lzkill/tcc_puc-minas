@@ -112,6 +112,9 @@ public class NaoConformidadeQueryService extends QueryService<NaoConformidade> {
             if (criteria.getStatusSGQ() != null) {
                 specification = specification.and(buildSpecification(criteria.getStatusSGQ(), NaoConformidade_.statusSGQ));
             }
+            if (criteria.getOrigem() != null) {
+                specification = specification.and(buildSpecification(criteria.getOrigem(), NaoConformidade_.origem));
+            }
             if (criteria.getAcaoSGQId() != null) {
                 specification = specification.and(buildSpecification(criteria.getAcaoSGQId(),
                     root -> root.join(NaoConformidade_.acaoSGQS, JoinType.LEFT).get(AcaoSGQ_.id)));

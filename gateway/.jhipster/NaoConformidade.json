@@ -74,6 +74,14 @@
             "fieldValidateRules": [
                 "required"
             ]
+        },
+        {
+            "fieldName": "origem",
+            "fieldType": "OrigemNaoConformidade",
+            "fieldValues": "ANALISE_CRITICA,AUDITORIA,RECLAMACAO_CLIENTE,PRODUTO_NAO_CONFORME",
+            "fieldValidateRules": [
+                "required"
+            ]
         }
     ],
     "relationships": [
@@ -115,10 +123,12 @@
     "jpaMetamodelFiltering": true,
     "fluentMethods": true,
     "readOnly": false,
-    "clientRootFolder": "",
+    "clientRootFolder": "sgq",
     "applications": [
         "gateway",
         "sgq"
     ],
-    "microserviceName": "sgq"
+    "microserviceName": "sgq",
+    "searchEngine": false,
+    "databaseType": "sql"
 }

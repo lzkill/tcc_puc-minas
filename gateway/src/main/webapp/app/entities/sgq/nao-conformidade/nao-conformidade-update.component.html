@@ -130,6 +130,21 @@
                         </small>
                     </div>
                 </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="gatewayApp.sgqNaoConformidade.origem" for="field_origem">Origem</label>
+                    <select class="form-control" name="origem" formControlName="origem" id="field_origem">
+                        <option value="ANALISE_CRITICA">{{'gatewayApp.OrigemNaoConformidade.ANALISE_CRITICA' | translate}}</option>
+                        <option value="AUDITORIA">{{'gatewayApp.OrigemNaoConformidade.AUDITORIA' | translate}}</option>
+                        <option value="RECLAMACAO_CLIENTE">{{'gatewayApp.OrigemNaoConformidade.RECLAMACAO_CLIENTE' | translate}}</option>
+                        <option value="PRODUTO_NAO_CONFORME">{{'gatewayApp.OrigemNaoConformidade.PRODUTO_NAO_CONFORME' | translate}}</option>
+                    </select>
+                    <div *ngIf="editForm.get('origem')!.invalid && (editForm.get('origem')!.dirty || editForm.get('origem')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('origem')?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
 
                 <div class="form-group">
                     <label jhiTranslate="gatewayApp.sgqNaoConformidade.anexo" for="field_anexos">Anexo</label>

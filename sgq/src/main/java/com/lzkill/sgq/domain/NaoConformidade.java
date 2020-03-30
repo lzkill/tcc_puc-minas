@@ -15,6 +15,8 @@ import java.util.Set;
 
 import com.lzkill.sgq.domain.enumeration.StatusSGQ;
 
+import com.lzkill.sgq.domain.enumeration.OrigemNaoConformidade;
+
 /**
  * Representa a violação de algum requisito regulamentar (normas,\nprocedimentos internos, definições de processos, etc)
  */
@@ -87,6 +89,11 @@ public class NaoConformidade implements Serializable {
     @Enumerated(EnumType.STRING)
     @Column(name = "status_sgq", nullable = false)
     private StatusSGQ statusSGQ;
+
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    @Column(name = "origem", nullable = false)
+    private OrigemNaoConformidade origem;
 
     @OneToMany(mappedBy = "naoConformidade")
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
@@ -272,6 +279,19 @@ public class NaoConformidade implements Serializable {
         this.statusSGQ = statusSGQ;
     }
 
+    public OrigemNaoConformidade getOrigem() {
+        return origem;
+    }
+
+    public NaoConformidade origem(OrigemNaoConformidade origem) {
+        this.origem = origem;
+        return this;
+    }
+
+    public void setOrigem(OrigemNaoConformidade origem) {
+        this.origem = origem;
+    }
+
     public Set<AcaoSGQ> getAcaoSGQS() {
         return acaoSGQS;
     }
@@ -381,6 +401,7 @@ public class NaoConformidade implements Serializable {
             ", dataConclusao='" + getDataConclusao() + "'" +
             ", analiseFinal='" + getAnaliseFinal() + "'" +
             ", statusSGQ='" + getStatusSGQ() + "'" +
+            ", origem='" + getOrigem() + "'" +
             "}";
     }
 }

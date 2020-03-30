@@ -6,6 +6,7 @@ import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 import { NaoConformidadeService } from 'app/entities/sgq/nao-conformidade/nao-conformidade.service';
 import { INaoConformidade, NaoConformidade } from 'app/shared/model/sgq/nao-conformidade.model';
 import { StatusSGQ } from 'app/shared/model/enumerations/status-sgq.model';
+import { OrigemNaoConformidade } from 'app/shared/model/enumerations/origem-nao-conformidade.model';
 
 describe('Service Tests', () => {
   describe('NaoConformidade Service', () => {
@@ -38,7 +39,8 @@ describe('Service Tests', () => {
         currentDate,
         currentDate,
         'AAAAAAA',
-        StatusSGQ.REGISTRADO
+        StatusSGQ.REGISTRADO,
+        OrigemNaoConformidade.ANALISE_CRITICA
       );
     });
 
@@ -106,7 +108,8 @@ describe('Service Tests', () => {
             dataRegistro: currentDate.format(DATE_TIME_FORMAT),
             dataConclusao: currentDate.format(DATE_TIME_FORMAT),
             analiseFinal: 'BBBBBB',
-            statusSGQ: 'BBBBBB'
+            statusSGQ: 'BBBBBB',
+            origem: 'BBBBBB'
           },
           elemDefault
         );
@@ -143,7 +146,8 @@ describe('Service Tests', () => {
             dataRegistro: currentDate.format(DATE_TIME_FORMAT),
             dataConclusao: currentDate.format(DATE_TIME_FORMAT),
             analiseFinal: 'BBBBBB',
-            statusSGQ: 'BBBBBB'
+            statusSGQ: 'BBBBBB',
+            origem: 'BBBBBB'
           },
           elemDefault
         );

@@ -4,6 +4,7 @@ import { IAnexo } from 'app/shared/model/sgq/anexo.model';
 import { IAuditoria } from 'app/shared/model/sgq/auditoria.model';
 import { IResultadoChecklist } from 'app/shared/model/sgq/resultado-checklist.model';
 import { StatusSGQ } from 'app/shared/model/enumerations/status-sgq.model';
+import { OrigemNaoConformidade } from 'app/shared/model/enumerations/origem-nao-conformidade.model';
 
 export interface INaoConformidade {
   id?: number;
@@ -19,6 +20,7 @@ export interface INaoConformidade {
   dataConclusao?: Moment;
   analiseFinal?: any;
   statusSGQ?: StatusSGQ;
+  origem?: OrigemNaoConformidade;
   acaoSGQS?: IAcaoSGQ[];
   anexos?: IAnexo[];
   auditoria?: IAuditoria;
@@ -40,6 +42,7 @@ export class NaoConformidade implements INaoConformidade {
     public dataConclusao?: Moment,
     public analiseFinal?: any,
     public statusSGQ?: StatusSGQ,
+    public origem?: OrigemNaoConformidade,
     public acaoSGQS?: IAcaoSGQ[],
     public anexos?: IAnexo[],
     public auditoria?: IAuditoria,

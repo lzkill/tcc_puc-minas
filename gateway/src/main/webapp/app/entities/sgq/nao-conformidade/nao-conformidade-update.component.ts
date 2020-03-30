@@ -49,6 +49,7 @@ export class NaoConformidadeUpdateComponent implements OnInit {
     dataConclusao: [],
     analiseFinal: [],
     statusSGQ: [null, [Validators.required]],
+    origem: [null, [Validators.required]],
     anexos: [],
     auditoria: [],
     resultadoChecklist: []
@@ -127,6 +128,7 @@ export class NaoConformidadeUpdateComponent implements OnInit {
       dataConclusao: naoConformidade.dataConclusao != null ? naoConformidade.dataConclusao.format(DATE_TIME_FORMAT) : null,
       analiseFinal: naoConformidade.analiseFinal,
       statusSGQ: naoConformidade.statusSGQ,
+      origem: naoConformidade.origem,
       anexos: naoConformidade.anexos,
       auditoria: naoConformidade.auditoria,
       resultadoChecklist: naoConformidade.resultadoChecklist
@@ -191,6 +193,7 @@ export class NaoConformidadeUpdateComponent implements OnInit {
           : undefined,
       analiseFinal: this.editForm.get(['analiseFinal'])!.value,
       statusSGQ: this.editForm.get(['statusSGQ'])!.value,
+      origem: this.editForm.get(['origem'])!.value,
       anexos: this.editForm.get(['anexos'])!.value,
       auditoria: this.editForm.get(['auditoria'])!.value,
       resultadoChecklist: this.editForm.get(['resultadoChecklist'])!.value
