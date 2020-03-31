@@ -185,4 +185,4 @@ application:
     enabled: true
     task-pool-size: 10
   cron:
-    sync-solicitacao-analise: 0 0/15 * * * *
+    sync-solicitacao-analise: 0 */15 * * * *
