@@ -22,7 +22,7 @@
                         </small>
                     </div>
                 </div>
-                <div class="form-group">
+                <div class="form-group" *jhiHasAnyAuthority="'ROLE_ADMIN_SGQ'">
                     <label class="form-control-label" jhiTranslate="gatewayApp.sgqProdutoNaoConforme.idUsuarioResponsavel" for="field_idUsuarioResponsavel">Id Usuario Responsavel</label>
                     <select class="form-control" id="field_idUsuarioResponsavel" name="idUsuarioResponsavel" formControlName="idUsuarioResponsavel">
                       <option [ngValue]="null"></option>
@@ -69,7 +69,7 @@
                         </small>
                     </div>
                 </div>
-                <div class="form-group">
+                <div class="form-group" *jhiHasAnyAuthority="'ROLE_ADMIN_SGQ'">
                     <label class="form-control-label" jhiTranslate="gatewayApp.sgqProdutoNaoConforme.procedente" for="field_procedente" [ngbTooltip]="'gatewayApp.sgqProdutoNaoConforme.help.procedente' | translate">Procedente</label>
                     <input type="checkbox" class="form-control" name="procedente" id="field_procedente"
                            formControlName="procedente"/>
@@ -90,7 +90,7 @@
                         </small>
                     </div>
                 </div>
-                <div class="form-group">
+                <div class="form-group" *jhiHasAnyAuthority="'ROLE_ADMIN_SGQ'">
                     <label class="form-control-label" jhiTranslate="gatewayApp.sgqProdutoNaoConforme.analiseFinal" for="field_analiseFinal" [ngbTooltip]="'gatewayApp.sgqProdutoNaoConforme.help.analiseFinal' | translate">Analise Final</label>
                     <textarea class="form-control" name="analiseFinal" id="field_analiseFinal"
                               formControlName="analiseFinal"></textarea>
@@ -112,14 +112,14 @@
                     </div>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group" *jhiHasAnyAuthority="'ROLE_ADMIN_SGQ'">
                     <label class="form-control-label" jhiTranslate="gatewayApp.sgqProdutoNaoConforme.acao" for="field_acao">Acao</label>
                     <select class="form-control" id="field_acao" name="acao" formControlName="acao">
                         <option [ngValue]="null"></option>
                         <option [ngValue]="acaoSGQOption.id === editForm.get('acao')!.value?.id ? editForm.get('acao')!.value : acaoSGQOption" *ngFor="let acaoSGQOption of acaos; trackBy: trackById">{{acaoSGQOption.titulo}}</option>
                     </select>
                 </div>
-                <div class="form-group">
+                <div class="form-group" *jhiHasAnyAuthority="'ROLE_ADMIN_SGQ'">
                     <label class="form-control-label" jhiTranslate="gatewayApp.sgqProdutoNaoConforme.naoConformidade" for="field_naoConformidade">Nao Conformidade</label>
                     <select class="form-control" id="field_naoConformidade" name="naoConformidade" formControlName="naoConformidade">
                         <option [ngValue]="null"></option>

@@ -10,7 +10,7 @@ Demonstração
     - Github
     - Página públca (Home)
     - Login com JWT
-    - Roles customizadas (gerenciamento de usuários)
+    - Roles customizadas (gerenciamento de usuários + login com sgq/user)
     - Chamadas Rest + tempos de processamento js
     - Responsividade
     - Integrações (citar interpretações do documento de escopo)
