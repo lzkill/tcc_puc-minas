@@ -1,7 +1,7 @@
 <div>
     <h2 id="page-heading">
         <span jhiTranslate="gatewayApp.sgqAcaoSgq.home.title">Acao SGQS</span>
-        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-acao-sgq" [routerLink]="['/acao-sgq/new']">
+        <button *jhiHasAnyAuthority="'ROLE_ADMIN_SGQ'" id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-acao-sgq" [routerLink]="['/acao-sgq/new']">
             <fa-icon [icon]="'plus'"></fa-icon>
             <span  jhiTranslate="gatewayApp.sgqAcaoSgq.home.createLabel">
             Create a new Acao SGQ
@@ -63,7 +63,7 @@
                             <fa-icon [icon]="'pencil-alt'"></fa-icon>
                             <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
                         </button>
-                        <button type="submit" (click)="delete(acaoSGQ)"
+                        <button *jhiHasAnyAuthority="'ROLE_ADMIN_SGQ'" type="submit" (click)="delete(acaoSGQ)"
                                 class="btn btn-danger btn-sm">
                             <fa-icon [icon]="'times'"></fa-icon>
                             <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>

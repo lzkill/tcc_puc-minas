@@ -1,7 +1,7 @@
 <div>
     <h2 id="page-heading">
         <span jhiTranslate="gatewayApp.sgqCampanhaRecall.home.title">Campanha Recalls</span>
-        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-campanha-recall" [routerLink]="['/campanha-recall/new']">
+        <button *jhiHasAnyAuthority="'ROLE_ADMIN_SGQ'" id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-campanha-recall" [routerLink]="['/campanha-recall/new']">
             <fa-icon [icon]="'plus'"></fa-icon>
             <span  jhiTranslate="gatewayApp.sgqCampanhaRecall.home.createLabel">
             Create a new Campanha Recall
