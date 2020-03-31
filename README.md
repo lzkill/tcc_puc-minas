@@ -33,11 +33,10 @@ A codificação em cada um dos projetos da solução pode se apoiar no mecanismo
 #### Build
 
 ```
-cd sgq && ./mvnw -Pprod verify package jib:dockerBuild && \
-cd ../gateway && ./mvnw -Pprod verify package jib:dockerBuild && \
-cd ../mock/normas && ./mvnw -Pprod verify package jib:dockerBuild && \
-cd ../consultoria && ./mvnw -Pprod verify package jib:dockerBuild && \
-cd ../..
+./mvnw -f sgq/pom.xml -Pprod verify package jib:dockerBuild && \
+./mvnw -f gateway/pom.xml -Pprod verify package jib:dockerBuild && \
+./mvnw -f mock/normas/pom/xml -Pprod verify package jib:dockerBuild && \
+./mvnw -f mock/consultoria/pom.xml -Pprod verify package jib:dockerBuild
 ```
 
 #### Execução
