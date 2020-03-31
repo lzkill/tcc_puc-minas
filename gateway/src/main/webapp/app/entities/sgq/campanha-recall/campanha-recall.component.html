@@ -21,7 +21,6 @@
             <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="idUsuarioRegistro"><span jhiTranslate="gatewayApp.sgqCampanhaRecall.idUsuarioRegistro">Id Usuario Registro</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="titulo"><span jhiTranslate="gatewayApp.sgqCampanhaRecall.titulo">Titulo</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  jhiSortBy="descricao"><span jhiTranslate="gatewayApp.sgqCampanhaRecall.descricao">Descricao</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="dataRegistro"><span jhiTranslate="gatewayApp.sgqCampanhaRecall.dataRegistro">Data Registro</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="dataInicio"><span jhiTranslate="gatewayApp.sgqCampanhaRecall.dataInicio">Data Inicio</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="dataFim"><span jhiTranslate="gatewayApp.sgqCampanhaRecall.dataFim">Data Fim</span> <fa-icon [icon]="'sort'"></fa-icon></th>
@@ -37,7 +36,6 @@
                 <td><a [routerLink]="['/campanha-recall', campanhaRecall.id, 'view' ]">{{campanhaRecall.id}}</a></td>
                 <td>{{usuarios.has(campanhaRecall.idUsuarioRegistro) ? usuarios.get(campanhaRecall.idUsuarioRegistro)!.login : ""}}</td>
                 <td>{{campanhaRecall.titulo}}</td>
-                <td>{{campanhaRecall.descricao}}</td>
                 <td>{{campanhaRecall.dataRegistro | date:'shortDate'}}</td>
                 <td>{{campanhaRecall.dataInicio | date:'shortDate'}}</td>
                 <td>{{campanhaRecall.dataFim | date:'shortDate'}}</td>

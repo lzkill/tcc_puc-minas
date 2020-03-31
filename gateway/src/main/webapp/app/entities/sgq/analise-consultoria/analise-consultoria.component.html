@@ -14,7 +14,6 @@
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
             <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="dataAnalise"><span jhiTranslate="gatewayApp.sgqAnaliseConsultoria.dataAnalise">Data Analise</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  jhiSortBy="conteudo"><span jhiTranslate="gatewayApp.sgqAnaliseConsultoria.conteudo">Conteudo</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="responsavel"><span jhiTranslate="gatewayApp.sgqAnaliseConsultoria.responsavel">Responsavel</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="status"><span jhiTranslate="gatewayApp.sgqAnaliseConsultoria.status">Status</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"></th>
@@ -24,7 +23,6 @@
             <tr *ngFor="let analiseConsultoria of analiseConsultorias ;trackBy: trackId">
                 <td><a [routerLink]="['/analise-consultoria', analiseConsultoria.id, 'view' ]">{{analiseConsultoria.id}}</a></td>
                 <td>{{analiseConsultoria.dataAnalise | date:'medium'}}</td>
-                <td>{{analiseConsultoria.conteudo}}</td>
                 <td>{{analiseConsultoria.responsavel}}</td>
                 <td jhiTranslate="{{'gatewayApp.StatusAprovacao.' + analiseConsultoria.status}}">{{analiseConsultoria.status}}</td>
                 <td class="text-right">

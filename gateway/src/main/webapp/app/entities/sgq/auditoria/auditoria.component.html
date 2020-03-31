@@ -21,7 +21,6 @@
             <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="idUsuarioRegistro"><span jhiTranslate="gatewayApp.sgqAuditoria.idUsuarioRegistro">Id Usuario Registro</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="titulo"><span jhiTranslate="gatewayApp.sgqAuditoria.titulo">Titulo</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  jhiSortBy="descricao"><span jhiTranslate="gatewayApp.sgqAuditoria.descricao">Descricao</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="modalidade"><span jhiTranslate="gatewayApp.sgqAuditoria.modalidade">Modalidade</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="dataRegistro"><span jhiTranslate="gatewayApp.sgqAuditoria.dataRegistro">Data Registro</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="dataInicio"><span jhiTranslate="gatewayApp.sgqAuditoria.dataInicio">Data Inicio</span> <fa-icon [icon]="'sort'"></fa-icon></th>
@@ -36,7 +35,6 @@
                 <td><a [routerLink]="['/auditoria', auditoria.id, 'view' ]">{{auditoria.id}}</a></td>
                 <td>{{usuarios.has(auditoria.idUsuarioRegistro) ? usuarios.get(auditoria.idUsuarioRegistro)!.login : ""}}</td>
                 <td>{{auditoria.titulo}}</td>
-                <td>{{auditoria.descricao}}</td>
                 <td jhiTranslate="{{'gatewayApp.ModalidadeAuditoria.' + auditoria.modalidade}}">{{auditoria.modalidade}}</td>
                 <td>{{auditoria.dataRegistro | date:'medium'}}</td>
                 <td>{{auditoria.dataInicio | date:'medium'}}</td>

@@ -20,7 +20,6 @@
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
             <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="titulo"><span jhiTranslate="gatewayApp.sgqProcesso.titulo">Titulo</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  jhiSortBy="descricao"><span jhiTranslate="gatewayApp.sgqProcesso.descricao">Descricao</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="habilitado"><span jhiTranslate="gatewayApp.sgqProcesso.habilitado">Habilitado</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="setor.nome"><span jhiTranslate="gatewayApp.sgqProcesso.setor">Setor</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"></th>
@@ -30,7 +29,6 @@
             <tr *ngFor="let processo of processos ;trackBy: trackId">
                 <td><a [routerLink]="['/processo', processo.id, 'view' ]">{{processo.id}}</a></td>
                 <td>{{processo.titulo}}</td>
-                <td>{{processo.descricao}}</td>
                 <td>{{processo.habilitado}}</td>
                 <td>
                     <div *ngIf="processo.setor">

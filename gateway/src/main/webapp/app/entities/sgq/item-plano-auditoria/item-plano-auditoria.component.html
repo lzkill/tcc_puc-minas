@@ -20,7 +20,6 @@
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
             <th scope="col" jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col" jhiSortBy="titulo"><span jhiTranslate="gatewayApp.sgqItemPlanoAuditoria.titulo">Titulo</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col" jhiSortBy="descricao"><span jhiTranslate="gatewayApp.sgqItemPlanoAuditoria.descricao">Descricao</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col" jhiSortBy="modalidade"><span jhiTranslate="gatewayApp.sgqItemPlanoAuditoria.modalidade">Modalidade</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col" jhiSortBy="dataInicio"><span jhiTranslate="gatewayApp.sgqItemPlanoAuditoria.dataInicio">Data Inicio</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col" jhiSortBy="dataFim"><span jhiTranslate="gatewayApp.sgqItemPlanoAuditoria.dataFim">Data Fim</span> <fa-icon [icon]="'sort'"></fa-icon></th>
@@ -33,7 +32,6 @@
             <tr *ngFor="let itemPlanoAuditoria of itemPlanoAuditorias ;trackBy: trackId">
                 <td><a [routerLink]="['/item-plano-auditoria', itemPlanoAuditoria.id, 'view' ]">{{itemPlanoAuditoria.id}}</a></td>
                 <td>{{itemPlanoAuditoria.titulo}}</td>
-                <td>{{itemPlanoAuditoria.descricao}}</td>
                 <td jhiTranslate="{{'gatewayApp.ModalidadeAuditoria.' + itemPlanoAuditoria.modalidade}}">{{itemPlanoAuditoria.modalidade}}</td>
                 <td>{{itemPlanoAuditoria.dataInicio | date:'shortDate'}}</td>
                 <td>{{itemPlanoAuditoria.dataFim | date:'shortDate'}}</td>

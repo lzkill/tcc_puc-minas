@@ -20,7 +20,6 @@
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
             <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="nome"><span jhiTranslate="gatewayApp.sgqPublicoAlvo.nome">Nome</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  jhiSortBy="descricao"><span jhiTranslate="gatewayApp.sgqPublicoAlvo.descricao">Descricao</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="habilitado"><span jhiTranslate="gatewayApp.sgqPublicoAlvo.habilitado">Habilitado</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"></th>
             </tr>
@@ -29,7 +28,6 @@
             <tr *ngFor="let publicoAlvo of publicoAlvos ;trackBy: trackId">
                 <td><a [routerLink]="['/publico-alvo', publicoAlvo.id, 'view' ]">{{publicoAlvo.id}}</a></td>
                 <td>{{publicoAlvo.nome}}</td>
-                <td>{{publicoAlvo.descricao}}</td>
                 <td>{{publicoAlvo.habilitado}}</td>
                 <td class="text-right">
                     <div class="btn-group">

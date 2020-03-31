@@ -15,7 +15,6 @@
             <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="orgao"><span jhiTranslate="gatewayApp.sgqNorma.orgao">Orgao</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="titulo"><span jhiTranslate="gatewayApp.sgqNorma.titulo">Titulo</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  jhiSortBy="descricao"><span jhiTranslate="gatewayApp.sgqNorma.descricao">Descricao</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="versao"><span jhiTranslate="gatewayApp.sgqNorma.versao">Versao</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="numeroEdicao"><span jhiTranslate="gatewayApp.sgqNorma.numeroEdicao">Numero Edicao</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="dataEdicao"><span jhiTranslate="gatewayApp.sgqNorma.dataEdicao">Data Edicao</span> <fa-icon [icon]="'sort'"></fa-icon></th>
@@ -29,7 +28,6 @@
                 <td><a [routerLink]="['/norma', norma.id, 'view' ]">{{norma.id}}</a></td>
                 <td>{{norma.orgao}}</td>
                 <td>{{norma.titulo}}</td>
-                <td>{{norma.descricao}}</td>
                 <td>{{norma.versao}}</td>
                 <td>{{norma.numeroEdicao}}</td>
                 <td>{{norma.dataEdicao | date:'shortDate'}}</td>

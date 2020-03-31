@@ -21,7 +21,6 @@
             <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="idUsuarioRegistro"><span jhiTranslate="gatewayApp.sgqBoletimInformativo.idUsuarioRegistro">Id Usuario Registro</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="titulo"><span jhiTranslate="gatewayApp.sgqBoletimInformativo.titulo">Titulo</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  jhiSortBy="descricao"><span jhiTranslate="gatewayApp.sgqBoletimInformativo.descricao">Descricao</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="dataRegistro"><span jhiTranslate="gatewayApp.sgqBoletimInformativo.dataRegistro">Data Registro</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="dataPublicacao"><span jhiTranslate="gatewayApp.sgqBoletimInformativo.dataPublicacao">Data Publicacao</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="status"><span jhiTranslate="gatewayApp.sgqBoletimInformativo.status">Status</span> <fa-icon [icon]="'sort'"></fa-icon></th>
@@ -34,7 +33,6 @@
                 <td><a [routerLink]="['/boletim-informativo', boletimInformativo.id, 'view' ]">{{boletimInformativo.id}}</a></td>
                 <td>{{usuarios.has(boletimInformativo.idUsuarioRegistro) ? usuarios.get(boletimInformativo.idUsuarioRegistro)!.login : ""}}</td>
                 <td>{{boletimInformativo.titulo}}</td>
-                <td>{{boletimInformativo.descricao}}</td>
                 <td>{{boletimInformativo.dataRegistro | date:'shortDate'}}</td>
                 <td>{{boletimInformativo.dataPublicacao | date:'medium'}}</td>
                 <td jhiTranslate="{{'gatewayApp.StatusPublicacao.' + boletimInformativo.status}}">{{boletimInformativo.status}}</td>

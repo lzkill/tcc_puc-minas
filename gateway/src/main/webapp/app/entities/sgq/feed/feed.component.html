@@ -22,13 +22,7 @@
             <th scope="col"  jhiSortBy="idUsuarioRegistro"><span jhiTranslate="gatewayApp.sgqFeed.idUsuarioRegistro">Id Usuario Registro</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="tipo"><span jhiTranslate="gatewayApp.sgqFeed.tipo">Tipo</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="titulo"><span jhiTranslate="gatewayApp.sgqFeed.titulo">Titulo</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  jhiSortBy="descricao"><span jhiTranslate="gatewayApp.sgqFeed.descricao">Descricao</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="uri"><span jhiTranslate="gatewayApp.sgqFeed.uri">Uri</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  jhiSortBy="link"><span jhiTranslate="gatewayApp.sgqFeed.link">Link</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  jhiSortBy="urlImagem"><span jhiTranslate="gatewayApp.sgqFeed.urlImagem">Url Imagem</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  jhiSortBy="tituloImagem"><span jhiTranslate="gatewayApp.sgqFeed.tituloImagem">Titulo Imagem</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  jhiSortBy="alturaImagem"><span jhiTranslate="gatewayApp.sgqFeed.alturaImagem">Altura Imagem</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  jhiSortBy="larguraImagem"><span jhiTranslate="gatewayApp.sgqFeed.larguraImagem">Largura Imagem</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="dataRegistro"><span jhiTranslate="gatewayApp.sgqFeed.dataRegistro">Data Registro</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="habilitado"><span jhiTranslate="gatewayApp.sgqFeed.habilitado">Habilitado</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"></th>
@@ -40,13 +34,7 @@
                 <td>{{usuarios.has(feed.idUsuarioRegistro) ? usuarios.get(feed.idUsuarioRegistro)!.login : ""}}</td>
                 <td jhiTranslate="{{'gatewayApp.TipoFeed.' + feed.tipo}}">{{feed.tipo}}</td>
                 <td>{{feed.titulo}}</td>
-                <td>{{feed.descricao}}</td>
                 <td>{{feed.uri}}</td>
-                <td>{{feed.link}}</td>
-                <td>{{feed.urlImagem}}</td>
-                <td>{{feed.tituloImagem}}</td>
-                <td>{{feed.alturaImagem}}</td>
-                <td>{{feed.larguraImagem}}</td>
                 <td>{{feed.dataRegistro | date:'shortDate'}}</td>
                 <td>{{feed.habilitado}}</td>
                 <td class="text-right">

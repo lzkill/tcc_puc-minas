@@ -20,8 +20,6 @@
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
             <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="nome"><span jhiTranslate="gatewayApp.sgqConsultoria.nome">Nome</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  jhiSortBy="urlIntegracao"><span jhiTranslate="gatewayApp.sgqConsultoria.urlIntegracao">Url Integracao</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  jhiSortBy="tokenAcesso"><span jhiTranslate="gatewayApp.sgqConsultoria.tokenAcesso">Token Acesso</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="habilitado"><span jhiTranslate="gatewayApp.sgqConsultoria.habilitado">Habilitado</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"></th>
             </tr>
@@ -30,8 +28,6 @@
             <tr *ngFor="let consultoria of consultorias ;trackBy: trackId">
                 <td><a [routerLink]="['/consultoria', consultoria.id, 'view' ]">{{consultoria.id}}</a></td>
                 <td>{{consultoria.nome}}</td>
-                <td>{{consultoria.urlIntegracao}}</td>
-                <td>{{consultoria.tokenAcesso}}</td>
                 <td>{{consultoria.habilitado}}</td>
                 <td class="text-right">
                     <div class="btn-group">

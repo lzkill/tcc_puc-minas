@@ -22,10 +22,8 @@
             <th scope="col"  jhiSortBy="idUsuarioRegistro"><span jhiTranslate="gatewayApp.sgqProdutoNaoConforme.idUsuarioRegistro">Id Usuario Registro</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="idUsuarioResponsavel"><span jhiTranslate="gatewayApp.sgqProdutoNaoConforme.idUsuarioResponsavel">Id Usuario Responsavel</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="titulo"><span jhiTranslate="gatewayApp.sgqProdutoNaoConforme.titulo">Titulo</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  jhiSortBy="descricao"><span jhiTranslate="gatewayApp.sgqProdutoNaoConforme.descricao">Descricao</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="procedente"><span jhiTranslate="gatewayApp.sgqProdutoNaoConforme.procedente">Procedente</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="dataRegistro"><span jhiTranslate="gatewayApp.sgqProdutoNaoConforme.dataRegistro">Data Registro</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  jhiSortBy="analiseFinal"><span jhiTranslate="gatewayApp.sgqProdutoNaoConforme.analiseFinal">Analise Final</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="statusSGQ"><span jhiTranslate="gatewayApp.sgqProdutoNaoConforme.statusSGQ">Status SGQ</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="acao.titulo"><span jhiTranslate="gatewayApp.sgqProdutoNaoConforme.acao">Acao</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="naoConformidade.titulo"><span jhiTranslate="gatewayApp.sgqProdutoNaoConforme.naoConformidade">Nao Conformidade</span> <fa-icon [icon]="'sort'"></fa-icon></th>
@@ -40,10 +38,8 @@
                 <td>{{usuarios.has(produtoNaoConforme.idUsuarioRegistro) ? usuarios.get(produtoNaoConforme.idUsuarioRegistro)!.login : ""}}</td>
                 <td>{{usuarios.has(produtoNaoConforme.idUsuarioResponsavel) ? usuarios.get(produtoNaoConforme.idUsuarioResponsavel)!.login : ""}}</td>
                 <td>{{produtoNaoConforme.titulo}}</td>
-                <td>{{produtoNaoConforme.descricao}}</td>
                 <td>{{produtoNaoConforme.procedente}}</td>
                 <td>{{produtoNaoConforme.dataRegistro | date:'shortDate'}}</td>
-                <td>{{produtoNaoConforme.analiseFinal}}</td>
                 <td jhiTranslate="{{'gatewayApp.StatusSGQ.' + produtoNaoConforme.statusSGQ}}">{{produtoNaoConforme.statusSGQ}}</td>
                 <td>
                     <div *ngIf="produtoNaoConforme.acao">

@@ -11,6 +11,8 @@ services:
       - 'SPRING_DATASOURCE_URL=jdbc:mariadb://gateway-mariadb:3306/gateway?useLegacyDatetimeCode=false&serverTimezone=UTC'
       - JHIPSTER_SLEEP=30
       - JHIPSTER_REGISTRY_PASSWORD=admin
+      - JHIPSTER_LOGGING_LOGSTASH_ENABLED=true
+      - JHIPSTER_LOGGING_LOGSTASH_HOST=jhipster-logstash
     ports:
       - '8080:8080'
     depends_on:
@@ -40,6 +42,8 @@ services:
       - JHIPSTER_SLEEP=30
       - JHIPSTER_REGISTRY_PASSWORD=admin
       - 'APPLICATION_CRON_SYNC-SOLICITACAO-ANALISE=0/30 * * * * *'
+      - JHIPSTER_LOGGING_LOGSTASH_ENABLED=true
+      - JHIPSTER_LOGGING_LOGSTASH_HOST=jhipster-logstash
     depends_on:
       - sgq-mariadb
     restart: always
@@ -64,3 +68,28 @@ services:
   #     file: hazelcast-management-center.yml
   #     service: jhipster-hazelcast-management-center
 
+  jhipster-elasticsearch:
+    extends:
+      file: jhipster-console.yml
+      service: jhipster-elasticsearch
+  jhipster-logstash:
+    extends:
+      file: jhipster-console.yml
+      service: jhipster-logstash
+    depends_on:
+      - jhipster-elasticsearch
+  jhipster-console:
+    extends:
+      file: jhipster-console.yml
+      service: jhipster-console
+    depends_on:
+      - jhipster-elasticsearch
+  jhipster-import-dashboards:
+    extends:
+      file: jhipster-console.yml
+      service: jhipster-import-dashboards
+    depends_on:
+      - jhipster-elasticsearch
+
+volumes:
+  elasticsearch-data:

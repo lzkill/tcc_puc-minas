@@ -20,7 +20,6 @@
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
             <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="titulo"><span jhiTranslate="gatewayApp.sgqItemAuditoria.titulo">Titulo</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  jhiSortBy="descricao"><span jhiTranslate="gatewayApp.sgqItemAuditoria.descricao">Descricao</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="habilitado"><span jhiTranslate="gatewayApp.sgqItemAuditoria.habilitado">Habilitado</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="processo.titulo"><span jhiTranslate="gatewayApp.sgqItemAuditoria.processo">Processo</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"></th>
@@ -30,7 +29,6 @@
             <tr *ngFor="let itemAuditoria of itemAuditorias ;trackBy: trackId">
                 <td><a [routerLink]="['/item-auditoria', itemAuditoria.id, 'view' ]">{{itemAuditoria.id}}</a></td>
                 <td>{{itemAuditoria.titulo}}</td>
-                <td>{{itemAuditoria.descricao}}</td>
                 <td>{{itemAuditoria.habilitado}}</td>
                 <td>
                     <div *ngIf="itemAuditoria.processo">

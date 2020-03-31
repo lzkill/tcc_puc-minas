@@ -22,14 +22,11 @@
             <th scope="col"  jhiSortBy="idUsuarioRegistro"><span jhiTranslate="gatewayApp.sgqNaoConformidade.idUsuarioRegistro">Id Usuario Registro</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="idUsuarioResponsavel"><span jhiTranslate="gatewayApp.sgqNaoConformidade.idUsuarioResponsavel">Id Usuario Responsavel</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="titulo"><span jhiTranslate="gatewayApp.sgqNaoConformidade.titulo">Titulo</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  jhiSortBy="descricao"><span jhiTranslate="gatewayApp.sgqNaoConformidade.descricao">Descricao</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="procedente"><span jhiTranslate="gatewayApp.sgqNaoConformidade.procedente">Procedente</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  jhiSortBy="causa"><span jhiTranslate="gatewayApp.sgqNaoConformidade.causa">Causa</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="prazoConclusao"><span jhiTranslate="gatewayApp.sgqNaoConformidade.prazoConclusao">Prazo Conclusao</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="novoPrazoConclusao"><span jhiTranslate="gatewayApp.sgqNaoConformidade.novoPrazoConclusao">Novo Prazo Conclusao</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="dataRegistro"><span jhiTranslate="gatewayApp.sgqNaoConformidade.dataRegistro">Data Registro</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="dataConclusao"><span jhiTranslate="gatewayApp.sgqNaoConformidade.dataConclusao">Data Conclusao</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  jhiSortBy="analiseFinal"><span jhiTranslate="gatewayApp.sgqNaoConformidade.analiseFinal">Analise Final</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="statusSGQ"><span jhiTranslate="gatewayApp.sgqNaoConformidade.statusSGQ">Status SGQ</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="origem"><span jhiTranslate="gatewayApp.sgqNaoConformidade.origem">Origem</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="auditoria.id"><span jhiTranslate="gatewayApp.sgqNaoConformidade.auditoria">Auditoria</span> <fa-icon [icon]="'sort'"></fa-icon></th>
@@ -43,14 +40,11 @@
                 <td>{{usuarios.has(naoConformidade.idUsuarioRegistro) ? usuarios.get(naoConformidade.idUsuarioRegistro)!.login : ""}}</td>
                 <td>{{usuarios.has(naoConformidade.idUsuarioResponsavel) ? usuarios.get(naoConformidade.idUsuarioResponsavel)!.login : ""}}</td>
                 <td>{{naoConformidade.titulo}}</td>
-                <td>{{naoConformidade.descricao}}</td>
                 <td>{{naoConformidade.procedente}}</td>
-                <td>{{naoConformidade.causa}}</td>
                 <td>{{naoConformidade.prazoConclusao | date:'shortDate'}}</td>
                 <td>{{naoConformidade.novoPrazoConclusao | date:'shortDate'}}</td>
                 <td>{{naoConformidade.dataRegistro | date:'shortDate'}}</td>
                 <td>{{naoConformidade.dataConclusao | date:'shortDate'}}</td>
-                <td>{{naoConformidade.analiseFinal}}</td>
                 <td jhiTranslate="{{'gatewayApp.StatusSGQ.' + naoConformidade.statusSGQ}}">{{naoConformidade.statusSGQ}}</td>
                 <td jhiTranslate="{{'gatewayApp.OrigemNaoConformidade.' + naoConformidade.origem}}">{{naoConformidade.origem}}</td>
                 <td>

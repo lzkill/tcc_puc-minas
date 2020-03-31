@@ -92,7 +92,7 @@ public class NaoConformidade implements Serializable {
 
     @NotNull
     @Enumerated(EnumType.STRING)
-    @Column(name = "origem", nullable = false)
+    @Column(name = "origem", nullable = true)
     private OrigemNaoConformidade origem;
 
     @OneToMany(mappedBy = "naoConformidade")

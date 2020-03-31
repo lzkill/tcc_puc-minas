@@ -25,8 +25,6 @@
             <th scope="col"  jhiSortBy="titulo"><span jhiTranslate="gatewayApp.sgqPublicacaoFeed.titulo">Titulo</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="autor"><span jhiTranslate="gatewayApp.sgqPublicacaoFeed.autor">Autor</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="uri"><span jhiTranslate="gatewayApp.sgqPublicacaoFeed.uri">Uri</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  jhiSortBy="link"><span jhiTranslate="gatewayApp.sgqPublicacaoFeed.link">Link</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  jhiSortBy="conteudo"><span jhiTranslate="gatewayApp.sgqPublicacaoFeed.conteudo">Conteudo</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="dataRegistro"><span jhiTranslate="gatewayApp.sgqPublicacaoFeed.dataRegistro">Data Registro</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="dataPublicacao"><span jhiTranslate="gatewayApp.sgqPublicacaoFeed.dataPublicacao">Data Publicacao</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="status"><span jhiTranslate="gatewayApp.sgqPublicacaoFeed.status">Status</span> <fa-icon [icon]="'sort'"></fa-icon></th>
@@ -41,8 +39,6 @@
                 <td>{{publicacaoFeed.titulo}}</td>
                 <td>{{publicacaoFeed.autor}}</td>
                 <td>{{publicacaoFeed.uri}}</td>
-                <td>{{publicacaoFeed.link}}</td>
-                <td>{{publicacaoFeed.conteudo}}</td>
                 <td>{{publicacaoFeed.dataRegistro | date:'shortDate'}}</td>
                 <td>{{publicacaoFeed.dataPublicacao | date:'medium'}}</td>
                 <td jhiTranslate="{{'gatewayApp.StatusPublicacao.' + publicacaoFeed.status}}">{{publicacaoFeed.status}}</td>

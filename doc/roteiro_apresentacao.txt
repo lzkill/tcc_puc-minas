@@ -1,8 +1,6 @@
 Modelagem funcional
     Atores
     Principais classes
-    Interpretação sobre as integrações
-    Principais casos de uso
 
 Arquitetura
 
@@ -11,12 +9,14 @@ Tecnologias
 Demonstração
     - Github
     - Página públca (Home)
-    - Roles customizadas
-    - Scaling do sgq com Docker swarm
+    - Login com JWT
+    - Roles customizadas (gerenciamento de usuários)
+    - Chamadas Rest + tempos de processamento js
     - Responsividade
-    - Chamadas Rest + tempos de resposta
-    - Resiliência à falhas (sgq fora)
-    - Issues
+    - Integrações (citar interpretações do documento de escopo)
+    - Scaling do sgq com Docker swarm
+    - Resiliência à falhas (normas fora)
+    - Administração
+    - Registry / Console
 
 => Janela secundária no OBS com agenda da apresentação
-=> Citar que os includes dos casos de uso foram suprimidos para fins de simplificação

@@ -20,7 +20,6 @@
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
             <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="conforme"><span jhiTranslate="gatewayApp.sgqResultadoItemChecklist.conforme">Conforme</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th scope="col"  jhiSortBy="descricao"><span jhiTranslate="gatewayApp.sgqResultadoItemChecklist.descricao">Descricao</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="item.titulo"><span jhiTranslate="gatewayApp.sgqResultadoItemChecklist.item">Item</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"  jhiSortBy="resultado.titulo"><span jhiTranslate="gatewayApp.sgqResultadoItemChecklist.resultado">Resultado</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th scope="col"></th>
@@ -30,7 +29,6 @@
             <tr *ngFor="let resultadoItemChecklist of resultadoItemChecklists ;trackBy: trackId">
                 <td><a [routerLink]="['/resultado-item-checklist', resultadoItemChecklist.id, 'view' ]">{{resultadoItemChecklist.id}}</a></td>
                 <td>{{resultadoItemChecklist.conforme}}</td>
-                <td>{{resultadoItemChecklist.descricao}}</td>
                 <td>
                     <div *ngIf="resultadoItemChecklist.item">
                         <a [routerLink]="['/item-checklist', resultadoItemChecklist.item?.id, 'view' ]" >{{resultadoItemChecklist.item?.titulo}}</a>
