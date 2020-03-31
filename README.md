@@ -22,7 +22,8 @@ As seguintes ferramentas são necessárias:
 
 ### Execução
 
-```docker-compose -f docker-compose/docker-compose.yml --project-name sgq up -d --remove-orphans; \
+```
+   docker-compose -f docker-compose/docker-compose.yml --project-name sgq up -d --remove-orphans; \
    docker-compose -f mock/docker-compose/docker-compose.yml --project-name mock up -d --remove-orphans
 ```
 
