@@ -1,22 +1,16 @@
-Modelagem funcional
-    Atores
-    Principais classes
+Github
 
-Arquitetura
-
-Tecnologias
+Arquitetura / Tecnologias
 
 Demonstração
-    - Github
     - Página públca (Home)
+    - Atores
     - Login com JWT
-    - Roles customizadas (gerenciamento de usuários + login com sgq/user)
-    - Chamadas Rest + tempos de processamento js
+    - Gerenciamento de usuários
+    - Roles customizadas (login sgq/user)
     - Responsividade
-    - Integrações (citar interpretações do documento de escopo)
-    - Scaling do sgq com Docker swarm
+    - Integrações
+    - Scaling do sgq
     - Resiliência à falhas (normas fora)
     - Administração
     - Registry / Console
-
-=> Janela secundária no OBS com agenda da apresentação

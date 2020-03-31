@@ -109,7 +109,7 @@
                         <input id="field_dataConclusao" type="datetime-local" class="form-control" name="dataConclusao" formControlName="dataConclusao" placeholder="YYYY-MM-DD HH:mm"/>
                     </div>
                 </div>
-                <div class="form-group">
+                <div class="form-group" *jhiHasAnyAuthority="'ROLE_ADMIN_SGQ'">
                     <label class="form-control-label" jhiTranslate="gatewayApp.sgqNaoConformidade.analiseFinal" for="field_analiseFinal" [ngbTooltip]="'gatewayApp.sgqNaoConformidade.help.analiseFinal' | translate">Analise Final</label>
                     <textarea class="form-control" name="analiseFinal" id="field_analiseFinal"
                               formControlName="analiseFinal"></textarea>

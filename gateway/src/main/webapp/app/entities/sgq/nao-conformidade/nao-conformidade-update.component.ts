@@ -49,7 +49,7 @@ export class NaoConformidadeUpdateComponent implements OnInit {
     dataConclusao: [],
     analiseFinal: [],
     statusSGQ: [null, [Validators.required]],
-    origem: [null, [Validators.required]],
+    origem: [],
     anexos: [],
     auditoria: [],
     resultadoChecklist: []
