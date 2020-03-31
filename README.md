@@ -20,12 +20,6 @@ As seguintes ferramentas são necessárias:
 
 **Observação:** as ferramentas [SDKMAN!](https://sdkman.io/) e [nvm](https://github.com/nvm-sh/nvm) permitem a instalação/manutenção do Java e do Node.js/npm de forma bastante flexível.
 
-### Execução
-
-```
-   docker-compose -f docker-compose/docker-compose.yml --project-name sgq up -d --remove-orphans; \
-   docker-compose -f mock/docker-compose/docker-compose.yml --project-name mock up -d --remove-orphans
-```
 
 ### Desenvolvimento
 
@@ -33,6 +27,25 @@ A codificação em cada um dos projetos da solução pode se apoiar no mecanismo
 
 - `./mvnw -P-webpack`
 - `npm start` (apenas para aplicações do tipo *gateway*)
+
+### Produção
+
+#### Build
+
+```
+cd sgq && ./mvnw -Pprod verify package jib:dockerBuild && \
+cd ../gateway && ./mvnw -Pprod verify package jib:dockerBuild && \
+cd ../mock/normas && ./mvnw -Pprod verify package jib:dockerBuild && \
+cd ../consultoria && ./mvnw -Pprod verify package jib:dockerBuild && \
+cd ../..
+```
+
+#### Execução
+
+```
+docker-compose -f docker-compose/docker-compose.yml --project-name sgq up -d --remove-orphans; \
+docker-compose -f mock/docker-compose/docker-compose.yml --project-name mock up -d --remove-orphans
+```
 
 ## Tecnologias
 
