@@ -46,6 +46,8 @@ docker-compose -f docker-compose/docker-compose.yml --project-name sgq up -d --r
 docker-compose -f mock/docker-compose/docker-compose.yml --project-name mock up -d --remove-orphans
 ```
 
+Obs: o host Docker deve dispor de 8GB de memória livre, no mínimo.
+
 ## Tecnologias
 
 Todas as tecnologias utilizadas neste trabalho são disponibilizadas pelo meta framework [JHipster](https://www.jhipster.tech/tech-stack/). Por favor acesse sua documentação para mais informações.
