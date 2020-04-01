@@ -57,7 +57,7 @@ public class ConsultoriaReactiveIntegration {
 		List<SolicitacaoAnalise> solicitacoes = solicitacaoAnaliseRepository
 				.findByStatus(StatusSolicitacaoAnalise.REGISTRADO);
 		if (!solicitacoes.isEmpty())
-			log.debug("Sending SolicitacaoAnalise to consultoria: {} items", solicitacoes.size());
+			log.info("Sending SolicitacaoAnalise to consultoria: {} items", solicitacoes.size());
 		return Flux.fromIterable(solicitacoes).flatMap(s -> sendSolicitacaoAnalise(s));
 	}
 
@@ -166,7 +166,7 @@ public class ConsultoriaReactiveIntegration {
 		List<SolicitacaoAnalise> solicitacoes = solicitacaoAnaliseRepository
 				.findByStatus(StatusSolicitacaoAnalise.PENDENTE);
 		if (!solicitacoes.isEmpty())
-			log.debug("Querying SolicitacaoAnalise on consultoria: {} items", solicitacoes.size());
+			log.info("Querying SolicitacaoAnalise on consultoria: {} items", solicitacoes.size());
 		return Flux.fromIterable(solicitacoes).flatMap(s -> querySolicitacaoAnalise(s));
 	}
 
@@ -192,7 +192,7 @@ public class ConsultoriaReactiveIntegration {
 			SolicitacaoAnalise solicitacaoAnaliseConsultoria) {
 		if (solicitacaoAnaliseSGQ.getStatus() == StatusSolicitacaoAnalise.REGISTRADO
 				&& solicitacaoAnaliseConsultoria.getStatus() == StatusSolicitacaoAnalise.PENDENTE) {
-			log.debug("SolicitacaoAnalise received by consultoria: id {}", solicitacaoAnaliseSGQ.getId());
+			log.info("SolicitacaoAnalise received by consultoria: id {}", solicitacaoAnaliseSGQ.getId());
 			solicitacaoAnaliseSGQ.setStatus(solicitacaoAnaliseConsultoria.getStatus());
 			solicitacaoAnaliseSGQ.setDataSolicitacao(solicitacaoAnaliseConsultoria.getDataSolicitacao());
 			solicitacaoAnaliseSGQ.setIdAcompanhamento(solicitacaoAnaliseConsultoria.getId());
@@ -200,7 +200,7 @@ public class ConsultoriaReactiveIntegration {
 
 		if (solicitacaoAnaliseSGQ.getStatus() == StatusSolicitacaoAnalise.PENDENTE
 				&& solicitacaoAnaliseConsultoria.getStatus() == StatusSolicitacaoAnalise.CONCLUIDO) {
-			log.debug("SolicitacaoAnalise reviewed by consultoria: id {}", solicitacaoAnaliseSGQ.getId());
+			log.info("SolicitacaoAnalise reviewed by consultoria: id {}", solicitacaoAnaliseSGQ.getId());
 			solicitacaoAnaliseSGQ.setStatus(solicitacaoAnaliseConsultoria.getStatus());
 
 			AnaliseConsultoria analiseConsultoria = saveAnaliseConsultoriaCascade(
