@@ -17,7 +17,7 @@ public class SchedulerConfiguration implements SchedulingConfigurer {
 
 	private final Logger log = LoggerFactory.getLogger(SchedulerConfiguration.class);
 
-	@Value("${application.scheduler.task-pool-size}")
+	@Value("${application.scheduler.taskpoolsize}")
 	private final int schedulerTaskPoolSize = 10;
 
 	@Override

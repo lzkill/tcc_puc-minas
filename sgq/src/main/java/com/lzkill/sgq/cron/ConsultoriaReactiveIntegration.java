@@ -47,7 +47,7 @@ public class ConsultoriaReactiveIntegration {
 		this.anexoRepository = anexoRepository;
 	}
 
-	@Scheduled(cron = "${application.cron.sync-solicitacao-analise}")
+	@Scheduled(cron = "${application.cron.syncsolicitacaoanalise}")
 	public void syncSolicitacaoAnalise() {
 		sendSolicitacoesWithStatusRegistrado().subscribe();
 		querySolicitacoesWithStatusPendente().subscribe();

@@ -41,7 +41,7 @@ services:
       - 'SPRING_DATASOURCE_URL=jdbc:mariadb://sgq-mariadb:3306/sgq?useLegacyDatetimeCode=false&serverTimezone=UTC'
       - JHIPSTER_SLEEP=30
       - JHIPSTER_REGISTRY_PASSWORD=admin
-      - APPLICATION_CRON_SYNC-SOLICITACAO-ANALISE=0/15 * * * * ?
+      - APPLICATION_CRON_SYNCSOLICITACAOANALISE=0/15 * * * * ?
       - JHIPSTER_LOGGING_LOGSTASH_ENABLED=true
       - JHIPSTER_LOGGING_LOGSTASH_HOST=jhipster-logstash
     depends_on:
