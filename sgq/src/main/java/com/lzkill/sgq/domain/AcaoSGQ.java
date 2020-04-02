@@ -46,7 +46,7 @@ public class AcaoSGQ implements Serializable {
     @Column(name = "titulo", length = 100, nullable = false)
     private String titulo;
 
-    
+
     @Lob
     @Column(name = "descricao", nullable = false)
     private String descricao;
@@ -81,7 +81,7 @@ public class AcaoSGQ implements Serializable {
     private Set<Anexo> anexos = new HashSet<>();
 
     @ManyToOne
-    @JsonIgnoreProperties("acaoSGQS")
+    @JsonIgnoreProperties("acaoSGQS", allowSetters = true)
     private NaoConformidade naoConformidade;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
